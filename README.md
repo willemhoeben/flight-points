@@ -25,6 +25,10 @@ routes a branded page instead of Next's defaults.
 A matching standalone HTML version (same data, same interactions, ported to
 vanilla JS) exists as a Claude Artifact for quick browser testing without
 running the dev server — ask in the originating conversation for the link.
+It has its own currency selector and a Dutch/English language switcher
+(smaller than this repo's five languages by design — the artifact is one
+hand-written file with no compiler to catch mistakes across a larger
+dictionary).
 
 ## Languages and currencies
 
