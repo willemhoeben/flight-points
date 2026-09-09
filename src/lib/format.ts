@@ -1,15 +1,8 @@
 import type { Locale } from "@/lib/i18n/locales";
-
-const BCP47: Record<Locale, string> = {
-  en: "en-US",
-  nl: "nl-NL",
-  de: "de-DE",
-  fr: "fr-FR",
-  es: "es-ES",
-};
+import { toBcp47 } from "@/lib/i18n/bcp47";
 
 export function formatMiles(n: number, locale: Locale): string {
-  return n.toLocaleString(BCP47[locale]);
+  return n.toLocaleString(toBcp47(locale));
 }
 
 export function formatDuration(totalMinutes: number, locale: Locale): string {
@@ -23,7 +16,7 @@ export function formatDuration(totalMinutes: number, locale: Locale): string {
 
 export function formatDateLabel(dateStr: string, locale: Locale): string {
   const d = new Date(`${dateStr}T00:00:00Z`);
-  return d.toLocaleDateString(BCP47[locale], {
+  return d.toLocaleDateString(toBcp47(locale), {
     weekday: "short",
     month: "short",
     day: "numeric",
@@ -33,7 +26,7 @@ export function formatDateLabel(dateStr: string, locale: Locale): string {
 
 export function formatDateShort(dateStr: string, locale: Locale): string {
   const d = new Date(`${dateStr}T00:00:00Z`);
-  return d.toLocaleDateString(BCP47[locale], {
+  return d.toLocaleDateString(toBcp47(locale), {
     weekday: "short",
     day: "numeric",
     timeZone: "UTC",

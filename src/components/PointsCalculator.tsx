@@ -4,13 +4,15 @@ import { useMemo, useState } from "react";
 import { VALUATIONS } from "@/data/valuations";
 import { Card } from "@/components/ui";
 import { useCurrency } from "@/lib/currency-context";
-import { useDictionary } from "@/lib/i18n/i18n-context";
+import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
+import { formatMiles } from "@/lib/format";
 
 export function PointsCalculator() {
   const [currencyId, setCurrencyId] = useState(VALUATIONS[0].id);
   const [balance, setBalance] = useState("60000");
   const { format } = useCurrency();
   const dict = useDictionary();
+  const locale = useLocale();
 
   const pointsCurrency = VALUATIONS.find((v) => v.id === currencyId) ?? VALUATIONS[0];
   const points = Number(balance.replace(/[^0-9]/g, "")) || 0;
@@ -59,7 +61,7 @@ export function PointsCalculator() {
           {format(estimatedValueUsd)}
         </div>
         <div className="mt-1 font-mono text-xs tabular-nums text-muted">
-          {points.toLocaleString("en-US")} {dict.calculator.points} × {pointsCurrency.centsPerPoint.toFixed(2)}¢
+          {formatMiles(points, locale)} {dict.calculator.points} × {pointsCurrency.centsPerPoint.toFixed(2)}¢
         </div>
       </div>
     </Card>
