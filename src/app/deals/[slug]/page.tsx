@@ -36,7 +36,7 @@ export default async function DealPage({
   const deal = findDeal(slug);
   if (!deal) notFound();
 
-  const { dict } = await getDictionary();
+  const { locale, dict } = await getDictionary();
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6">
@@ -58,11 +58,11 @@ export default async function DealPage({
       <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
         <span>{deal.program}</span>
         <span>
-          {dict.dealsPage.published} {formatDateLabel(deal.publishedAt)}
+          {dict.dealsPage.published} {formatDateLabel(deal.publishedAt, locale)}
         </span>
         {deal.expires && (
           <span className="font-semibold text-stamp">
-            {dict.dealsPage.expires} {formatDateLabel(deal.expires)}
+            {dict.dealsPage.expires} {formatDateLabel(deal.expires, locale)}
           </span>
         )}
       </div>

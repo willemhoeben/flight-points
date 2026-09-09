@@ -15,7 +15,7 @@ const CATEGORY_ACCENT: Record<string, string> = {
 };
 
 export default async function DealsPage() {
-  const { dict } = await getDictionary();
+  const { locale, dict } = await getDictionary();
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
@@ -39,7 +39,7 @@ export default async function DealsPage() {
                 <span>{deal.program}</span>
                 {deal.expires && (
                   <span className="font-semibold text-stamp">
-                    {dict.dealsPage.expires} {formatDateLabel(deal.expires)}
+                    {dict.dealsPage.expires} {formatDateLabel(deal.expires, locale)}
                   </span>
                 )}
               </div>

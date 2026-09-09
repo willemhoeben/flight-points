@@ -39,7 +39,7 @@ export default async function SearchPage({
   searchParams: Promise<SearchParams>;
 }) {
   const sp = await searchParams;
-  const { dict } = await getDictionary();
+  const { locale, dict } = await getDictionary();
 
   const origin = isValidAirport(firstValue(sp.origin)) ? (firstValue(sp.origin) as string) : "JFK";
   const destination = isValidAirport(firstValue(sp.destination))
@@ -90,7 +90,13 @@ export default async function SearchPage({
           })}
         </p>
         <div className="mt-4">
-          <CalendarHeatmap days={calendarDays} selectedDate={date} baseParams={baseParams} noAwardSpaceLabel={dict.search.noAwardSpaceAria} />
+          <CalendarHeatmap
+            days={calendarDays}
+            selectedDate={date}
+            baseParams={baseParams}
+            noAwardSpaceLabel={dict.search.noAwardSpaceAria}
+            locale={locale}
+          />
         </div>
       </div>
 
@@ -101,7 +107,7 @@ export default async function SearchPage({
               {originAirport?.city ?? origin} ({origin}) → {destinationAirport?.city ?? destination} ({destination})
             </h2>
             <p className="mt-1 text-sm text-muted">
-              {cabinLabel} · {formatDateLabel(date)} ·{" "}
+              {cabinLabel} · {formatDateLabel(date, locale)} ·{" "}
               {pluralize(results.length, dict.search.resultsCountOne, dict.search.resultsCountOther)}
             </p>
           </div>

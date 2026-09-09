@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { CalendarDay } from "@/data/availability";
 import { formatDateLabel, formatDateShort, formatMiles } from "@/lib/format";
+import type { Locale } from "@/lib/i18n/locales";
 
 function buildHref(baseParams: URLSearchParams, date: string): string {
   const params = new URLSearchParams(baseParams);
@@ -13,11 +14,13 @@ export function CalendarHeatmap({
   selectedDate,
   baseParams,
   noAwardSpaceLabel,
+  locale,
 }: {
   days: CalendarDay[];
   selectedDate: string;
   baseParams: URLSearchParams;
   noAwardSpaceLabel: string;
+  locale: Locale;
 }) {
   const priced = days.map((d) => d.lowestMiles).filter((v): v is number => v !== null);
   const min = priced.length > 0 ? Math.min(...priced) : 0;
@@ -33,16 +36,16 @@ export function CalendarHeatmap({
             key={day.date}
             href={buildHref(baseParams, day.date)}
             aria-current={isSelected ? "date" : undefined}
-            aria-label={`${formatDateLabel(day.date)}: ${day.lowestMiles !== null ? `${formatMiles(day.lowestMiles)} miles` : noAwardSpaceLabel}`}
+            aria-label={`${formatDateLabel(day.date, locale)}: ${day.lowestMiles !== null ? `${formatMiles(day.lowestMiles, locale)} miles` : noAwardSpaceLabel}`}
             className={[
               "rounded-2xl p-3 text-center transition-shadow",
               isSelected ? "ring-2 ring-brand ring-offset-2 ring-offset-background" : "",
               tier.className,
             ].join(" ")}
           >
-            <div className="font-mono text-xs text-muted">{formatDateShort(day.date)}</div>
+            <div className="font-mono text-xs text-muted">{formatDateShort(day.date, locale)}</div>
             <div className="mt-1 font-mono text-sm font-semibold tabular-nums text-foreground">
-              {day.lowestMiles !== null ? formatMiles(day.lowestMiles) : "—"}
+              {day.lowestMiles !== null ? formatMiles(day.lowestMiles, locale) : "—"}
             </div>
           </Link>
         );

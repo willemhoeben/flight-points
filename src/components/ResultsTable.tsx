@@ -6,7 +6,7 @@ import { PROGRAMS } from "@/data/programs";
 import { Badge } from "@/components/ui";
 import { useCurrency } from "@/lib/currency-context";
 import { formatDuration, formatMiles } from "@/lib/format";
-import { useDictionary } from "@/lib/i18n/i18n-context";
+import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
 import { nextSort, sortBy, type SortDir } from "@/lib/sort";
 
 type SortKey = "milesCost" | "durationMinutes" | "seatsRemaining";
@@ -16,6 +16,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const { format } = useCurrency();
   const dict = useDictionary();
+  const locale = useLocale();
 
   const SORTABLE_COLUMNS: { key: SortKey; label: string }[] = [
     { key: "durationMinutes", label: dict.resultsTable.duration },
@@ -99,12 +100,12 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                     ? dict.resultsTable.nonstop
                     : `${r.connections} ${r.connections > 1 ? dict.resultsTable.stops : dict.resultsTable.stop}`}
                 </td>
-                <td className="px-4 py-3 font-mono text-[13px] tabular-nums text-muted">{formatDuration(r.durationMinutes)}</td>
+                <td className="px-4 py-3 font-mono text-[13px] tabular-nums text-muted">{formatDuration(r.durationMinutes, locale)}</td>
                 <td className="px-4 py-3 font-mono text-[13px] tabular-nums text-muted">
                   {r.seatsRemaining} {dict.resultsTable.seatsLeft}
                 </td>
                 <td className="px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground">
-                  {formatMiles(r.milesCost)}
+                  {formatMiles(r.milesCost, locale)}
                 </td>
                 <td className="px-4 py-3 text-right font-mono text-[13px] tabular-nums text-muted">{format(r.taxesFeesUsd)}</td>
                 <td className="px-4 py-3">
