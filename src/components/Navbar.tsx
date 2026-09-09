@@ -12,8 +12,8 @@ export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-[52px] max-w-6xl items-center justify-between gap-5 px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 text-[15px] font-semibold tracking-tight">
+      <div className="mx-auto flex flex-wrap items-center justify-between gap-x-5 gap-y-2 px-4 py-2 sm:h-[52px] sm:flex-nowrap sm:py-0 sm:px-6 max-w-6xl">
+        <Link href="/" className="flex items-center gap-2 whitespace-nowrap text-[15px] font-semibold tracking-tight">
           <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand text-brand-foreground">
             <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
               <path
@@ -36,7 +36,7 @@ export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
         <div className="flex items-center gap-4">
           <LanguageSwitcher />
           <CurrencySelector />
-          <Link href="/search" className="text-xs font-medium text-brand hover:underline">
+          <Link href="/search" className="whitespace-nowrap text-xs font-medium text-brand hover:underline">
             {dict.searchCta}
           </Link>
         </div>
