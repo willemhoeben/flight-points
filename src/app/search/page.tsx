@@ -9,6 +9,8 @@ import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { AIRPORTS, findAirport } from "@/data/airports";
 import { CABINS, searchAvailability, searchCalendar, type Cabin } from "@/data/availability";
 import { addDays, formatDateLabel, todayIso } from "@/lib/format";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { interpolate, pluralize } from "@/lib/i18n/format";
 
 export const metadata: Metadata = { title: "Award search" };
 
@@ -37,6 +39,7 @@ export default async function SearchPage({
   searchParams: Promise<SearchParams>;
 }) {
   const sp = await searchParams;
+  const { dict } = await getDictionary();
 
   const origin = isValidAirport(firstValue(sp.origin)) ? (firstValue(sp.origin) as string) : "JFK";
   const destination = isValidAirport(firstValue(sp.destination))
@@ -65,30 +68,29 @@ export default async function SearchPage({
 
   const originAirport = findAirport(origin);
   const destinationAirport = findAirport(destination);
-  const cabinLabel = CABINS.find((c) => c.id === cabin)?.label ?? cabin;
+  const cabinLabel = dict.cabins[cabin];
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
       <Suspense fallback={null}>
         <SearchMemory />
       </Suspense>
-      <SectionHeading
-        eyebrow="Award search"
-        title="Find award availability"
-        description="Search 16 loyalty programs by route, date, and cabin. Same search always returns the same sample results, so it's safe to bookmark and share."
-      />
+      <SectionHeading eyebrow={dict.search.eyebrow} title={dict.search.title} description={dict.search.description} />
 
       <div className="mt-8">
-        <SearchForm values={{ origin, destination, date, cabin, programs: programIds }} />
+        <SearchForm values={{ origin, destination, date, cabin, programs: programIds }} dict={dict.searchForm} cabins={dict.cabins} />
       </div>
 
       <div className="mt-10">
-        <h2 className="text-sm font-semibold text-foreground">Cheapest day to fly</h2>
+        <h2 className="text-sm font-semibold text-foreground">{dict.search.cheapestDayHeading}</h2>
         <p className="mt-1 text-sm text-muted">
-          Lowest miles price per day, {originAirport?.city ?? origin} → {destinationAirport?.city ?? destination}.
+          {interpolate(dict.search.cheapestDaySub, {
+            origin: originAirport?.city ?? origin,
+            destination: destinationAirport?.city ?? destination,
+          })}
         </p>
         <div className="mt-4">
-          <CalendarHeatmap days={calendarDays} selectedDate={date} baseParams={baseParams} />
+          <CalendarHeatmap days={calendarDays} selectedDate={date} baseParams={baseParams} noAwardSpaceLabel={dict.search.noAwardSpaceAria} />
         </div>
       </div>
 
@@ -99,7 +101,8 @@ export default async function SearchPage({
               {originAirport?.city ?? origin} ({origin}) → {destinationAirport?.city ?? destination} ({destination})
             </h2>
             <p className="mt-1 text-sm text-muted">
-              {cabinLabel} · {formatDateLabel(date)} · {results.length} result{results.length === 1 ? "" : "s"}
+              {cabinLabel} · {formatDateLabel(date)} ·{" "}
+              {pluralize(results.length, dict.search.resultsCountOne, dict.search.resultsCountOther)}
             </p>
           </div>
           <CopyLinkButton />

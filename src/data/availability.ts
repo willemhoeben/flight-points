@@ -17,6 +17,8 @@ const CABIN_BASE_MILES: Record<Cabin, number> = {
   first: 110000,
 };
 
+export type BookingWindow = "online" | "call";
+
 export type AwardResult = {
   id: string;
   programId: string;
@@ -28,7 +30,7 @@ export type AwardResult = {
   direct: boolean;
   durationMinutes: number;
   connections: number;
-  bookingWindow: string;
+  bookingWindow: BookingWindow;
 };
 
 /**
@@ -65,7 +67,7 @@ export function searchAvailability(params: {
     const connections = direct ? 0 : 1 + Math.floor(rng() * 2);
     const baseDuration = 300 + Math.floor(rng() * 600);
     const durationMinutes = baseDuration + connections * 90;
-    const bookingWindow = rng() > 0.5 ? "Bookable online" : "Call to book";
+    const bookingWindow: BookingWindow = rng() > 0.5 ? "online" : "call";
 
     results.push({
       id: `${program.id}-${date}-${cabin}`,

@@ -4,75 +4,54 @@ import { PROGRAMS } from "@/data/programs";
 import { AIRPORTS } from "@/data/airports";
 import { DEALS } from "@/data/deals";
 import { VALUATIONS } from "@/data/valuations";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { dealCategoryLabel } from "@/lib/i18n/deal-category";
 
-const FEATURES = [
-  {
-    title: "Award search",
-    description:
-      "Search award availability across 16 airline programs by route, date, and cabin, with a two-week calendar view to spot the cheapest day to fly.",
-    href: "/search",
-    cta: "Search awards",
-  },
-  {
-    title: "Points valuations",
-    description:
-      "See an estimated cents-per-point value for every major bank, airline, and hotel currency, plus a calculator to convert a balance into cash-equivalent value.",
-    href: "/valuations",
-    cta: "See valuations",
-  },
-  {
-    title: "Deals & sweet spots",
-    description:
-      "Curated writeups on transfer bonuses and award chart sweet spots — the kind of redemptions that are easy to miss if you're not watching closely.",
-    href: "/deals",
-    cta: "Browse deals",
-  },
-];
-
-export default function Home() {
+export default async function Home() {
+  const { dict } = await getDictionary();
   const topValuations = VALUATIONS.slice(0, 4);
   const featuredDeals = DEALS.slice(0, 3);
+
+  const features = [
+    { title: dict.home.featureSearchTitle, description: dict.home.featureSearchDescription, href: "/search", cta: dict.home.featureSearchCta },
+    { title: dict.home.featureValuationsTitle, description: dict.home.featureValuationsDescription, href: "/valuations", cta: dict.home.featureValuationsCta },
+    { title: dict.home.featureDealsTitle, description: dict.home.featureDealsDescription, href: "/deals", cta: dict.home.featureDealsCta },
+  ];
 
   return (
     <div className="flex flex-1 flex-col">
       <section className="mx-auto w-full max-w-2xl px-4 pb-2 pt-16 text-center sm:px-6 sm:pt-20">
-        <Badge accent="sky">Award search + points valuations</Badge>
+        <Badge accent="sky">{dict.home.badge}</Badge>
         <h1 className="mt-4 text-[44px] leading-[1.06] tracking-tight text-foreground sm:text-5xl">
-          Find the flight award you didn&apos;t think existed.
+          {dict.home.title}
         </h1>
-        <p className="mx-auto mt-5 max-w-md text-lg text-muted">
-          Search miles and points availability across 16 loyalty programs, check what
-          your points balance is actually worth, and catch transfer bonuses before
-          they expire.
-        </p>
+        <p className="mx-auto mt-5 max-w-md text-lg text-muted">{dict.home.lede}</p>
         <div className="mt-7 flex flex-wrap items-center justify-center gap-2">
           <Link
             href="/search"
             className="rounded-full bg-brand px-6 py-3 text-[15px] font-semibold text-brand-foreground transition-colors hover:bg-brand-strong"
           >
-            Search award flights
+            {dict.home.ctaPrimary}
           </Link>
           <Link href="/valuations" className="px-3 py-3 text-[15px] font-medium text-brand hover:underline">
-            Value my points ›
+            {dict.home.ctaSecondary}
           </Link>
         </div>
-        <p className="mt-2 text-xs text-muted">
-          Demo build — availability and valuations shown are illustrative sample data.
-        </p>
+        <p className="mt-2 text-xs text-muted">{dict.home.demoNote}</p>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">
         <div className="grid grid-cols-2 gap-y-10 rounded-[28px] bg-gradient-to-b from-brand/[0.07] to-surface-muted px-6 py-14 sm:grid-cols-4">
-          <Stat value={`${PROGRAMS.length}`} label="loyalty programs" />
-          <Stat value={`${AIRPORTS.length}`} label="airports covered" />
-          <Stat value="14-day" label="calendar search" />
-          <Stat value={`${VALUATIONS.length}`} label="currencies valued" />
+          <Stat value={`${PROGRAMS.length}`} label={dict.home.statPrograms} />
+          <Stat value={`${AIRPORTS.length}`} label={dict.home.statAirports} />
+          <Stat value="14-day" label={dict.home.statCalendar} />
+          <Stat value={`${VALUATIONS.length}`} label={dict.home.statCurrencies} />
         </div>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
         <div className="grid gap-4 sm:grid-cols-3">
-          {FEATURES.map((feature) => (
+          {features.map((feature) => (
             <Card key={feature.href} className="flex flex-col p-7">
               <h2 className="text-lg text-foreground">{feature.title}</h2>
               <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-muted">{feature.description}</p>
@@ -86,8 +65,8 @@ export default function Home() {
 
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
         <div className="text-center">
-          <h2 className="text-3xl text-foreground">What your points are worth</h2>
-          <p className="mt-2 text-base text-muted">Estimated redemption value, updated by category.</p>
+          <h2 className="text-3xl text-foreground">{dict.home.valuationsHeading}</h2>
+          <p className="mt-2 text-base text-muted">{dict.home.valuationsSub}</p>
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-4">
           {topValuations.map((v) => (
@@ -96,28 +75,28 @@ export default function Home() {
               <div className="mt-2 text-[26px] font-semibold tracking-tight text-foreground">
                 {v.centsPerPoint.toFixed(2)}¢
               </div>
-              <div className="text-xs text-muted">per point</div>
+              <div className="text-xs text-muted">{dict.home.perPoint}</div>
             </Card>
           ))}
         </div>
         <div className="mt-6 text-center">
           <Link href="/valuations" className="text-sm font-medium text-brand hover:underline">
-            See full table ›
+            {dict.home.valuationsSeeAll}
           </Link>
         </div>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
         <div className="text-center">
-          <h2 className="text-3xl text-foreground">Latest deals</h2>
-          <p className="mt-2 text-base text-muted">Transfer bonuses and award chart sweet spots.</p>
+          <h2 className="text-3xl text-foreground">{dict.home.dealsHeading}</h2>
+          <p className="mt-2 text-base text-muted">{dict.home.dealsSub}</p>
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
           {featuredDeals.map((deal) => (
             <Link key={deal.slug} href={`/deals/${deal.slug}`}>
               <Card className="flex h-full flex-col p-7 transition-transform hover:-translate-y-0.5">
                 <Badge accent={deal.category === "transfer-bonus" ? "emerald" : deal.category === "sale" ? "amber" : "violet"}>
-                  {deal.category.replace("-", " ")}
+                  {dealCategoryLabel(deal.category, dict.dealsPage)}
                 </Badge>
                 <h3 className="mt-3 text-base text-foreground">{deal.title}</h3>
                 <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-muted">{deal.summary}</p>
@@ -127,7 +106,7 @@ export default function Home() {
         </div>
         <div className="mt-6 text-center">
           <Link href="/deals" className="text-sm font-medium text-brand hover:underline">
-            All deals ›
+            {dict.home.dealsSeeAll}
           </Link>
         </div>
       </section>

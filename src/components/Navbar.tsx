@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { CurrencySelector } from "@/components/CurrencySelector";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 
-const LINKS = [
-  { href: "/search", label: "Award search" },
-  { href: "/valuations", label: "Valuations" },
-  { href: "/deals", label: "Deals" },
-];
+export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
+  const LINKS = [
+    { href: "/search", label: dict.search },
+    { href: "/valuations", label: dict.valuations },
+    { href: "/deals", label: dict.deals },
+  ];
 
-export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-[52px] max-w-6xl items-center justify-between gap-5 px-4 sm:px-6">
@@ -20,7 +22,7 @@ export function Navbar() {
               />
             </svg>
           </span>
-          Flight Points
+          {dict.brand}
         </Link>
 
         <nav className="hidden items-center gap-7 text-xs font-medium text-muted sm:flex">
@@ -32,9 +34,10 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-4">
+          <LanguageSwitcher />
           <CurrencySelector />
           <Link href="/search" className="text-xs font-medium text-brand hover:underline">
-            Search awards
+            {dict.searchCta}
           </Link>
         </div>
       </div>

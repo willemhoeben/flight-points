@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useDictionary } from "@/lib/i18n/i18n-context";
 
 /**
  * Copies the current page URL (including search params) to the clipboard.
@@ -9,6 +10,7 @@ import { useState } from "react";
  */
 export function CopyLinkButton() {
   const [copied, setCopied] = useState(false);
+  const dict = useDictionary();
 
   async function handleCopy() {
     try {
@@ -35,9 +37,9 @@ export function CopyLinkButton() {
           strokeLinejoin="round"
         />
       </svg>
-      {copied ? "Link copied" : "Copy share link"}
+      {copied ? dict.copyLink.copied : dict.copyLink.copy}
       <span aria-live="polite" className="sr-only">
-        {copied ? "Link copied to clipboard" : ""}
+        {copied ? dict.copyLink.copied : ""}
       </span>
     </button>
   );

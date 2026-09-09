@@ -1,36 +1,30 @@
 import Link from "next/link";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 
-export function Footer() {
+export function Footer({ dict }: { dict: Dictionary["footer"] & { nav: Dictionary["nav"] } }) {
   return (
     <footer className="border-t border-border">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
         <div className="grid gap-8 text-[12.5px] sm:grid-cols-3">
           <div>
-            <div className="font-semibold text-foreground">Flight Points</div>
-            <p className="mt-2 max-w-xs text-muted">
-              Search award availability and track what your points are really worth.
-            </p>
+            <div className="font-semibold text-foreground">{dict.nav.brand}</div>
+            <p className="mt-2 max-w-xs text-muted">{dict.tagline}</p>
           </div>
           <div>
-            <div className="font-semibold text-foreground">Product</div>
+            <div className="font-semibold text-foreground">{dict.productHeading}</div>
             <ul className="mt-2 space-y-1.5 text-muted">
-              <li><Link href="/search" className="hover:text-foreground">Award search</Link></li>
-              <li><Link href="/valuations" className="hover:text-foreground">Points valuations</Link></li>
-              <li><Link href="/deals" className="hover:text-foreground">Deals</Link></li>
+              <li><Link href="/search" className="hover:text-foreground">{dict.nav.search}</Link></li>
+              <li><Link href="/valuations" className="hover:text-foreground">{dict.nav.valuations}</Link></li>
+              <li><Link href="/deals" className="hover:text-foreground">{dict.nav.deals}</Link></li>
             </ul>
           </div>
           <div>
-            <div className="font-semibold text-foreground">About this project</div>
-            <p className="mt-2 max-w-xs text-muted">
-              A demo build inspired by seats.aero and flightpoints.com. All
-              award availability and valuations shown are illustrative mock
-              data, not a live feed, and this project is not affiliated with
-              either site or any airline or loyalty program.
-            </p>
+            <div className="font-semibold text-foreground">{dict.aboutHeading}</div>
+            <p className="mt-2 max-w-xs text-muted">{dict.aboutText}</p>
           </div>
         </div>
         <div className="mt-6 border-t border-border pt-4 text-[11.5px] text-muted">
-          © {new Date().getFullYear()} Flight Points. Demo project — sample data only.
+          © {new Date().getFullYear()} {dict.nav.brand}. {dict.copyright}
         </div>
       </div>
     </footer>

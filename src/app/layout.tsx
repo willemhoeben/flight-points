@@ -3,6 +3,8 @@ import { IBM_Plex_Mono } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CurrencyProvider } from "@/lib/currency-context";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { I18nProvider } from "@/lib/i18n/i18n-context";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -56,24 +58,28 @@ const JSON_LD = {
   ],
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const { locale, dict } = await getDictionary();
+
   return (
-    <html lang="en" className={`${plexMono.variable} h-full antialiased`}>
+    <html lang={locale} className={`${plexMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
         <a
           href="#main-content"
           className="sr-only rounded-full bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50"
         >
-          Skip to content
+          {dict.nav.skipToContent}
         </a>
-        <CurrencyProvider>
-          <Navbar />
-          <main id="main-content" className="flex flex-1 flex-col">
-            {children}
-          </main>
-          <Footer />
-        </CurrencyProvider>
+        <I18nProvider locale={locale} dict={dict}>
+          <CurrencyProvider>
+            <Navbar dict={dict.nav} />
+            <main id="main-content" className="flex flex-1 flex-col">
+              {children}
+            </main>
+            <Footer dict={{ ...dict.footer, nav: dict.nav }} />
+          </CurrencyProvider>
+        </I18nProvider>
       </body>
     </html>
   );

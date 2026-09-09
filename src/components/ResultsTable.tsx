@@ -6,20 +6,22 @@ import { PROGRAMS } from "@/data/programs";
 import { Badge } from "@/components/ui";
 import { useCurrency } from "@/lib/currency-context";
 import { formatDuration, formatMiles } from "@/lib/format";
+import { useDictionary } from "@/lib/i18n/i18n-context";
 import { nextSort, sortBy, type SortDir } from "@/lib/sort";
 
 type SortKey = "milesCost" | "durationMinutes" | "seatsRemaining";
-
-const SORTABLE_COLUMNS: { key: SortKey; label: string }[] = [
-  { key: "durationMinutes", label: "Duration" },
-  { key: "seatsRemaining", label: "Seats" },
-  { key: "milesCost", label: "Miles" },
-];
 
 export function ResultsTable({ results }: { results: AwardResult[] }) {
   const [sortKey, setSortKey] = useState<SortKey>("milesCost");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const { format } = useCurrency();
+  const dict = useDictionary();
+
+  const SORTABLE_COLUMNS: { key: SortKey; label: string }[] = [
+    { key: "durationMinutes", label: dict.resultsTable.duration },
+    { key: "seatsRemaining", label: dict.resultsTable.seats },
+    { key: "milesCost", label: dict.resultsTable.miles },
+  ];
 
   // Results arrive pre-sorted ascending by miles cost, so results[0] is
   // always the true cheapest option regardless of how the table is
@@ -36,10 +38,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
 
   if (results.length === 0) {
     return (
-      <div className="rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">
-        No award space found for this route, date, and cabin combination. Try a
-        different date, or widen your program filter.
-      </div>
+      <div className="rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">{dict.search.noAwardSpace}</div>
     );
   }
 
@@ -48,8 +47,8 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
       <table className="w-full min-w-[720px] text-left text-sm">
         <thead className="bg-surface-muted text-xs font-medium text-muted">
           <tr>
-            <th className="px-4 py-3">Program</th>
-            <th className="px-4 py-3">Routing</th>
+            <th className="px-4 py-3">{dict.resultsTable.program}</th>
+            <th className="px-4 py-3">{dict.resultsTable.routing}</th>
             {SORTABLE_COLUMNS.map((col) => (
               <th
                 key={col.key}
@@ -71,8 +70,8 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                 </button>
               </th>
             ))}
-            <th className="px-4 py-3 text-right">Taxes &amp; fees</th>
-            <th className="px-4 py-3">Booking</th>
+            <th className="px-4 py-3 text-right">{dict.resultsTable.taxesFees}</th>
+            <th className="px-4 py-3">{dict.resultsTable.booking}</th>
           </tr>
         </thead>
         <tbody>
@@ -92,14 +91,18 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                   <div className="font-medium text-foreground">{r.programName}</div>
                   <div className="mt-1 flex flex-wrap gap-1.5">
                     {program && <Badge accent={program.accent}>{program.alliance}</Badge>}
-                    {isBest && <Badge accent="emerald">Best price</Badge>}
+                    {isBest && <Badge accent="emerald">{dict.resultsTable.bestPrice}</Badge>}
                   </div>
                 </td>
                 <td className="px-4 py-3 text-muted">
-                  {r.direct ? "Nonstop" : `${r.connections} stop${r.connections > 1 ? "s" : ""}`}
+                  {r.direct
+                    ? dict.resultsTable.nonstop
+                    : `${r.connections} ${r.connections > 1 ? dict.resultsTable.stops : dict.resultsTable.stop}`}
                 </td>
                 <td className="px-4 py-3 font-mono text-[13px] tabular-nums text-muted">{formatDuration(r.durationMinutes)}</td>
-                <td className="px-4 py-3 font-mono text-[13px] tabular-nums text-muted">{r.seatsRemaining} left</td>
+                <td className="px-4 py-3 font-mono text-[13px] tabular-nums text-muted">
+                  {r.seatsRemaining} {dict.resultsTable.seatsLeft}
+                </td>
                 <td className="px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground">
                   {formatMiles(r.milesCost)}
                 </td>
@@ -107,12 +110,12 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                 <td className="px-4 py-3">
                   <span
                     className={
-                      r.bookingWindow === "Bookable online"
+                      r.bookingWindow === "online"
                         ? "text-xs font-medium text-emerald-600 dark:text-emerald-400"
                         : "text-xs font-medium text-amber-600 dark:text-amber-400"
                     }
                   >
-                    {r.bookingWindow}
+                    {r.bookingWindow === "online" ? dict.resultsTable.bookableOnline : dict.resultsTable.callToBook}
                   </span>
                 </td>
               </tr>

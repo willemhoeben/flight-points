@@ -1,28 +1,26 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 export const metadata: Metadata = { title: "Page not found" };
 
-export default function NotFound() {
+export default async function NotFound() {
+  const { dict } = await getDictionary();
+
   return (
     <div className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center justify-center px-4 py-24 text-center sm:px-6">
-      <span className="text-sm font-semibold text-brand">404</span>
-      <h1 className="mt-2 text-3xl text-foreground sm:text-4xl">
-        This route didn&apos;t clear customs.
-      </h1>
-      <p className="mt-3 text-base text-muted">
-        The page you&apos;re looking for doesn&apos;t exist. It may have been moved, or
-        the link might be off by a letter.
-      </p>
+      <span className="text-sm font-semibold text-brand">{dict.notFound.eyebrow}</span>
+      <h1 className="mt-2 text-3xl text-foreground sm:text-4xl">{dict.notFound.title}</h1>
+      <p className="mt-3 text-base text-muted">{dict.notFound.description}</p>
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
         <Link
           href="/"
           className="rounded-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90"
         >
-          Back to home
+          {dict.notFound.backHome}
         </Link>
         <Link href="/search" className="px-6 py-3 text-sm font-medium text-brand hover:underline">
-          Search awards ›
+          {dict.notFound.searchAwards}
         </Link>
       </div>
     </div>
