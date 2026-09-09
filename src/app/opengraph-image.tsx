@@ -1,0 +1,67 @@
+import { ImageResponse } from "next/og";
+import { SITE_NAME } from "@/lib/site";
+
+export const alt = `${SITE_NAME} — award search & points valuations`;
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+
+export default async function Image() {
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#ffffff",
+          fontFamily: "sans-serif",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
+          <div
+            style={{
+              width: 88,
+              height: 88,
+              borderRadius: 22,
+              background: "#0071e3",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M2 16.5l7-2.2V6.4a1.6 1.6 0 013.2 0v7.6l7 2.5v1.8l-7-1.4v3.5l2 1.3v1.3l-3.6-.9-3.6.9v-1.3l2-1.3v-3.5l-7 1.4v-1.9z"
+                fill="#ffffff"
+              />
+            </svg>
+          </div>
+          <div style={{ display: "flex", fontSize: 78, fontWeight: 700, color: "#1d1d1f", letterSpacing: -2 }}>
+            {SITE_NAME}
+          </div>
+        </div>
+
+        <div style={{ display: "flex", marginTop: 26, fontSize: 32, color: "#6e6e73" }}>
+          Award search + points valuations
+        </div>
+
+        <div style={{ display: "flex", gap: 64, marginTop: 60 }}>
+          {[
+            ["16", "loyalty programs"],
+            ["26", "airports"],
+            ["16", "currencies"],
+          ].map(([value, label]) => (
+            <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{ display: "flex", fontSize: 44, fontWeight: 700, color: "#1d1d1f" }}>{value}</div>
+              <div style={{ display: "flex", fontSize: 22, color: "#6e6e73", marginTop: 4 }}>{label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
+    { ...size },
+  );
+}
