@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,13 +15,28 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const DESCRIPTION =
+  "Search award flight availability across loyalty programs and see what your points are actually worth.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Flight Points — award search & points valuations",
-    template: "%s · Flight Points",
+    default: `${SITE_NAME} — award search & points valuations`,
+    template: `%s · ${SITE_NAME}`,
   },
-  description:
-    "Search award flight availability across loyalty programs and see what your points are actually worth.",
+  description: DESCRIPTION,
+  openGraph: {
+    title: `${SITE_NAME} — award search & points valuations`,
+    description: DESCRIPTION,
+    url: "/",
+    siteName: SITE_NAME,
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: `${SITE_NAME} — award search & points valuations`,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

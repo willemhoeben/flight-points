@@ -43,6 +43,12 @@ bun install
 bun run dev      # start the dev server on http://localhost:3000
 bun run build    # production build
 bun run lint     # eslint
+bun run test     # bun:test — date/format helpers + the mock availability engine
 ```
 
 Built with Next.js (App Router), TypeScript, and Tailwind CSS v4.
+
+`/robots.txt` and `/sitemap.xml` are generated from `src/app/robots.ts` /
+`src/app/sitemap.ts` and point at `NEXT_PUBLIC_SITE_URL` if set, otherwise
+Vercel's own `VERCEL_URL` at deploy time, otherwise `localhost:3000`. Set
+`NEXT_PUBLIC_SITE_URL` once you're on a custom domain.
