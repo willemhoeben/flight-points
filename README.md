@@ -7,10 +7,24 @@ airline or loyalty program.
 ## What's here
 
 - **`/search`** — search award availability by route, date, and cabin across 16
-  loyalty programs, with a 14-day calendar view highlighting the cheapest day to fly.
-- **`/valuations`** — a table of estimated cents-per-point values for major bank,
-  airline, and hotel currencies, plus an interactive calculator.
-- **`/deals`** — sample transfer-bonus and award-chart sweet-spot writeups.
+  loyalty programs, with a 14-day calendar view highlighting the cheapest day to
+  fly and a sortable results table (Duration/Seats/Miles). Remembers your last
+  search in localStorage and returns to it on a bare `/search` visit.
+- **`/valuations`** — a sortable table of estimated cents-per-point values for
+  major bank, airline, and hotel currencies, plus an interactive calculator.
+- **`/deals`** — 8 sample transfer-bonus and award-chart sweet-spot writeups.
+
+Visual design is inspired by apple.com: the system font stack (no web font
+for headings/body), a white/black + `#0071e3` blue palette, and borderless
+gray rounded panels. `src/app/icon.tsx`, `apple-icon.tsx`, and
+`opengraph-image.tsx` generate the favicon, iOS home-screen icon, and social
+share image from the same brand mark; `manifest.ts` makes the site
+installable. `error.tsx` and `not-found.tsx` give runtime errors and bad
+routes a branded page instead of Next's defaults.
+
+A matching standalone HTML version (same data, same interactions, ported to
+vanilla JS) exists as a Claude Artifact for quick browser testing without
+running the dev server — ask in the originating conversation for the link.
 
 ## Data: this runs entirely on mock data
 
