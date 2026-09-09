@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { SectionHeading } from "@/components/ui";
 import { SearchForm } from "@/components/SearchForm";
 import { ResultsTable } from "@/components/ResultsTable";
 import { CalendarHeatmap } from "@/components/CalendarHeatmap";
+import { SearchMemory } from "@/components/SearchMemory";
 import { AIRPORTS, findAirport } from "@/data/airports";
 import { CABINS, searchAvailability, searchCalendar, type Cabin } from "@/data/availability";
 import { addDays, formatDateLabel, todayIso } from "@/lib/format";
@@ -66,6 +68,9 @@ export default async function SearchPage({
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+      <Suspense fallback={null}>
+        <SearchMemory />
+      </Suspense>
       <SectionHeading
         eyebrow="Award search"
         title="Find award availability"
