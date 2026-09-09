@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CurrencySelector } from "@/components/CurrencySelector";
 
 const LINKS = [
   { href: "/search", label: "Award search" },
@@ -30,9 +31,12 @@ export function Navbar() {
           ))}
         </nav>
 
-        <Link href="/search" className="text-xs font-medium text-brand hover:underline">
-          Search awards
-        </Link>
+        <div className="flex items-center gap-4">
+          <CurrencySelector />
+          <Link href="/search" className="text-xs font-medium text-brand hover:underline">
+            Search awards
+          </Link>
+        </div>
       </div>
       <nav className="flex items-center gap-4 overflow-x-auto border-t border-border px-4 py-2 text-xs font-medium text-muted sm:hidden">
         {LINKS.map((link) => (

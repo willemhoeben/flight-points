@@ -3,17 +3,19 @@
 import { useMemo, useState } from "react";
 import { VALUATIONS } from "@/data/valuations";
 import { Card } from "@/components/ui";
+import { useCurrency } from "@/lib/currency-context";
 
 export function PointsCalculator() {
   const [currencyId, setCurrencyId] = useState(VALUATIONS[0].id);
   const [balance, setBalance] = useState("60000");
+  const { format } = useCurrency();
 
-  const currency = VALUATIONS.find((v) => v.id === currencyId) ?? VALUATIONS[0];
+  const pointsCurrency = VALUATIONS.find((v) => v.id === currencyId) ?? VALUATIONS[0];
   const points = Number(balance.replace(/[^0-9]/g, "")) || 0;
 
-  const estimatedValue = useMemo(
-    () => (points * currency.centsPerPoint) / 100,
-    [points, currency],
+  const estimatedValueUsd = useMemo(
+    () => (points * pointsCurrency.centsPerPoint) / 100,
+    [points, pointsCurrency],
   );
 
   return (
@@ -31,9 +33,9 @@ export function PointsCalculator() {
             value={currencyId}
             onChange={(e) => setCurrencyId(e.target.value)}
           >
-            {VALUATIONS.map((v) => (
-              <option key={v.id} value={v.id}>
-                {v.name}
+            {VALUATIONS.map((pc) => (
+              <option key={pc.id} value={pc.id}>
+                {pc.name}
               </option>
             ))}
           </select>
@@ -54,10 +56,10 @@ export function PointsCalculator() {
       <div className="mt-6 rounded-2xl bg-surface p-5">
         <div className="text-xs text-muted">Estimated value</div>
         <div className="mt-1 font-mono text-3xl font-semibold tabular-nums text-foreground">
-          ${estimatedValue.toLocaleString("en-US", { maximumFractionDigits: 0 })}
+          {format(estimatedValueUsd)}
         </div>
         <div className="mt-1 font-mono text-xs tabular-nums text-muted">
-          {points.toLocaleString("en-US")} points × {currency.centsPerPoint.toFixed(2)}¢
+          {points.toLocaleString("en-US")} points × {pointsCurrency.centsPerPoint.toFixed(2)}¢
         </div>
       </div>
     </Card>

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import type { AwardResult } from "@/data/availability";
 import { PROGRAMS } from "@/data/programs";
 import { Badge } from "@/components/ui";
+import { useCurrency } from "@/lib/currency-context";
 import { formatDuration, formatMiles } from "@/lib/format";
 import { nextSort, sortBy, type SortDir } from "@/lib/sort";
 
@@ -18,6 +19,7 @@ const SORTABLE_COLUMNS: { key: SortKey; label: string }[] = [
 export function ResultsTable({ results }: { results: AwardResult[] }) {
   const [sortKey, setSortKey] = useState<SortKey>("milesCost");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
+  const { format } = useCurrency();
 
   // Results arrive pre-sorted ascending by miles cost, so results[0] is
   // always the true cheapest option regardless of how the table is
@@ -101,7 +103,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                 <td className="px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground">
                   {formatMiles(r.milesCost)}
                 </td>
-                <td className="px-4 py-3 text-right font-mono text-[13px] tabular-nums text-muted">${r.taxesFeesUsd}</td>
+                <td className="px-4 py-3 text-right font-mono text-[13px] tabular-nums text-muted">{format(r.taxesFeesUsd)}</td>
                 <td className="px-4 py-3">
                   <span
                     className={
