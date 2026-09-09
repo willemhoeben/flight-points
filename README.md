@@ -26,6 +26,31 @@ A matching standalone HTML version (same data, same interactions, ported to
 vanilla JS) exists as a Claude Artifact for quick browser testing without
 running the dev server — ask in the originating conversation for the link.
 
+## Languages and currencies
+
+The navbar has two independent selectors:
+
+- **Language** — English, Nederlands, Deutsch, Français, Español. Cookie-based
+  (`src/lib/i18n/`), not route-prefixed (no `/en/`, `/nl/`): a `locale` cookie
+  set by the switcher is read once per request in the root layout and handed
+  down to every page. This translates UI chrome — navigation, forms, table
+  headers, page copy, error/404 pages. It deliberately does **not** translate
+  deal article bodies, valuation notes, or proper nouns (airport names,
+  program names) — that's editorial content translation, a different task
+  from app engineering, and out of scope here. Cookie-based locale switching
+  means pages that read it (`/`, `/deals`, `/deals/[slug]`, `/search`,
+  `/valuations`) render dynamically rather than as static HTML — a deliberate
+  trade against the much larger scope of full route-based i18n with per-locale
+  static generation.
+- **Currency** — USD/EUR/GBP/JPY/CAD/AUD (`src/lib/currency.ts`), applied to
+  the results table's taxes & fees column and the points calculator. Static,
+  illustrative exchange rates, consistent with the rest of the site's
+  mock-data approach — not a live feed. Persisted to localStorage and synced
+  across tabs.
+
+Both selections persist independently: language via cookie, currency via
+localStorage.
+
 ## Data: this runs entirely on mock data
 
 There is no live award-availability feed or pricing API wired up. All search
@@ -57,7 +82,7 @@ bun install
 bun run dev      # start the dev server on http://localhost:3000
 bun run build    # production build
 bun run lint     # eslint
-bun run test     # bun:test — date/format helpers + the mock availability engine
+bun run test     # bun:test — date/format/currency/prng/sort helpers, data integrity, the mock availability engine
 ```
 
 Built with Next.js (App Router), TypeScript, and Tailwind CSS v4.
