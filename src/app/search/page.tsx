@@ -1,0 +1,102 @@
+import type { Metadata } from "next";
+import { SectionHeading } from "@/components/ui";
+import { SearchForm } from "@/components/SearchForm";
+import { ResultsTable } from "@/components/ResultsTable";
+import { CalendarHeatmap } from "@/components/CalendarHeatmap";
+import { AIRPORTS, findAirport } from "@/data/airports";
+import { CABINS, searchAvailability, searchCalendar, type Cabin } from "@/data/availability";
+import { addDays, formatDateLabel, todayIso } from "@/lib/format";
+
+export const metadata: Metadata = { title: "Award search" };
+
+type SearchParams = Record<string, string | string[] | undefined>;
+
+function firstValue(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function toArray(value: string | string[] | undefined): string[] {
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+function isValidAirport(code: string | undefined): code is string {
+  return !!code && AIRPORTS.some((a) => a.code === code);
+}
+
+function isValidCabin(cabin: string | undefined): cabin is Cabin {
+  return !!cabin && CABINS.some((c) => c.id === cabin);
+}
+
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const sp = await searchParams;
+
+  const origin = isValidAirport(firstValue(sp.origin)) ? (firstValue(sp.origin) as string) : "JFK";
+  const destination = isValidAirport(firstValue(sp.destination))
+    ? (firstValue(sp.destination) as string)
+    : "LHR";
+  const cabin: Cabin = isValidCabin(firstValue(sp.cabin)) ? (firstValue(sp.cabin) as Cabin) : "business";
+  const date = firstValue(sp.date) || addDays(todayIso(), 30);
+  const programIds = toArray(sp.programs);
+
+  const baseParams = new URLSearchParams();
+  baseParams.set("origin", origin);
+  baseParams.set("destination", destination);
+  baseParams.set("cabin", cabin);
+  for (const id of programIds) baseParams.append("programs", id);
+
+  const results = searchAvailability({ origin, destination, date, cabin, programIds });
+  const calendarStart = addDays(date, -3);
+  const calendarDays = searchCalendar({
+    origin,
+    destination,
+    cabin,
+    startDate: calendarStart,
+    days: 14,
+    programIds,
+  });
+
+  const originAirport = findAirport(origin);
+  const destinationAirport = findAirport(destination);
+  const cabinLabel = CABINS.find((c) => c.id === cabin)?.label ?? cabin;
+
+  return (
+    <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+      <SectionHeading
+        eyebrow="Award search"
+        title="Find award availability"
+        description="Search 16 loyalty programs by route, date, and cabin. Same search always returns the same sample results, so it's safe to bookmark and share."
+      />
+
+      <div className="mt-8">
+        <SearchForm values={{ origin, destination, date, cabin, programs: programIds }} />
+      </div>
+
+      <div className="mt-10">
+        <h2 className="text-sm font-semibold text-foreground">Cheapest day to fly</h2>
+        <p className="mt-1 text-sm text-muted">
+          Lowest miles price per day, {originAirport?.city ?? origin} → {destinationAirport?.city ?? destination}.
+        </p>
+        <div className="mt-4">
+          <CalendarHeatmap days={calendarDays} selectedDate={date} baseParams={baseParams} />
+        </div>
+      </div>
+
+      <div className="mt-10">
+        <h2 className="text-sm font-semibold text-foreground">
+          {originAirport?.city ?? origin} ({origin}) → {destinationAirport?.city ?? destination} ({destination})
+        </h2>
+        <p className="mt-1 text-sm text-muted">
+          {cabinLabel} · {formatDateLabel(date)} · {results.length} result{results.length === 1 ? "" : "s"}
+        </p>
+        <div className="mt-4">
+          <ResultsTable results={results} />
+        </div>
+      </div>
+    </div>
+  );
+}
