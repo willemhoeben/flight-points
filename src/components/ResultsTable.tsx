@@ -1,9 +1,47 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import type { AwardResult } from "@/data/availability";
 import { PROGRAMS } from "@/data/programs";
 import { Badge } from "@/components/ui";
 import { formatDuration, formatMiles } from "@/lib/format";
 
+type SortKey = "milesCost" | "durationMinutes" | "seatsRemaining";
+type SortDir = "asc" | "desc";
+
+const SORTABLE_COLUMNS: { key: SortKey; label: string }[] = [
+  { key: "durationMinutes", label: "Duration" },
+  { key: "seatsRemaining", label: "Seats" },
+  { key: "milesCost", label: "Miles" },
+];
+
 export function ResultsTable({ results }: { results: AwardResult[] }) {
+  const [sortKey, setSortKey] = useState<SortKey>("milesCost");
+  const [sortDir, setSortDir] = useState<SortDir>("asc");
+
+  // Results arrive pre-sorted ascending by miles cost, so results[0] is
+  // always the true cheapest option regardless of how the table is
+  // currently sorted for display.
+  const cheapestId = results.length > 1 ? results[0].id : null;
+
+  const sorted = useMemo(() => {
+    const copy = [...results];
+    copy.sort((a, b) => {
+      const diff = a[sortKey] - b[sortKey];
+      return sortDir === "asc" ? diff : -diff;
+    });
+    return copy;
+  }, [results, sortKey, sortDir]);
+
+  function toggleSort(key: SortKey) {
+    if (sortKey === key) {
+      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
+      setSortKey(key);
+      setSortDir("asc");
+    }
+  }
+
   if (results.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-border p-10 text-center text-sm text-muted">
@@ -20,17 +58,35 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
           <tr>
             <th className="px-4 py-3">Program</th>
             <th className="px-4 py-3">Routing</th>
-            <th className="px-4 py-3">Duration</th>
-            <th className="px-4 py-3">Seats</th>
-            <th className="px-4 py-3 text-right">Miles</th>
+            {SORTABLE_COLUMNS.map((col) => (
+              <th
+                key={col.key}
+                className={col.key === "milesCost" ? "px-4 py-3 text-right" : "px-4 py-3"}
+                aria-sort={sortKey === col.key ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
+              >
+                <button
+                  type="button"
+                  onClick={() => toggleSort(col.key)}
+                  className={[
+                    "inline-flex items-center gap-1 uppercase tracking-wide hover:text-foreground",
+                    col.key === "milesCost" ? "flex-row-reverse" : "",
+                  ].join(" ")}
+                >
+                  {col.label}
+                  <span aria-hidden="true" className="text-[10px] leading-none">
+                    {sortKey === col.key ? (sortDir === "asc" ? "▲" : "▼") : "↕"}
+                  </span>
+                </button>
+              </th>
+            ))}
             <th className="px-4 py-3 text-right">Taxes &amp; fees</th>
             <th className="px-4 py-3">Booking</th>
           </tr>
         </thead>
         <tbody>
-          {results.map((r, i) => {
+          {sorted.map((r) => {
             const program = PROGRAMS.find((p) => p.id === r.programId);
-            const isBest = i === 0 && results.length > 1;
+            const isBest = r.id === cheapestId;
             return (
               <tr
                 key={r.id}
