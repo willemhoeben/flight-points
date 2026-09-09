@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { CalendarDay } from "@/data/availability";
-import { formatDateShort, formatMiles } from "@/lib/format";
+import { formatDateLabel, formatDateShort, formatMiles } from "@/lib/format";
 
 function buildHref(baseParams: URLSearchParams, date: string): string {
   const params = new URLSearchParams(baseParams);
@@ -30,6 +30,8 @@ export function CalendarHeatmap({
           <Link
             key={day.date}
             href={buildHref(baseParams, day.date)}
+            aria-current={isSelected ? "date" : undefined}
+            aria-label={`${formatDateLabel(day.date)}: ${day.lowestMiles !== null ? `${formatMiles(day.lowestMiles)} miles` : "no award space"}`}
             className={[
               "rounded-2xl p-3 text-center transition-shadow",
               isSelected ? "ring-2 ring-brand ring-offset-2 ring-offset-background" : "",

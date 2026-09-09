@@ -28,6 +28,12 @@ const TREND_CLASS: Record<PointCurrency["trend"], string> = {
   flat: "text-muted",
 };
 
+const TREND_LABEL: Record<PointCurrency["trend"], string> = {
+  up: "Trending up",
+  down: "Trending down",
+  flat: "Stable",
+};
+
 type SortKey = "name" | "centsPerPoint";
 type SortDir = "asc" | "desc";
 
@@ -61,7 +67,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
       <table className="w-full min-w-[640px] text-left text-sm">
         <thead className="bg-surface-muted text-xs font-medium text-muted">
           <tr>
-            <th className="px-4 py-3">
+            <th className="px-4 py-3" aria-sort={sortKey === "name" ? (sortDir === "asc" ? "ascending" : "descending") : "none"}>
               <button
                 type="button"
                 onClick={() => toggleSort("name")}
@@ -74,7 +80,10 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
               </button>
             </th>
             <th className="px-4 py-3">Type</th>
-            <th className="px-4 py-3 text-right">
+            <th
+              className="px-4 py-3 text-right"
+              aria-sort={sortKey === "centsPerPoint" ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
+            >
               <button
                 type="button"
                 onClick={() => toggleSort("centsPerPoint")}
@@ -103,7 +112,10 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
               <td className="px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground">
                 {v.centsPerPoint.toFixed(2)}¢
               </td>
-              <td className={`px-4 py-3 font-medium ${TREND_CLASS[v.trend]}`}>{TREND_ICON[v.trend]}</td>
+              <td className={`px-4 py-3 font-medium ${TREND_CLASS[v.trend]}`}>
+                <span aria-hidden="true">{TREND_ICON[v.trend]}</span>
+                <span className="sr-only">{TREND_LABEL[v.trend]}</span>
+              </td>
               <td className="px-4 py-3 max-w-xs text-muted">{v.notes}</td>
             </tr>
           ))}
