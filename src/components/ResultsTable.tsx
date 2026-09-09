@@ -28,17 +28,24 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
           </tr>
         </thead>
         <tbody>
-          {results.map((r) => {
+          {results.map((r, i) => {
             const program = PROGRAMS.find((p) => p.id === r.programId);
+            const isBest = i === 0 && results.length > 1;
             return (
-              <tr key={r.id} className="border-b border-border last:border-0 hover:bg-surface-muted/60">
+              <tr
+                key={r.id}
+                className={
+                  isBest
+                    ? "border-b border-border bg-emerald-500/5 last:border-0 hover:bg-emerald-500/10"
+                    : "border-b border-border last:border-0 hover:bg-surface-muted/60"
+                }
+              >
                 <td className="px-4 py-3">
                   <div className="font-medium text-foreground">{r.programName}</div>
-                  {program && (
-                    <div className="mt-1">
-                      <Badge accent={program.accent}>{program.alliance}</Badge>
-                    </div>
-                  )}
+                  <div className="mt-1 flex flex-wrap gap-1.5">
+                    {program && <Badge accent={program.accent}>{program.alliance}</Badge>}
+                    {isBest && <Badge accent="emerald">Best price</Badge>}
+                  </div>
                 </td>
                 <td className="px-4 py-3 text-muted">
                   {r.direct ? "Nonstop" : `${r.connections} stop${r.connections > 1 ? "s" : ""}`}
