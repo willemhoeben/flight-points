@@ -18,7 +18,7 @@ export function PointsCalculator() {
 
   return (
     <Card className="p-6">
-      <h2 className="text-lg font-semibold text-foreground">Points calculator</h2>
+      <h2 className="text-lg text-foreground">Points calculator</h2>
       <p className="mt-1 text-sm text-muted">
         Estimate the cash-equivalent value of a points or miles balance.
       </p>
@@ -51,12 +51,12 @@ export function PointsCalculator() {
         </label>
       </div>
 
-      <div className="mt-6 rounded-xl border border-border bg-surface-muted p-5">
-        <div className="text-xs font-medium uppercase tracking-wide text-muted">Estimated value</div>
-        <div className="mt-1 text-3xl font-bold text-foreground">
+      <div className="mt-6 rounded-2xl bg-surface p-5">
+        <div className="text-xs text-muted">Estimated value</div>
+        <div className="mt-1 font-mono text-3xl font-semibold tabular-nums text-foreground">
           ${estimatedValue.toLocaleString("en-US", { maximumFractionDigits: 0 })}
         </div>
-        <div className="mt-1 text-xs text-muted">
+        <div className="mt-1 font-mono text-xs tabular-nums text-muted">
           {points.toLocaleString("en-US")} points × {currency.centsPerPoint.toFixed(2)}¢
         </div>
       </div>

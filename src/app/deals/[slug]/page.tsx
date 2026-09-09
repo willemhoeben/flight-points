@@ -52,12 +52,12 @@ export default async function DealPage({
         )}
       </div>
 
-      <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground">{deal.title}</h1>
+      <h1 className="mt-3 text-3xl text-foreground">{deal.title}</h1>
 
       <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
         <span>{program?.name ?? deal.programId}</span>
         <span>Published {formatDateLabel(deal.publishedAt)}</span>
-        {deal.expires && <span>Expires {formatDateLabel(deal.expires)}</span>}
+        {deal.expires && <span className="font-semibold text-stamp">Expires {formatDateLabel(deal.expires)}</span>}
       </div>
 
       <div className="mt-8 space-y-4 text-base leading-7 text-foreground">
@@ -66,7 +66,7 @@ export default async function DealPage({
         ))}
       </div>
 
-      <div className="mt-10 rounded-xl border border-border bg-surface-muted p-4 text-xs text-muted">
+      <div className="mt-10 rounded-2xl bg-surface-muted p-4 text-xs text-muted">
         Sample editorial content for demo purposes — not a live promotions feed.
       </div>
     </div>

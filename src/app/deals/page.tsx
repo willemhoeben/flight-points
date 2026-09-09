@@ -27,7 +27,7 @@ export default function DealsPage() {
           const program = findProgram(deal.programId);
           return (
             <Link key={deal.slug} href={`/deals/${deal.slug}`}>
-              <Card className="flex h-full flex-col p-6 transition-shadow hover:shadow-md">
+              <Card className="flex h-full flex-col p-6 transition-transform hover:-translate-y-0.5">
                 <div className="flex items-center justify-between">
                   <Badge accent={CATEGORY_ACCENT[deal.category]}>{deal.category.replace("-", " ")}</Badge>
                   {deal.bonusPercent && (
@@ -36,11 +36,13 @@ export default function DealsPage() {
                     </span>
                   )}
                 </div>
-                <h2 className="mt-3 text-base font-semibold text-foreground">{deal.title}</h2>
+                <h2 className="mt-3 text-base text-foreground">{deal.title}</h2>
                 <p className="mt-2 flex-1 text-sm text-muted">{deal.summary}</p>
-                <div className="mt-4 flex items-center justify-between text-xs text-muted">
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs text-muted">
                   <span>{program?.name ?? deal.programId}</span>
-                  {deal.expires && <span>Expires {formatDateLabel(deal.expires)}</span>}
+                  {deal.expires && (
+                    <span className="font-semibold text-stamp">Expires {formatDateLabel(deal.expires)}</span>
+                  )}
                 </div>
               </Card>
             </Link>

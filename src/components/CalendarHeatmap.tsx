@@ -31,13 +31,13 @@ export function CalendarHeatmap({
             key={day.date}
             href={buildHref(baseParams, day.date)}
             className={[
-              "rounded-xl border p-3 text-center transition-colors",
-              isSelected ? "border-brand ring-2 ring-brand/30" : "border-border",
+              "rounded-2xl p-3 text-center transition-shadow",
+              isSelected ? "ring-2 ring-brand ring-offset-2 ring-offset-background" : "",
               tier.className,
             ].join(" ")}
           >
-            <div className="text-xs font-medium text-muted">{formatDateShort(day.date)}</div>
-            <div className="mt-1 text-sm font-semibold text-foreground">
+            <div className="font-mono text-xs text-muted">{formatDateShort(day.date)}</div>
+            <div className="mt-1 font-mono text-sm font-semibold tabular-nums text-foreground">
               {day.lowestMiles !== null ? formatMiles(day.lowestMiles) : "—"}
             </div>
           </Link>

@@ -44,7 +44,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
 
   if (results.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-border p-10 text-center text-sm text-muted">
+      <div className="rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">
         No award space found for this route, date, and cabin combination. Try a
         different date, or widen your program filter.
       </div>
@@ -52,9 +52,9 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
   }
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-border bg-surface">
+    <div className="overflow-x-auto rounded-[20px] bg-surface">
       <table className="w-full min-w-[720px] text-left text-sm">
-        <thead className="border-b border-border bg-surface-muted text-xs font-semibold uppercase tracking-wide text-muted">
+        <thead className="bg-surface-muted text-xs font-medium text-muted">
           <tr>
             <th className="px-4 py-3">Program</th>
             <th className="px-4 py-3">Routing</th>
@@ -68,7 +68,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                   type="button"
                   onClick={() => toggleSort(col.key)}
                   className={[
-                    "inline-flex items-center gap-1 uppercase tracking-wide hover:text-foreground",
+                    "inline-flex items-center gap-1 hover:text-foreground",
                     col.key === "milesCost" ? "flex-row-reverse" : "",
                   ].join(" ")}
                 >
@@ -106,12 +106,12 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                 <td className="px-4 py-3 text-muted">
                   {r.direct ? "Nonstop" : `${r.connections} stop${r.connections > 1 ? "s" : ""}`}
                 </td>
-                <td className="px-4 py-3 text-muted">{formatDuration(r.durationMinutes)}</td>
-                <td className="px-4 py-3 text-muted">{r.seatsRemaining} left</td>
-                <td className="px-4 py-3 text-right font-semibold text-foreground">
+                <td className="px-4 py-3 font-mono text-[13px] tabular-nums text-muted">{formatDuration(r.durationMinutes)}</td>
+                <td className="px-4 py-3 font-mono text-[13px] tabular-nums text-muted">{r.seatsRemaining} left</td>
+                <td className="px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground">
                   {formatMiles(r.milesCost)}
                 </td>
-                <td className="px-4 py-3 text-right text-muted">${r.taxesFeesUsd}</td>
+                <td className="px-4 py-3 text-right font-mono text-[13px] tabular-nums text-muted">${r.taxesFeesUsd}</td>
                 <td className="px-4 py-3">
                   <span
                     className={

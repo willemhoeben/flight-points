@@ -27,9 +27,9 @@ const TREND_CLASS: Record<PointCurrency["trend"], string> = {
 
 export function ValuationsTable({ valuations }: { valuations: PointCurrency[] }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-border bg-surface">
+    <div className="overflow-x-auto rounded-[20px] bg-surface">
       <table className="w-full min-w-[640px] text-left text-sm">
-        <thead className="border-b border-border bg-surface-muted text-xs font-semibold uppercase tracking-wide text-muted">
+        <thead className="bg-surface-muted text-xs font-medium text-muted">
           <tr>
             <th className="px-4 py-3">Currency</th>
             <th className="px-4 py-3">Type</th>
@@ -48,7 +48,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
               <td className="px-4 py-3">
                 <Badge accent={TYPE_ACCENT[v.type]}>{TYPE_LABEL[v.type]}</Badge>
               </td>
-              <td className="px-4 py-3 text-right font-semibold text-foreground">
+              <td className="px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground">
                 {v.centsPerPoint.toFixed(2)}¢
               </td>
               <td className={`px-4 py-3 font-medium ${TREND_CLASS[v.trend]}`}>{TREND_ICON[v.trend]}</td>
