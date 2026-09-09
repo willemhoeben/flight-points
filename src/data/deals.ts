@@ -103,6 +103,34 @@ export const DEALS: Deal[] = [
       "This works best on point-to-point hops rather than connecting itineraries, since each additional segment adds its own distance-based charge.",
     ],
   },
+  {
+    slug: "amex-mr-to-marriott-bonus",
+    title: "Amex Membership Rewards → Marriott Bonvoy: 20% transfer bonus",
+    summary: "Marriott's high point requirements make transfer bonuses matter more than usual.",
+    category: "transfer-bonus",
+    program: "Marriott Bonvoy",
+    bonusPercent: 20,
+    expires: "2026-09-25",
+    publishedAt: "2026-09-06",
+    body: [
+      "American Express is running a 20% bonus on Membership Rewards transfers to Marriott Bonvoy through September 25, the first bump on this pairing in several months.",
+      "Marriott's category-based chart requires far more points per night than competing hotel programs, so a redemption only clears 1 cent per point at the higher categories — the transfer bonus is what pushes many stays into decent value territory.",
+      "Best used for a specific booked stay rather than speculative points hoarding: check the cash rate first, and only transfer if the bonus-adjusted points price beats it.",
+    ],
+  },
+  {
+    slug: "alaska-mileage-plan-oneworld-sweet-spot",
+    title: "Alaska Mileage Plan's Oneworld sweet spot is still open",
+    summary: "One of the last mileage charts that hasn't gone dynamic on partner awards.",
+    category: "sweet-spot",
+    program: "Alaska Mileage Plan",
+    publishedAt: "2026-08-30",
+    body: [
+      "Alaska Mileage Plan left the Oneworld alliance's partner benefits in place even after most US programs moved to dynamic pricing, and its published partner chart still holds for Cathay Pacific, Qatar Airways, and Japan Airlines award space.",
+      "A business-class redemption to North Asia can price several thousand miles below what the operating carrier's own program would charge for the identical seat.",
+      "The chart rewards booking early: partner award space is released far in advance and dries up close to departure, so this is not a last-minute strategy.",
+    ],
+  },
 ];
 
 export function findDeal(slug: string): Deal | undefined {
