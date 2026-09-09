@@ -5,6 +5,7 @@ import { SearchForm } from "@/components/SearchForm";
 import { ResultsTable } from "@/components/ResultsTable";
 import { CalendarHeatmap } from "@/components/CalendarHeatmap";
 import { SearchMemory } from "@/components/SearchMemory";
+import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { AIRPORTS, findAirport } from "@/data/airports";
 import { CABINS, searchAvailability, searchCalendar, type Cabin } from "@/data/availability";
 import { addDays, formatDateLabel, todayIso } from "@/lib/format";
@@ -92,12 +93,17 @@ export default async function SearchPage({
       </div>
 
       <div className="mt-10">
-        <h2 className="text-sm font-semibold text-foreground">
-          {originAirport?.city ?? origin} ({origin}) → {destinationAirport?.city ?? destination} ({destination})
-        </h2>
-        <p className="mt-1 text-sm text-muted">
-          {cabinLabel} · {formatDateLabel(date)} · {results.length} result{results.length === 1 ? "" : "s"}
-        </p>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2 className="text-sm font-semibold text-foreground">
+              {originAirport?.city ?? origin} ({origin}) → {destinationAirport?.city ?? destination} ({destination})
+            </h2>
+            <p className="mt-1 text-sm text-muted">
+              {cabinLabel} · {formatDateLabel(date)} · {results.length} result{results.length === 1 ? "" : "s"}
+            </p>
+          </div>
+          <CopyLinkButton />
+        </div>
         <div className="mt-4">
           <ResultsTable results={results} />
         </div>
