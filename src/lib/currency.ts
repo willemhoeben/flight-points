@@ -1,3 +1,6 @@
+import type { Locale } from "@/lib/i18n/locales";
+import { toBcp47 } from "@/lib/i18n/bcp47";
+
 export type CurrencyCode = "USD" | "EUR" | "GBP" | "JPY" | "CAD" | "AUD";
 
 export const CURRENCIES: { code: CurrencyCode; symbol: string; label: string }[] = [
@@ -33,9 +36,9 @@ export function convertFromUsd(amountUsd: number, code: CurrencyCode): number {
   return amountUsd * RATES_FROM_USD[code];
 }
 
-export function formatCurrency(amountUsd: number, code: CurrencyCode): string {
+export function formatCurrency(amountUsd: number, code: CurrencyCode, locale: Locale): string {
   const converted = convertFromUsd(amountUsd, code);
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat(toBcp47(locale), {
     style: "currency",
     currency: code,
     currencyDisplay: "narrowSymbol",

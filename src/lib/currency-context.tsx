@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useMemo, useSyncExternalStore, type ReactNode } from "react";
 import { DEFAULT_CURRENCY, formatCurrency, isCurrencyCode, type CurrencyCode } from "@/lib/currency";
+import { useLocale } from "@/lib/i18n/i18n-context";
 
 const STORAGE_KEY = "flight-points:currency";
 const CHANGE_EVENT = "flight-points:currency-change";
@@ -45,6 +46,7 @@ const CurrencyContext = createContext<CurrencyContextValue | null>(null);
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
   const currency = useSyncExternalStore(subscribe, readStoredCurrency, getServerSnapshot);
+  const locale = useLocale();
 
   const setCurrency = useCallback((code: CurrencyCode) => {
     try {
@@ -59,9 +61,9 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     () => ({
       currency,
       setCurrency,
-      format: (amountUsd: number) => formatCurrency(amountUsd, currency),
+      format: (amountUsd: number) => formatCurrency(amountUsd, currency, locale),
     }),
-    [currency, setCurrency],
+    [currency, setCurrency, locale],
   );
 
   return <CurrencyContext.Provider value={value}>{children}</CurrencyContext.Provider>;

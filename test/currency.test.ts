@@ -26,16 +26,25 @@ describe("convertFromUsd", () => {
 
 describe("formatCurrency", () => {
   test("formats USD with a dollar sign and two decimals", () => {
-    expect(formatCurrency(205, "USD")).toBe("$205.00");
+    expect(formatCurrency(205, "USD", "en")).toBe("$205.00");
   });
 
   test("formats JPY with no decimal places", () => {
-    expect(formatCurrency(100, "JPY")).not.toContain(".");
+    expect(formatCurrency(100, "JPY", "en")).not.toContain(".");
+  });
+
+  test("uses locale-appropriate grouping and decimal punctuation", () => {
+    // German formats with a comma decimal separator and the symbol after
+    // the amount; English formats with a period decimal and the symbol first.
+    const de = formatCurrency(205, "EUR", "de");
+    const en = formatCurrency(205, "EUR", "en");
+    expect(de).toMatch(/^\d+,\d{2}\D*€$/u);
+    expect(en).not.toBe(de);
   });
 
   test("every listed currency formats without throwing and includes a digit", () => {
     for (const { code } of CURRENCIES) {
-      const formatted = formatCurrency(42, code);
+      const formatted = formatCurrency(42, code, "en");
       expect(formatted).toMatch(/\d/);
     }
   });
