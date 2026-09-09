@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import type { PointCurrency } from "@/data/valuations";
 import { Badge } from "@/components/ui";
+import { nextSort, sortBy, type SortDir } from "@/lib/sort";
 
 const TYPE_LABEL: Record<PointCurrency["type"], string> = {
   bank: "Bank",
@@ -35,29 +36,17 @@ const TREND_LABEL: Record<PointCurrency["trend"], string> = {
 };
 
 type SortKey = "name" | "centsPerPoint";
-type SortDir = "asc" | "desc";
 
 export function ValuationsTable({ valuations }: { valuations: PointCurrency[] }) {
   const [sortKey, setSortKey] = useState<SortKey>("centsPerPoint");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
 
-  const sorted = useMemo(() => {
-    const copy = [...valuations];
-    copy.sort((a, b) => {
-      const diff =
-        sortKey === "name" ? a.name.localeCompare(b.name) : a.centsPerPoint - b.centsPerPoint;
-      return sortDir === "asc" ? diff : -diff;
-    });
-    return copy;
-  }, [valuations, sortKey, sortDir]);
+  const sorted = useMemo(() => sortBy(valuations, sortKey, sortDir), [valuations, sortKey, sortDir]);
 
   function toggleSort(key: SortKey) {
-    if (sortKey === key) {
-      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
-    } else {
-      setSortKey(key);
-      setSortDir(key === "name" ? "asc" : "desc");
-    }
+    const next = nextSort(sortKey, sortDir, key, (k) => (k === "name" ? "asc" : "desc"));
+    setSortKey(next.key);
+    setSortDir(next.dir);
   }
 
   const sortArrow = (key: SortKey) => (sortKey === key ? (sortDir === "asc" ? "▲" : "▼") : "↕");

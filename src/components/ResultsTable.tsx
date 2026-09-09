@@ -5,9 +5,9 @@ import type { AwardResult } from "@/data/availability";
 import { PROGRAMS } from "@/data/programs";
 import { Badge } from "@/components/ui";
 import { formatDuration, formatMiles } from "@/lib/format";
+import { nextSort, sortBy, type SortDir } from "@/lib/sort";
 
 type SortKey = "milesCost" | "durationMinutes" | "seatsRemaining";
-type SortDir = "asc" | "desc";
 
 const SORTABLE_COLUMNS: { key: SortKey; label: string }[] = [
   { key: "durationMinutes", label: "Duration" },
@@ -24,22 +24,12 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
   // currently sorted for display.
   const cheapestId = results.length > 1 ? results[0].id : null;
 
-  const sorted = useMemo(() => {
-    const copy = [...results];
-    copy.sort((a, b) => {
-      const diff = a[sortKey] - b[sortKey];
-      return sortDir === "asc" ? diff : -diff;
-    });
-    return copy;
-  }, [results, sortKey, sortDir]);
+  const sorted = useMemo(() => sortBy(results, sortKey, sortDir), [results, sortKey, sortDir]);
 
   function toggleSort(key: SortKey) {
-    if (sortKey === key) {
-      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
-    } else {
-      setSortKey(key);
-      setSortDir("asc");
-    }
+    const next = nextSort(sortKey, sortDir, key, () => "asc");
+    setSortKey(next.key);
+    setSortDir(next.dir);
   }
 
   if (results.length === 0) {
