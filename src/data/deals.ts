@@ -5,7 +5,12 @@ export type Deal = {
   title: string;
   summary: string;
   category: DealCategory;
-  programId: string;
+  /**
+   * Display name of the program this deal is about. A plain label rather
+   * than a PROGRAMS lookup key — deals can reference hotel programs (e.g.
+   * Hyatt) that aren't part of the flight-search PROGRAMS list.
+   */
+  program: string;
   bonusPercent?: number;
   expires?: string;
   publishedAt: string;
@@ -20,7 +25,7 @@ export const DEALS: Deal[] = [
     title: "Amex Membership Rewards → ANA: 30% transfer bonus",
     summary: "A rare bump on one of the best business-class sweet spots to Asia.",
     category: "transfer-bonus",
-    programId: "ana",
+    program: "ANA Mileage Club",
     bonusPercent: 30,
     expires: "2026-10-15",
     publishedAt: "2026-09-01",
@@ -35,7 +40,7 @@ export const DEALS: Deal[] = [
     title: "The World of Hyatt category 1-4 sweet spot, explained",
     summary: "Why sub-15,000-point free nights are still the best redemption in hotel points.",
     category: "sweet-spot",
-    programId: "hyatt",
+    program: "World of Hyatt",
     publishedAt: "2026-08-22",
     body: [
       "World of Hyatt's award chart tops out at 8 categories, and categories 1 through 4 (as low as 3,500 points a night at some properties) consistently cash out above 2 cents per point.",
@@ -48,7 +53,7 @@ export const DEALS: Deal[] = [
     title: "Citi ThankYou Points → Turkish Airlines: 25% bonus",
     summary: "Turkish Airlines' Star Alliance chart is one of the cheapest ways into business class.",
     category: "transfer-bonus",
-    programId: "avianca",
+    program: "Avianca LifeMiles",
     bonusPercent: 25,
     expires: "2026-09-30",
     publishedAt: "2026-09-03",
@@ -63,7 +68,7 @@ export const DEALS: Deal[] = [
     title: "When the Capital One travel portal beats a transfer",
     summary: "Cash-back-style redemption sometimes wins over routing through an airline chart.",
     category: "sweet-spot",
-    programId: "united",
+    program: "United MileagePlus",
     publishedAt: "2026-08-10",
     body: [
       "Capital One miles redeem at a flat 1 cent per point against any travel purchase, which puts a floor under their value that transferable-only currencies don't have.",
@@ -76,7 +81,7 @@ export const DEALS: Deal[] = [
     title: "Flying Blue Promo Rewards: check the calendar before you transfer",
     summary: "Monthly discounted awards can cut the miles needed by up to 50%.",
     category: "sale",
-    programId: "airfrance",
+    program: "Air France-KLM Flying Blue",
     expires: "2026-09-30",
     publishedAt: "2026-09-05",
     body: [
@@ -90,7 +95,7 @@ export const DEALS: Deal[] = [
     title: "Avios distance-based pricing rewards short nonstop hops",
     summary: "Sub-650-mile flights can price under 10,000 Avios one-way.",
     category: "sweet-spot",
-    programId: "britishairways",
+    program: "British Airways Avios",
     publishedAt: "2026-07-28",
     body: [
       "British Airways prices Avios redemptions by distance rather than by cabin-and-route zone, which means very short nonstop flights are disproportionately cheap.",

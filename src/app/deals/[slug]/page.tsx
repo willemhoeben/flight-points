@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui";
 import { DEALS, findDeal } from "@/data/deals";
-import { findProgram } from "@/data/programs";
 import { formatDateLabel } from "@/lib/format";
 
 const CATEGORY_ACCENT: Record<string, string> = {
@@ -35,8 +34,6 @@ export default async function DealPage({
   const deal = findDeal(slug);
   if (!deal) notFound();
 
-  const program = findProgram(deal.programId);
-
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6">
       <Link href="/deals" className="text-sm font-medium text-brand hover:underline">
@@ -55,7 +52,7 @@ export default async function DealPage({
       <h1 className="mt-3 text-3xl text-foreground">{deal.title}</h1>
 
       <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
-        <span>{program?.name ?? deal.programId}</span>
+        <span>{deal.program}</span>
         <span>Published {formatDateLabel(deal.publishedAt)}</span>
         {deal.expires && <span className="font-semibold text-stamp">Expires {formatDateLabel(deal.expires)}</span>}
       </div>
