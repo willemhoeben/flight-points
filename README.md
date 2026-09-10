@@ -28,7 +28,7 @@ A matching standalone HTML version (same data, same interactions, ported to
 vanilla JS) exists as a Claude Artifact for quick browser testing without
 running the dev server — ask in the originating conversation for the link.
 It has its own currency selector and a Dutch/English language switcher
-(smaller than this repo's five languages by design — the artifact is one
+(smaller than this repo's six languages by design — the artifact is one
 hand-written file with no compiler to catch mistakes across a larger
 dictionary).
 
@@ -36,7 +36,7 @@ dictionary).
 
 The navbar has two independent selectors:
 
-- **Language** — English, Nederlands, Deutsch, Français, Español. Cookie-based
+- **Language** — English, Nederlands, Deutsch, Français, Español, Italiano. Cookie-based
   (`src/lib/i18n/`), not route-prefixed (no `/en/`, `/nl/`): a `locale` cookie
   set by the switcher is read once per request in the root layout and handed
   down to every page. This translates UI chrome — navigation, forms, table

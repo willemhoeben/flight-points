@@ -7,6 +7,7 @@ export const BCP47: Record<Locale, string> = {
   de: "de-DE",
   fr: "fr-FR",
   es: "es-ES",
+  it: "it-IT",
 };
 
 export function toBcp47(locale: Locale): string {
