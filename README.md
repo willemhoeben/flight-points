@@ -10,8 +10,9 @@ airline or loyalty program.
   loyalty programs, with a 14-day calendar view highlighting the cheapest day to
   fly and a sortable results table (Duration/Seats/Miles). Remembers your last
   search in localStorage and returns to it on a bare `/search` visit.
-- **`/valuations`** — a sortable table of estimated cents-per-point values for
-  major bank, airline, and hotel currencies, plus an interactive calculator.
+- **`/valuations`** — a sortable, filterable (bank/airline/hotel) table of
+  estimated cents-per-point values for major currencies, plus an interactive
+  calculator.
 - **`/deals`** — 8 sample transfer-bonus and award-chart sweet-spot writeups, filterable
   by category (`?category=transfer-bonus|sweet-spot|sale`).
 
