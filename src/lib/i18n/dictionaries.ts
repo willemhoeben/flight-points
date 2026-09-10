@@ -116,6 +116,9 @@ const en = {
     trendUp: "Trending up",
     trendDown: "Trending down",
     trendFlat: "Stable",
+    filterAll: "All",
+    filterLabel: "Filter by type",
+    noResults: "No currencies for this type.",
   },
   calculator: {
     heading: "Points calculator",
@@ -273,6 +276,9 @@ const nl: Dictionary = {
     trendUp: "Stijgend",
     trendDown: "Dalend",
     trendFlat: "Stabiel",
+    filterAll: "Alle",
+    filterLabel: "Filter op type",
+    noResults: "Geen valuta voor dit type.",
   },
   calculator: {
     heading: "Puntenrekenmachine",
@@ -430,6 +436,9 @@ const de: Dictionary = {
     trendUp: "Steigend",
     trendDown: "Fallend",
     trendFlat: "Stabil",
+    filterAll: "Alle",
+    filterLabel: "Nach Typ filtern",
+    noResults: "Keine Währungen für diesen Typ.",
   },
   calculator: {
     heading: "Punkterechner",
@@ -587,6 +596,9 @@ const fr: Dictionary = {
     trendUp: "En hausse",
     trendDown: "En baisse",
     trendFlat: "Stable",
+    filterAll: "Tout",
+    filterLabel: "Filtrer par type",
+    noResults: "Aucune devise pour ce type.",
   },
   calculator: {
     heading: "Calculateur de points",
@@ -744,6 +756,9 @@ const es: Dictionary = {
     trendUp: "Al alza",
     trendDown: "A la baja",
     trendFlat: "Estable",
+    filterAll: "Todo",
+    filterLabel: "Filtrar por tipo",
+    noResults: "No hay divisas de este tipo.",
   },
   calculator: {
     heading: "Calculadora de puntos",
