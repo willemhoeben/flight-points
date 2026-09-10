@@ -139,6 +139,9 @@ const en = {
     bonusSuffix: "bonus",
     demoDisclaimer: "Sample editorial content for demo purposes — not a live promotions feed.",
     englishOnlyNote: "This article is only available in English.",
+    filterAll: "All",
+    filterLabel: "Filter by category",
+    noDeals: "No deals in this category right now.",
   },
   notFound: {
     eyebrow: "404",
@@ -293,6 +296,9 @@ const nl: Dictionary = {
     bonusSuffix: "bonus",
     demoDisclaimer: "Voorbeeld redactionele content voor demodoeleinden — geen live promoties-feed.",
     englishOnlyNote: "Dit artikel is alleen beschikbaar in het Engels.",
+    filterAll: "Alle",
+    filterLabel: "Filter op categorie",
+    noDeals: "Op dit moment geen deals in deze categorie.",
   },
   notFound: {
     eyebrow: "404",
@@ -447,6 +453,9 @@ const de: Dictionary = {
     bonusSuffix: "Bonus",
     demoDisclaimer: "Beispielhafter redaktioneller Inhalt zu Demozwecken — kein Live-Feed.",
     englishOnlyNote: "Dieser Artikel ist nur auf Englisch verfügbar.",
+    filterAll: "Alle",
+    filterLabel: "Nach Kategorie filtern",
+    noDeals: "Aktuell keine Deals in dieser Kategorie.",
   },
   notFound: {
     eyebrow: "404",
@@ -601,6 +610,9 @@ const fr: Dictionary = {
     bonusSuffix: "bonus",
     demoDisclaimer: "Contenu éditorial d'exemple à des fins de démonstration — pas un flux de promotions en direct.",
     englishOnlyNote: "Cet article n'est disponible qu'en anglais.",
+    filterAll: "Tout",
+    filterLabel: "Filtrer par catégorie",
+    noDeals: "Aucune offre dans cette catégorie pour le moment.",
   },
   notFound: {
     eyebrow: "404",
@@ -755,6 +767,9 @@ const es: Dictionary = {
     bonusSuffix: "bono",
     demoDisclaimer: "Contenido editorial de ejemplo con fines de demostración — no es un feed de promociones en vivo.",
     englishOnlyNote: "Este artículo solo está disponible en inglés.",
+    filterAll: "Todo",
+    filterLabel: "Filtrar por categoría",
+    noDeals: "No hay ofertas en esta categoría por ahora.",
   },
   notFound: {
     eyebrow: "404",
