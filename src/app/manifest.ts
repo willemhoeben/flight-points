@@ -1,12 +1,14 @@
 import type { MetadataRoute } from "next";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { SITE_NAME } from "@/lib/site";
 
-export default function manifest(): MetadataRoute.Manifest {
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const { dict } = await getDictionary();
+
   return {
-    name: `${SITE_NAME} — award search & points valuations`,
+    name: `${SITE_NAME} — ${dict.home.badge}`,
     short_name: SITE_NAME,
-    description:
-      "Search award flight availability across loyalty programs and see what your points are actually worth.",
+    description: dict.home.lede,
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",
