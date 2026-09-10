@@ -138,6 +138,7 @@ const en = {
     categorySale: "sale",
     bonusSuffix: "bonus",
     demoDisclaimer: "Sample editorial content for demo purposes — not a live promotions feed.",
+    englishOnlyNote: "This article is only available in English.",
   },
   notFound: {
     eyebrow: "404",
@@ -291,6 +292,7 @@ const nl: Dictionary = {
     categorySale: "aanbieding",
     bonusSuffix: "bonus",
     demoDisclaimer: "Voorbeeld redactionele content voor demodoeleinden — geen live promoties-feed.",
+    englishOnlyNote: "Dit artikel is alleen beschikbaar in het Engels.",
   },
   notFound: {
     eyebrow: "404",
@@ -444,6 +446,7 @@ const de: Dictionary = {
     categorySale: "Angebot",
     bonusSuffix: "Bonus",
     demoDisclaimer: "Beispielhafter redaktioneller Inhalt zu Demozwecken — kein Live-Feed.",
+    englishOnlyNote: "Dieser Artikel ist nur auf Englisch verfügbar.",
   },
   notFound: {
     eyebrow: "404",
@@ -597,6 +600,7 @@ const fr: Dictionary = {
     categorySale: "promotion",
     bonusSuffix: "bonus",
     demoDisclaimer: "Contenu éditorial d'exemple à des fins de démonstration — pas un flux de promotions en direct.",
+    englishOnlyNote: "Cet article n'est disponible qu'en anglais.",
   },
   notFound: {
     eyebrow: "404",
@@ -750,6 +754,7 @@ const es: Dictionary = {
     categorySale: "oferta",
     bonusSuffix: "bono",
     demoDisclaimer: "Contenido editorial de ejemplo con fines de demostración — no es un feed de promociones en vivo.",
+    englishOnlyNote: "Este artículo solo está disponible en inglés.",
   },
   notFound: {
     eyebrow: "404",

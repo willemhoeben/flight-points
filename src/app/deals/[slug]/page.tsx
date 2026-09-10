@@ -67,7 +67,9 @@ export default async function DealPage({
         )}
       </div>
 
-      <div className="mt-8 space-y-4 text-base leading-7 text-foreground">
+      {locale !== "en" && <p className="mt-6 text-xs italic text-muted">{dict.dealsPage.englishOnlyNote}</p>}
+
+      <div className="mt-4 space-y-4 text-base leading-7 text-foreground">
         {deal.body.map((paragraph, i) => (
           <p key={i}>{paragraph}</p>
         ))}
