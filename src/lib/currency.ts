@@ -1,7 +1,7 @@
 import type { Locale } from "@/lib/i18n/locales";
 import { toBcp47 } from "@/lib/i18n/bcp47";
 
-export type CurrencyCode = "USD" | "EUR" | "GBP" | "JPY" | "CAD" | "AUD";
+export type CurrencyCode = "USD" | "EUR" | "GBP" | "JPY" | "CAD" | "AUD" | "CHF" | "SEK";
 
 export const CURRENCIES: { code: CurrencyCode; symbol: string; label: string }[] = [
   { code: "USD", symbol: "$", label: "US Dollar" },
@@ -10,6 +10,8 @@ export const CURRENCIES: { code: CurrencyCode; symbol: string; label: string }[]
   { code: "JPY", symbol: "¥", label: "Japanese Yen" },
   { code: "CAD", symbol: "CA$", label: "Canadian Dollar" },
   { code: "AUD", symbol: "AU$", label: "Australian Dollar" },
+  { code: "CHF", symbol: "Fr.", label: "Swiss Franc" },
+  { code: "SEK", symbol: "kr", label: "Swedish Krona" },
 ];
 
 export const DEFAULT_CURRENCY: CurrencyCode = "USD";
@@ -26,6 +28,8 @@ const RATES_FROM_USD: Record<CurrencyCode, number> = {
   JPY: 149.5,
   CAD: 1.36,
   AUD: 1.52,
+  CHF: 0.88,
+  SEK: 10.45,
 };
 
 export function isCurrencyCode(value: string | null | undefined): value is CurrencyCode {
