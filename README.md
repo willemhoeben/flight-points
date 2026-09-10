@@ -29,12 +29,14 @@ routes a branded page instead of Next's defaults.
 A matching standalone HTML version (same data, same interactions, ported to
 vanilla JS) exists as a Claude Artifact for quick browser testing without
 running the dev server — ask in the originating conversation for the link.
-It has its own currency selector and a Dutch/English/German/French/Spanish
-language switcher (smaller than this repo's six languages by design — the
-artifact is one hand-written file with no compiler to catch mistakes
-across a larger dictionary). Its deal articles are Dutch-only editorial content
-(the mirror image of this repo's English-only articles), so non-Dutch
-readers see a translated notice instead of a translated article body.
+It has its own currency selector and the same six-language switcher as this
+repo (Dutch/English/German/French/Spanish/Italian) — hand-translated
+directly into the artifact's single file, with no compiler or type checker
+to catch a missed key across the larger dictionary, so each addition got
+verified live in a browser rather than trusted on sight. Its deal articles
+are Dutch-only editorial content (the mirror image of this repo's
+English-only articles), so non-Dutch readers see a translated notice
+instead of a translated article body.
 
 ## Languages and currencies
 
