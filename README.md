@@ -14,7 +14,9 @@ airline or loyalty program.
   estimated cents-per-point values for major currencies, plus an interactive
   calculator.
 - **`/deals`** — 8 sample transfer-bonus and award-chart sweet-spot writeups, filterable
-  by category (`?category=transfer-bonus|sweet-spot|sale`).
+  by category (`?category=transfer-bonus|sweet-spot|sale`) and sortable by
+  newest or soonest-expiring (`?sort=newest|expiring`) — the two compose,
+  e.g. `?category=transfer-bonus&sort=expiring`.
 
 Visual design is inspired by apple.com: the system font stack (no web font
 for headings/body), a white/black + `#0071e3` blue palette, and borderless
