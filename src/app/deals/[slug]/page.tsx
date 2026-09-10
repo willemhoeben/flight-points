@@ -24,7 +24,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const deal = findDeal(slug);
-  return { title: deal?.title ?? "Deal not found" };
+  if (deal) return { title: deal.title };
+  const { dict } = await getDictionary();
+  return { title: dict.notFound.title };
 }
 
 export default async function DealPage({
