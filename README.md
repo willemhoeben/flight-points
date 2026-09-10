@@ -12,7 +12,8 @@ airline or loyalty program.
   search in localStorage and returns to it on a bare `/search` visit.
 - **`/valuations`** — a sortable table of estimated cents-per-point values for
   major bank, airline, and hotel currencies, plus an interactive calculator.
-- **`/deals`** — 8 sample transfer-bonus and award-chart sweet-spot writeups.
+- **`/deals`** — 8 sample transfer-bonus and award-chart sweet-spot writeups, filterable
+  by category (`?category=transfer-bonus|sweet-spot|sale`).
 
 Visual design is inspired by apple.com: the system font stack (no web font
 for headings/body), a white/black + `#0071e3` blue palette, and borderless
