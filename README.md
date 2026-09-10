@@ -11,8 +11,8 @@ airline or loyalty program.
   fly and a sortable results table (Duration/Seats/Miles). Remembers your last
   search in localStorage and returns to it on a bare `/search` visit.
 - **`/valuations`** — a sortable, filterable (bank/airline/hotel) table of
-  estimated cents-per-point values for major currencies, plus an interactive
-  calculator.
+  estimated cents-per-point values for major currencies, plus a two-way
+  calculator: points → cash value, or a target cash amount → points needed.
 - **`/deals`** — 8 sample transfer-bonus and award-chart sweet-spot writeups, filterable
   by category (`?category=transfer-bonus|sweet-spot|sale`) and sortable by
   newest or soonest-expiring (`?sort=newest|expiring`) — the two compose,
