@@ -47,6 +47,16 @@
   border-color: var(--border);
 }
 
+html,
+body {
+  /* Some locale/content combinations push a scrollable table's intrinsic
+     min-width past its own overflow-x:auto wrapper into the page's grid
+     ancestor sizing (a Chromium quirk, not a real content need for extra
+     width) — this keeps the whole page pinned to the viewport while
+     leaving each table's own internal horizontal scroll untouched. */
+  overflow-x: hidden;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
