@@ -57,10 +57,10 @@ export function PointsCalculator() {
 
       <div className="mt-6 rounded-2xl bg-surface p-5">
         <div className="text-xs text-muted">{dict.calculator.estimatedValue}</div>
-        <div className="mt-1 font-mono text-3xl font-semibold tabular-nums text-foreground">
+        <div className="mt-1 font-mono text-3xl font-semibold tabular-nums text-foreground" suppressHydrationWarning>
           {format(estimatedValueUsd)}
         </div>
-        <div className="mt-1 font-mono text-xs tabular-nums text-muted">
+        <div className="mt-1 font-mono text-xs tabular-nums text-muted" suppressHydrationWarning>
           {formatMiles(points, locale)} {dict.calculator.points} × {pointsCurrency.centsPerPoint.toFixed(2)}¢
         </div>
       </div>

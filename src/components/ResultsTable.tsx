@@ -100,14 +100,14 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                     ? dict.resultsTable.nonstop
                     : `${r.connections} ${r.connections > 1 ? dict.resultsTable.stops : dict.resultsTable.stop}`}
                 </td>
-                <td className="px-4 py-3 font-mono text-[13px] tabular-nums text-muted">{formatDuration(r.durationMinutes, locale)}</td>
+                <td className="px-4 py-3 font-mono text-[13px] tabular-nums text-muted" suppressHydrationWarning>{formatDuration(r.durationMinutes, locale)}</td>
                 <td className="px-4 py-3 font-mono text-[13px] tabular-nums text-muted">
                   {r.seatsRemaining} {dict.resultsTable.seatsLeft}
                 </td>
-                <td className="px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground">
+                <td className="px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground" suppressHydrationWarning>
                   {formatMiles(r.milesCost, locale)}
                 </td>
-                <td className="px-4 py-3 text-right font-mono text-[13px] tabular-nums text-muted">{format(r.taxesFeesUsd)}</td>
+                <td className="px-4 py-3 text-right font-mono text-[13px] tabular-nums text-muted" suppressHydrationWarning>{format(r.taxesFeesUsd)}</td>
                 <td className="px-4 py-3">
                   <span
                     className={

@@ -37,14 +37,15 @@ export function CalendarHeatmap({
             href={buildHref(baseParams, day.date)}
             aria-current={isSelected ? "date" : undefined}
             aria-label={`${formatDateLabel(day.date, locale)}: ${day.lowestMiles !== null ? `${formatMiles(day.lowestMiles, locale)} miles` : noAwardSpaceLabel}`}
+            suppressHydrationWarning
             className={[
               "rounded-2xl p-3 text-center transition-shadow",
               isSelected ? "ring-2 ring-brand ring-offset-2 ring-offset-background" : "",
               tier.className,
             ].join(" ")}
           >
-            <div className="font-mono text-xs text-muted">{formatDateShort(day.date, locale)}</div>
-            <div className="mt-1 font-mono text-sm font-semibold tabular-nums text-foreground">
+            <div className="font-mono text-xs text-muted" suppressHydrationWarning>{formatDateShort(day.date, locale)}</div>
+            <div className="mt-1 font-mono text-sm font-semibold tabular-nums text-foreground" suppressHydrationWarning>
               {day.lowestMiles !== null ? formatMiles(day.lowestMiles, locale) : "—"}
             </div>
           </Link>
