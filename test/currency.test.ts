@@ -61,6 +61,21 @@ describe("formatCurrency", () => {
       expect(formatted).toMatch(/\d/);
     }
   });
+
+  test("formatCurrency(convertToUsd(x, code), code, locale) redisplays x unchanged", () => {
+    // This is the exact composition a "value already in the display
+    // currency" UI must use — formatCurrency expects a USD amount, so
+    // an already-converted value has to be converted back to USD first,
+    // or it gets double-converted (regression: a target amount entered
+    // in a non-USD currency was passed straight into formatCurrency and
+    // silently multiplied by the exchange rate a second time).
+    for (const { code } of CURRENCIES) {
+      const original = 75000;
+      const redisplayed = formatCurrency(convertToUsd(original, code), code, "en");
+      const numeric = Number(redisplayed.replace(/[^\d.]/g, ""));
+      expect(numeric).toBeCloseTo(original, 0);
+    }
+  });
 });
 
 describe("isCurrencyCode", () => {

@@ -28,9 +28,10 @@ export function PointsCalculator() {
     () => pointsToUsd(points, pointsCurrency.centsPerPoint),
     [points, pointsCurrency],
   );
+  const targetUsd = useMemo(() => convertToUsd(target, currency), [target, currency]);
   const pointsNeeded = useMemo(
-    () => usdToPoints(convertToUsd(target, currency), pointsCurrency.centsPerPoint),
-    [target, currency, pointsCurrency],
+    () => usdToPoints(targetUsd, pointsCurrency.centsPerPoint),
+    [targetUsd, pointsCurrency],
   );
 
   return (
@@ -107,7 +108,7 @@ export function PointsCalculator() {
               {formatMiles(Math.ceil(pointsNeeded), locale)}
             </div>
             <div className="mt-1 font-mono text-xs tabular-nums text-muted" suppressHydrationWarning>
-              {format(target)} ÷ {pointsCurrency.centsPerPoint.toFixed(2)}¢
+              {format(targetUsd)} ÷ {pointsCurrency.centsPerPoint.toFixed(2)}¢
             </div>
           </>
         )}
