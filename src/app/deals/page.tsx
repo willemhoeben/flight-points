@@ -6,7 +6,10 @@ import { formatDateLabel } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { dealCategoryLabel } from "@/lib/i18n/deal-category";
 
-export const metadata: Metadata = { title: "Deals" };
+export async function generateMetadata(): Promise<Metadata> {
+  const { dict } = await getDictionary();
+  return { title: dict.dealsPage.eyebrow };
+}
 
 const CATEGORY_ACCENT: Record<string, string> = {
   "transfer-bonus": "emerald",

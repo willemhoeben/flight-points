@@ -5,7 +5,10 @@ import { PointsCalculator } from "@/components/PointsCalculator";
 import { VALUATIONS } from "@/data/valuations";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 
-export const metadata: Metadata = { title: "Points valuations" };
+export async function generateMetadata(): Promise<Metadata> {
+  const { dict } = await getDictionary();
+  return { title: dict.valuationsPage.eyebrow };
+}
 
 export default async function ValuationsPage() {
   const { dict } = await getDictionary();

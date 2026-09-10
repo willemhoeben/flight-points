@@ -17,54 +17,56 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600"],
 });
 
-const DESCRIPTION =
-  "Search award flight availability across loyalty programs and see what your points are actually worth.";
+export async function generateMetadata(): Promise<Metadata> {
+  const { dict } = await getDictionary();
+  const title = `${SITE_NAME} — ${dict.home.badge}`;
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: `${SITE_NAME} — award search & points valuations`,
-    template: `%s · ${SITE_NAME}`,
-  },
-  description: DESCRIPTION,
-  openGraph: {
-    title: `${SITE_NAME} — award search & points valuations`,
-    description: DESCRIPTION,
-    url: "/",
-    siteName: SITE_NAME,
-    type: "website",
-  },
-  twitter: {
-    card: "summary",
-    title: `${SITE_NAME} — award search & points valuations`,
-    description: DESCRIPTION,
-  },
-};
-
-const JSON_LD = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      name: SITE_NAME,
-      url: SITE_URL,
-      description: DESCRIPTION,
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: title,
+      template: `%s · ${SITE_NAME}`,
     },
-    {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: SITE_URL,
+    description: dict.home.lede,
+    openGraph: {
+      title,
+      description: dict.home.lede,
+      url: "/",
+      siteName: SITE_NAME,
+      type: "website",
     },
-  ],
-};
+    twitter: {
+      card: "summary",
+      title,
+      description: dict.home.lede,
+    },
+  };
+}
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const { locale, dict } = await getDictionary();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        name: SITE_NAME,
+        url: SITE_URL,
+        description: dict.home.lede,
+      },
+      {
+        "@type": "Organization",
+        name: SITE_NAME,
+        url: SITE_URL,
+      },
+    ],
+  };
+
   return (
     <html lang={locale} className={`${plexMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a
           href="#main-content"
           className="sr-only rounded-full bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50"

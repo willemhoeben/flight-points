@@ -2,7 +2,10 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 
-export const metadata: Metadata = { title: "Page not found" };
+export async function generateMetadata(): Promise<Metadata> {
+  const { dict } = await getDictionary();
+  return { title: dict.notFound.title };
+}
 
 export default async function NotFound() {
   const { dict } = await getDictionary();

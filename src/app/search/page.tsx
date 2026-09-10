@@ -12,7 +12,10 @@ import { addDays, formatDateLabel, todayIso } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { interpolate, pluralize } from "@/lib/i18n/format";
 
-export const metadata: Metadata = { title: "Award search" };
+export async function generateMetadata(): Promise<Metadata> {
+  const { dict } = await getDictionary();
+  return { title: dict.search.eyebrow };
+}
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
