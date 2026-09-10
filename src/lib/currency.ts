@@ -40,6 +40,10 @@ export function convertFromUsd(amountUsd: number, code: CurrencyCode): number {
   return amountUsd * RATES_FROM_USD[code];
 }
 
+export function convertToUsd(amount: number, code: CurrencyCode): number {
+  return amount / RATES_FROM_USD[code];
+}
+
 export function formatCurrency(amountUsd: number, code: CurrencyCode, locale: Locale): string {
   const converted = convertFromUsd(amountUsd, code);
   return new Intl.NumberFormat(toBcp47(locale), {

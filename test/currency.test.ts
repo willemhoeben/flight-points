@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { CURRENCIES, convertFromUsd, formatCurrency, isCurrencyCode } from "@/lib/currency";
+import { CURRENCIES, convertFromUsd, convertToUsd, formatCurrency, isCurrencyCode } from "@/lib/currency";
 
 describe("convertFromUsd", () => {
   test("USD is identity", () => {
@@ -20,6 +20,19 @@ describe("convertFromUsd", () => {
   test("zero converts to zero in every currency", () => {
     for (const { code } of CURRENCIES) {
       expect(convertFromUsd(0, code)).toBe(0);
+    }
+  });
+});
+
+describe("convertToUsd", () => {
+  test("USD is identity", () => {
+    expect(convertToUsd(100, "USD")).toBe(100);
+  });
+
+  test("is the inverse of convertFromUsd for every listed currency", () => {
+    for (const { code } of CURRENCIES) {
+      const roundTripped = convertToUsd(convertFromUsd(100, code), code);
+      expect(roundTripped).toBeCloseTo(100, 6);
     }
   });
 });
