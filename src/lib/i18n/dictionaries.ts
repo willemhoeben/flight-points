@@ -145,6 +145,7 @@ const en = {
     filterAll: "All",
     filterLabel: "Filter by category",
     noDeals: "No deals in this category right now.",
+    sortLabel: "Sort by", sortNewest: "Newest", sortExpiring: "Expiring soon",
   },
   notFound: {
     eyebrow: "404",
@@ -305,6 +306,7 @@ const nl: Dictionary = {
     filterAll: "Alle",
     filterLabel: "Filter op categorie",
     noDeals: "Op dit moment geen deals in deze categorie.",
+    sortLabel: "Sorteren op", sortNewest: "Nieuwste", sortExpiring: "Verloopt binnenkort",
   },
   notFound: {
     eyebrow: "404",
@@ -465,6 +467,7 @@ const de: Dictionary = {
     filterAll: "Alle",
     filterLabel: "Nach Kategorie filtern",
     noDeals: "Aktuell keine Deals in dieser Kategorie.",
+    sortLabel: "Sortieren nach", sortNewest: "Neueste", sortExpiring: "Läuft bald ab",
   },
   notFound: {
     eyebrow: "404",
@@ -625,6 +628,7 @@ const fr: Dictionary = {
     filterAll: "Tout",
     filterLabel: "Filtrer par catégorie",
     noDeals: "Aucune offre dans cette catégorie pour le moment.",
+    sortLabel: "Trier par", sortNewest: "Plus récentes", sortExpiring: "Expire bientôt",
   },
   notFound: {
     eyebrow: "404",
@@ -785,6 +789,7 @@ const es: Dictionary = {
     filterAll: "Todo",
     filterLabel: "Filtrar por categoría",
     noDeals: "No hay ofertas en esta categoría por ahora.",
+    sortLabel: "Ordenar por", sortNewest: "Más recientes", sortExpiring: "Caduca pronto",
   },
   notFound: {
     eyebrow: "404",
@@ -945,6 +950,7 @@ const it: Dictionary = {
     filterAll: "Tutte",
     filterLabel: "Filtra per categoria",
     noDeals: "Al momento nessuna offerta in questa categoria.",
+    sortLabel: "Ordina per", sortNewest: "Più recenti", sortExpiring: "Scade a breve",
   },
   notFound: {
     eyebrow: "404",

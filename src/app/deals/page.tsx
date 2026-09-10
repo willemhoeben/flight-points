@@ -5,6 +5,7 @@ import { DEALS, type DealCategory } from "@/data/deals";
 import { formatDateLabel } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { dealCategoryLabel } from "@/lib/i18n/deal-category";
+import { isDealSort, sortDeals, type DealSort } from "@/lib/deal-sort";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { dict } = await getDictionary();
@@ -18,33 +19,56 @@ const CATEGORY_ACCENT: Record<string, string> = {
 };
 
 const CATEGORIES: DealCategory[] = ["transfer-bonus", "sweet-spot", "sale"];
+const SORTS: DealSort[] = ["newest", "expiring"];
 
 function isDealCategory(value: string | undefined): value is DealCategory {
   return !!value && (CATEGORIES as string[]).includes(value);
 }
 
+function buildHref(category: DealCategory | null, sort: DealSort | null): string {
+  const params = new URLSearchParams();
+  if (category) params.set("category", category);
+  if (sort) params.set("sort", sort);
+  const qs = params.toString();
+  return qs ? `/deals?${qs}` : "/deals";
+}
+
 export default async function DealsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; sort?: string }>;
 }) {
-  const { category: rawCategory } = await searchParams;
+  const { category: rawCategory, sort: rawSort } = await searchParams;
   const { locale, dict } = await getDictionary();
 
   const activeCategory = isDealCategory(rawCategory) ? rawCategory : null;
-  const deals = activeCategory ? DEALS.filter((d) => d.category === activeCategory) : DEALS;
+  const activeSort = isDealSort(rawSort) ? rawSort : null;
+  const filtered = activeCategory ? DEALS.filter((d) => d.category === activeCategory) : DEALS;
+  const deals = sortDeals(filtered, activeSort);
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
       <SectionHeading eyebrow={dict.dealsPage.eyebrow} title={dict.dealsPage.title} description={dict.dealsPage.description} />
 
       <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label={dict.dealsPage.filterLabel}>
-        <FilterPill href="/deals" active={!activeCategory}>
+        <FilterPill href={buildHref(null, activeSort)} active={!activeCategory}>
           {dict.dealsPage.filterAll}
         </FilterPill>
         {CATEGORIES.map((category) => (
-          <FilterPill key={category} href={`/deals?category=${category}`} active={activeCategory === category}>
+          <FilterPill key={category} href={buildHref(category, activeSort)} active={activeCategory === category}>
             {dealCategoryLabel(category, dict.dealsPage)}
+          </FilterPill>
+        ))}
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label={dict.dealsPage.sortLabel}>
+        {SORTS.map((sort) => (
+          <FilterPill
+            key={sort}
+            href={buildHref(activeCategory, activeSort === sort ? null : sort)}
+            active={activeSort === sort}
+          >
+            {sort === "newest" ? dict.dealsPage.sortNewest : dict.dealsPage.sortExpiring}
           </FilterPill>
         ))}
       </div>
