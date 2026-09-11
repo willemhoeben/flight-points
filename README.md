@@ -41,11 +41,12 @@ to catch a missed key across the larger dictionary, so each addition got
 verified live in a browser rather than trusted on sight. Its deal articles
 are Dutch-only editorial content (the mirror image of this repo's
 English-only articles), so non-Dutch readers see a translated notice
-instead of a translated article body. It also mirrors the save-deal
-feature (a star toggle, a read-only grid badge, and the "★ Saved" filter
-pill) and the System/Light/Dark theme toggle, all persisted to the
-browser's localStorage the same way, with the same pre-paint blocking
-script to avoid a flash of the wrong theme on load.
+instead of a translated article body. It also mirrors the alliance-grouped
+program checkboxes on the search tab, the save-deal feature (a star toggle,
+a read-only grid badge, and the "★ Saved" filter pill), and the
+System/Light/Dark theme toggle — the latter two persisted to the browser's
+localStorage the same way, with the same pre-paint blocking script to
+avoid a flash of the wrong theme on load.
 
 ## Languages and currencies
 
