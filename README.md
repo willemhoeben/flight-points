@@ -16,7 +16,9 @@ airline or loyalty program.
 - **`/deals`** — 8 sample transfer-bonus and award-chart sweet-spot writeups, filterable
   by category (`?category=transfer-bonus|sweet-spot|sale`) and sortable by
   newest or soonest-expiring (`?sort=newest|expiring`) — the two compose,
-  e.g. `?category=transfer-bonus&sort=expiring`.
+  e.g. `?category=transfer-bonus&sort=expiring`. Save any deal for later from
+  its detail page; saved deals get a star badge back on the grid. Persisted
+  to localStorage, synced across tabs, no account needed.
 
 Visual design is inspired by apple.com: the system font stack (no web font
 for headings/body), a white/black + `#0071e3` blue palette, and borderless
