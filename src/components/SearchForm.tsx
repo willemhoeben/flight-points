@@ -1,6 +1,6 @@
 import { AIRPORTS } from "@/data/airports";
 import { CABINS } from "@/data/availability";
-import { PROGRAMS } from "@/data/programs";
+import { groupProgramsByAlliance } from "@/lib/program-groups";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 export type SearchFormValues = {
@@ -61,18 +61,27 @@ export function SearchForm({
 
       <div>
         <div className="mb-2 text-sm font-medium text-foreground">{dict.programs}</div>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3 lg:grid-cols-4">
-          {PROGRAMS.map((p) => (
-            <label key={p.id} className="flex items-center gap-2 text-sm text-muted">
-              <input
-                type="checkbox"
-                name="programs"
-                value={p.id}
-                defaultChecked={values.programs.length === 0 || values.programs.includes(p.id)}
-                className="h-4 w-4 rounded border-border accent-[var(--brand)]"
-              />
-              {p.name}
-            </label>
+        <div className="space-y-4">
+          {groupProgramsByAlliance().map((group) => (
+            <div key={group.alliance}>
+              <div className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted">
+                {group.alliance === "Unaligned" ? dict.allianceUnaligned : group.alliance}
+              </div>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3 lg:grid-cols-4">
+                {group.programs.map((p) => (
+                  <label key={p.id} className="flex items-center gap-2 text-sm text-muted">
+                    <input
+                      type="checkbox"
+                      name="programs"
+                      value={p.id}
+                      defaultChecked={values.programs.length === 0 || values.programs.includes(p.id)}
+                      className="h-4 w-4 rounded border-border accent-[var(--brand)]"
+                    />
+                    {p.name}
+                  </label>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>
