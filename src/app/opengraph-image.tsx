@@ -1,4 +1,7 @@
 import { ImageResponse } from "next/og";
+import { AIRPORTS } from "@/data/airports";
+import { PROGRAMS } from "@/data/programs";
+import { VALUATIONS } from "@/data/valuations";
 import { SITE_NAME } from "@/lib/site";
 
 export const alt = `${SITE_NAME} — award search & points valuations`;
@@ -50,9 +53,9 @@ export default async function Image() {
 
         <div style={{ display: "flex", gap: 64, marginTop: 60 }}>
           {[
-            ["16", "loyalty programs"],
-            ["26", "airports"],
-            ["16", "currencies"],
+            [String(PROGRAMS.length), "loyalty programs"],
+            [String(AIRPORTS.length), "airports"],
+            [String(VALUATIONS.length), "currencies"],
           ].map(([value, label]) => (
             <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
               <div style={{ display: "flex", fontSize: 44, fontWeight: 700, color: "#1d1d1f" }}>{value}</div>
