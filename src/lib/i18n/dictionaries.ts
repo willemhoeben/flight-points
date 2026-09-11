@@ -152,6 +152,7 @@ const en = {
     noDeals: "No deals in this category right now.",
     sortLabel: "Sort by", sortNewest: "Newest", sortExpiring: "Expiring soon",
     saveDeal: "Save", savedDeal: "Saved",
+    savedOnly: "Saved", noSavedDeals: "You haven't saved any deals yet.",
   },
   notFound: {
     eyebrow: "404",
@@ -319,6 +320,7 @@ const nl: Dictionary = {
     noDeals: "Op dit moment geen deals in deze categorie.",
     sortLabel: "Sorteren op", sortNewest: "Nieuwste", sortExpiring: "Verloopt binnenkort",
     saveDeal: "Opslaan", savedDeal: "Opgeslagen",
+    savedOnly: "Opgeslagen", noSavedDeals: "Je hebt nog geen deals opgeslagen.",
   },
   notFound: {
     eyebrow: "404",
@@ -486,6 +488,7 @@ const de: Dictionary = {
     noDeals: "Aktuell keine Deals in dieser Kategorie.",
     sortLabel: "Sortieren nach", sortNewest: "Neueste", sortExpiring: "Läuft bald ab",
     saveDeal: "Speichern", savedDeal: "Gespeichert",
+    savedOnly: "Gespeichert", noSavedDeals: "Du hast noch keine Deals gespeichert.",
   },
   notFound: {
     eyebrow: "404",
@@ -653,6 +656,7 @@ const fr: Dictionary = {
     noDeals: "Aucune offre dans cette catégorie pour le moment.",
     sortLabel: "Trier par", sortNewest: "Plus récentes", sortExpiring: "Expire bientôt",
     saveDeal: "Enregistrer", savedDeal: "Enregistré",
+    savedOnly: "Enregistrées", noSavedDeals: "Vous n'avez encore enregistré aucune offre.",
   },
   notFound: {
     eyebrow: "404",
@@ -820,6 +824,7 @@ const es: Dictionary = {
     noDeals: "No hay ofertas en esta categoría por ahora.",
     sortLabel: "Ordenar por", sortNewest: "Más recientes", sortExpiring: "Caduca pronto",
     saveDeal: "Guardar", savedDeal: "Guardado",
+    savedOnly: "Guardadas", noSavedDeals: "Aún no has guardado ninguna oferta.",
   },
   notFound: {
     eyebrow: "404",
@@ -987,6 +992,7 @@ const it: Dictionary = {
     noDeals: "Al momento nessuna offerta in questa categoria.",
     sortLabel: "Ordina per", sortNewest: "Più recenti", sortExpiring: "Scade a breve",
     saveDeal: "Salva", savedDeal: "Salvato",
+    savedOnly: "Salvate", noSavedDeals: "Non hai ancora salvato nessuna offerta.",
   },
   notFound: {
     eyebrow: "404",
