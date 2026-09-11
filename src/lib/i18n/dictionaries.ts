@@ -13,6 +13,7 @@ const en = {
   },
   language: { label: "Language" },
   theme: { label: "Theme", light: "Light", dark: "Dark", system: "System" },
+  common: { loading: "Loading…" },
   footer: {
     tagline: "Search award availability and track what your points are really worth.",
     productHeading: "Product",
@@ -184,6 +185,7 @@ const nl: Dictionary = {
   },
   language: { label: "Taal" },
   theme: { label: "Thema", light: "Licht", dark: "Donker", system: "Systeem" },
+  common: { loading: "Laden…" },
   footer: {
     tagline: "Doorzoek award-beschikbaarheid en zie wat je punten echt waard zijn.",
     productHeading: "Product",
@@ -355,6 +357,7 @@ const de: Dictionary = {
   },
   language: { label: "Sprache" },
   theme: { label: "Design", light: "Hell", dark: "Dunkel", system: "System" },
+  common: { loading: "Wird geladen…" },
   footer: {
     tagline: "Award-Verfügbarkeit durchsuchen und sehen, was deine Punkte wirklich wert sind.",
     productHeading: "Produkt",
@@ -526,6 +529,7 @@ const fr: Dictionary = {
   },
   language: { label: "Langue" },
   theme: { label: "Thème", light: "Clair", dark: "Sombre", system: "Système" },
+  common: { loading: "Chargement…" },
   footer: {
     tagline: "Recherchez les disponibilités award et suivez la vraie valeur de vos points.",
     productHeading: "Produit",
@@ -697,6 +701,7 @@ const es: Dictionary = {
   },
   language: { label: "Idioma" },
   theme: { label: "Tema", light: "Claro", dark: "Oscuro", system: "Sistema" },
+  common: { loading: "Cargando…" },
   footer: {
     tagline: "Busca disponibilidad de vuelos award y descubre cuánto valen realmente tus puntos.",
     productHeading: "Producto",
@@ -868,6 +873,7 @@ const it: Dictionary = {
   },
   language: { label: "Lingua" },
   theme: { label: "Tema", light: "Chiaro", dark: "Scuro", system: "Sistema" },
+  common: { loading: "Caricamento…" },
   footer: {
     tagline: "Cerca la disponibilità di voli award e scopri quanto valgono davvero i tuoi punti.",
     productHeading: "Prodotto",
@@ -1039,6 +1045,7 @@ const ja: Dictionary = {
   },
   language: { label: "言語" },
   theme: { label: "テーマ", light: "ライト", dark: "ダーク", system: "システム" },
+  common: { loading: "読み込み中…" },
   footer: {
     tagline: "特典航空券の空席状況を検索し、あなたのポイントの本当の価値を確認しましょう。",
     productHeading: "プロダクト",
