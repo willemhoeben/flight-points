@@ -18,7 +18,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: dict.dealsPage.eyebrow,
     description: dict.dealsPage.description,
-    alternates: { canonical: "/deals" },
+    alternates: {
+      canonical: "/deals",
+      types: { "application/rss+xml": [{ url: "/deals/feed.xml", title: `${dict.dealsPage.eyebrow} RSS` }] },
+    },
     openGraph: { title: dict.dealsPage.eyebrow, description: dict.dealsPage.description, url: "/deals", type: "website" },
     twitter: { card: "summary_large_image", title: dict.dealsPage.eyebrow, description: dict.dealsPage.description },
   };

@@ -24,7 +24,9 @@ airline or loyalty program.
   next to the sort options filters the grid down to just your saved deals.
   Opening any deal also auto-tracks it in a "Recently viewed" row above the
   filters — a passive complement to explicit saving, capped at the last 5,
-  most-recent first.
+  most-recent first. All deals are also published as an RSS 2.0 feed at
+  `/deals/feed.xml` (linked from the footer and auto-discoverable by feed
+  readers via a `<link rel="alternate">` tag), newest first.
 
 Visual design is inspired by apple.com: the system font stack (no web font
 for headings/body), a white/black + `#0071e3` blue palette, and borderless
