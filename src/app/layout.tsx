@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { RouteFocusManager } from "@/components/RouteFocusManager";
 import { CurrencyProvider } from "@/lib/currency-context";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { I18nProvider } from "@/lib/i18n/i18n-context";
@@ -87,8 +88,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <ThemeProvider>
             <CurrencyProvider>
               <SavedDealsProvider>
+                <RouteFocusManager />
                 <Navbar dict={dict.nav} />
-                <main id="main-content" className="flex flex-1 flex-col">
+                <main id="main-content" tabIndex={-1} className="flex flex-1 flex-col outline-none">
                   {children}
                 </main>
                 <Footer dict={{ ...dict.footer, nav: dict.nav }} />
