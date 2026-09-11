@@ -66,8 +66,14 @@ The navbar has two independent selectors:
   mock-data approach — not a live feed. Persisted to localStorage and synced
   across tabs.
 
-Both selections persist independently: language via cookie, currency via
-localStorage.
+A third selector, **Theme** (System/Light/Dark, `src/lib/theme-context.tsx`),
+overrides the OS-level `prefers-color-scheme` default. A blocking inline
+script in the root layout applies the stored choice before first paint, so
+there's no flash of the wrong theme on load; while set to "System" it keeps
+following live OS-level changes.
+
+All three selections persist independently: language via cookie, currency
+and theme via localStorage.
 
 ## Data: this runs entirely on mock data
 
