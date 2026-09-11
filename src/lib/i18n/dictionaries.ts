@@ -58,6 +58,7 @@ const en = {
     depart: "Depart",
     cabin: "Cabin",
     programs: "Programs",
+    allianceUnaligned: "Unaligned",
     submit: "Search award flights",
   },
   cabins: {
@@ -227,6 +228,7 @@ const nl: Dictionary = {
     depart: "Vertrek",
     cabin: "Cabine",
     programs: "Programma's",
+    allianceUnaligned: "Niet-aangesloten",
     submit: "Zoek award-vluchten",
   },
   cabins: {
@@ -396,6 +398,7 @@ const de: Dictionary = {
     depart: "Abflug",
     cabin: "Kabine",
     programs: "Programme",
+    allianceUnaligned: "Ohne Allianz",
     submit: "Award-Flüge suchen",
   },
   cabins: {
@@ -565,6 +568,7 @@ const fr: Dictionary = {
     depart: "Départ",
     cabin: "Cabine",
     programs: "Programmes",
+    allianceUnaligned: "Sans alliance",
     submit: "Rechercher des vols award",
   },
   cabins: {
@@ -734,6 +738,7 @@ const es: Dictionary = {
     depart: "Salida",
     cabin: "Cabina",
     programs: "Programas",
+    allianceUnaligned: "Sin alianza",
     submit: "Buscar vuelos award",
   },
   cabins: {
@@ -903,6 +908,7 @@ const it: Dictionary = {
     depart: "Partenza",
     cabin: "Cabina",
     programs: "Programmi",
+    allianceUnaligned: "Senza alleanza",
     submit: "Cerca voli award",
   },
   cabins: {
@@ -1072,6 +1078,7 @@ const ja: Dictionary = {
     depart: "出発日",
     cabin: "クラス",
     programs: "プログラム",
+    allianceUnaligned: "非提携",
     submit: "特典航空券を検索",
   },
   cabins: {
