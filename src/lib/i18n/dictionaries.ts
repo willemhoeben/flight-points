@@ -155,6 +155,7 @@ const en = {
     sortLabel: "Sort by", sortNewest: "Newest", sortExpiring: "Expiring soon",
     saveDeal: "Save", savedDeal: "Saved",
     savedOnly: "Saved", noSavedDeals: "You haven't saved any deals yet.",
+    recentlyViewed: "Recently viewed",
   },
   notFound: {
     eyebrow: "404",
@@ -325,6 +326,7 @@ const nl: Dictionary = {
     sortLabel: "Sorteren op", sortNewest: "Nieuwste", sortExpiring: "Verloopt binnenkort",
     saveDeal: "Opslaan", savedDeal: "Opgeslagen",
     savedOnly: "Opgeslagen", noSavedDeals: "Je hebt nog geen deals opgeslagen.",
+    recentlyViewed: "Onlangs bekeken",
   },
   notFound: {
     eyebrow: "404",
@@ -495,6 +497,7 @@ const de: Dictionary = {
     sortLabel: "Sortieren nach", sortNewest: "Neueste", sortExpiring: "Läuft bald ab",
     saveDeal: "Speichern", savedDeal: "Gespeichert",
     savedOnly: "Gespeichert", noSavedDeals: "Du hast noch keine Deals gespeichert.",
+    recentlyViewed: "Kürzlich angesehen",
   },
   notFound: {
     eyebrow: "404",
@@ -665,6 +668,7 @@ const fr: Dictionary = {
     sortLabel: "Trier par", sortNewest: "Plus récentes", sortExpiring: "Expire bientôt",
     saveDeal: "Enregistrer", savedDeal: "Enregistré",
     savedOnly: "Enregistrées", noSavedDeals: "Vous n'avez encore enregistré aucune offre.",
+    recentlyViewed: "Consultées récemment",
   },
   notFound: {
     eyebrow: "404",
@@ -835,6 +839,7 @@ const es: Dictionary = {
     sortLabel: "Ordenar por", sortNewest: "Más recientes", sortExpiring: "Caduca pronto",
     saveDeal: "Guardar", savedDeal: "Guardado",
     savedOnly: "Guardadas", noSavedDeals: "Aún no has guardado ninguna oferta.",
+    recentlyViewed: "Vistas recientemente",
   },
   notFound: {
     eyebrow: "404",
@@ -1005,6 +1010,7 @@ const it: Dictionary = {
     sortLabel: "Ordina per", sortNewest: "Più recenti", sortExpiring: "Scade a breve",
     saveDeal: "Salva", savedDeal: "Salvato",
     savedOnly: "Salvate", noSavedDeals: "Non hai ancora salvato nessuna offerta.",
+    recentlyViewed: "Visualizzate di recente",
   },
   notFound: {
     eyebrow: "404",
@@ -1175,6 +1181,7 @@ const ja: Dictionary = {
     sortLabel: "並び替え", sortNewest: "新着順", sortExpiring: "期限が近い順",
     saveDeal: "保存", savedDeal: "保存済み",
     savedOnly: "保存済み", noSavedDeals: "まだ保存したお得情報はありません。",
+    recentlyViewed: "最近見た",
   },
   notFound: {
     eyebrow: "404",
