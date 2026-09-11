@@ -8,6 +8,7 @@ export const BCP47: Record<Locale, string> = {
   fr: "fr-FR",
   es: "es-ES",
   it: "it-IT",
+  ja: "ja-JP",
 };
 
 export function toBcp47(locale: Locale): string {
