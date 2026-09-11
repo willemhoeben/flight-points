@@ -129,3 +129,7 @@ Built with Next.js (App Router), TypeScript, and Tailwind CSS v4.
 `src/app/sitemap.ts` and point at `NEXT_PUBLIC_SITE_URL` if set, otherwise
 Vercel's own `VERCEL_URL` at deploy time, otherwise `localhost:3000`. Set
 `NEXT_PUBLIC_SITE_URL` once you're on a custom domain.
+
+JSON-LD structured data is on every page: `WebSite`/`Organization` from the
+root layout, plus `Article` (headline, description, publish/expiry dates,
+author/publisher) on each `/deals/[slug]` page.
