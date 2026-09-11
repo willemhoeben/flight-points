@@ -5,6 +5,7 @@ import { SavedDealBadge } from "@/components/SavedDealBadge";
 import { SavedOnlyPill } from "@/components/SavedOnlyPill";
 import { DealCardVisibility } from "@/components/DealCardVisibility";
 import { SavedOnlyEmptyState } from "@/components/SavedOnlyEmptyState";
+import { RecentlyViewedDeals } from "@/components/RecentlyViewedDeals";
 import { SavedFilterProvider } from "@/lib/saved-filter-context";
 import { DEALS, type DealCategory } from "@/data/deals";
 import { formatDateLabel } from "@/lib/format";
@@ -54,6 +55,8 @@ export default async function DealsPage({
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
       <SectionHeading eyebrow={dict.dealsPage.eyebrow} title={dict.dealsPage.title} description={dict.dealsPage.description} />
+
+      <RecentlyViewedDeals heading={dict.dealsPage.recentlyViewed} />
 
       <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label={dict.dealsPage.filterLabel}>
         <FilterPill href={buildHref(null, activeSort)} active={!activeCategory}>

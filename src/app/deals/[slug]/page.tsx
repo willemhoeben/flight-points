@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui";
+import { RecordDealView } from "@/components/RecordDealView";
 import { SaveDealButton } from "@/components/SaveDealButton";
 import { DEALS, findDeal } from "@/data/deals";
 import { formatDateLabel } from "@/lib/format";
@@ -43,6 +44,7 @@ export default async function DealPage({
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6">
+      <RecordDealView slug={deal.slug} />
       <Link href="/deals" className="text-sm font-medium text-brand hover:underline">
         {dict.dealsPage.backToDeals}
       </Link>
