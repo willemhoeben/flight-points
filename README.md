@@ -40,8 +40,9 @@ verified live in a browser rather than trusted on sight. Its deal articles
 are Dutch-only editorial content (the mirror image of this repo's
 English-only articles), so non-Dutch readers see a translated notice
 instead of a translated article body. It also mirrors the save-deal
-feature: a star toggle on each deal's detail view and a read-only badge
-back on the grid, persisted to the browser's localStorage the same way.
+feature: a star toggle on each deal's detail view, a read-only badge
+back on the grid, and the "★ Saved" filter pill, all persisted to the
+browser's localStorage the same way.
 
 ## Languages and currencies
 
