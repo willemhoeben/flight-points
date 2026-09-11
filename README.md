@@ -53,9 +53,9 @@ are Dutch-only editorial content (the mirror image of this repo's
 English-only articles), so non-Dutch readers see a translated notice
 instead of a translated article body. It also mirrors the alliance-grouped
 program checkboxes on the search tab, the save-deal feature (a star toggle,
-a read-only grid badge, and the "★ Saved" filter pill), and the
-System/Light/Dark theme toggle — the latter two persisted to the browser's
-localStorage the same way, with the same pre-paint blocking script to
+a read-only grid badge, and the "★ Saved" filter pill), the recently-viewed
+deals row, and the System/Light/Dark theme toggle — persisted to the
+browser's localStorage the same way, with the same pre-paint blocking script to
 avoid a flash of the wrong theme on load.
 
 ## Languages and currencies
