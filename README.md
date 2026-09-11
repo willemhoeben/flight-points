@@ -7,9 +7,11 @@ airline or loyalty program.
 ## What's here
 
 - **`/search`** — search award availability by route, date, and cabin across 16
-  loyalty programs, with a 14-day calendar view highlighting the cheapest day to
-  fly and a sortable results table (Duration/Seats/Miles). Remembers your last
-  search in localStorage and returns to it on a bare `/search` visit.
+  loyalty programs (grouped by alliance — Star Alliance/Oneworld/SkyTeam/
+  Unaligned — in the program filter), with a 14-day calendar view highlighting
+  the cheapest day to fly and a sortable results table (Duration/Seats/Miles).
+  Remembers your last search in localStorage and returns to it on a bare
+  `/search` visit.
 - **`/valuations`** — a sortable, filterable (bank/airline/hotel) table of
   estimated cents-per-point values for major currencies, plus a two-way
   calculator: points → cash value, or a target cash amount → points needed.
