@@ -34,7 +34,12 @@ share image from the same brand mark; each deal also gets its own share
 image (`deals/[slug]/opengraph-image.tsx`) showing that deal's title,
 category, and bonus%, instead of falling back to the generic site-wide one.
 `manifest.ts` makes the site installable. `error.tsx` and `not-found.tsx` give runtime errors and bad
-routes a branded page instead of Next's defaults. A skip-to-content link,
+routes a branded page instead of Next's defaults. `loading.tsx` files on
+`/search`, `/deals`, `/deals/[slug]`, and `/valuations` (all server-rendered
+per request, since they read the locale cookie) give each a skeleton screen
+— an `aria-live` region with a localized "Loading…" label for screen-reader
+users, not just a silent pulse animation — instead of a blank page while the
+server responds. A skip-to-content link,
 keyboard-accessible sort/filter controls, a `RouteFocusManager` that moves
 focus to the new page's content on every client-side navigation (Next.js
 doesn't do this itself — without it, keyboard and screen-reader users keep
