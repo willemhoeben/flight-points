@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui";
+import { SaveDealButton } from "@/components/SaveDealButton";
 import { DEALS, findDeal } from "@/data/deals";
 import { formatDateLabel } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -46,13 +47,16 @@ export default async function DealPage({
         {dict.dealsPage.backToDeals}
       </Link>
 
-      <div className="mt-4 flex items-center gap-3">
-        <Badge accent={CATEGORY_ACCENT[deal.category]}>{dealCategoryLabel(deal.category, dict.dealsPage)}</Badge>
-        {deal.bonusPercent && (
-          <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-            +{deal.bonusPercent}% {dict.dealsPage.bonusSuffix}
-          </span>
-        )}
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <Badge accent={CATEGORY_ACCENT[deal.category]}>{dealCategoryLabel(deal.category, dict.dealsPage)}</Badge>
+          {deal.bonusPercent && (
+            <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+              +{deal.bonusPercent}% {dict.dealsPage.bonusSuffix}
+            </span>
+          )}
+        </div>
+        <SaveDealButton slug={deal.slug} />
       </div>
 
       <h1 className="mt-3 text-3xl text-foreground">{deal.title}</h1>

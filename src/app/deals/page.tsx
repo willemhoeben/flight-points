@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionHeading, Badge, Card } from "@/components/ui";
+import { SavedDealBadge } from "@/components/SavedDealBadge";
 import { DEALS, type DealCategory } from "@/data/deals";
 import { formatDateLabel } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -80,13 +81,16 @@ export default async function DealsPage({
           {deals.map((deal) => (
             <Link key={deal.slug} href={`/deals/${deal.slug}`}>
               <Card className="flex h-full flex-col p-6 transition-transform hover:-translate-y-0.5">
-                <div className="flex items-center justify-between">
-                  <Badge accent={CATEGORY_ACCENT[deal.category]}>{dealCategoryLabel(deal.category, dict.dealsPage)}</Badge>
-                  {deal.bonusPercent && (
-                    <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-                      +{deal.bonusPercent}%
-                    </span>
-                  )}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <Badge accent={CATEGORY_ACCENT[deal.category]}>{dealCategoryLabel(deal.category, dict.dealsPage)}</Badge>
+                    {deal.bonusPercent && (
+                      <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                        +{deal.bonusPercent}%
+                      </span>
+                    )}
+                  </div>
+                  <SavedDealBadge slug={deal.slug} />
                 </div>
                 <h2 className="mt-3 text-base text-foreground">{deal.title}</h2>
                 <p className="mt-2 flex-1 text-sm text-muted">{deal.summary}</p>
