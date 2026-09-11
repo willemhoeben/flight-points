@@ -22,6 +22,9 @@ airline or loyalty program.
   its detail page; saved deals get a star badge back on the grid. Persisted
   to localStorage, synced across tabs, no account needed. A "★ Saved" pill
   next to the sort options filters the grid down to just your saved deals.
+  Opening any deal also auto-tracks it in a "Recently viewed" row above the
+  filters — a passive complement to explicit saving, capped at the last 5,
+  most-recent first.
 
 Visual design is inspired by apple.com: the system font stack (no web font
 for headings/body), a white/black + `#0071e3` blue palette, and borderless
