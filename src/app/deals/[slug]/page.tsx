@@ -83,7 +83,9 @@ export default async function DealPage({
         <SaveDealButton slug={deal.slug} />
       </div>
 
-      <h1 className="mt-3 text-3xl text-foreground">{deal.title}</h1>
+      <h1 className="mt-3 text-3xl text-foreground" lang={locale !== "en" ? "en" : undefined}>
+        {deal.title}
+      </h1>
 
       <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
         <span>{deal.program}</span>
@@ -99,7 +101,10 @@ export default async function DealPage({
 
       {locale !== "en" && <p className="mt-6 text-xs italic text-muted">{dict.dealsPage.englishOnlyNote}</p>}
 
-      <div className="mt-4 space-y-4 text-base leading-7 text-foreground">
+      <div
+        className="mt-4 space-y-4 text-base leading-7 text-foreground"
+        lang={locale !== "en" ? "en" : undefined}
+      >
         {deal.body.map((paragraph, i) => (
           <p key={i}>{paragraph}</p>
         ))}

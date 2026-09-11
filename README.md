@@ -45,8 +45,10 @@ focus to the new page's content on every client-side navigation (Next.js
 doesn't do this itself — without it, keyboard and screen-reader users keep
 whatever focus they had on the page they just left), and a global
 `prefers-reduced-motion` override (hover/focus transitions collapse to
-near-zero for anyone who's asked their OS for less motion) round out the
-accessibility basics.
+near-zero for anyone who's asked their OS for less motion), and a `lang="en"`
+on the deal title and body when the page itself is in another language (so a
+Dutch or Japanese screen reader doesn't read the English article text aloud
+in the wrong voice) round out the accessibility basics.
 
 A matching standalone HTML version (same data, same interactions, ported to
 vanilla JS) exists as a Claude Artifact for quick browser testing without
