@@ -63,9 +63,20 @@ export default async function DealPage({
     mainEntityOfPage: `${SITE_URL}/deals/${deal.slug}`,
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: dict.dealsPage.eyebrow, item: `${SITE_URL}/deals` },
+      { "@type": "ListItem", position: 3, name: deal.title, item: `${SITE_URL}/deals/${deal.slug}` },
+    ],
+  };
+
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <RecordDealView slug={deal.slug} />
       <Link href="/deals" className="text-sm font-medium text-brand hover:underline">
         {dict.dealsPage.backToDeals}
