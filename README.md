@@ -68,7 +68,7 @@ The navbar has two independent selectors:
   `/valuations`) render dynamically rather than as static HTML — a deliberate
   trade against the much larger scope of full route-based i18n with per-locale
   static generation.
-- **Currency** — USD/EUR/GBP/JPY/CAD/AUD/CHF/SEK (`src/lib/currency.ts`), applied to
+- **Currency** — USD/EUR/GBP/JPY/CAD/AUD/CHF/SEK/SGD/HKD (`src/lib/currency.ts`), applied to
   the results table's taxes & fees column and the points calculator. Static,
   illustrative exchange rates, consistent with the rest of the site's
   mock-data approach — not a live feed. Persisted to localStorage and synced
