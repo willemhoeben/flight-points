@@ -48,7 +48,7 @@ browser's localStorage the same way.
 
 The navbar has two independent selectors:
 
-- **Language** — English, Nederlands, Deutsch, Français, Español, Italiano. Cookie-based
+- **Language** — English, Nederlands, Deutsch, Français, Español, Italiano, 日本語. Cookie-based
   (`src/lib/i18n/`), not route-prefixed (no `/en/`, `/nl/`): a `locale` cookie
   set by the switcher is read once per request in the root layout and handed
   down to every page. This translates UI chrome — navigation, forms, table
