@@ -98,6 +98,7 @@ export default async function SearchPage({
             selectedDate={date}
             baseParams={baseParams}
             noAwardSpaceLabel={dict.search.noAwardSpaceAria}
+            milesLabel={dict.resultsTable.miles}
             locale={locale}
           />
         </div>

@@ -14,12 +14,14 @@ export function CalendarHeatmap({
   selectedDate,
   baseParams,
   noAwardSpaceLabel,
+  milesLabel,
   locale,
 }: {
   days: CalendarDay[];
   selectedDate: string;
   baseParams: URLSearchParams;
   noAwardSpaceLabel: string;
+  milesLabel: string;
   locale: Locale;
 }) {
   const priced = days.map((d) => d.lowestMiles).filter((v): v is number => v !== null);
@@ -36,7 +38,7 @@ export function CalendarHeatmap({
             key={day.date}
             href={buildHref(baseParams, day.date)}
             aria-current={isSelected ? "date" : undefined}
-            aria-label={`${formatDateLabel(day.date, locale)}: ${day.lowestMiles !== null ? `${formatMiles(day.lowestMiles, locale)} miles` : noAwardSpaceLabel}`}
+            aria-label={`${formatDateLabel(day.date, locale)}: ${day.lowestMiles !== null ? `${formatMiles(day.lowestMiles, locale)} ${milesLabel}` : noAwardSpaceLabel}`}
             suppressHydrationWarning
             className={[
               "rounded-2xl p-3 text-center transition-shadow",
