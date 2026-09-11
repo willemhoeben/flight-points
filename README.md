@@ -29,7 +29,11 @@ gray rounded panels. `src/app/icon.tsx`, `apple-icon.tsx`, and
 `opengraph-image.tsx` generate the favicon, iOS home-screen icon, and social
 share image from the same brand mark; `manifest.ts` makes the site
 installable. `error.tsx` and `not-found.tsx` give runtime errors and bad
-routes a branded page instead of Next's defaults.
+routes a branded page instead of Next's defaults. A skip-to-content link,
+keyboard-accessible sort/filter controls, and a global
+`prefers-reduced-motion` override (hover/focus transitions collapse to
+near-zero for anyone who's asked their OS for less motion) round out the
+accessibility basics.
 
 A matching standalone HTML version (same data, same interactions, ported to
 vanilla JS) exists as a Claude Artifact for quick browser testing without
