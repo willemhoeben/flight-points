@@ -48,11 +48,12 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
       <table className="w-full min-w-[720px] text-left text-sm">
         <thead className="bg-surface-muted text-xs font-medium text-muted">
           <tr>
-            <th className="px-4 py-3">{dict.resultsTable.program}</th>
-            <th className="px-4 py-3">{dict.resultsTable.routing}</th>
+            <th scope="col" className="px-4 py-3">{dict.resultsTable.program}</th>
+            <th scope="col" className="px-4 py-3">{dict.resultsTable.routing}</th>
             {SORTABLE_COLUMNS.map((col) => (
               <th
                 key={col.key}
+                scope="col"
                 className={col.key === "milesCost" ? "px-4 py-3 text-right" : "px-4 py-3"}
                 aria-sort={sortKey === col.key ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
               >
@@ -71,8 +72,8 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                 </button>
               </th>
             ))}
-            <th className="px-4 py-3 text-right">{dict.resultsTable.taxesFees}</th>
-            <th className="px-4 py-3">{dict.resultsTable.booking}</th>
+            <th scope="col" className="px-4 py-3 text-right">{dict.resultsTable.taxesFees}</th>
+            <th scope="col" className="px-4 py-3">{dict.resultsTable.booking}</th>
           </tr>
         </thead>
         <tbody>

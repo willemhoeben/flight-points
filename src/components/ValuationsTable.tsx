@@ -80,7 +80,11 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead className="bg-surface-muted text-xs font-medium text-muted">
               <tr>
-                <th className="px-4 py-3" aria-sort={sortKey === "name" ? (sortDir === "asc" ? "ascending" : "descending") : "none"}>
+                <th
+                  scope="col"
+                  className="px-4 py-3"
+                  aria-sort={sortKey === "name" ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
+                >
                   <button
                     type="button"
                     onClick={() => toggleSort("name")}
@@ -92,8 +96,9 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
                     </span>
                   </button>
                 </th>
-                <th className="px-4 py-3">{dict.valuationsTable.type}</th>
+                <th scope="col" className="px-4 py-3">{dict.valuationsTable.type}</th>
                 <th
+                  scope="col"
                   className="px-4 py-3 text-right"
                   aria-sort={sortKey === "centsPerPoint" ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
                 >
@@ -108,8 +113,8 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
                     </span>
                   </button>
                 </th>
-                <th className="px-4 py-3">{dict.valuationsTable.trend}</th>
-                <th className="px-4 py-3">{dict.valuationsTable.notes}</th>
+                <th scope="col" className="px-4 py-3">{dict.valuationsTable.trend}</th>
+                <th scope="col" className="px-4 py-3">{dict.valuationsTable.notes}</th>
               </tr>
             </thead>
             <tbody>
