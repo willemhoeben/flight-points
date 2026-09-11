@@ -30,8 +30,10 @@ Visual design is inspired by apple.com: the system font stack (no web font
 for headings/body), a white/black + `#0071e3` blue palette, and borderless
 gray rounded panels. `src/app/icon.tsx`, `apple-icon.tsx`, and
 `opengraph-image.tsx` generate the favicon, iOS home-screen icon, and social
-share image from the same brand mark; `manifest.ts` makes the site
-installable. `error.tsx` and `not-found.tsx` give runtime errors and bad
+share image from the same brand mark; each deal also gets its own share
+image (`deals/[slug]/opengraph-image.tsx`) showing that deal's title,
+category, and bonus%, instead of falling back to the generic site-wide one.
+`manifest.ts` makes the site installable. `error.tsx` and `not-found.tsx` give runtime errors and bad
 routes a branded page instead of Next's defaults. A skip-to-content link,
 keyboard-accessible sort/filter controls, a `RouteFocusManager` that moves
 focus to the new page's content on every client-side navigation (Next.js
