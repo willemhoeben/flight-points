@@ -29,8 +29,10 @@ airline or loyalty program.
   readers via a `<link rel="alternate">` tag), newest first.
 
 Visual design is inspired by apple.com: the system font stack (no web font
-for headings/body), a white/black + `#0071e3` blue palette, and borderless
-gray rounded panels. `src/app/icon.tsx`, `apple-icon.tsx`, and
+for headings/body), a white/black + `#0071e3` blue palette, borderless gray
+rounded panels, and a dense, compact layout (a 44px navbar, tightened section
+and card spacing throughout) rather than a lot of open whitespace. The brand
+mark is an "FP" monogram badge. `src/app/icon.tsx`, `apple-icon.tsx`, and
 `opengraph-image.tsx` generate the favicon, iOS home-screen icon, and social
 share image from the same brand mark; each deal also gets its own share
 image (`deals/[slug]/opengraph-image.tsx`) showing that deal's title,
