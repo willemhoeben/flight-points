@@ -6,6 +6,7 @@ import { CurrencyProvider } from "@/lib/currency-context";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { I18nProvider } from "@/lib/i18n/i18n-context";
 import { SavedDealsProvider } from "@/lib/saved-deals-context";
+import { ThemeProvider } from "@/lib/theme-context";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -65,8 +66,16 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   };
 
   return (
-    <html lang={locale} className={`${plexMono.variable} h-full antialiased`}>
+    <html lang={locale} className={`${plexMono.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
+        {/* Blocking, runs before first paint to avoid a flash of the wrong
+            theme. Storage key must match theme-context.tsx's STORAGE_KEY —
+            this can't import it, it has to run before any JS bundle loads. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("flight-points:theme");var d=t==="dark"||((t===null||t==="system")&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(d)document.documentElement.classList.add("dark");}catch(e){}})();`,
+          }}
+        />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a
           href="#main-content"
@@ -75,15 +84,17 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           {dict.nav.skipToContent}
         </a>
         <I18nProvider locale={locale} dict={dict}>
-          <CurrencyProvider>
-            <SavedDealsProvider>
-              <Navbar dict={dict.nav} />
-              <main id="main-content" className="flex flex-1 flex-col">
-                {children}
-              </main>
-              <Footer dict={{ ...dict.footer, nav: dict.nav }} />
-            </SavedDealsProvider>
-          </CurrencyProvider>
+          <ThemeProvider>
+            <CurrencyProvider>
+              <SavedDealsProvider>
+                <Navbar dict={dict.nav} />
+                <main id="main-content" className="flex flex-1 flex-col">
+                  {children}
+                </main>
+                <Footer dict={{ ...dict.footer, nav: dict.nav }} />
+              </SavedDealsProvider>
+            </CurrencyProvider>
+          </ThemeProvider>
         </I18nProvider>
       </body>
     </html>

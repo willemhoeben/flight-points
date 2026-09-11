@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CurrencySelector } from "@/components/CurrencySelector";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
@@ -36,6 +37,7 @@ export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
         <div className="flex items-center gap-4">
           <LanguageSwitcher />
           <CurrencySelector />
+          <ThemeToggle />
           <Link href="/search" className="whitespace-nowrap text-xs font-medium text-brand hover:underline">
             {dict.searchCta}
           </Link>

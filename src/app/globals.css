@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Theme is resolved to a concrete light/dark choice client-side (system
+   preference + any explicit override) and applied as a "dark" class on
+   <html> — see theme-context.tsx and the blocking script in layout.tsx.
+   Switches Tailwind's dark: variant from its default media-query behavior
+   to this class, so explicit "dark" wins even when the OS prefers light. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #1d1d1f;
@@ -28,19 +35,17 @@
   --font-mono: var(--font-plex-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000;
-    --foreground: #f5f5f7;
-    --surface: #1d1d1f;
-    --surface-muted: #161617;
-    --border: #424245;
-    --muted: #86868b;
-    --brand: #0071e3;
-    --brand-strong: #3d9bff;
-    --brand-foreground: #ffffff;
-    --stamp: #ff453a;
-  }
+:root.dark {
+  --background: #000000;
+  --foreground: #f5f5f7;
+  --surface: #1d1d1f;
+  --surface-muted: #161617;
+  --border: #424245;
+  --muted: #86868b;
+  --brand: #0071e3;
+  --brand-strong: #3d9bff;
+  --brand-foreground: #ffffff;
+  --stamp: #ff453a;
 }
 
 * {
