@@ -32,8 +32,8 @@ routes a branded page instead of Next's defaults.
 A matching standalone HTML version (same data, same interactions, ported to
 vanilla JS) exists as a Claude Artifact for quick browser testing without
 running the dev server — ask in the originating conversation for the link.
-It has its own currency selector and the same six-language switcher as this
-repo (Dutch/English/German/French/Spanish/Italian) — hand-translated
+It has its own currency selector and the same seven-language switcher as
+this repo (Dutch/English/German/French/Spanish/Italian/Japanese) — hand-translated
 directly into the artifact's single file, with no compiler or type checker
 to catch a missed key across the larger dictionary, so each addition got
 verified live in a browser rather than trusted on sight. Its deal articles
