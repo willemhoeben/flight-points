@@ -38,7 +38,9 @@ to catch a missed key across the larger dictionary, so each addition got
 verified live in a browser rather than trusted on sight. Its deal articles
 are Dutch-only editorial content (the mirror image of this repo's
 English-only articles), so non-Dutch readers see a translated notice
-instead of a translated article body.
+instead of a translated article body. It also mirrors the save-deal
+feature: a star toggle on each deal's detail view and a read-only badge
+back on the grid, persisted to the browser's localStorage the same way.
 
 ## Languages and currencies
 
