@@ -135,3 +135,7 @@ Vercel's own `VERCEL_URL` at deploy time, otherwise `localhost:3000`. Set
 JSON-LD structured data is on every page: `WebSite`/`Organization` from the
 root layout, plus `Article` (headline, description, publish/expiry dates,
 author/publisher) on each `/deals/[slug]` page.
+
+Every page sets a self-referencing canonical URL, a page-specific description,
+and Open Graph/Twitter Card previews (`summary_large_image`, matching the
+generated share images above) instead of inheriting the homepage's.

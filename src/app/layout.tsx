@@ -32,6 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s · ${SITE_NAME}`,
     },
     description: dict.home.lede,
+    alternates: { canonical: "/" },
     openGraph: {
       title,
       description: dict.home.lede,
@@ -40,7 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
       description: dict.home.lede,
     },

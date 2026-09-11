@@ -27,7 +27,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const deal = findDeal(slug);
-  if (deal) return { title: deal.title };
+  if (deal) {
+    return {
+      title: deal.title,
+      description: deal.summary,
+      alternates: { canonical: `/deals/${deal.slug}` },
+      openGraph: { title: deal.title, description: deal.summary, url: `/deals/${deal.slug}`, type: "article" },
+      twitter: { card: "summary_large_image", title: deal.title, description: deal.summary },
+    };
+  }
   const { dict } = await getDictionary();
   return { title: dict.notFound.title };
 }

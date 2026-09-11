@@ -14,7 +14,13 @@ import { interpolate, pluralize } from "@/lib/i18n/format";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { dict } = await getDictionary();
-  return { title: dict.search.eyebrow };
+  return {
+    title: dict.search.eyebrow,
+    description: dict.search.description,
+    alternates: { canonical: "/search" },
+    openGraph: { title: dict.search.eyebrow, description: dict.search.description, url: "/search", type: "website" },
+    twitter: { card: "summary_large_image", title: dict.search.eyebrow, description: dict.search.description },
+  };
 }
 
 type SearchParams = Record<string, string | string[] | undefined>;

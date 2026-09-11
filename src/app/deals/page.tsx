@@ -15,7 +15,13 @@ import { isDealSort, sortDeals, type DealSort } from "@/lib/deal-sort";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { dict } = await getDictionary();
-  return { title: dict.dealsPage.eyebrow };
+  return {
+    title: dict.dealsPage.eyebrow,
+    description: dict.dealsPage.description,
+    alternates: { canonical: "/deals" },
+    openGraph: { title: dict.dealsPage.eyebrow, description: dict.dealsPage.description, url: "/deals", type: "website" },
+    twitter: { card: "summary_large_image", title: dict.dealsPage.eyebrow, description: dict.dealsPage.description },
+  };
 }
 
 const CATEGORY_ACCENT: Record<string, string> = {

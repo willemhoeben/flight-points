@@ -7,7 +7,22 @@ import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { dict } = await getDictionary();
-  return { title: dict.valuationsPage.eyebrow };
+  return {
+    title: dict.valuationsPage.eyebrow,
+    description: dict.valuationsPage.description,
+    alternates: { canonical: "/valuations" },
+    openGraph: {
+      title: dict.valuationsPage.eyebrow,
+      description: dict.valuationsPage.description,
+      url: "/valuations",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dict.valuationsPage.eyebrow,
+      description: dict.valuationsPage.description,
+    },
+  };
 }
 
 export default async function ValuationsPage() {
