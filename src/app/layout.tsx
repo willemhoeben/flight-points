@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { CurrencyProvider } from "@/lib/currency-context";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { I18nProvider } from "@/lib/i18n/i18n-context";
+import { SavedDealsProvider } from "@/lib/saved-deals-context";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -75,11 +76,13 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <I18nProvider locale={locale} dict={dict}>
           <CurrencyProvider>
-            <Navbar dict={dict.nav} />
-            <main id="main-content" className="flex flex-1 flex-col">
-              {children}
-            </main>
-            <Footer dict={{ ...dict.footer, nav: dict.nav }} />
+            <SavedDealsProvider>
+              <Navbar dict={dict.nav} />
+              <main id="main-content" className="flex flex-1 flex-col">
+                {children}
+              </main>
+              <Footer dict={{ ...dict.footer, nav: dict.nav }} />
+            </SavedDealsProvider>
           </CurrencyProvider>
         </I18nProvider>
       </body>
