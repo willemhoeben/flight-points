@@ -8,6 +8,7 @@ import { DEALS, findDeal } from "@/data/deals";
 import { formatDateLabel } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { dealCategoryLabel } from "@/lib/i18n/deal-category";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const CATEGORY_ACCENT: Record<string, string> = {
   "transfer-bonus": "emerald",
@@ -42,8 +43,21 @@ export default async function DealPage({
 
   const { locale, dict } = await getDictionary();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: deal.title,
+    description: deal.summary,
+    datePublished: deal.publishedAt,
+    ...(deal.expires ? { expires: deal.expires } : {}),
+    author: { "@type": "Organization", name: SITE_NAME },
+    publisher: { "@type": "Organization", name: SITE_NAME },
+    mainEntityOfPage: `${SITE_URL}/deals/${deal.slug}`,
+  };
+
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <RecordDealView slug={deal.slug} />
       <Link href="/deals" className="text-sm font-medium text-brand hover:underline">
         {dict.dealsPage.backToDeals}
