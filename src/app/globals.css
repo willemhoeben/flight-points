@@ -88,6 +88,22 @@ h1, h2, h3 {
   }
 }
 
+@layer base {
+  /* Branded keyboard-focus ring for every link/button/tabbable element
+     that doesn't already define its own (the currency/language/theme
+     selects use a focus-visible:ring-* utility instead — that sits in
+     Tailwind's utilities layer, so it still wins over this base-layer
+     rule on those three). Without this, focus fell back to each
+     browser's mismatched default outline instead of the site's own
+     blue. */
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+}
+
 @layer components {
   .form-select {
     @apply w-full rounded-xl border border-transparent bg-surface-muted px-3 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-brand focus:bg-surface focus:ring-2 focus:ring-brand/15;
