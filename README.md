@@ -18,7 +18,8 @@ airline or loyalty program.
   newest or soonest-expiring (`?sort=newest|expiring`) — the two compose,
   e.g. `?category=transfer-bonus&sort=expiring`. Save any deal for later from
   its detail page; saved deals get a star badge back on the grid. Persisted
-  to localStorage, synced across tabs, no account needed.
+  to localStorage, synced across tabs, no account needed. A "★ Saved" pill
+  next to the sort options filters the grid down to just your saved deals.
 
 Visual design is inspired by apple.com: the system font stack (no web font
 for headings/body), a white/black + `#0071e3` blue palette, and borderless
