@@ -20,7 +20,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-1 flex-col">
-      <section className="mx-auto w-full max-w-2xl px-4 pb-2 pt-16 text-center sm:px-6 sm:pt-20">
+      <section className="mx-auto w-full max-w-2xl px-4 pb-2 pt-12 text-center sm:px-6 sm:pt-14">
         <Badge accent="sky">{dict.home.badge}</Badge>
         <h1 className="mt-4 text-[44px] leading-[1.06] tracking-tight text-foreground sm:text-5xl">
           {dict.home.title}
@@ -40,8 +40,8 @@ export default async function Home() {
         <p className="mt-2 text-xs text-muted">{dict.home.demoNote}</p>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">
-        <div className="grid grid-cols-2 gap-y-10 rounded-[28px] bg-gradient-to-b from-brand/[0.07] to-surface-muted px-6 py-14 sm:grid-cols-4">
+      <section className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
+        <div className="grid grid-cols-2 gap-y-8 rounded-[28px] bg-gradient-to-b from-brand/[0.07] to-surface-muted px-6 py-10 sm:grid-cols-4">
           <Stat value={`${PROGRAMS.length}`} label={dict.home.statPrograms} />
           <Stat value={`${AIRPORTS.length}`} label={dict.home.statAirports} />
           <Stat value="14-day" label={dict.home.statCalendar} />
@@ -49,10 +49,10 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
+      <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
         <div className="grid gap-4 sm:grid-cols-3">
           {features.map((feature) => (
-            <Card key={feature.href} className="flex flex-col p-7">
+            <Card key={feature.href} className="flex flex-col p-6">
               <h2 className="text-lg text-foreground">{feature.title}</h2>
               <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-muted">{feature.description}</p>
               <Link href={feature.href} className="mt-4 text-sm font-medium text-brand hover:underline">
@@ -63,14 +63,14 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
+      <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
         <div className="text-center">
           <h2 className="text-3xl text-foreground">{dict.home.valuationsHeading}</h2>
           <p className="mt-2 text-base text-muted">{dict.home.valuationsSub}</p>
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-4">
           {topValuations.map((v) => (
-            <Card key={v.id} className="p-6 text-center">
+            <Card key={v.id} className="p-5 text-center">
               <div className="text-sm text-muted">{v.name}</div>
               <div className="mt-2 text-[26px] font-semibold tracking-tight text-foreground">
                 {v.centsPerPoint.toFixed(2)}¢
@@ -86,7 +86,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
+      <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
         <div className="text-center">
           <h2 className="text-3xl text-foreground">{dict.home.dealsHeading}</h2>
           <p className="mt-2 text-base text-muted">{dict.home.dealsSub}</p>
@@ -94,7 +94,7 @@ export default async function Home() {
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
           {featuredDeals.map((deal) => (
             <Link key={deal.slug} href={`/deals/${deal.slug}`}>
-              <Card className="flex h-full flex-col p-7 transition-transform hover:-translate-y-0.5">
+              <Card className="flex h-full flex-col p-6 transition-transform hover:-translate-y-0.5">
                 <Badge accent={deal.category === "transfer-bonus" ? "emerald" : deal.category === "sale" ? "amber" : "violet"}>
                   {dealCategoryLabel(deal.category, dict.dealsPage)}
                 </Badge>

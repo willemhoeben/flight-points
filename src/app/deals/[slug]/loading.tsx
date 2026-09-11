@@ -6,7 +6,7 @@ export default async function DealLoading() {
 
   return (
     <SkeletonScreen label={dict.common.loading}>
-      <div className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6">
+      <div className="mx-auto w-full max-w-3xl px-4 py-9 sm:px-6">
         <Skeleton className="h-4 w-24" />
         <div className="mt-4 flex items-center gap-3">
           <Skeleton className="h-6 w-28 rounded-full" />

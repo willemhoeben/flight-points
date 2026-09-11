@@ -80,7 +80,7 @@ export default async function SearchPage({
   const cabinLabel = dict.cabins[cabin];
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+    <div className="mx-auto w-full max-w-6xl px-4 py-9 sm:px-6">
       <Suspense fallback={null}>
         <SearchMemory />
       </Suspense>

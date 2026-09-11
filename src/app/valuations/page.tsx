@@ -29,14 +29,14 @@ export default async function ValuationsPage() {
   const { dict } = await getDictionary();
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+    <div className="mx-auto w-full max-w-6xl px-4 py-9 sm:px-6">
       <SectionHeading
         eyebrow={dict.valuationsPage.eyebrow}
         title={dict.valuationsPage.title}
         description={dict.valuationsPage.description}
       />
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
+      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px]">
         <ValuationsTable valuations={VALUATIONS} />
         <PointsCalculator />
       </div>

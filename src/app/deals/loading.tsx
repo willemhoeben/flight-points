@@ -6,7 +6,7 @@ export default async function DealsLoading() {
 
   return (
     <SkeletonScreen label={dict.common.loading}>
-      <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+      <div className="mx-auto w-full max-w-6xl px-4 py-9 sm:px-6">
         <div className="max-w-2xl">
           <Skeleton className="h-4 w-24" />
           <Skeleton className="mt-3 h-9 w-96 max-w-full" />
@@ -17,7 +17,7 @@ export default async function DealsLoading() {
             <Skeleton key={i} className="h-7 w-20 rounded-full" />
           ))}
         </div>
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <Skeleton key={i} className="h-44 w-full rounded-[20px]" />
           ))}

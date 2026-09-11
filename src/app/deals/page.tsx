@@ -62,7 +62,7 @@ export default async function DealsPage({
   const deals = sortDeals(filtered, activeSort);
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+    <div className="mx-auto w-full max-w-6xl px-4 py-9 sm:px-6">
       <SectionHeading eyebrow={dict.dealsPage.eyebrow} title={dict.dealsPage.title} description={dict.dealsPage.description} />
 
       <RecentlyViewedDeals heading={dict.dealsPage.recentlyViewed} />
@@ -97,11 +97,11 @@ export default async function DealsPage({
         ) : (
           <>
             <SavedOnlyEmptyState slugs={deals.map((d) => d.slug)} message={dict.dealsPage.noSavedDeals} />
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {deals.map((deal) => (
                 <DealCardVisibility key={deal.slug} slug={deal.slug}>
                   <Link href={`/deals/${deal.slug}`}>
-                    <Card className="flex h-full flex-col p-6 transition-transform hover:-translate-y-0.5">
+                    <Card className="flex h-full flex-col p-5 transition-transform hover:-translate-y-0.5">
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
                           <Badge accent={CATEGORY_ACCENT[deal.category]}>{dealCategoryLabel(deal.category, dict.dealsPage)}</Badge>
