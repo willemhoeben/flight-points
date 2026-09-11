@@ -21,6 +21,7 @@ const en = {
     aboutText:
       "A demo build inspired by seats.aero and flightpoints.com. All award availability and valuations shown are illustrative mock data, not a live feed, and this project is not affiliated with either site or any airline or loyalty program.",
     copyright: "Demo project — sample data only.",
+    rssFeed: "RSS feed",
   },
   home: {
     badge: "Award search + points valuations",
@@ -193,6 +194,7 @@ const nl: Dictionary = {
     aboutText:
       "Een demo, geïnspireerd op seats.aero en flightpoints.com. Alle getoonde award-beschikbaarheid en waarderingen zijn illustratieve nepdata, geen live feed, en dit project is niet verbonden aan een van beide sites, een luchtvaartmaatschappij of een spaarprogramma.",
     copyright: "Demoproject — alleen voorbeelddata.",
+    rssFeed: "RSS-feed",
   },
   home: {
     badge: "Award-zoeken + puntenwaardering",
@@ -365,6 +367,7 @@ const de: Dictionary = {
     aboutText:
       "Eine Demo, inspiriert von seats.aero und flightpoints.com. Alle angezeigten Award-Verfügbarkeiten und Bewertungen sind illustrative Beispieldaten, kein Live-Feed, und dieses Projekt steht in keiner Verbindung zu einer der beiden Seiten, einer Fluggesellschaft oder einem Vielfliegerprogramm.",
     copyright: "Demoprojekt — nur Beispieldaten.",
+    rssFeed: "RSS-Feed",
   },
   home: {
     badge: "Award-Suche + Punktebewertung",
@@ -537,6 +540,7 @@ const fr: Dictionary = {
     aboutText:
       "Une démo inspirée de seats.aero et flightpoints.com. Toutes les disponibilités et valorisations affichées sont des données fictives illustratives, pas un flux en direct, et ce projet n'est affilié à aucun des deux sites, à aucune compagnie aérienne ni à aucun programme de fidélité.",
     copyright: "Projet de démonstration — données fictives uniquement.",
+    rssFeed: "Flux RSS",
   },
   home: {
     badge: "Recherche awards + valorisation des points",
@@ -709,6 +713,7 @@ const es: Dictionary = {
     aboutText:
       "Una demo inspirada en seats.aero y flightpoints.com. Toda la disponibilidad y valoraciones mostradas son datos ficticios ilustrativos, no un feed en vivo, y este proyecto no está afiliado a ninguno de los dos sitios, ni a ninguna aerolínea o programa de fidelización.",
     copyright: "Proyecto de demostración — solo datos de ejemplo.",
+    rssFeed: "Feed RSS",
   },
   home: {
     badge: "Búsqueda de awards + valoración de puntos",
@@ -881,6 +886,7 @@ const it: Dictionary = {
     aboutText:
       "Una demo ispirata a seats.aero e flightpoints.com. Tutta la disponibilità e le valutazioni mostrate sono dati fittizi a scopo illustrativo, non un feed in tempo reale, e questo progetto non è affiliato a nessuno dei due siti, né ad alcuna compagnia aerea o programma fedeltà.",
     copyright: "Progetto dimostrativo — solo dati di esempio.",
+    rssFeed: "Feed RSS",
   },
   home: {
     badge: "Ricerca award + valutazione punti",
@@ -1053,6 +1059,7 @@ const ja: Dictionary = {
     aboutText:
       "seats.aero や flightpoints.com にヒントを得たデモサイトです。表示されている特典航空券の空席状況や価値はすべて例示用のモックデータであり、リアルタイムのフィードではありません。また、このプロジェクトはいずれのサイト、航空会社、マイレージプログラムとも提携していません。",
     copyright: "デモプロジェクト — サンプルデータのみ。",
+    rssFeed: "RSSフィード",
   },
   home: {
     badge: "特典航空券検索 + ポイント価値評価",
