@@ -159,7 +159,12 @@ route+date+cabin dedup so re-saving refreshes an entry instead of
 duplicating it. A chip click updates the form and results in place
 (the artifact's usual single-page-app pattern) rather than a real
 navigation, and localStorage entries are validated the same way as its
-share-link and remembered-search params before use.
+share-link and remembered-search params before use. It also has a 5th
+"Compare" tab mirroring the repo's `/compare` page: the same
+type-grouped currency picker, a shared points-balance input, and
+ranked comparison cards with a "Best value" badge on the top pick —
+kept as in-memory tab state rather than URL-synced, same distinction
+as the nonstop filter.
 
 ## Languages and currencies
 
