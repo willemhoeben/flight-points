@@ -6,6 +6,9 @@ airline or loyalty program.
 
 ## What's here
 
+- **`/`** — the landing page, with a small plane silhouette flying across the
+  hero on load (pure CSS animation, no JS), respecting `prefers-reduced-motion`
+  the same way every other animated element on the site does.
 - **`/search`** — search award availability by route, date, and cabin across 16
   loyalty programs (grouped by alliance — Star Alliance/Oneworld/SkyTeam/
   Unaligned — in the program filter), with a 14-day calendar view highlighting

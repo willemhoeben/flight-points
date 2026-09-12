@@ -88,6 +88,22 @@ h1, h2, h3 {
   }
 }
 
+/* Plane flying across the hero on page load — see PlaneFlyover.tsx. Pure
+   CSS so it needs no client JS and replays naturally on every mount (a hard
+   load or a client-side nav to "/"). The reduced-motion override above
+   already collapses this to its end state near-instantly, so no separate
+   opt-out is needed here. */
+@keyframes plane-flyover {
+  0% { transform: translate(-15vw, 10px) rotate(2deg); opacity: 0; }
+  8% { opacity: 1; }
+  50% { transform: translate(50vw, -10px) rotate(0deg); }
+  92% { opacity: 1; }
+  100% { transform: translate(115vw, -26px) rotate(2deg); opacity: 0; }
+}
+.plane-flyover {
+  animation: plane-flyover 4.2s ease-in-out 0.2s 1 both;
+}
+
 @layer base {
   /* Branded keyboard-focus ring for every link/button/tabbable element
      that doesn't already define its own (the currency/language/theme

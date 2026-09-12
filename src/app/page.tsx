@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Badge, Card } from "@/components/ui";
+import { PlaneFlyover } from "@/components/PlaneFlyover";
 import { PROGRAMS } from "@/data/programs";
 import { AIRPORTS } from "@/data/airports";
 import { DEALS } from "@/data/deals";
@@ -20,24 +21,27 @@ export default async function Home() {
 
   return (
     <div className="flex flex-1 flex-col">
-      <section className="mx-auto w-full max-w-2xl px-4 pb-2 pt-12 text-center sm:px-6 sm:pt-14">
-        <Badge accent="sky">{dict.home.badge}</Badge>
-        <h1 className="mt-4 text-[44px] leading-[1.06] tracking-tight text-foreground sm:text-5xl">
-          {dict.home.title}
-        </h1>
-        <p className="mx-auto mt-5 max-w-md text-lg text-muted">{dict.home.lede}</p>
-        <div className="mt-7 flex flex-wrap items-center justify-center gap-2">
-          <Link
-            href="/search"
-            className="rounded-full bg-brand px-6 py-3 text-[15px] font-semibold text-brand-foreground transition-colors hover:bg-brand-strong"
-          >
-            {dict.home.ctaPrimary}
-          </Link>
-          <Link href="/valuations" className="px-3 py-3 text-[15px] font-medium text-brand hover:underline">
-            {dict.home.ctaSecondary}
-          </Link>
+      <section className="relative overflow-hidden px-4 pb-2 pt-12 text-center sm:px-6 sm:pt-14">
+        <PlaneFlyover />
+        <div className="mx-auto max-w-2xl">
+          <Badge accent="sky">{dict.home.badge}</Badge>
+          <h1 className="mt-4 text-[44px] leading-[1.06] tracking-tight text-foreground sm:text-5xl">
+            {dict.home.title}
+          </h1>
+          <p className="mx-auto mt-5 max-w-md text-lg text-muted">{dict.home.lede}</p>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-2">
+            <Link
+              href="/search"
+              className="rounded-full bg-brand px-6 py-3 text-[15px] font-semibold text-brand-foreground transition-colors hover:bg-brand-strong"
+            >
+              {dict.home.ctaPrimary}
+            </Link>
+            <Link href="/valuations" className="px-3 py-3 text-[15px] font-medium text-brand hover:underline">
+              {dict.home.ctaSecondary}
+            </Link>
+          </div>
+          <p className="mt-2 text-xs text-muted">{dict.home.demoNote}</p>
         </div>
-        <p className="mt-2 text-xs text-muted">{dict.home.demoNote}</p>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
