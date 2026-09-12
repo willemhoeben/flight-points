@@ -111,7 +111,61 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
       {sorted.length === 0 ? (
         <div className="rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">{dict.valuationsTable.noResults}</div>
       ) : (
-        <div className="overflow-x-auto rounded-[20px] bg-surface">
+        <>
+        {/* Same reason as the search results: below md the table is wider
+            than the column it sits in, so the cents-per-point value — the
+            number the page exists for — ends up off the right edge behind
+            a sideways scroll with nothing to hint at it. */}
+        <div className="flex flex-wrap items-center gap-2 print:hidden md:hidden" role="group" aria-label={dict.common.sortBy}>
+          <span className="text-xs font-medium text-muted">{dict.common.sortBy}</span>
+          {(["name", "centsPerPoint"] as ValuationsSortKey[]).map((key) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => goToSort(key)}
+              aria-current={sortKey === key ? "true" : undefined}
+              className={
+                sortKey === key
+                  ? "inline-flex items-center gap-1 rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+                  : "inline-flex items-center gap-1 rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+              }
+            >
+              {SORT_LABEL[key]}
+              <span aria-hidden="true" className="text-[10px] leading-none">
+                {sortArrow(key)}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <ul className="mt-3 grid gap-3 sm:grid-cols-2 md:hidden">
+          {sorted.map((v) => (
+            <li key={v.id} className="rounded-[20px] bg-surface-muted p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="font-medium text-foreground">{v.name}</div>
+                  <div className="text-xs text-muted">{v.issuer}</div>
+                  <div className="mt-1.5">
+                    <Badge accent={TYPE_ACCENT[v.type]}>{TYPE_LABEL[v.type]}</Badge>
+                  </div>
+                </div>
+                <div className="shrink-0 text-right">
+                  <div className="font-mono text-base font-semibold tabular-nums text-foreground">
+                    {v.centsPerPoint.toFixed(2)}¢
+                    <span className={`ml-1.5 text-sm font-medium ${TREND_CLASS[v.trend]}`}>
+                      <span aria-hidden="true">{TREND_ICON[v.trend]}</span>
+                      <span className="sr-only">{TREND_LABEL[v.trend]}</span>
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-muted">{dict.valuationsTable.value}</div>
+                </div>
+              </div>
+              <p className="mt-3 border-t border-border pt-3 text-[13px] text-muted">{v.notes}</p>
+            </li>
+          ))}
+        </ul>
+
+        <div className="hidden overflow-x-auto rounded-[20px] bg-surface md:block">
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead className="bg-surface-muted text-xs font-medium text-muted">
               <tr>
@@ -175,6 +229,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
             </tbody>
           </table>
         </div>
+        </>
       )}
     </div>
   );
