@@ -8,6 +8,7 @@ import { DEALS, findDeal } from "@/data/deals";
 import { formatDateLabel } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { dealCategoryLabel } from "@/lib/i18n/deal-category";
+import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const CATEGORY_ACCENT: Record<string, string> = {
@@ -27,16 +28,23 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const deal = findDeal(slug);
+  const { locale, dict } = await getDictionary();
   if (deal) {
     return {
       title: deal.title,
       description: deal.summary,
       alternates: { canonical: `/deals/${deal.slug}` },
-      openGraph: { title: deal.title, description: deal.summary, url: `/deals/${deal.slug}`, type: "article" },
+      openGraph: {
+        title: deal.title,
+        description: deal.summary,
+        url: `/deals/${deal.slug}`,
+        type: "article",
+        locale: toOgLocale(locale),
+        alternateLocale: alternateOgLocales(locale),
+      },
       twitter: { card: "summary_large_image", title: deal.title, description: deal.summary },
     };
   }
-  const { dict } = await getDictionary();
   return { title: dict.notFound.title };
 }
 

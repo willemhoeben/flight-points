@@ -10,6 +10,7 @@ import { RecentlyViewedProvider } from "@/lib/recently-viewed-context";
 import { SavedDealsProvider } from "@/lib/saved-deals-context";
 import { ThemeProvider } from "@/lib/theme-context";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 import "./globals.css";
 
 // Headings/body use the system font stack (defined in globals.css) so the
@@ -22,7 +23,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { dict } = await getDictionary();
+  const { locale, dict } = await getDictionary();
   const title = `${SITE_NAME} — ${dict.home.badge}`;
 
   return {
@@ -39,6 +40,8 @@ export async function generateMetadata(): Promise<Metadata> {
       url: "/",
       siteName: SITE_NAME,
       type: "website",
+      locale: toOgLocale(locale),
+      alternateLocale: alternateOgLocales(locale),
     },
     twitter: {
       card: "summary_large_image",

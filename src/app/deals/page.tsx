@@ -12,9 +12,10 @@ import { formatDateLabel } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { dealCategoryLabel } from "@/lib/i18n/deal-category";
 import { isDealSort, sortDeals, type DealSort } from "@/lib/deal-sort";
+import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { dict } = await getDictionary();
+  const { locale, dict } = await getDictionary();
   return {
     title: dict.dealsPage.eyebrow,
     description: dict.dealsPage.description,
@@ -22,7 +23,14 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: "/deals",
       types: { "application/rss+xml": [{ url: "/deals/feed.xml", title: `${dict.dealsPage.eyebrow} RSS` }] },
     },
-    openGraph: { title: dict.dealsPage.eyebrow, description: dict.dealsPage.description, url: "/deals", type: "website" },
+    openGraph: {
+      title: dict.dealsPage.eyebrow,
+      description: dict.dealsPage.description,
+      url: "/deals",
+      type: "website",
+      locale: toOgLocale(locale),
+      alternateLocale: alternateOgLocales(locale),
+    },
     twitter: { card: "summary_large_image", title: dict.dealsPage.eyebrow, description: dict.dealsPage.description },
   };
 }

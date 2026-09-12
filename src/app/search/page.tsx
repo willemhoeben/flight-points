@@ -11,14 +11,22 @@ import { CABINS, searchAvailability, searchCalendar, type Cabin } from "@/data/a
 import { addDays, formatDateLabel, todayIso } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { interpolate, pluralize } from "@/lib/i18n/format";
+import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { dict } = await getDictionary();
+  const { locale, dict } = await getDictionary();
   return {
     title: dict.search.eyebrow,
     description: dict.search.description,
     alternates: { canonical: "/search" },
-    openGraph: { title: dict.search.eyebrow, description: dict.search.description, url: "/search", type: "website" },
+    openGraph: {
+      title: dict.search.eyebrow,
+      description: dict.search.description,
+      url: "/search",
+      type: "website",
+      locale: toOgLocale(locale),
+      alternateLocale: alternateOgLocales(locale),
+    },
     twitter: { card: "summary_large_image", title: dict.search.eyebrow, description: dict.search.description },
   };
 }

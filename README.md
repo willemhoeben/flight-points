@@ -164,4 +164,9 @@ the middle crumb in the page's own locale) on each `/deals/[slug]` page.
 
 Every page sets a self-referencing canonical URL, a page-specific description,
 and Open Graph/Twitter Card previews (`summary_large_image`, matching the
-generated share images above) instead of inheriting the homepage's.
+generated share images above) instead of inheriting the homepage's. Every
+page also declares `og:locale` for the visitor's current language and
+`og:locale:alternate` for the other six — legitimate here even without
+per-locale URLs (see "Languages and currencies" above for why this site is
+cookie-based, not route-based): all seven language versions genuinely live
+at the same URL, which is exactly what those two tags are for.
