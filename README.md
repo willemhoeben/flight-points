@@ -114,7 +114,11 @@ The navbar has two independent selectors:
 - **Language** — English, Nederlands, Deutsch, Français, Español, Italiano, 日本語. Cookie-based
   (`src/lib/i18n/`), not route-prefixed (no `/en/`, `/nl/`): a `locale` cookie
   set by the switcher is read once per request in the root layout and handed
-  down to every page. This translates UI chrome — navigation, forms, table
+  down to every page. Before that cookie exists — a visitor's very first
+  request — the server reads the browser's own `Accept-Language` header
+  instead of defaulting straight to English, so someone whose browser is set
+  to Dutch or Japanese sees their language immediately rather than having to
+  find and use the switcher first. This translates UI chrome — navigation, forms, table
   headers, page copy, error/404 pages. It deliberately does **not** translate
   deal article bodies, valuation notes, or proper nouns (airport names,
   program names) — that's editorial content translation, a different task
