@@ -17,13 +17,18 @@ airline or loyalty program.
   omitted at the default miles-ascending order) alongside the existing
   route/date/cabin/program params, so a sorted search is exactly as
   bookmarkable and shareable as an unsorted one — same `router.replace`,
-  no-reload approach as `/valuations`. A "Nonstop only" filter pill and an
-  Alliance filter (All/Star Alliance/Oneworld/SkyTeam/Unaligned) sit above
-  the results table (`?nonstop=1&alliance=star-alliance`, composing with
-  sort in the same URL) and narrow the list together, with an empty state
-  that's specific to "no nonstop options" when that's the only filter
-  active and a generic "no results match these filters" once alliance is
-  involved too. Remembers your last search in
+  no-reload approach as `/valuations`. A "Nonstop only" filter pill, an
+  Alliance filter (All/Star Alliance/Oneworld/SkyTeam/Unaligned), and a Max
+  taxes & fees filter (All/Under $50/Under $100/Under $200) sit above
+  the results table (`?nonstop=1&alliance=star-alliance&maxFees=100`,
+  composing with sort in the same URL) and narrow the list together, with
+  an empty state that's specific to "no nonstop options" when that's the
+  only filter active and a generic "no results match these filters" once
+  alliance or fees is involved too. The fee thresholds are fixed 50/100/200
+  USD internally but their pill labels render in whatever currency you've
+  selected (so switching to EUR shows "Under €46.00", not "Under $50") —
+  same currency-conversion path the taxes & fees column itself already
+  uses. Remembers your last search in
   localStorage and returns to it on a bare `/search` visit. Every query
   param is validated against a known set (airport codes, cabins, an ISO
   date) before use — an invalid or garbled one falls back to a sensible

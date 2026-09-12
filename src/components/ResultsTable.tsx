@@ -15,8 +15,10 @@ import {
   buildResultsSortUrl,
   isNonstopOnlyParam,
   isResultsSortKey,
+  maxFeesFromParam,
   DEFAULT_RESULTS_SORT_DIR,
   DEFAULT_RESULTS_SORT_KEY,
+  MAX_FEES_OPTIONS,
   type ResultsSortKey,
 } from "@/lib/results-sort-url";
 
@@ -33,6 +35,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
   const sortDir: SortDir = isSortDir(dirParam) ? dirParam : DEFAULT_RESULTS_SORT_DIR;
   const nonstopOnly = isNonstopOnlyParam(searchParams.get("nonstop"));
   const allianceFilter = allianceFromSlug(searchParams.get("alliance"));
+  const maxFeesFilter = maxFeesFromParam(searchParams.get("maxFees"));
 
   const { format } = useCurrency();
   const dict = useDictionary();
@@ -51,10 +54,13 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
       results.filter((r) => {
         if (nonstopOnly && !r.direct) return false;
         if (allianceFilter && PROGRAMS.find((p) => p.id === r.programId)?.alliance !== allianceFilter) return false;
+        if (maxFeesFilter && r.taxesFeesUsd > maxFeesFilter) return false;
         return true;
       }),
-    [results, nonstopOnly, allianceFilter],
+    [results, nonstopOnly, allianceFilter, maxFeesFilter],
   );
+
+  const hasAdvancedFilter = allianceFilter !== null || maxFeesFilter !== null;
 
   // filtered preserves results' original order (a .filter() never
   // reorders), and results itself arrives pre-sorted ascending by miles
@@ -76,6 +82,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
         sortDir: next.dir,
         nonstopOnly,
         alliance: allianceFilter,
+        maxTaxesFees: maxFeesFilter,
       }),
       { scroll: false },
     );
@@ -88,6 +95,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
         sortDir,
         nonstopOnly: !nonstopOnly,
         alliance: allianceFilter,
+        maxTaxesFees: maxFeesFilter,
       }),
       { scroll: false },
     );
@@ -95,7 +103,26 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
 
   function goToAlliance(alliance: Alliance | null) {
     router.replace(
-      buildResultsSortUrl(pathname, searchParams.toString(), { sortKey, sortDir, nonstopOnly, alliance }),
+      buildResultsSortUrl(pathname, searchParams.toString(), {
+        sortKey,
+        sortDir,
+        nonstopOnly,
+        alliance,
+        maxTaxesFees: maxFeesFilter,
+      }),
+      { scroll: false },
+    );
+  }
+
+  function goToMaxFees(maxTaxesFees: number | null) {
+    router.replace(
+      buildResultsSortUrl(pathname, searchParams.toString(), {
+        sortKey,
+        sortDir,
+        nonstopOnly,
+        alliance: allianceFilter,
+        maxTaxesFees,
+      }),
       { scroll: false },
     );
   }
@@ -148,6 +175,34 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
           {allianceLabel(alliance)}
         </button>
       ))}
+      <span aria-hidden="true" className="mx-1 self-center text-border">|</span>
+      <button
+        type="button"
+        onClick={() => goToMaxFees(null)}
+        aria-current={maxFeesFilter === null ? "true" : undefined}
+        className={
+          maxFeesFilter === null
+            ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+            : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+        }
+      >
+        {dict.resultsTable.filterAll}
+      </button>
+      {MAX_FEES_OPTIONS.map((amount) => (
+        <button
+          key={amount}
+          type="button"
+          onClick={() => goToMaxFees(amount)}
+          aria-current={maxFeesFilter === amount ? "true" : undefined}
+          className={
+            maxFeesFilter === amount
+              ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+              : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+          }
+        >
+          {interpolate(dict.resultsTable.maxFeesUnder, { amount: format(amount) })}
+        </button>
+      ))}
     </div>
   );
 
@@ -156,7 +211,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
       <div>
         {filterControls}
         <div className="rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">
-          {allianceFilter ? dict.resultsTable.noFilteredResults : dict.resultsTable.noNonstopResults}
+          {hasAdvancedFilter ? dict.resultsTable.noFilteredResults : dict.resultsTable.noNonstopResults}
         </div>
       </div>
     );
