@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { SectionHeading } from "@/components/ui";
 import { ValuationsTable } from "@/components/ValuationsTable";
 import { PointsCalculator } from "@/components/PointsCalculator";
@@ -40,7 +41,9 @@ export default async function ValuationsPage() {
       />
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px] print:grid-cols-1">
-        <ValuationsTable valuations={VALUATIONS} />
+        <Suspense fallback={null}>
+          <ValuationsTable valuations={VALUATIONS} />
+        </Suspense>
         <PointsCalculator />
       </div>
     </div>

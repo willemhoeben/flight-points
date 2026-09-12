@@ -1,10 +1,21 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { PointCurrency } from "@/data/valuations";
 import { Badge } from "@/components/ui";
+import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { useDictionary } from "@/lib/i18n/i18n-context";
 import { nextSort, sortBy, type SortDir } from "@/lib/sort";
+import {
+  buildValuationsUrl,
+  isSortDir,
+  isValuationsSortKey,
+  isValuationType,
+  DEFAULT_VALUATIONS_SORT_DIR,
+  DEFAULT_VALUATIONS_SORT_KEY,
+  type ValuationsSortKey,
+} from "@/lib/valuations-url";
 
 const TYPE_ACCENT: Record<PointCurrency["type"], string> = {
   bank: "sky",
@@ -24,16 +35,20 @@ const TREND_CLASS: Record<PointCurrency["trend"], string> = {
   flat: "text-muted",
 };
 
-type SortKey = "name" | "centsPerPoint";
-type TypeFilter = PointCurrency["type"] | null;
-
 const TYPES: PointCurrency["type"][] = ["bank", "airline", "hotel"];
 
 export function ValuationsTable({ valuations }: { valuations: PointCurrency[] }) {
-  const [sortKey, setSortKey] = useState<SortKey>("centsPerPoint");
-  const [sortDir, setSortDir] = useState<SortDir>("desc");
-  const [typeFilter, setTypeFilter] = useState<TypeFilter>(null);
   const dict = useDictionary();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const typeParam = searchParams.get("type");
+  const sortParam = searchParams.get("sort");
+  const dirParam = searchParams.get("dir");
+  const typeFilter = isValuationType(typeParam) ? typeParam : null;
+  const sortKey: ValuationsSortKey = isValuationsSortKey(sortParam) ? sortParam : DEFAULT_VALUATIONS_SORT_KEY;
+  const sortDir: SortDir = isSortDir(dirParam) ? dirParam : DEFAULT_VALUATIONS_SORT_DIR;
 
   const TYPE_LABEL: Record<PointCurrency["type"], string> = {
     bank: dict.valuationsTable.typeBank,
@@ -52,25 +67,33 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
   );
   const sorted = useMemo(() => sortBy(filtered, sortKey, sortDir), [filtered, sortKey, sortDir]);
 
-  function toggleSort(key: SortKey) {
+  function goToSort(key: ValuationsSortKey) {
     const next = nextSort(sortKey, sortDir, key, (k) => (k === "name" ? "asc" : "desc"));
-    setSortKey(next.key);
-    setSortDir(next.dir);
+    router.replace(buildValuationsUrl(pathname, { type: typeFilter, sortKey: next.key, sortDir: next.dir }), {
+      scroll: false,
+    });
   }
 
-  const sortArrow = (key: SortKey) => (sortKey === key ? (sortDir === "asc" ? "▲" : "▼") : "↕");
+  function goToType(type: PointCurrency["type"] | null) {
+    router.replace(buildValuationsUrl(pathname, { type, sortKey, sortDir }), { scroll: false });
+  }
+
+  const sortArrow = (key: ValuationsSortKey) => (sortKey === key ? (sortDir === "asc" ? "▲" : "▼") : "↕");
 
   return (
     <div className="min-w-0">
-      <div className="mb-4 flex flex-wrap gap-2 print:hidden" role="group" aria-label={dict.valuationsTable.filterLabel}>
-        <FilterPill active={typeFilter === null} onClick={() => setTypeFilter(null)}>
-          {dict.valuationsTable.filterAll}
-        </FilterPill>
-        {TYPES.map((type) => (
-          <FilterPill key={type} active={typeFilter === type} onClick={() => setTypeFilter(type)}>
-            {TYPE_LABEL[type]}
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap gap-2 print:hidden" role="group" aria-label={dict.valuationsTable.filterLabel}>
+          <FilterPill active={typeFilter === null} onClick={() => goToType(null)}>
+            {dict.valuationsTable.filterAll}
           </FilterPill>
-        ))}
+          {TYPES.map((type) => (
+            <FilterPill key={type} active={typeFilter === type} onClick={() => goToType(type)}>
+              {TYPE_LABEL[type]}
+            </FilterPill>
+          ))}
+        </div>
+        <CopyLinkButton />
       </div>
 
       {sorted.length === 0 ? (
@@ -87,7 +110,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
                 >
                   <button
                     type="button"
-                    onClick={() => toggleSort("name")}
+                    onClick={() => goToSort("name")}
                     className="inline-flex items-center gap-1 hover:text-foreground"
                   >
                     {dict.valuationsTable.currency}
@@ -104,7 +127,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
                 >
                   <button
                     type="button"
-                    onClick={() => toggleSort("centsPerPoint")}
+                    onClick={() => goToSort("centsPerPoint")}
                     className="inline-flex flex-row-reverse items-center gap-1 hover:text-foreground"
                   >
                     {dict.valuationsTable.value}

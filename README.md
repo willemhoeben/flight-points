@@ -15,6 +15,11 @@ airline or loyalty program.
 - **`/valuations`** — a sortable, filterable (bank/airline/hotel) table of
   estimated cents-per-point values for major currencies, plus a two-way
   calculator: points → cash value, or a target cash amount → points needed.
+  The filter and sort are reflected in the URL (`?type=hotel&sort=name&dir=asc`,
+  omitted when at their defaults) and applied by `router.replace` — no page
+  reload, but the resulting link is bookmarkable and shareable, same as
+  `/search` and `/deals`. A "Copy share link" button sits next to the filter
+  pills for exactly that.
 - **`/deals`** — 8 sample transfer-bonus and award-chart sweet-spot writeups, filterable
   by category (`?category=transfer-bonus|sweet-spot|sale`) and sortable by
   newest or soonest-expiring (`?sort=newest|expiring`) — the two compose,
