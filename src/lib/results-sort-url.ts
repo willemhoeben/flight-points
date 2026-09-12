@@ -1,3 +1,4 @@
+import type { Alliance } from "@/data/programs";
 import type { SortDir } from "@/lib/sort";
 
 export type ResultsSortKey = "milesCost" | "durationMinutes" | "seatsRemaining";
@@ -13,17 +14,38 @@ export function isNonstopOnlyParam(value: string | null): boolean {
   return value === "1";
 }
 
+// URL slugs instead of the raw Alliance strings — "Star Alliance" contains a
+// space, and a plain query param round-trips ambiguously across encodings.
+const ALLIANCE_SLUGS: Record<Alliance, string> = {
+  "Star Alliance": "star-alliance",
+  Oneworld: "oneworld",
+  SkyTeam: "skyteam",
+  Unaligned: "unaligned",
+};
+const SLUG_TO_ALLIANCE = Object.fromEntries(
+  Object.entries(ALLIANCE_SLUGS).map(([alliance, slug]) => [slug, alliance as Alliance]),
+) as Record<string, Alliance>;
+
+export function allianceToSlug(alliance: Alliance): string {
+  return ALLIANCE_SLUGS[alliance];
+}
+
+/** Parses a ?alliance= value; returns null for missing/unknown input (meaning "all alliances"). */
+export function allianceFromSlug(value: string | null): Alliance | null {
+  return value !== null && value in SLUG_TO_ALLIANCE ? SLUG_TO_ALLIANCE[value] : null;
+}
+
 /**
  * Builds the shareable results URL for a given sort/filter state, preserving
  * every other existing query param (origin/destination/date/cabin/programs)
- * and omitting sort/dir/nonstop when they're at their default — so a plain
- * search only ever picks up these params once the visitor actually changes
- * the view.
+ * and omitting sort/dir/nonstop/alliance when they're at their default — so
+ * a plain search only ever picks up these params once the visitor actually
+ * changes the view.
  */
 export function buildResultsSortUrl(
   pathname: string,
   currentSearch: string,
-  view: { sortKey: ResultsSortKey; sortDir: SortDir; nonstopOnly: boolean },
+  view: { sortKey: ResultsSortKey; sortDir: SortDir; nonstopOnly: boolean; alliance: Alliance | null },
 ): string {
   const params = new URLSearchParams(currentSearch);
   const isDefaultSort = view.sortKey === DEFAULT_RESULTS_SORT_KEY && view.sortDir === DEFAULT_RESULTS_SORT_DIR;
@@ -38,6 +60,11 @@ export function buildResultsSortUrl(
     params.set("nonstop", "1");
   } else {
     params.delete("nonstop");
+  }
+  if (view.alliance) {
+    params.set("alliance", allianceToSlug(view.alliance));
+  } else {
+    params.delete("alliance");
   }
   const qs = params.toString();
   return qs ? `${pathname}?${qs}` : pathname;
