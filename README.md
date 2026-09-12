@@ -151,9 +151,11 @@ runs — the same reason its save-deal button and back link needed manual
 listeners already. Its results and valuations tables mirror the sort-order
 `aria-live` announcement too, translated the same way as everything else in
 its single-file dictionary. Its results table also has the same "Nonstop
-only" filter pill as the repo, narrowing to direct flights with its own
-empty state when a route has none — not URL-synced like the repo's version
-since the artifact keeps its own view state in memory rather than a query
+only" filter pill and the same Alliance filter (All/Star Alliance/
+Oneworld/SkyTeam/Unaligned) as the repo, composing together with an
+empty state that's specific to "no nonstop options" or generic once
+alliance is involved — not URL-synced like the repo's version since
+the artifact keeps its own view state in memory rather than a query
 string, but otherwise the same filter logic and translated into all seven
 languages. It also has the same Saved Searches feature: a star button
 next to the results header, a chip row above the search form for
