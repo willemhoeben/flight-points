@@ -52,7 +52,11 @@ mark is an "FP" monogram badge. `src/app/icon.tsx`, `apple-icon.tsx`, and
 share image from the same brand mark; each deal also gets its own share
 image (`deals/[slug]/opengraph-image.tsx`) showing that deal's title,
 category, and bonus%, instead of falling back to the generic site-wide one.
-`manifest.ts` makes the site installable. `error.tsx` and `not-found.tsx` give runtime errors and bad
+`manifest.ts` makes the site installable, with a dynamic `icons/[size]`
+route generating the 192×192 and 512×512 icons Chrome's own installability
+check actually requires — the 32×32 favicon alone met the letter of the
+manifest spec but not that bar, and would have rendered blurry on an
+Android home screen. `error.tsx` and `not-found.tsx` give runtime errors and bad
 routes a branded page instead of Next's defaults. `loading.tsx` files on
 `/search`, `/deals`, `/deals/[slug]`, and `/valuations` (all server-rendered
 per request, since they read the locale cookie) give each a skeleton screen
