@@ -159,11 +159,13 @@ runs — the same reason its save-deal button and back link needed manual
 listeners already. Its results and valuations tables mirror the sort-order
 `aria-live` announcement too, translated the same way as everything else in
 its single-file dictionary. Its results table also has the same "Nonstop
-only" filter pill and the same Alliance filter (All/Star Alliance/
-Oneworld/SkyTeam/Unaligned) as the repo, composing together with an
+only" filter pill, the same Alliance filter (All/Star Alliance/
+Oneworld/SkyTeam/Unaligned), and the same Max taxes & fees filter
+(All/Under $50/Under $100/Under $200, labels re-rendered in the
+selected currency) as the repo, composing together with an
 empty state that's specific to "no nonstop options" or generic once
-alliance is involved — not URL-synced like the repo's version since
-the artifact keeps its own view state in memory rather than a query
+alliance or fees is involved — not URL-synced like the repo's version
+since the artifact keeps its own view state in memory rather than a query
 string, but otherwise the same filter logic and translated into all seven
 languages. Its home tab has the same plane-flyover hero animation as the
 repo's landing page — a CSS `left` keyframe (not `transform: translateX`,
