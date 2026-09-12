@@ -3,7 +3,7 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 export function Footer({ dict }: { dict: Dictionary["footer"] & { nav: Dictionary["nav"] } }) {
   return (
-    <footer className="border-t border-border">
+    <footer className="border-t border-border print:hidden">
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
         <div className="grid gap-6 text-[12.5px] sm:grid-cols-3">
           <div>

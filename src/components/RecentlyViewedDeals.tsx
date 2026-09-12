@@ -18,7 +18,7 @@ export function RecentlyViewedDeals({ heading }: { heading: string }) {
   if (deals.length === 0) return null;
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 print:hidden">
       <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">{heading}</div>
       <div className="flex flex-wrap gap-2">
         {deals.map((deal) => (

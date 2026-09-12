@@ -12,7 +12,7 @@ export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-xl print:hidden">
       <div className="mx-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 px-4 py-2 sm:h-11 sm:flex-nowrap sm:py-0 sm:px-6 max-w-6xl">
         <Link href="/" className="flex items-center gap-2 whitespace-nowrap text-[14px] font-semibold tracking-tight">
           <span

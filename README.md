@@ -54,7 +54,12 @@ on the deal title and body when the page itself is in another language (so a
 Dutch or Japanese screen reader doesn't read the English article text aloud
 in the wrong voice), and a consistent branded keyboard-focus ring on every
 link and button (previously most fell back to each browser's own mismatched
-default outline) round out the accessibility basics.
+default outline) round out the accessibility basics. A print stylesheet hides
+the navbar, footer, and anything purely interactive (filter/sort pills, the
+save-deal and copy-link buttons, the search form's submit button) and forces
+the light color palette even when the page was viewed in dark mode, so
+printing or "save as PDF" from a deal page or the valuations table produces a
+clean, ink-friendly page instead of a screenshot of the live UI.
 
 A matching standalone HTML version (same data, same interactions, ported to
 vanilla JS) exists as a Claude Artifact for quick browser testing without

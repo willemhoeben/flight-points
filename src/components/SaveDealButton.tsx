@@ -16,8 +16,8 @@ export function SaveDealButton({ slug }: { slug: string }) {
       suppressHydrationWarning
       className={
         saved
-          ? "inline-flex items-center gap-1.5 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground"
-          : "inline-flex items-center gap-1.5 rounded-full bg-surface-muted px-4 py-2 text-sm font-medium text-muted transition-colors hover:text-foreground"
+          ? "inline-flex items-center gap-1.5 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground print:hidden"
+          : "inline-flex items-center gap-1.5 rounded-full bg-surface-muted px-4 py-2 text-sm font-medium text-muted transition-colors hover:text-foreground print:hidden"
       }
     >
       <span aria-hidden="true" suppressHydrationWarning>

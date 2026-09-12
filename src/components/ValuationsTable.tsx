@@ -62,7 +62,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
 
   return (
     <div className="min-w-0">
-      <div className="mb-4 flex flex-wrap gap-2" role="group" aria-label={dict.valuationsTable.filterLabel}>
+      <div className="mb-4 flex flex-wrap gap-2 print:hidden" role="group" aria-label={dict.valuationsTable.filterLabel}>
         <FilterPill active={typeFilter === null} onClick={() => setTypeFilter(null)}>
           {dict.valuationsTable.filterAll}
         </FilterPill>

@@ -67,7 +67,7 @@ export default async function DealsPage({
 
       <RecentlyViewedDeals heading={dict.dealsPage.recentlyViewed} />
 
-      <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label={dict.dealsPage.filterLabel}>
+      <div className="mt-6 flex flex-wrap gap-2 print:hidden" role="group" aria-label={dict.dealsPage.filterLabel}>
         <FilterPill href={buildHref(null, activeSort)} active={!activeCategory}>
           {dict.dealsPage.filterAll}
         </FilterPill>
@@ -79,7 +79,7 @@ export default async function DealsPage({
       </div>
 
       <SavedFilterProvider>
-        <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label={dict.dealsPage.sortLabel}>
+        <div className="mt-3 flex flex-wrap gap-2 print:hidden" role="group" aria-label={dict.dealsPage.sortLabel}>
           {SORTS.map((sort) => (
             <FilterPill
               key={sort}

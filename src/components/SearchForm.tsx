@@ -88,7 +88,7 @@ export function SearchForm({
 
       <button
         type="submit"
-        className="w-full rounded-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90 sm:w-auto"
+        className="w-full rounded-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90 sm:w-auto print:hidden"
       >
         {dict.submit}
       </button>
