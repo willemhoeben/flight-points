@@ -133,7 +133,8 @@ there's no flash of the wrong theme on load; while set to "System" it keeps
 following live OS-level changes. The resolved theme also drives a
 `<meta name="theme-color">` tag, so the mobile browser's own address/status
 bar matches the page background instead of staying a fixed color regardless
-of theme.
+of theme — mirrored in the artifact too, including live-following an OS
+preference change while its own theme selector is set to "System".
 
 All three selections persist independently: language via cookie, currency
 and theme via localStorage.
