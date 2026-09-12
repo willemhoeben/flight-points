@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { buildResultsSortUrl, isResultsSortKey } from "@/lib/results-sort-url";
+import { buildResultsSortUrl, isNonstopOnlyParam, isResultsSortKey } from "@/lib/results-sort-url";
 
 describe("isResultsSortKey", () => {
   test("accepts every results sort key", () => {
@@ -15,17 +15,31 @@ describe("isResultsSortKey", () => {
   });
 });
 
+describe("isNonstopOnlyParam", () => {
+  test("accepts exactly '1'", () => {
+    expect(isNonstopOnlyParam("1")).toBe(true);
+  });
+
+  test("rejects anything else", () => {
+    expect(isNonstopOnlyParam("true")).toBe(false);
+    expect(isNonstopOnlyParam("0")).toBe(false);
+    expect(isNonstopOnlyParam(null)).toBe(false);
+    expect(isNonstopOnlyParam("")).toBe(false);
+  });
+});
+
 describe("buildResultsSortUrl", () => {
-  test("omits sort/dir at the default state", () => {
+  test("omits sort/dir/nonstop at the default state", () => {
     const url = buildResultsSortUrl("/search", "origin=JFK&destination=LHR", {
       sortKey: "milesCost",
       sortDir: "asc",
+      nonstopOnly: false,
     });
     expect(url).toBe("/search?origin=JFK&destination=LHR");
   });
 
   test("resolves to a bare pathname when there are no other params either", () => {
-    const url = buildResultsSortUrl("/search", "", { sortKey: "milesCost", sortDir: "asc" });
+    const url = buildResultsSortUrl("/search", "", { sortKey: "milesCost", sortDir: "asc", nonstopOnly: false });
     expect(url).toBe("/search");
   });
 
@@ -33,6 +47,7 @@ describe("buildResultsSortUrl", () => {
     const url = buildResultsSortUrl("/search", "origin=JFK&destination=LHR", {
       sortKey: "durationMinutes",
       sortDir: "asc",
+      nonstopOnly: false,
     });
     expect(url).toBe("/search?origin=JFK&destination=LHR&sort=durationMinutes&dir=asc");
   });
@@ -41,6 +56,7 @@ describe("buildResultsSortUrl", () => {
     const url = buildResultsSortUrl("/search", "origin=JFK&sort=durationMinutes&dir=asc", {
       sortKey: "durationMinutes",
       sortDir: "desc",
+      nonstopOnly: false,
     });
     expect(url).toBe("/search?origin=JFK&sort=durationMinutes&dir=desc");
   });
@@ -49,7 +65,35 @@ describe("buildResultsSortUrl", () => {
     const url = buildResultsSortUrl("/search", "origin=JFK&sort=seatsRemaining&dir=desc", {
       sortKey: "milesCost",
       sortDir: "asc",
+      nonstopOnly: false,
     });
     expect(url).toBe("/search?origin=JFK");
+  });
+
+  test("adds nonstop=1 when the filter is on", () => {
+    const url = buildResultsSortUrl("/search", "origin=JFK&destination=LHR", {
+      sortKey: "milesCost",
+      sortDir: "asc",
+      nonstopOnly: true,
+    });
+    expect(url).toBe("/search?origin=JFK&destination=LHR&nonstop=1");
+  });
+
+  test("combines nonstop with a non-default sort", () => {
+    const url = buildResultsSortUrl("/search", "origin=JFK", {
+      sortKey: "durationMinutes",
+      sortDir: "asc",
+      nonstopOnly: true,
+    });
+    expect(url).toBe("/search?origin=JFK&sort=durationMinutes&dir=asc&nonstop=1");
+  });
+
+  test("removes nonstop when turned back off, preserving sort", () => {
+    const url = buildResultsSortUrl("/search", "origin=JFK&sort=durationMinutes&dir=asc&nonstop=1", {
+      sortKey: "durationMinutes",
+      sortDir: "asc",
+      nonstopOnly: false,
+    });
+    expect(url).toBe("/search?origin=JFK&sort=durationMinutes&dir=asc");
   });
 });
