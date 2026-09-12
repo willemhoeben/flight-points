@@ -160,7 +160,11 @@ empty state that's specific to "no nonstop options" or generic once
 alliance is involved — not URL-synced like the repo's version since
 the artifact keeps its own view state in memory rather than a query
 string, but otherwise the same filter logic and translated into all seven
-languages. It also has the same Saved Searches feature: a star button
+languages. Its home tab has the same plane-flyover hero animation as the
+repo's landing page — a CSS `left` keyframe (not `transform: translateX`,
+which would resolve against the tiny plane icon's own size rather than the
+hero card) so it crosses edge-to-edge regardless of hero width. It also has
+the same Saved Searches feature: a star button
 next to the results header, a chip row above the search form for
 quick-launching or removing a saved search, and the same
 route+date+cabin dedup so re-saving refreshes an entry instead of
