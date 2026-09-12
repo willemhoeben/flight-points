@@ -31,11 +31,22 @@ airline or loyalty program.
   composing with sort in the same URL) and narrow the list together, with
   an empty state that's specific to "no nonstop options" when that's the
   only filter active and a generic "no results match these filters" once
-  alliance or fees is involved too. The fee thresholds are fixed 50/100/200
-  USD internally but their pill labels render in whatever currency you've
-  selected (so switching to EUR shows "Under €46.00", not "Under $50") —
-  same currency-conversion path the taxes & fees column itself already
-  uses. Remembers your last search in
+  alliance or fees is involved too. Alliance and fees each open with their
+  own "All" pill, so each group carries a visible label ("Alliance", "Max
+  fees") and a matching `aria-label` — a bare "All" on its own line says
+  nothing about what it resets once the row wraps on a phone. The fee
+  thresholds are fixed 50/100/200 USD internally but their pill labels
+  render in whatever currency you've selected (so switching to EUR shows
+  "Under €46", not "Under $50") — same currency-conversion path the taxes
+  & fees column itself already uses, with the cents dropped via
+  `formatCurrency`'s `round` option, since a coarse threshold shouldn't
+  imply two decimal places of precision. The 16-program picker is a
+  collapsed `<details>` that summarises its own state ("All 16 programs",
+  or "2 of 16 programs" when narrowed, in which case it opens on arrival):
+  every box is ticked by default and most people never narrow it, so
+  leaving it expanded pushed the calendar and the results themselves below
+  the fold. It's a native element, so the form stays JS-free and the
+  collapsed checkboxes still submit. Remembers your last search in
   localStorage and returns to it on a bare `/search` visit. Every query
   param is validated against a known set (airport codes, cabins, an ISO
   date) before use — an invalid or garbled one falls back to a sensible
@@ -174,10 +185,15 @@ empty state that's specific to "no nonstop options" or generic once
 alliance or fees is involved — not URL-synced like the repo's version
 since the artifact keeps its own view state in memory rather than a query
 string, but otherwise the same filter logic and translated into all seven
-languages. It gets the same airliner crossing the middle of the viewport on
-load as the repo's landing page, from the same viewport-fixed
-`pointer-events-none` layer, so clicks still land on the tabs and buttons
-underneath it. It also has
+languages. The alliance and fee groups carry the same visible labels and
+`aria-label`s, and the fee pills drop their cents the same way. Its program
+picker collapses into the same self-summarising `<details>` — with one
+addition the repo doesn't need: the repo's checkboxes are server-rendered
+and only change on submit, while the artifact's are live, so it recomputes
+the summary count on every `change` event. It gets the same airliner
+crossing the middle of the viewport as the repo's landing page, from the
+same viewport-fixed `pointer-events-none` layer, so clicks still land on
+the tabs and buttons underneath it. It also has
 the same Saved Searches feature: a star button
 next to the results header, a chip row above the search form for
 quick-launching or removing a saved search, and the same
