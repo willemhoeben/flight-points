@@ -1,18 +1,19 @@
 "use client";
 
 import { createContext, useCallback, useContext, useMemo, useSyncExternalStore, type ReactNode } from "react";
-import { DEFAULT_CURRENCY, formatCurrency, isCurrencyCode, type CurrencyCode } from "@/lib/currency";
+import { defaultCurrencyForLocale, formatCurrency, isCurrencyCode, type CurrencyCode } from "@/lib/currency";
 import { useLocale } from "@/lib/i18n/i18n-context";
+import type { Locale } from "@/lib/i18n/locales";
 
 const STORAGE_KEY = "flight-points:currency";
 const CHANGE_EVENT = "flight-points:currency-change";
 
-function readStoredCurrency(): CurrencyCode {
+function readStoredCurrency(locale: Locale): CurrencyCode {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    return isCurrencyCode(saved) ? saved : DEFAULT_CURRENCY;
+    return isCurrencyCode(saved) ? saved : defaultCurrencyForLocale(locale);
   } catch {
-    return DEFAULT_CURRENCY;
+    return defaultCurrencyForLocale(locale);
   }
 }
 
@@ -28,14 +29,6 @@ function subscribe(callback: () => void) {
   };
 }
 
-// SSR and the pre-hydration client render can't read localStorage — always
-// USD there. useSyncExternalStore reconciles the mismatch after hydration
-// without the setState-in-effect anti-pattern a plain useState+useEffect
-// version would need.
-function getServerSnapshot(): CurrencyCode {
-  return DEFAULT_CURRENCY;
-}
-
 type CurrencyContextValue = {
   currency: CurrencyCode;
   setCurrency: (code: CurrencyCode) => void;
@@ -45,8 +38,16 @@ type CurrencyContextValue = {
 const CurrencyContext = createContext<CurrencyContextValue | null>(null);
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
-  const currency = useSyncExternalStore(subscribe, readStoredCurrency, getServerSnapshot);
   const locale = useLocale();
+  // locale is already known server-side (the cookie/Accept-Language
+  // resolution in get-dictionary.ts), so the "pre-localStorage" default can
+  // be locale-correct from the very first server-rendered byte — no flash,
+  // and no hydration mismatch: useSyncExternalStore calls getServerSnapshot
+  // during the hydration-matching pass and only switches to getSnapshot
+  // (which can then pick up a real localStorage override) afterward.
+  const getSnapshot = useCallback(() => readStoredCurrency(locale), [locale]);
+  const getServerSnapshot = useCallback(() => defaultCurrencyForLocale(locale), [locale]);
+  const currency = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const setCurrency = useCallback((code: CurrencyCode) => {
     try {

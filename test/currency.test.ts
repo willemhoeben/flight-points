@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { CURRENCIES, convertFromUsd, convertToUsd, formatCurrency, isCurrencyCode } from "@/lib/currency";
+import { CURRENCIES, convertFromUsd, convertToUsd, defaultCurrencyForLocale, formatCurrency, isCurrencyCode } from "@/lib/currency";
+import { LOCALES } from "@/lib/i18n/locales";
 
 describe("convertFromUsd", () => {
   test("USD is identity", () => {
@@ -90,5 +91,29 @@ describe("isCurrencyCode", () => {
     expect(isCurrencyCode(undefined)).toBe(false);
     expect(isCurrencyCode(null)).toBe(false);
     expect(isCurrencyCode("")).toBe(false);
+  });
+});
+
+describe("defaultCurrencyForLocale", () => {
+  test("returns a valid, listed currency for every locale", () => {
+    for (const locale of LOCALES) {
+      expect(isCurrencyCode(defaultCurrencyForLocale(locale))).toBe(true);
+    }
+  });
+
+  test("defaults English to USD", () => {
+    expect(defaultCurrencyForLocale("en")).toBe("USD");
+  });
+
+  test("defaults every eurozone UI language to EUR", () => {
+    expect(defaultCurrencyForLocale("nl")).toBe("EUR");
+    expect(defaultCurrencyForLocale("de")).toBe("EUR");
+    expect(defaultCurrencyForLocale("fr")).toBe("EUR");
+    expect(defaultCurrencyForLocale("es")).toBe("EUR");
+    expect(defaultCurrencyForLocale("it")).toBe("EUR");
+  });
+
+  test("defaults Japanese to JPY", () => {
+    expect(defaultCurrencyForLocale("ja")).toBe("JPY");
   });
 });

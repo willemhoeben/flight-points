@@ -136,7 +136,12 @@ The navbar has two independent selectors:
   mock-data approach — not a live feed. Persisted to localStorage and synced
   across tabs. Its own accessible label is translated too, same as the
   language and theme selectors next to it (the artifact already had this
-  right — the repo's copy had quietly stayed English-only).
+  right — the repo's copy had quietly stayed English-only). Before anything's
+  saved, the starting currency also follows the detected language — EUR for
+  the five eurozone UI languages, JPY for Japanese, USD otherwise — the same
+  "infer, then let an explicit choice win" idea as the language default
+  below, and known from the very first server-rendered byte since locale is
+  already resolved by then, so there's no flash of the wrong currency.
 
 A third selector, **Theme** (System/Light/Dark, `src/lib/theme-context.tsx`),
 overrides the OS-level `prefers-color-scheme` default. A blocking inline

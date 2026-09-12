@@ -19,6 +19,26 @@ export const CURRENCIES: { code: CurrencyCode; symbol: string; label: string }[]
 export const DEFAULT_CURRENCY: CurrencyCode = "USD";
 
 /**
+ * Sensible starting currency per UI language, used only until the visitor
+ * makes an explicit choice (persisted to localStorage from then on) — same
+ * "infer, then let an explicit choice win" idea as the Accept-Language
+ * fallback for the language switcher itself.
+ */
+const DEFAULT_CURRENCY_FOR_LOCALE: Record<Locale, CurrencyCode> = {
+  en: "USD",
+  nl: "EUR",
+  de: "EUR",
+  fr: "EUR",
+  es: "EUR",
+  it: "EUR",
+  ja: "JPY",
+};
+
+export function defaultCurrencyForLocale(locale: Locale): CurrencyCode {
+  return DEFAULT_CURRENCY_FOR_LOCALE[locale];
+}
+
+/**
  * Static, illustrative USD exchange rates — not a live feed, matches the
  * rest of the site's mock-data philosophy. Good enough to demonstrate
  * multi-currency display; not for anyone's actual booking decision.
