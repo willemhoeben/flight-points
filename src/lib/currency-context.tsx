@@ -33,6 +33,8 @@ type CurrencyContextValue = {
   currency: CurrencyCode;
   setCurrency: (code: CurrencyCode) => void;
   format: (amountUsd: number) => string;
+  /** Same conversion, cents dropped — for coarse threshold labels. */
+  formatRounded: (amountUsd: number) => string;
 };
 
 const CurrencyContext = createContext<CurrencyContextValue | null>(null);
@@ -63,6 +65,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
       currency,
       setCurrency,
       format: (amountUsd: number) => formatCurrency(amountUsd, currency, locale),
+      formatRounded: (amountUsd: number) => formatCurrency(amountUsd, currency, locale, { round: true }),
     }),
     [currency, setCurrency, locale],
   );

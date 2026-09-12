@@ -37,7 +37,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
   const allianceFilter = allianceFromSlug(searchParams.get("alliance"));
   const maxFeesFilter = maxFeesFromParam(searchParams.get("maxFees"));
 
-  const { format } = useCurrency();
+  const { format, formatRounded } = useCurrency();
   const dict = useDictionary();
   const locale = useLocale();
 
@@ -133,76 +133,42 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
     );
   }
 
+  // Each group carries its own visible label: there's an "All" pill in both
+  // the alliance and the fees group, and once the row wraps on a narrow
+  // screen a bare "All" on its own line says nothing about what it resets.
   const filterControls = (
-    <div className="mb-3 flex flex-wrap gap-2 print:hidden" role="group" aria-label={dict.resultsTable.filterLabel}>
-      <button
-        type="button"
-        onClick={toggleNonstopOnly}
-        aria-pressed={nonstopOnly}
-        className={
-          nonstopOnly
-            ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-            : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
-        }
-      >
+    <div
+      className="mb-3 flex flex-wrap items-center gap-x-5 gap-y-2 print:hidden"
+      role="group"
+      aria-label={dict.resultsTable.filterLabel}
+    >
+      <FilterPill active={nonstopOnly} toggle onClick={toggleNonstopOnly}>
         {dict.resultsTable.nonstopOnly}
-      </button>
-      <span aria-hidden="true" className="mx-1 self-center text-border">|</span>
-      <button
-        type="button"
-        onClick={() => goToAlliance(null)}
-        aria-current={allianceFilter === null ? "true" : undefined}
-        className={
-          allianceFilter === null
-            ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-            : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
-        }
-      >
-        {dict.resultsTable.filterAll}
-      </button>
-      {ALLIANCES.map((alliance) => (
-        <button
-          key={alliance}
-          type="button"
-          onClick={() => goToAlliance(alliance)}
-          aria-current={allianceFilter === alliance ? "true" : undefined}
-          className={
-            allianceFilter === alliance
-              ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-              : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
-          }
-        >
-          {allianceLabel(alliance)}
-        </button>
-      ))}
-      <span aria-hidden="true" className="mx-1 self-center text-border">|</span>
-      <button
-        type="button"
-        onClick={() => goToMaxFees(null)}
-        aria-current={maxFeesFilter === null ? "true" : undefined}
-        className={
-          maxFeesFilter === null
-            ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-            : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
-        }
-      >
-        {dict.resultsTable.filterAll}
-      </button>
-      {MAX_FEES_OPTIONS.map((amount) => (
-        <button
-          key={amount}
-          type="button"
-          onClick={() => goToMaxFees(amount)}
-          aria-current={maxFeesFilter === amount ? "true" : undefined}
-          className={
-            maxFeesFilter === amount
-              ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-              : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
-          }
-        >
-          {interpolate(dict.resultsTable.maxFeesUnder, { amount: format(amount) })}
-        </button>
-      ))}
+      </FilterPill>
+
+      <div className="flex flex-wrap items-center gap-2" role="group" aria-label={dict.resultsTable.allianceLabel}>
+        <span className="text-xs font-medium text-muted">{dict.resultsTable.allianceLabel}</span>
+        <FilterPill active={allianceFilter === null} onClick={() => goToAlliance(null)}>
+          {dict.resultsTable.filterAll}
+        </FilterPill>
+        {ALLIANCES.map((alliance) => (
+          <FilterPill key={alliance} active={allianceFilter === alliance} onClick={() => goToAlliance(alliance)}>
+            {allianceLabel(alliance)}
+          </FilterPill>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2" role="group" aria-label={dict.resultsTable.maxFeesLabel}>
+        <span className="text-xs font-medium text-muted">{dict.resultsTable.maxFeesLabel}</span>
+        <FilterPill active={maxFeesFilter === null} onClick={() => goToMaxFees(null)}>
+          {dict.resultsTable.filterAll}
+        </FilterPill>
+        {MAX_FEES_OPTIONS.map((amount) => (
+          <FilterPill key={amount} active={maxFeesFilter === amount} onClick={() => goToMaxFees(amount)}>
+            {interpolate(dict.resultsTable.maxFeesUnder, { amount: formatRounded(amount) })}
+          </FilterPill>
+        ))}
+      </div>
     </div>
   );
 
@@ -306,5 +272,38 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
       </table>
       </div>
     </div>
+  );
+}
+
+/**
+ * `toggle` switches the pill between the two semantics in this row: the
+ * nonstop pill is an on/off toggle (aria-pressed), while the alliance and
+ * fees pills are one-of-many choices within their group (aria-current).
+ */
+function FilterPill({
+  active,
+  toggle = false,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  toggle?: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={toggle ? active : undefined}
+      aria-current={!toggle && active ? "true" : undefined}
+      className={
+        active
+          ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+          : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+      }
+    >
+      {children}
+    </button>
   );
 }

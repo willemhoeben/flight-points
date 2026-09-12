@@ -47,6 +47,17 @@ describe("formatCurrency", () => {
     expect(formatCurrency(100, "JPY", "en")).not.toContain(".");
   });
 
+  test("round drops the cents, for coarse threshold labels", () => {
+    expect(formatCurrency(50, "USD", "en", { round: true })).toBe("$50");
+    expect(formatCurrency(50, "USD", "en")).toBe("$50.00");
+  });
+
+  test("round still converts, it only changes the precision shown", () => {
+    // 50 USD at the EUR rate is 46 — the label must show the converted
+    // amount, not a rounded-off 50 with a euro sign stuck on it.
+    expect(formatCurrency(50, "EUR", "en", { round: true })).toContain("46");
+  });
+
   test("uses locale-appropriate grouping and decimal punctuation", () => {
     // German formats with a comma decimal separator and the symbol after
     // the amount; English formats with a period decimal and the symbol first.

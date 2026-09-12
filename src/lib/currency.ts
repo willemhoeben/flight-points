@@ -68,12 +68,22 @@ export function convertToUsd(amount: number, code: CurrencyCode): number {
   return amount / RATES_FROM_USD[code];
 }
 
-export function formatCurrency(amountUsd: number, code: CurrencyCode, locale: Locale): string {
+/**
+ * `round` drops the cents entirely. Use it for coarse threshold labels
+ * ("Under $50"), where showing "$50.00" implies a precision the threshold
+ * doesn't have — not for actual amounts, which should stay exact.
+ */
+export function formatCurrency(
+  amountUsd: number,
+  code: CurrencyCode,
+  locale: Locale,
+  opts: { round?: boolean } = {},
+): string {
   const converted = convertFromUsd(amountUsd, code);
   return new Intl.NumberFormat(toBcp47(locale), {
     style: "currency",
     currency: code,
     currencyDisplay: "narrowSymbol",
-    maximumFractionDigits: code === "JPY" ? 0 : 2,
+    maximumFractionDigits: opts.round || code === "JPY" ? 0 : 2,
   }).format(converted);
 }
