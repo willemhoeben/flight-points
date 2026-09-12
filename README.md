@@ -143,7 +143,14 @@ only" filter pill as the repo, narrowing to direct flights with its own
 empty state when a route has none — not URL-synced like the repo's version
 since the artifact keeps its own view state in memory rather than a query
 string, but otherwise the same filter logic and translated into all seven
-languages.
+languages. It also has the same Saved Searches feature: a star button
+next to the results header, a chip row above the search form for
+quick-launching or removing a saved search, and the same
+route+date+cabin dedup so re-saving refreshes an entry instead of
+duplicating it. A chip click updates the form and results in place
+(the artifact's usual single-page-app pattern) rather than a real
+navigation, and localStorage entries are validated the same way as its
+share-link and remembered-search params before use.
 
 ## Languages and currencies
 
