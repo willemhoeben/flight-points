@@ -16,6 +16,11 @@ airline or loyalty program.
   `pointer-events-none`, so it flies over the content without reaching the
   accessibility tree or swallowing a click, and it respects
   `prefers-reduced-motion` the same way every other animated element does.
+  It lives on the landing page only: a plane sliding across a results table
+  you're reading is noise, not atmosphere. (The artifact is one document
+  rather than a set of routes, so it scopes the layer to its Home tab
+  explicitly and replays the flight on each return, which is what
+  remounting the component does here.)
 - **`/search`** — search award availability by route, date, and cabin across 16
   loyalty programs (grouped by alliance — Star Alliance/Oneworld/SkyTeam/
   Unaligned — in the program filter), with a 14-day calendar view highlighting
