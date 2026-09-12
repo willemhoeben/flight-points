@@ -6,9 +6,16 @@ airline or loyalty program.
 
 ## What's here
 
-- **`/`** — the landing page, with a small plane silhouette flying across the
-  hero on load (pure CSS animation, no JS), respecting `prefers-reduced-motion`
-  the same way every other animated element on the site does.
+- **`/`** — the landing page, with an airliner crossing the middle of the
+  viewport on load: a planform (seen-from-below) silhouette with swept,
+  tapered wings, a tailplane, two engine nacelles, and a pair of contrails
+  that widen and fade behind it. Pure CSS animation, no JS — linear movement
+  (a real aircraft doesn't accelerate into frame) with a small scale change
+  for perspective and a sub-degree bank for a gentle climb, transform-only so
+  it composites on the GPU. The layer is viewport-fixed, `aria-hidden`, and
+  `pointer-events-none`, so it flies over the content without reaching the
+  accessibility tree or swallowing a click, and it respects
+  `prefers-reduced-motion` the same way every other animated element does.
 - **`/search`** — search award availability by route, date, and cabin across 16
   loyalty programs (grouped by alliance — Star Alliance/Oneworld/SkyTeam/
   Unaligned — in the program filter), with a 14-day calendar view highlighting
@@ -167,10 +174,10 @@ empty state that's specific to "no nonstop options" or generic once
 alliance or fees is involved — not URL-synced like the repo's version
 since the artifact keeps its own view state in memory rather than a query
 string, but otherwise the same filter logic and translated into all seven
-languages. Its home tab has the same plane-flyover hero animation as the
-repo's landing page — a CSS `left` keyframe (not `transform: translateX`,
-which would resolve against the tiny plane icon's own size rather than the
-hero card) so it crosses edge-to-edge regardless of hero width. It also has
+languages. It gets the same airliner crossing the middle of the viewport on
+load as the repo's landing page, from the same viewport-fixed
+`pointer-events-none` layer, so clicks still land on the tabs and buttons
+underneath it. It also has
 the same Saved Searches feature: a star button
 next to the results header, a chip row above the search form for
 quick-launching or removing a saved search, and the same
