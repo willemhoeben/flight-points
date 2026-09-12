@@ -6,6 +6,7 @@ import type { PointCurrency } from "@/data/valuations";
 import { Badge } from "@/components/ui";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { useDictionary } from "@/lib/i18n/i18n-context";
+import { interpolate } from "@/lib/i18n/format";
 import { nextSort, sortBy, type SortDir } from "@/lib/sort";
 import {
   buildValuationsUrl,
@@ -67,6 +68,14 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
   );
   const sorted = useMemo(() => sortBy(filtered, sortKey, sortDir), [filtered, sortKey, sortDir]);
 
+  const SORT_LABEL: Record<ValuationsSortKey, string> = {
+    name: dict.valuationsTable.currency,
+    centsPerPoint: dict.valuationsTable.value,
+  };
+  const sortAnnouncement = interpolate(sortDir === "asc" ? dict.common.sortAscending : dict.common.sortDescending, {
+    column: SORT_LABEL[sortKey],
+  });
+
   function goToSort(key: ValuationsSortKey) {
     const next = nextSort(sortKey, sortDir, key, (k) => (k === "name" ? "asc" : "desc"));
     router.replace(buildValuationsUrl(pathname, { type: typeFilter, sortKey: next.key, sortDir: next.dir }), {
@@ -82,6 +91,9 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
 
   return (
     <div className="min-w-0">
+      <span aria-live="polite" className="sr-only">
+        {sortAnnouncement}
+      </span>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap gap-2 print:hidden" role="group" aria-label={dict.valuationsTable.filterLabel}>
           <FilterPill active={typeFilter === null} onClick={() => goToType(null)}>

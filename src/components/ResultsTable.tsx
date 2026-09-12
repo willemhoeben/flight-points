@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui";
 import { useCurrency } from "@/lib/currency-context";
 import { formatDuration, formatMiles } from "@/lib/format";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
+import { interpolate } from "@/lib/i18n/format";
 import { isSortDir, nextSort, sortBy, type SortDir } from "@/lib/sort";
 import {
   buildResultsSortUrl,
@@ -44,6 +45,10 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
 
   const sorted = useMemo(() => sortBy(results, sortKey, sortDir), [results, sortKey, sortDir]);
 
+  const sortAnnouncement = interpolate(sortDir === "asc" ? dict.common.sortAscending : dict.common.sortDescending, {
+    column: SORTABLE_COLUMNS.find((col) => col.key === sortKey)?.label ?? "",
+  });
+
   function goToSort(key: ResultsSortKey) {
     const next = nextSort(sortKey, sortDir, key, () => "asc");
     router.replace(buildResultsSortUrl(pathname, searchParams.toString(), { sortKey: next.key, sortDir: next.dir }), {
@@ -59,6 +64,9 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
 
   return (
     <div className="overflow-x-auto rounded-[20px] bg-surface">
+      <span aria-live="polite" className="sr-only">
+        {sortAnnouncement}
+      </span>
       <table className="w-full min-w-[720px] text-left text-sm">
         <thead className="bg-surface-muted text-xs font-medium text-muted">
           <tr>

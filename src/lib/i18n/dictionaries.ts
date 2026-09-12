@@ -13,7 +13,12 @@ const en = {
   },
   language: { label: "Language" },
   theme: { label: "Theme", light: "Light", dark: "Dark", system: "System" },
-  common: { loading: "Loading…", home: "Home" },
+  common: {
+    loading: "Loading…",
+    home: "Home",
+    sortAscending: "Sorted by {column}, ascending",
+    sortDescending: "Sorted by {column}, descending",
+  },
   footer: {
     tagline: "Search award availability and track what your points are really worth.",
     productHeading: "Product",
@@ -185,7 +190,12 @@ const nl: Dictionary = {
   },
   language: { label: "Taal" },
   theme: { label: "Thema", light: "Licht", dark: "Donker", system: "Systeem" },
-  common: { loading: "Laden…", home: "Home" },
+  common: {
+    loading: "Laden…",
+    home: "Home",
+    sortAscending: "Gesorteerd op {column}, oplopend",
+    sortDescending: "Gesorteerd op {column}, aflopend",
+  },
   footer: {
     tagline: "Doorzoek award-beschikbaarheid en zie wat je punten echt waard zijn.",
     productHeading: "Product",
@@ -357,7 +367,12 @@ const de: Dictionary = {
   },
   language: { label: "Sprache" },
   theme: { label: "Design", light: "Hell", dark: "Dunkel", system: "System" },
-  common: { loading: "Wird geladen…", home: "Start" },
+  common: {
+    loading: "Wird geladen…",
+    home: "Start",
+    sortAscending: "Sortiert nach {column}, aufsteigend",
+    sortDescending: "Sortiert nach {column}, absteigend",
+  },
   footer: {
     tagline: "Award-Verfügbarkeit durchsuchen und sehen, was deine Punkte wirklich wert sind.",
     productHeading: "Produkt",
@@ -529,7 +544,12 @@ const fr: Dictionary = {
   },
   language: { label: "Langue" },
   theme: { label: "Thème", light: "Clair", dark: "Sombre", system: "Système" },
-  common: { loading: "Chargement…", home: "Accueil" },
+  common: {
+    loading: "Chargement…",
+    home: "Accueil",
+    sortAscending: "Trié par {column}, croissant",
+    sortDescending: "Trié par {column}, décroissant",
+  },
   footer: {
     tagline: "Recherchez les disponibilités award et suivez la vraie valeur de vos points.",
     productHeading: "Produit",
@@ -701,7 +721,12 @@ const es: Dictionary = {
   },
   language: { label: "Idioma" },
   theme: { label: "Tema", light: "Claro", dark: "Oscuro", system: "Sistema" },
-  common: { loading: "Cargando…", home: "Inicio" },
+  common: {
+    loading: "Cargando…",
+    home: "Inicio",
+    sortAscending: "Ordenado por {column}, ascendente",
+    sortDescending: "Ordenado por {column}, descendente",
+  },
   footer: {
     tagline: "Busca disponibilidad de vuelos award y descubre cuánto valen realmente tus puntos.",
     productHeading: "Producto",
@@ -873,7 +898,12 @@ const it: Dictionary = {
   },
   language: { label: "Lingua" },
   theme: { label: "Tema", light: "Chiaro", dark: "Scuro", system: "Sistema" },
-  common: { loading: "Caricamento…", home: "Home" },
+  common: {
+    loading: "Caricamento…",
+    home: "Home",
+    sortAscending: "Ordinato per {column}, crescente",
+    sortDescending: "Ordinato per {column}, decrescente",
+  },
   footer: {
     tagline: "Cerca la disponibilità di voli award e scopri quanto valgono davvero i tuoi punti.",
     productHeading: "Prodotto",
@@ -1045,7 +1075,12 @@ const ja: Dictionary = {
   },
   language: { label: "言語" },
   theme: { label: "テーマ", light: "ライト", dark: "ダーク", system: "システム" },
-  common: { loading: "読み込み中…", home: "ホーム" },
+  common: {
+    loading: "読み込み中…",
+    home: "ホーム",
+    sortAscending: "{column}で並べ替え、昇順",
+    sortDescending: "{column}で並べ替え、降順",
+  },
   footer: {
     tagline: "特典航空券の空席状況を検索し、あなたのポイントの本当の価値を確認しましょう。",
     productHeading: "プロダクト",

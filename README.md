@@ -56,7 +56,11 @@ server responds. A skip-to-content link,
 keyboard-accessible sort/filter controls, a `RouteFocusManager` that moves
 focus to the new page's content on every client-side navigation (Next.js
 doesn't do this itself — without it, keyboard and screen-reader users keep
-whatever focus they had on the page they just left), and a global
+whatever focus they had on the page they just left), an `aria-live` region on
+the search results and valuations tables announcing a translated "Sorted by
+Duration, descending" on every sort change (`aria-sort` on the header cell
+tells assistive tech the *current* state, but not that it just changed — the
+live region covers the gap), and a global
 `prefers-reduced-motion` override (hover/focus transitions collapse to
 near-zero for anyone who's asked their OS for less motion), a `lang="en"`
 on the deal title and body when the page itself is in another language (so a
