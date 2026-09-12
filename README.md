@@ -93,7 +93,16 @@ airline or loyalty program.
   parts that fell off the right edge. The calculator only moves beside the
   table at `xl`: it used to at `lg`, which left the table column 592px,
   narrower than the table's own 640px minimum, so a 1024px laptop got the
-  same sideways scroll a phone did.
+  same sideways scroll a phone did. Each currency's note is translated into
+  all seven languages (`src/lib/i18n/valuation-notes.ts`) — the notes are
+  data rather than UI copy, so nothing in the dictionaries reached them and
+  the table used to switch language mid-row: a currency's name, type, value,
+  and trend in your language, the sentence beside them in English. English
+  stays in `src/data/valuations.ts` as the source for the original wording,
+  so the translation map's key type excludes it. `test/valuation-notes.test.ts`
+  pins the key sets against the real currency list in both directions, so a
+  new currency can't ship one English line into six translated tables and a
+  removed one can't leave orphaned strings behind.
 - **`/compare`** — pick two or more point currencies (bank/airline/hotel,
   grouped the same way as `/search`'s program picker) and a shared points
   balance to see which is worth more, ranked by cash value with the top
@@ -232,7 +241,10 @@ back into view, so printing at a narrow paper width still gets the table
 rather than the cards. Its topbar carries the same hotel-and-plane mark,
 with the paths copied from `lib/brand-mark.ts` — the one place the
 single-source-of-truth rule can't reach, since the artifact is a single
-file with no imports. It gets the same airliner
+file with no imports. It carries the same seven-language valuation notes
+too, with the polarity flipped: Dutch is its base wording and lives in its
+own data array, so its translation map holds the other six including
+English, where the repo's holds the other six including Dutch. It gets the same airliner
 crossing the middle of the viewport as the repo's landing page, from the
 same viewport-fixed `pointer-events-none` layer, so clicks still land on
 the tabs and buttons underneath it. It also has
