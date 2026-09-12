@@ -94,7 +94,10 @@ intentional difference from the repo, not a bug), and its starting currency
 follows that same detected language before anything's saved, same as the repo.
 Its points calculator remembers its mode, points program, and entered
 amounts the same way too, using the same localStorage pattern as its
-remembered-last-search feature. Its deal articles
+remembered-last-search feature. Its own share-link and remembered-search
+date fields are validated the same way as the repo's `?date=` param —
+a malformed date from either source falls back to a real date instead of
+throwing and breaking the page's script. Its deal articles
 are Dutch-only editorial content (the mirror image of this repo's
 English-only articles), so non-Dutch readers see a translated notice
 instead of a translated article body. It also mirrors the alliance-grouped
