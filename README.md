@@ -190,7 +190,9 @@ every crumb in the page's own locale) on each `/deals/[slug]` page. The
 breadcrumb trail (`src/components/Breadcrumbs.tsx`) renders the same three
 crumbs above every deal, with `aria-current="page"` on the current one, so
 sighted and screen-reader users get the same "where am I" context search
-engines do.
+engines do. The trail's own `aria-label` (naming it as the "breadcrumb"
+landmark, distinct from the main nav) is translated too — mirrored in the
+artifact.
 
 Every page sets a self-referencing canonical URL, a page-specific description,
 and Open Graph/Twitter Card previews (`summary_large_image`, matching the

@@ -87,6 +87,7 @@ export default async function DealPage({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <RecordDealView slug={deal.slug} />
       <Breadcrumbs
+        ariaLabel={dict.common.breadcrumb}
         items={[
           { label: dict.common.home, href: "/" },
           { label: dict.dealsPage.eyebrow, href: "/deals" },

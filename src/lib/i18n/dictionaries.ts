@@ -19,6 +19,7 @@ const en = {
     home: "Home",
     sortAscending: "Sorted by {column}, ascending",
     sortDescending: "Sorted by {column}, descending",
+    breadcrumb: "Breadcrumb",
   },
   footer: {
     tagline: "Search award availability and track what your points are really worth.",
@@ -197,6 +198,7 @@ const nl: Dictionary = {
     home: "Home",
     sortAscending: "Gesorteerd op {column}, oplopend",
     sortDescending: "Gesorteerd op {column}, aflopend",
+    breadcrumb: "Kruimelpad",
   },
   footer: {
     tagline: "Doorzoek award-beschikbaarheid en zie wat je punten echt waard zijn.",
@@ -375,6 +377,7 @@ const de: Dictionary = {
     home: "Start",
     sortAscending: "Sortiert nach {column}, aufsteigend",
     sortDescending: "Sortiert nach {column}, absteigend",
+    breadcrumb: "Brotkrümelnavigation",
   },
   footer: {
     tagline: "Award-Verfügbarkeit durchsuchen und sehen, was deine Punkte wirklich wert sind.",
@@ -553,6 +556,7 @@ const fr: Dictionary = {
     home: "Accueil",
     sortAscending: "Trié par {column}, croissant",
     sortDescending: "Trié par {column}, décroissant",
+    breadcrumb: "Fil d'Ariane",
   },
   footer: {
     tagline: "Recherchez les disponibilités award et suivez la vraie valeur de vos points.",
@@ -731,6 +735,7 @@ const es: Dictionary = {
     home: "Inicio",
     sortAscending: "Ordenado por {column}, ascendente",
     sortDescending: "Ordenado por {column}, descendente",
+    breadcrumb: "Ruta de navegación",
   },
   footer: {
     tagline: "Busca disponibilidad de vuelos award y descubre cuánto valen realmente tus puntos.",
@@ -909,6 +914,7 @@ const it: Dictionary = {
     home: "Home",
     sortAscending: "Ordinato per {column}, crescente",
     sortDescending: "Ordinato per {column}, decrescente",
+    breadcrumb: "Percorso di navigazione",
   },
   footer: {
     tagline: "Cerca la disponibilità di voli award e scopri quanto valgono davvero i tuoi punti.",
@@ -1087,6 +1093,7 @@ const ja: Dictionary = {
     home: "ホーム",
     sortAscending: "{column}で並べ替え、昇順",
     sortDescending: "{column}で並べ替え、降順",
+    breadcrumb: "パンくずリスト",
   },
   footer: {
     tagline: "特典航空券の空席状況を検索し、あなたのポイントの本当の価値を確認しましょう。",
