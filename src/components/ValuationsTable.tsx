@@ -5,7 +5,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { PointCurrency } from "@/data/valuations";
 import { Badge } from "@/components/ui";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
-import { useDictionary } from "@/lib/i18n/i18n-context";
+import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
+import { valuationNote } from "@/lib/i18n/valuation-notes";
 import { interpolate } from "@/lib/i18n/format";
 import { nextSort, sortBy, type SortDir } from "@/lib/sort";
 import {
@@ -40,6 +41,7 @@ const TYPES: PointCurrency["type"][] = ["bank", "airline", "hotel"];
 
 export function ValuationsTable({ valuations }: { valuations: PointCurrency[] }) {
   const dict = useDictionary();
+  const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -160,7 +162,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
                   <div className="text-[11px] text-muted">{dict.valuationsTable.value}</div>
                 </div>
               </div>
-              <p className="mt-3 border-t border-border pt-3 text-[13px] text-muted">{v.notes}</p>
+              <p className="mt-3 border-t border-border pt-3 text-[13px] text-muted">{valuationNote(v.id, locale, v.notes)}</p>
             </li>
           ))}
         </ul>
@@ -223,7 +225,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
                     <span aria-hidden="true">{TREND_ICON[v.trend]}</span>
                     <span className="sr-only">{TREND_LABEL[v.trend]}</span>
                   </td>
-                  <td className="px-4 py-3 max-w-xs text-muted">{v.notes}</td>
+                  <td className="px-4 py-3 max-w-xs text-muted">{valuationNote(v.id, locale, v.notes)}</td>
                 </tr>
               ))}
             </tbody>
