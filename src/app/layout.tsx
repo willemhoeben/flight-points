@@ -8,6 +8,7 @@ import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { I18nProvider } from "@/lib/i18n/i18n-context";
 import { RecentlyViewedProvider } from "@/lib/recently-viewed-context";
 import { SavedDealsProvider } from "@/lib/saved-deals-context";
+import { SavedSearchesProvider } from "@/lib/saved-searches-context";
 import { ThemeProvider } from "@/lib/theme-context";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
@@ -104,14 +105,16 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <ThemeProvider>
             <CurrencyProvider>
               <SavedDealsProvider>
-                <RecentlyViewedProvider>
-                  <RouteFocusManager />
-                  <Navbar dict={dict.nav} />
-                  <main id="main-content" tabIndex={-1} className="flex flex-1 flex-col outline-none">
-                    {children}
-                  </main>
-                  <Footer dict={{ ...dict.footer, nav: dict.nav }} />
-                </RecentlyViewedProvider>
+                <SavedSearchesProvider>
+                  <RecentlyViewedProvider>
+                    <RouteFocusManager />
+                    <Navbar dict={dict.nav} />
+                    <main id="main-content" tabIndex={-1} className="flex flex-1 flex-col outline-none">
+                      {children}
+                    </main>
+                    <Footer dict={{ ...dict.footer, nav: dict.nav }} />
+                  </RecentlyViewedProvider>
+                </SavedSearchesProvider>
               </SavedDealsProvider>
             </CurrencyProvider>
           </ThemeProvider>

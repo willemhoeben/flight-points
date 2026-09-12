@@ -21,7 +21,16 @@ airline or loyalty program.
   localStorage and returns to it on a bare `/search` visit. Every query
   param is validated against a known set (airport codes, cabins, an ISO
   date) before use — an invalid or garbled one falls back to a sensible
-  default instead of breaking the page.
+  default instead of breaking the page. A "Save this search" star button
+  next to the results header bookmarks the current route/date/cabin/program
+  combination to localStorage — a "Saved searches" chip row appears above
+  the search form with quick-launch links back to each one, plus a remove
+  button per chip. Saving the same route/date/cabin again (even with a
+  different program selection) refreshes that entry in place rather than
+  creating a near-duplicate, and the list is capped at 8, oldest dropped
+  first. This is the explicit, user-curated counterpart to the passive
+  "remember my last search" behavior above — same relationship as saved
+  deals vs. recently-viewed deals.
 - **`/valuations`** — a sortable, filterable (bank/airline/hotel) table of
   estimated cents-per-point values for major currencies, plus a two-way
   calculator: points → cash value, or a target cash amount → points needed.

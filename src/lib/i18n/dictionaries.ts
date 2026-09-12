@@ -112,6 +112,12 @@ const en = {
     copy: "Copy share link",
     copied: "Link copied",
   },
+  savedSearches: {
+    heading: "Saved searches",
+    save: "Save this search",
+    saved: "Search saved",
+    removeAria: "Remove saved search: {search}",
+  },
   valuationsPage: {
     eyebrow: "Points valuations",
     title: "What your points are worth",
@@ -293,6 +299,12 @@ const nl: Dictionary = {
   copyLink: {
     copy: "Deel-link kopiëren",
     copied: "Link gekopieerd",
+  },
+  savedSearches: {
+    heading: "Opgeslagen zoekopdrachten",
+    save: "Deze zoekopdracht opslaan",
+    saved: "Zoekopdracht opgeslagen",
+    removeAria: "Opgeslagen zoekopdracht verwijderen: {search}",
   },
   valuationsPage: {
     eyebrow: "Puntenwaarde",
@@ -476,6 +488,12 @@ const de: Dictionary = {
     copy: "Link teilen",
     copied: "Link kopiert",
   },
+  savedSearches: {
+    heading: "Gespeicherte Suchen",
+    save: "Diese Suche speichern",
+    saved: "Suche gespeichert",
+    removeAria: "Gespeicherte Suche entfernen: {search}",
+  },
   valuationsPage: {
     eyebrow: "Punktewert",
     title: "Was deine Punkte wert sind",
@@ -657,6 +675,12 @@ const fr: Dictionary = {
   copyLink: {
     copy: "Copier le lien",
     copied: "Lien copié",
+  },
+  savedSearches: {
+    heading: "Recherches enregistrées",
+    save: "Enregistrer cette recherche",
+    saved: "Recherche enregistrée",
+    removeAria: "Supprimer la recherche enregistrée : {search}",
   },
   valuationsPage: {
     eyebrow: "Valorisation des points",
@@ -840,6 +864,12 @@ const es: Dictionary = {
     copy: "Copiar enlace",
     copied: "Enlace copiado",
   },
+  savedSearches: {
+    heading: "Búsquedas guardadas",
+    save: "Guardar esta búsqueda",
+    saved: "Búsqueda guardada",
+    removeAria: "Eliminar búsqueda guardada: {search}",
+  },
   valuationsPage: {
     eyebrow: "Valoración de puntos",
     title: "Cuánto valen tus puntos",
@@ -1022,6 +1052,12 @@ const it: Dictionary = {
     copy: "Copia link di condivisione",
     copied: "Link copiato",
   },
+  savedSearches: {
+    heading: "Ricerche salvate",
+    save: "Salva questa ricerca",
+    saved: "Ricerca salvata",
+    removeAria: "Rimuovi ricerca salvata: {search}",
+  },
   valuationsPage: {
     eyebrow: "Valutazione punti",
     title: "Quanto valgono i tuoi punti",
@@ -1203,6 +1239,12 @@ const ja: Dictionary = {
   copyLink: {
     copy: "共有リンクをコピー",
     copied: "リンクをコピーしました",
+  },
+  savedSearches: {
+    heading: "保存した検索",
+    save: "この検索を保存",
+    saved: "検索を保存しました",
+    removeAria: "保存した検索を削除: {search}",
   },
   valuationsPage: {
     eyebrow: "ポイント価値評価",

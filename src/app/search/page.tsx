@@ -6,6 +6,8 @@ import { ResultsTable } from "@/components/ResultsTable";
 import { CalendarHeatmap } from "@/components/CalendarHeatmap";
 import { SearchMemory } from "@/components/SearchMemory";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
+import { SaveSearchButton } from "@/components/SaveSearchButton";
+import { SavedSearchesList } from "@/components/SavedSearchesList";
 import { AIRPORTS, findAirport } from "@/data/airports";
 import { CABINS, searchAvailability, searchCalendar, type Cabin } from "@/data/availability";
 import { addDays, formatDateLabel, todayIso } from "@/lib/format";
@@ -102,6 +104,7 @@ export default async function SearchPage({
         <SearchMemory />
       </Suspense>
       <SectionHeading eyebrow={dict.search.eyebrow} title={dict.search.title} description={dict.search.description} />
+      <SavedSearchesList />
 
       <div className="mt-8">
         <SearchForm values={{ origin, destination, date, cabin, programs: programIds }} dict={dict.searchForm} cabins={dict.cabins} />
@@ -138,7 +141,10 @@ export default async function SearchPage({
               {pluralize(results.length, dict.search.resultsCountOne, dict.search.resultsCountOther)}
             </p>
           </div>
-          <CopyLinkButton />
+          <div className="flex flex-wrap items-center gap-2">
+            <SaveSearchButton search={{ origin, destination, date, cabin, programs: programIds }} />
+            <CopyLinkButton />
+          </div>
         </div>
         <div className="mt-4">
           <Suspense fallback={null}>
