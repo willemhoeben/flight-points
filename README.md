@@ -51,7 +51,19 @@ airline or loyalty program.
   every box is ticked by default and most people never narrow it, so
   leaving it expanded pushed the calendar and the results themselves below
   the fold. It's a native element, so the form stays JS-free and the
-  collapsed checkboxes still submit. Remembers your last search in
+  collapsed checkboxes still submit. Below `md` the results render as
+  cards rather than a table: the table needs 720px, which the content
+  column only reaches at `md`, so narrower screens used to see Program,
+  Routing, and part of Duration while the miles cost and the taxes &
+  fees sat off the right edge behind a sideways scroll with nothing to
+  hint at it — you could run a search on your phone and never see a
+  price. Each card puts the program, its alliance, and the best-price
+  badge on the left, the miles cost large on the right, then routing /
+  duration / taxes / seats as a labelled two-column grid, then whether
+  it's bookable online. Two cards per row from `sm` up. Sorting comes
+  with them: a "Sort by" pill row stands in for the sortable table
+  headers and drives the same `?sort=&dir=` params, so a sorted search
+  is as shareable from a phone as from a desktop. Remembers your last search in
   localStorage and returns to it on a bare `/search` visit. Every query
   param is validated against a known set (airport codes, cabins, an ISO
   date) before use — an invalid or garbled one falls back to a sensible
@@ -75,7 +87,13 @@ airline or loyalty program.
   omitted when at their defaults) and applied by `router.replace` — no page
   reload, but the resulting link is bookmarkable and shareable, same as
   `/search` and `/deals`. A "Copy share link" button sits next to the filter
-  pills for exactly that.
+  pills for exactly that. Below `md` the valuations render as cards for the
+  same reason the search results do — the table is wider than its column
+  there, and the cents-per-point value, the trend, and the notes were the
+  parts that fell off the right edge. The calculator only moves beside the
+  table at `xl`: it used to at `lg`, which left the table column 592px,
+  narrower than the table's own 640px minimum, so a 1024px laptop got the
+  same sideways scroll a phone did.
 - **`/compare`** — pick two or more point currencies (bank/airline/hotel,
   grouped the same way as `/search`'s program picker) and a shared points
   balance to see which is worth more, ranked by cash value with the top
@@ -195,7 +213,13 @@ languages. The alliance and fee groups carry the same visible labels and
 picker collapses into the same self-summarising `<details>` — with one
 addition the repo doesn't need: the repo's checkboxes are server-rendered
 and only change on submit, while the artifact's are live, so it recomputes
-the summary count on every `change` event. It gets the same airliner
+the summary count on every `change` event. Both its tables swap to the same
+cards below 768px, with the same "Sort by" pill row driving the same sort
+state, and its own two-column valuations layout moved from 900px to 1100px
+for the same reason the repo's moved to `xl` — at 900 the table column was
+left under the table's 680px minimum. Its print stylesheet forces the table
+back into view, so printing at a narrow paper width still gets the table
+rather than the cards. It gets the same airliner
 crossing the middle of the viewport as the repo's landing page, from the
 same viewport-fixed `pointer-events-none` layer, so clicks still land on
 the tabs and buttons underneath it. It also has
