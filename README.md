@@ -100,7 +100,9 @@ layout when printing. The artifact's deal panel also mirrors the visible
 breadcrumb trail (Home / Deals / the deal), with its own click handlers since
 that panel's markup is injected after the page's one-time event delegation
 runs — the same reason its save-deal button and back link needed manual
-listeners already.
+listeners already. Its results and valuations tables mirror the sort-order
+`aria-live` announcement too, translated the same way as everything else in
+its single-file dictionary.
 
 ## Languages and currencies
 
