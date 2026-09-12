@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { AwardResult } from "@/data/availability";
-import { PROGRAMS } from "@/data/programs";
+import { PROGRAMS, type Alliance } from "@/data/programs";
 import { Badge } from "@/components/ui";
 import { useCurrency } from "@/lib/currency-context";
 import { formatDuration, formatMiles } from "@/lib/format";
@@ -11,6 +11,7 @@ import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
 import { interpolate } from "@/lib/i18n/format";
 import { isSortDir, nextSort, sortBy, type SortDir } from "@/lib/sort";
 import {
+  allianceFromSlug,
   buildResultsSortUrl,
   isNonstopOnlyParam,
   isResultsSortKey,
@@ -18,6 +19,8 @@ import {
   DEFAULT_RESULTS_SORT_KEY,
   type ResultsSortKey,
 } from "@/lib/results-sort-url";
+
+const ALLIANCES: Alliance[] = ["Star Alliance", "Oneworld", "SkyTeam", "Unaligned"];
 
 export function ResultsTable({ results }: { results: AwardResult[] }) {
   const router = useRouter();
@@ -29,6 +32,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
   const sortKey: ResultsSortKey = isResultsSortKey(sortParam) ? sortParam : DEFAULT_RESULTS_SORT_KEY;
   const sortDir: SortDir = isSortDir(dirParam) ? dirParam : DEFAULT_RESULTS_SORT_DIR;
   const nonstopOnly = isNonstopOnlyParam(searchParams.get("nonstop"));
+  const allianceFilter = allianceFromSlug(searchParams.get("alliance"));
 
   const { format } = useCurrency();
   const dict = useDictionary();
@@ -40,9 +44,16 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
     { key: "milesCost", label: dict.resultsTable.miles },
   ];
 
+  const allianceLabel = (alliance: Alliance) => (alliance === "Unaligned" ? dict.searchForm.allianceUnaligned : alliance);
+
   const filtered = useMemo(
-    () => (nonstopOnly ? results.filter((r) => r.direct) : results),
-    [results, nonstopOnly],
+    () =>
+      results.filter((r) => {
+        if (nonstopOnly && !r.direct) return false;
+        if (allianceFilter && PROGRAMS.find((p) => p.id === r.programId)?.alliance !== allianceFilter) return false;
+        return true;
+      }),
+    [results, nonstopOnly, allianceFilter],
   );
 
   // filtered preserves results' original order (a .filter() never
@@ -60,14 +71,31 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
   function goToSort(key: ResultsSortKey) {
     const next = nextSort(sortKey, sortDir, key, () => "asc");
     router.replace(
-      buildResultsSortUrl(pathname, searchParams.toString(), { sortKey: next.key, sortDir: next.dir, nonstopOnly }),
+      buildResultsSortUrl(pathname, searchParams.toString(), {
+        sortKey: next.key,
+        sortDir: next.dir,
+        nonstopOnly,
+        alliance: allianceFilter,
+      }),
       { scroll: false },
     );
   }
 
   function toggleNonstopOnly() {
     router.replace(
-      buildResultsSortUrl(pathname, searchParams.toString(), { sortKey, sortDir, nonstopOnly: !nonstopOnly }),
+      buildResultsSortUrl(pathname, searchParams.toString(), {
+        sortKey,
+        sortDir,
+        nonstopOnly: !nonstopOnly,
+        alliance: allianceFilter,
+      }),
+      { scroll: false },
+    );
+  }
+
+  function goToAlliance(alliance: Alliance | null) {
+    router.replace(
+      buildResultsSortUrl(pathname, searchParams.toString(), { sortKey, sortDir, nonstopOnly, alliance }),
       { scroll: false },
     );
   }
@@ -78,7 +106,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
     );
   }
 
-  const nonstopPill = (
+  const filterControls = (
     <div className="mb-3 flex flex-wrap gap-2 print:hidden" role="group" aria-label={dict.resultsTable.filterLabel}>
       <button
         type="button"
@@ -92,15 +120,43 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
       >
         {dict.resultsTable.nonstopOnly}
       </button>
+      <span aria-hidden="true" className="mx-1 self-center text-border">|</span>
+      <button
+        type="button"
+        onClick={() => goToAlliance(null)}
+        aria-current={allianceFilter === null ? "true" : undefined}
+        className={
+          allianceFilter === null
+            ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+            : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+        }
+      >
+        {dict.resultsTable.filterAll}
+      </button>
+      {ALLIANCES.map((alliance) => (
+        <button
+          key={alliance}
+          type="button"
+          onClick={() => goToAlliance(alliance)}
+          aria-current={allianceFilter === alliance ? "true" : undefined}
+          className={
+            allianceFilter === alliance
+              ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+              : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+          }
+        >
+          {allianceLabel(alliance)}
+        </button>
+      ))}
     </div>
   );
 
   if (filtered.length === 0) {
     return (
       <div>
-        {nonstopPill}
+        {filterControls}
         <div className="rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">
-          {dict.resultsTable.noNonstopResults}
+          {allianceFilter ? dict.resultsTable.noFilteredResults : dict.resultsTable.noNonstopResults}
         </div>
       </div>
     );
@@ -108,7 +164,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
 
   return (
     <div>
-      {nonstopPill}
+      {filterControls}
       <div className="overflow-x-auto rounded-[20px] bg-surface">
         <span aria-live="polite" className="sr-only">
           {sortAnnouncement}
@@ -160,7 +216,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                 <td className="px-4 py-3">
                   <div className="font-medium text-foreground">{r.programName}</div>
                   <div className="mt-1 flex flex-wrap gap-1.5">
-                    {program && <Badge accent={program.accent}>{program.alliance}</Badge>}
+                    {program && <Badge accent={program.accent}>{allianceLabel(program.alliance)}</Badge>}
                     {isBest && <Badge accent="emerald">{dict.resultsTable.bestPrice}</Badge>}
                   </div>
                 </td>
