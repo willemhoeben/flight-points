@@ -35,17 +35,33 @@ export function allianceFromSlug(value: string | null): Alliance | null {
   return value !== null && value in SLUG_TO_ALLIANCE ? SLUG_TO_ALLIANCE[value] : null;
 }
 
+/** The preset "max taxes & fees" thresholds offered as filter pills, in raw USD. */
+export const MAX_FEES_OPTIONS = [50, 100, 200] as const;
+
+/** Parses a ?maxFees= value; returns null for missing/invalid input (meaning "no cap"). */
+export function maxFeesFromParam(value: string | null): number | null {
+  if (value === null) return null;
+  const n = Number(value);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
 /**
  * Builds the shareable results URL for a given sort/filter state, preserving
  * every other existing query param (origin/destination/date/cabin/programs)
- * and omitting sort/dir/nonstop/alliance when they're at their default — so
- * a plain search only ever picks up these params once the visitor actually
- * changes the view.
+ * and omitting sort/dir/nonstop/alliance/maxFees when they're at their
+ * default — so a plain search only ever picks up these params once the
+ * visitor actually changes the view.
  */
 export function buildResultsSortUrl(
   pathname: string,
   currentSearch: string,
-  view: { sortKey: ResultsSortKey; sortDir: SortDir; nonstopOnly: boolean; alliance: Alliance | null },
+  view: {
+    sortKey: ResultsSortKey;
+    sortDir: SortDir;
+    nonstopOnly: boolean;
+    alliance: Alliance | null;
+    maxTaxesFees: number | null;
+  },
 ): string {
   const params = new URLSearchParams(currentSearch);
   const isDefaultSort = view.sortKey === DEFAULT_RESULTS_SORT_KEY && view.sortDir === DEFAULT_RESULTS_SORT_DIR;
@@ -65,6 +81,11 @@ export function buildResultsSortUrl(
     params.set("alliance", allianceToSlug(view.alliance));
   } else {
     params.delete("alliance");
+  }
+  if (view.maxTaxesFees) {
+    params.set("maxFees", String(view.maxTaxesFees));
+  } else {
+    params.delete("maxFees");
   }
   const qs = params.toString();
   return qs ? `${pathname}?${qs}` : pathname;
