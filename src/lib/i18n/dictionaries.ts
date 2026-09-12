@@ -20,6 +20,7 @@ const en = {
     home: "Home",
     sortAscending: "Sorted by {column}, ascending",
     sortDescending: "Sorted by {column}, descending",
+    sortBy: "Sort by",
     breadcrumb: "Breadcrumb",
   },
   footer: {
@@ -230,6 +231,7 @@ const nl: Dictionary = {
     home: "Home",
     sortAscending: "Gesorteerd op {column}, oplopend",
     sortDescending: "Gesorteerd op {column}, aflopend",
+    sortBy: "Sorteren op",
     breadcrumb: "Kruimelpad",
   },
   footer: {
@@ -440,6 +442,7 @@ const de: Dictionary = {
     home: "Start",
     sortAscending: "Sortiert nach {column}, aufsteigend",
     sortDescending: "Sortiert nach {column}, absteigend",
+    sortBy: "Sortieren nach",
     breadcrumb: "Brotkrümelnavigation",
   },
   footer: {
@@ -650,6 +653,7 @@ const fr: Dictionary = {
     home: "Accueil",
     sortAscending: "Trié par {column}, croissant",
     sortDescending: "Trié par {column}, décroissant",
+    sortBy: "Trier par",
     breadcrumb: "Fil d'Ariane",
   },
   footer: {
@@ -860,6 +864,7 @@ const es: Dictionary = {
     home: "Inicio",
     sortAscending: "Ordenado por {column}, ascendente",
     sortDescending: "Ordenado por {column}, descendente",
+    sortBy: "Ordenar por",
     breadcrumb: "Ruta de navegación",
   },
   footer: {
@@ -1070,6 +1075,7 @@ const it: Dictionary = {
     home: "Home",
     sortAscending: "Ordinato per {column}, crescente",
     sortDescending: "Ordinato per {column}, decrescente",
+    sortBy: "Ordina per",
     breadcrumb: "Percorso di navigazione",
   },
   footer: {
@@ -1280,6 +1286,7 @@ const ja: Dictionary = {
     home: "ホーム",
     sortAscending: "{column}で並べ替え、昇順",
     sortDescending: "{column}で並べ替え、降順",
+    sortBy: "並べ替え",
     breadcrumb: "パンくずリスト",
   },
   footer: {
