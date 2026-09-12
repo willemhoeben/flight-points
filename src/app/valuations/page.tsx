@@ -36,7 +36,7 @@ export default async function ValuationsPage() {
         description={dict.valuationsPage.description}
       />
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px]">
+      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px] print:grid-cols-1">
         <ValuationsTable valuations={VALUATIONS} />
         <PointsCalculator />
       </div>
