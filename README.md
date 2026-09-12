@@ -10,8 +10,12 @@ airline or loyalty program.
   loyalty programs (grouped by alliance — Star Alliance/Oneworld/SkyTeam/
   Unaligned — in the program filter), with a 14-day calendar view highlighting
   the cheapest day to fly and a sortable results table (Duration/Seats/Miles).
-  Remembers your last search in localStorage and returns to it on a bare
-  `/search` visit.
+  The table's sort is reflected in the URL (`?sort=durationMinutes&dir=desc`,
+  omitted at the default miles-ascending order) alongside the existing
+  route/date/cabin/program params, so a sorted search is exactly as
+  bookmarkable and shareable as an unsorted one — same `router.replace`,
+  no-reload approach as `/valuations`. Remembers your last search in
+  localStorage and returns to it on a bare `/search` visit.
 - **`/valuations`** — a sortable, filterable (bank/airline/hotel) table of
   estimated cents-per-point values for major currencies, plus a two-way
   calculator: points → cash value, or a target cash amount → points needed.

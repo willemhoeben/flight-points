@@ -132,7 +132,9 @@ export default async function SearchPage({
           <CopyLinkButton />
         </div>
         <div className="mt-4">
-          <ResultsTable results={results} />
+          <Suspense fallback={null}>
+            <ResultsTable results={results} />
+          </Suspense>
         </div>
       </div>
     </div>

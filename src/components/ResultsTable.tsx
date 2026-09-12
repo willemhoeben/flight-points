@@ -1,24 +1,37 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { AwardResult } from "@/data/availability";
 import { PROGRAMS } from "@/data/programs";
 import { Badge } from "@/components/ui";
 import { useCurrency } from "@/lib/currency-context";
 import { formatDuration, formatMiles } from "@/lib/format";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
-import { nextSort, sortBy, type SortDir } from "@/lib/sort";
-
-type SortKey = "milesCost" | "durationMinutes" | "seatsRemaining";
+import { isSortDir, nextSort, sortBy, type SortDir } from "@/lib/sort";
+import {
+  buildResultsSortUrl,
+  isResultsSortKey,
+  DEFAULT_RESULTS_SORT_DIR,
+  DEFAULT_RESULTS_SORT_KEY,
+  type ResultsSortKey,
+} from "@/lib/results-sort-url";
 
 export function ResultsTable({ results }: { results: AwardResult[] }) {
-  const [sortKey, setSortKey] = useState<SortKey>("milesCost");
-  const [sortDir, setSortDir] = useState<SortDir>("asc");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const sortParam = searchParams.get("sort");
+  const dirParam = searchParams.get("dir");
+  const sortKey: ResultsSortKey = isResultsSortKey(sortParam) ? sortParam : DEFAULT_RESULTS_SORT_KEY;
+  const sortDir: SortDir = isSortDir(dirParam) ? dirParam : DEFAULT_RESULTS_SORT_DIR;
+
   const { format } = useCurrency();
   const dict = useDictionary();
   const locale = useLocale();
 
-  const SORTABLE_COLUMNS: { key: SortKey; label: string }[] = [
+  const SORTABLE_COLUMNS: { key: ResultsSortKey; label: string }[] = [
     { key: "durationMinutes", label: dict.resultsTable.duration },
     { key: "seatsRemaining", label: dict.resultsTable.seats },
     { key: "milesCost", label: dict.resultsTable.miles },
@@ -31,10 +44,11 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
 
   const sorted = useMemo(() => sortBy(results, sortKey, sortDir), [results, sortKey, sortDir]);
 
-  function toggleSort(key: SortKey) {
+  function goToSort(key: ResultsSortKey) {
     const next = nextSort(sortKey, sortDir, key, () => "asc");
-    setSortKey(next.key);
-    setSortDir(next.dir);
+    router.replace(buildResultsSortUrl(pathname, searchParams.toString(), { sortKey: next.key, sortDir: next.dir }), {
+      scroll: false,
+    });
   }
 
   if (results.length === 0) {
@@ -59,7 +73,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
               >
                 <button
                   type="button"
-                  onClick={() => toggleSort(col.key)}
+                  onClick={() => goToSort(col.key)}
                   className={[
                     "inline-flex items-center gap-1 hover:text-foreground",
                     col.key === "milesCost" ? "flex-row-reverse" : "",
