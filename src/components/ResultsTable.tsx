@@ -12,6 +12,7 @@ import { interpolate } from "@/lib/i18n/format";
 import { isSortDir, nextSort, sortBy, type SortDir } from "@/lib/sort";
 import {
   buildResultsSortUrl,
+  isNonstopOnlyParam,
   isResultsSortKey,
   DEFAULT_RESULTS_SORT_DIR,
   DEFAULT_RESULTS_SORT_KEY,
@@ -27,6 +28,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
   const dirParam = searchParams.get("dir");
   const sortKey: ResultsSortKey = isResultsSortKey(sortParam) ? sortParam : DEFAULT_RESULTS_SORT_KEY;
   const sortDir: SortDir = isSortDir(dirParam) ? dirParam : DEFAULT_RESULTS_SORT_DIR;
+  const nonstopOnly = isNonstopOnlyParam(searchParams.get("nonstop"));
 
   const { format } = useCurrency();
   const dict = useDictionary();
@@ -38,12 +40,18 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
     { key: "milesCost", label: dict.resultsTable.miles },
   ];
 
-  // Results arrive pre-sorted ascending by miles cost, so results[0] is
-  // always the true cheapest option regardless of how the table is
-  // currently sorted for display.
-  const cheapestId = results.length > 1 ? results[0].id : null;
+  const filtered = useMemo(
+    () => (nonstopOnly ? results.filter((r) => r.direct) : results),
+    [results, nonstopOnly],
+  );
 
-  const sorted = useMemo(() => sortBy(results, sortKey, sortDir), [results, sortKey, sortDir]);
+  // filtered preserves results' original order (a .filter() never
+  // reorders), and results itself arrives pre-sorted ascending by miles
+  // cost — so filtered[0] is always the cheapest option currently on
+  // display, regardless of the nonstop filter or the table's own sort.
+  const cheapestId = filtered.length > 1 ? filtered[0].id : null;
+
+  const sorted = useMemo(() => sortBy(filtered, sortKey, sortDir), [filtered, sortKey, sortDir]);
 
   const sortAnnouncement = interpolate(sortDir === "asc" ? dict.common.sortAscending : dict.common.sortDescending, {
     column: SORTABLE_COLUMNS.find((col) => col.key === sortKey)?.label ?? "",
@@ -51,9 +59,17 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
 
   function goToSort(key: ResultsSortKey) {
     const next = nextSort(sortKey, sortDir, key, () => "asc");
-    router.replace(buildResultsSortUrl(pathname, searchParams.toString(), { sortKey: next.key, sortDir: next.dir }), {
-      scroll: false,
-    });
+    router.replace(
+      buildResultsSortUrl(pathname, searchParams.toString(), { sortKey: next.key, sortDir: next.dir, nonstopOnly }),
+      { scroll: false },
+    );
+  }
+
+  function toggleNonstopOnly() {
+    router.replace(
+      buildResultsSortUrl(pathname, searchParams.toString(), { sortKey, sortDir, nonstopOnly: !nonstopOnly }),
+      { scroll: false },
+    );
   }
 
   if (results.length === 0) {
@@ -62,12 +78,42 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
     );
   }
 
+  const nonstopPill = (
+    <div className="mb-3 flex flex-wrap gap-2 print:hidden" role="group" aria-label={dict.resultsTable.filterLabel}>
+      <button
+        type="button"
+        onClick={toggleNonstopOnly}
+        aria-pressed={nonstopOnly}
+        className={
+          nonstopOnly
+            ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+            : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+        }
+      >
+        {dict.resultsTable.nonstopOnly}
+      </button>
+    </div>
+  );
+
+  if (filtered.length === 0) {
+    return (
+      <div>
+        {nonstopPill}
+        <div className="rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">
+          {dict.resultsTable.noNonstopResults}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="overflow-x-auto rounded-[20px] bg-surface">
-      <span aria-live="polite" className="sr-only">
-        {sortAnnouncement}
-      </span>
-      <table className="w-full min-w-[720px] text-left text-sm">
+    <div>
+      {nonstopPill}
+      <div className="overflow-x-auto rounded-[20px] bg-surface">
+        <span aria-live="polite" className="sr-only">
+          {sortAnnouncement}
+        </span>
+        <table className="w-full min-w-[720px] text-left text-sm">
         <thead className="bg-surface-muted text-xs font-medium text-muted">
           <tr>
             <th scope="col" className="px-4 py-3">{dict.resultsTable.program}</th>
@@ -147,6 +193,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
           })}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

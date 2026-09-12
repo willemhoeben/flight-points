@@ -14,7 +14,10 @@ airline or loyalty program.
   omitted at the default miles-ascending order) alongside the existing
   route/date/cabin/program params, so a sorted search is exactly as
   bookmarkable and shareable as an unsorted one — same `router.replace`,
-  no-reload approach as `/valuations`. Remembers your last search in
+  no-reload approach as `/valuations`. A "Nonstop only" filter pill above
+  the results table (`?nonstop=1`, composes with sort in the same URL)
+  narrows the list to direct flights, with its own empty state when a
+  route has zero nonstop options. Remembers your last search in
   localStorage and returns to it on a bare `/search` visit. Every query
   param is validated against a known set (airport codes, cabins, an ISO
   date) before use — an invalid or garbled one falls back to a sensible
