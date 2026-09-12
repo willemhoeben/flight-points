@@ -83,7 +83,11 @@ only showed up there first: at print widths ≥900px, the expanded table and
 the fixed-width points calculator sit in a two-column grid that can't
 actually fit both, so the table overflowed and got visually covered by the
 calculator card. Both this repo and the artifact now force a single-column
-layout when printing.
+layout when printing. The artifact's deal panel also mirrors the visible
+breadcrumb trail (Home / Deals / the deal), with its own click handlers since
+that panel's markup is injected after the page's one-time event delegation
+runs — the same reason its save-deal button and back link needed manual
+listeners already.
 
 ## Languages and currencies
 
