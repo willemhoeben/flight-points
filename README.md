@@ -124,7 +124,9 @@ The navbar has two independent selectors:
   the results table's taxes & fees column and the points calculator. Static,
   illustrative exchange rates, consistent with the rest of the site's
   mock-data approach — not a live feed. Persisted to localStorage and synced
-  across tabs.
+  across tabs. Its own accessible label is translated too, same as the
+  language and theme selectors next to it (the artifact already had this
+  right — the repo's copy had quietly stayed English-only).
 
 A third selector, **Theme** (System/Light/Dark, `src/lib/theme-context.tsx`),
 overrides the OS-level `prefers-color-scheme` default. A blocking inline

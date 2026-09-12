@@ -12,6 +12,7 @@ const en = {
     skipToContent: "Skip to content",
   },
   language: { label: "Language" },
+  currency: { label: "Currency" },
   theme: { label: "Theme", light: "Light", dark: "Dark", system: "System" },
   common: {
     loading: "Loading…",
@@ -189,6 +190,7 @@ const nl: Dictionary = {
     skipToContent: "Naar de inhoud",
   },
   language: { label: "Taal" },
+  currency: { label: "Valuta" },
   theme: { label: "Thema", light: "Licht", dark: "Donker", system: "Systeem" },
   common: {
     loading: "Laden…",
@@ -366,6 +368,7 @@ const de: Dictionary = {
     skipToContent: "Zum Inhalt springen",
   },
   language: { label: "Sprache" },
+  currency: { label: "Währung" },
   theme: { label: "Design", light: "Hell", dark: "Dunkel", system: "System" },
   common: {
     loading: "Wird geladen…",
@@ -543,6 +546,7 @@ const fr: Dictionary = {
     skipToContent: "Aller au contenu",
   },
   language: { label: "Langue" },
+  currency: { label: "Devise" },
   theme: { label: "Thème", light: "Clair", dark: "Sombre", system: "Système" },
   common: {
     loading: "Chargement…",
@@ -720,6 +724,7 @@ const es: Dictionary = {
     skipToContent: "Saltar al contenido",
   },
   language: { label: "Idioma" },
+  currency: { label: "Moneda" },
   theme: { label: "Tema", light: "Claro", dark: "Oscuro", system: "Sistema" },
   common: {
     loading: "Cargando…",
@@ -897,6 +902,7 @@ const it: Dictionary = {
     skipToContent: "Vai al contenuto",
   },
   language: { label: "Lingua" },
+  currency: { label: "Valuta" },
   theme: { label: "Tema", light: "Chiaro", dark: "Scuro", system: "Sistema" },
   common: {
     loading: "Caricamento…",
@@ -1074,6 +1080,7 @@ const ja: Dictionary = {
     skipToContent: "本文へスキップ",
   },
   language: { label: "言語" },
+  currency: { label: "通貨" },
   theme: { label: "テーマ", light: "ライト", dark: "ダーク", system: "システム" },
   common: {
     loading: "読み込み中…",
