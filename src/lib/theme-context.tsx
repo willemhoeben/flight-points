@@ -36,9 +36,15 @@ function getServerSnapshot(): Theme {
 // Applies (or removes) the "dark" class the blocking inline script in
 // layout.tsx already set pre-hydration — keeps the DOM in sync on every
 // later change without a page reload. See globals.css's @custom-variant.
+// Also re-syncs the theme-color meta tag from the (now-updated) CSS custom
+// property, so the mobile browser chrome tracks a live theme change too.
 function applyThemeClass(theme: Theme) {
   const isDark = resolveIsDark(theme, window.matchMedia("(prefers-color-scheme: dark)").matches);
   document.documentElement.classList.toggle("dark", isDark);
+  const background = getComputedStyle(document.documentElement).getPropertyValue("--background").trim();
+  if (background) {
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", background);
+  }
 }
 
 type ThemeContextValue = {

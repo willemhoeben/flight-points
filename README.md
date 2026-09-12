@@ -130,7 +130,10 @@ A third selector, **Theme** (System/Light/Dark, `src/lib/theme-context.tsx`),
 overrides the OS-level `prefers-color-scheme` default. A blocking inline
 script in the root layout applies the stored choice before first paint, so
 there's no flash of the wrong theme on load; while set to "System" it keeps
-following live OS-level changes.
+following live OS-level changes. The resolved theme also drives a
+`<meta name="theme-color">` tag, so the mobile browser's own address/status
+bar matches the page background instead of staying a fixed color regardless
+of theme.
 
 All three selections persist independently: language via cookie, currency
 and theme via localStorage.

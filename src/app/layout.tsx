@@ -74,6 +74,17 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang={locale} className={`${plexMono.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
+        {/* Matches the mobile browser chrome (address/status bar) to the
+            current page background, same idea as the manifest's separate
+            (static, installed-app-only) background_color. applyThemeClass
+            in theme-context.tsx keeps content in sync after hydration.
+            Deliberately NOT also set by the blocking script below: mutating
+            this SSR-rendered tag's content pre-hydration made React 19's
+            hydration see a mismatch against the static JSX value and mount
+            a second, orphaned copy that later updates kept hitting instead
+            of this one — a wrong browser-chrome color for one frame is a
+            smaller cost than a meta tag that silently stops updating. */}
+        <meta name="theme-color" content="#ffffff" />
         {/* Blocking, runs before first paint to avoid a flash of the wrong
             theme. Storage key must match theme-context.tsx's STORAGE_KEY —
             this can't import it, it has to run before any JS bundle loads. */}
