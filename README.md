@@ -120,7 +120,17 @@ Visual design is inspired by apple.com: the system font stack (no web font
 for headings/body), a white/black + `#0071e3` blue palette, borderless gray
 rounded panels, and a dense, compact layout (a 44px navbar, tightened section
 and card spacing throughout) rather than a lot of open whitespace. The brand
-mark is an "FP" monogram badge. `src/app/icon.tsx`, `apple-icon.tsx`, and
+mark is an airliner climbing away from a hotel block — the two halves of
+what this site values, airline miles and hotel points — replacing the "FP"
+monogram that said nothing about what the site does. Its geometry lives in
+`src/lib/brand-mark.ts` as bare path data rather than inside a component,
+because it has to render in two different worlds: React DOM for the navbar
+(`src/components/BrandMark.tsx`, inheriting `currentColor`) and Satori for
+every generated image. Seven renderers, one source of truth. The plane and
+the block never overlap — their closest approach is about 12% of the mark's
+width — so it needs no knockout and reads on any background; the windows
+and door are knocked out of the block with `fill-rule="evenodd"`, which
+Satori honours. `src/app/icon.tsx`, `apple-icon.tsx`, and
 `opengraph-image.tsx` generate the favicon, iOS home-screen icon, and social
 share image from the same brand mark; each deal also gets its own share
 image (`deals/[slug]/opengraph-image.tsx`) showing that deal's title,
@@ -219,7 +229,10 @@ state, and its own two-column valuations layout moved from 900px to 1100px
 for the same reason the repo's moved to `xl` — at 900 the table column was
 left under the table's 680px minimum. Its print stylesheet forces the table
 back into view, so printing at a narrow paper width still gets the table
-rather than the cards. It gets the same airliner
+rather than the cards. Its topbar carries the same hotel-and-plane mark,
+with the paths copied from `lib/brand-mark.ts` — the one place the
+single-source-of-truth rule can't reach, since the artifact is a single
+file with no imports. It gets the same airliner
 crossing the middle of the viewport as the repo's landing page, from the
 same viewport-fixed `pointer-events-none` layer, so clicks still land on
 the tabs and buttons underneath it. It also has
