@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useSyncExternalStore } from "react";
 import { VALUATIONS } from "@/data/valuations";
 import { Card } from "@/components/ui";
 import { useCurrency } from "@/lib/currency-context";
@@ -8,17 +8,45 @@ import { convertToUsd } from "@/lib/currency";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
 import { formatMiles } from "@/lib/format";
 import { pointsToUsd, usdToPoints } from "@/lib/points-calc";
+import {
+  readStoredCalcState,
+  saveCalcState,
+  subscribeToCalcState,
+  type CalcMode,
+  type StoredCalcState,
+} from "@/lib/calculator-storage";
 
-type CalcMode = "pointsToCash" | "cashToPoints";
+const DEFAULT_CALC_STATE: StoredCalcState = {
+  mode: "pointsToCash",
+  currencyId: VALUATIONS[0].id,
+  balance: "60000",
+  targetAmount: "500",
+};
+
+const isValidCurrencyId = (id: string) => VALUATIONS.some((v) => v.id === id);
+
+// SSR and the pre-hydration client render can't read localStorage — always
+// the defaults there. useSyncExternalStore reconciles the mismatch after
+// hydration without the setState-in-effect anti-pattern a plain
+// useState+useEffect version would need — same pattern as currency-context
+// and theme-context, so a returning visitor's calculator inputs persist
+// across sessions instead of resetting every time.
+function getServerSnapshot(): StoredCalcState {
+  return DEFAULT_CALC_STATE;
+}
 
 export function PointsCalculator() {
-  const [currencyId, setCurrencyId] = useState(VALUATIONS[0].id);
-  const [mode, setMode] = useState<CalcMode>("pointsToCash");
-  const [balance, setBalance] = useState("60000");
-  const [targetAmount, setTargetAmount] = useState("500");
+  const getSnapshot = useCallback(() => readStoredCalcState(DEFAULT_CALC_STATE, isValidCurrencyId), []);
+  const stored = useSyncExternalStore(subscribeToCalcState, getSnapshot, getServerSnapshot);
+  const { mode, currencyId, balance, targetAmount } = stored;
   const { format, currency } = useCurrency();
   const dict = useDictionary();
   const locale = useLocale();
+
+  const setMode = (next: CalcMode) => saveCalcState({ ...stored, mode: next });
+  const setCurrencyId = (next: string) => saveCalcState({ ...stored, currencyId: next });
+  const setBalance = (next: string) => saveCalcState({ ...stored, balance: next });
+  const setTargetAmount = (next: string) => saveCalcState({ ...stored, targetAmount: next });
 
   const pointsCurrency = VALUATIONS.find((v) => v.id === currencyId) ?? VALUATIONS[0];
   const points = Number(balance.replace(/[^0-9]/g, "")) || 0;

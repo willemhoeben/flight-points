@@ -19,6 +19,9 @@ airline or loyalty program.
 - **`/valuations`** — a sortable, filterable (bank/airline/hotel) table of
   estimated cents-per-point values for major currencies, plus a two-way
   calculator: points → cash value, or a target cash amount → points needed.
+  Its mode, points program, and entered amounts persist to localStorage —
+  the one input-heavy control on the site that used to reset on every
+  visit — so picking up where you left off doesn't mean retyping a balance.
   The filter and sort are reflected in the URL (`?type=hotel&sort=name&dir=asc`,
   omitted when at their defaults) and applied by `router.replace` — no page
   reload, but the resulting link is bookmarkable and shareable, same as
