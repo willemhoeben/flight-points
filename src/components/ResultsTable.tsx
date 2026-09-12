@@ -186,10 +186,116 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
   return (
     <div>
       {filterControls}
-      <div className="overflow-x-auto rounded-[20px] bg-surface">
-        <span aria-live="polite" className="sr-only">
-          {sortAnnouncement}
-        </span>
+      <span aria-live="polite" className="sr-only">
+        {sortAnnouncement}
+      </span>
+
+      {/* The table needs 720px, which the page's content column only
+          reaches at md. Below that only Program/Routing/Duration fit and
+          miles and taxes — the whole point of the search — sit off the
+          right edge behind a sideways scroll nothing hints at. So narrow
+          screens get the same rows as cards instead, with every number
+          visible; two columns once there's room for them. The table is
+          still the md-and-up layout, since it compares rows far better
+          than cards do once it fits. */}
+      <div className="flex flex-wrap items-center gap-2 print:hidden md:hidden" role="group" aria-label={dict.common.sortBy}>
+        <span className="text-xs font-medium text-muted">{dict.common.sortBy}</span>
+        {SORTABLE_COLUMNS.map((col) => (
+          <button
+            key={col.key}
+            type="button"
+            onClick={() => goToSort(col.key)}
+            aria-current={sortKey === col.key ? "true" : undefined}
+            className={
+              sortKey === col.key
+                ? "inline-flex items-center gap-1 rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+                : "inline-flex items-center gap-1 rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+            }
+          >
+            {col.label}
+            <span aria-hidden="true" className="text-[10px] leading-none">
+              {sortKey === col.key ? (sortDir === "asc" ? "▲" : "▼") : "↕"}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <ul className="mt-3 grid gap-3 sm:grid-cols-2 md:hidden">
+        {sorted.map((r) => {
+          const program = PROGRAMS.find((p) => p.id === r.programId);
+          const isBest = r.id === cheapestId;
+          return (
+            <li
+              key={r.id}
+              className={
+                isBest
+                  ? "rounded-[20px] bg-emerald-500/5 p-4 ring-1 ring-emerald-500/30"
+                  // --surface is the same white as --background in light mode, so a
+                  // plain surface card would have no visible edge. bg-surface-muted
+                  // is the panel treatment the rest of the site already uses.
+                  : "rounded-[20px] bg-surface-muted p-4"
+              }
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="font-medium text-foreground">{r.programName}</div>
+                  <div className="mt-1.5 flex flex-wrap gap-1.5">
+                    {program && <Badge accent={program.accent}>{allianceLabel(program.alliance)}</Badge>}
+                    {isBest && <Badge accent="emerald">{dict.resultsTable.bestPrice}</Badge>}
+                  </div>
+                </div>
+                <div className="shrink-0 text-right">
+                  <div className="font-mono text-base font-semibold tabular-nums text-foreground" suppressHydrationWarning>
+                    {formatMiles(r.milesCost, locale)}
+                  </div>
+                  <div className="text-[11px] text-muted">{dict.resultsTable.miles}</div>
+                </div>
+              </div>
+
+              <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-border pt-3 text-[13px]">
+                <div>
+                  <dt className="text-[11px] text-muted">{dict.resultsTable.routing}</dt>
+                  <dd className="text-foreground">
+                    {r.direct
+                      ? dict.resultsTable.nonstop
+                      : `${r.connections} ${r.connections > 1 ? dict.resultsTable.stops : dict.resultsTable.stop}`}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[11px] text-muted">{dict.resultsTable.duration}</dt>
+                  <dd className="font-mono tabular-nums text-foreground" suppressHydrationWarning>
+                    {formatDuration(r.durationMinutes, locale)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[11px] text-muted">{dict.resultsTable.taxesFees}</dt>
+                  <dd className="font-mono tabular-nums text-foreground" suppressHydrationWarning>{format(r.taxesFeesUsd)}</dd>
+                </div>
+                <div>
+                  <dt className="text-[11px] text-muted">{dict.resultsTable.seats}</dt>
+                  <dd className="font-mono tabular-nums text-foreground">
+                    {r.seatsRemaining} {dict.resultsTable.seatsLeft}
+                  </dd>
+                </div>
+              </dl>
+
+              <div className="mt-3">
+                <span
+                  className={
+                    r.bookingWindow === "online"
+                      ? "text-xs font-medium text-emerald-600 dark:text-emerald-400"
+                      : "text-xs font-medium text-amber-600 dark:text-amber-400"
+                  }
+                >
+                  {r.bookingWindow === "online" ? dict.resultsTable.bookableOnline : dict.resultsTable.callToBook}
+                </span>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div className="hidden overflow-x-auto rounded-[20px] bg-surface md:block">
         <table className="w-full min-w-[720px] text-left text-sm">
         <thead className="bg-surface-muted text-xs font-medium text-muted">
           <tr>
