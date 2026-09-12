@@ -40,7 +40,10 @@ export default async function ValuationsPage() {
         description={dict.valuationsPage.description}
       />
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px] print:grid-cols-1">
+      {/* Two columns only from xl. At lg the 360px calculator left the
+          table column at 592px — narrower than the table's own minimum, so
+          a laptop got the same sideways scroll a phone used to. */}
+      <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_360px] print:grid-cols-1">
         <Suspense fallback={null}>
           <ValuationsTable valuations={VALUATIONS} />
         </Suspense>
