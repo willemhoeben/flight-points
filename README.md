@@ -81,7 +81,10 @@ It has its own currency selector and the same seven-language switcher as
 this repo (Dutch/English/German/French/Spanish/Italian/Japanese) — hand-translated
 directly into the artifact's single file, with no compiler or type checker
 to catch a missed key across the larger dictionary, so each addition got
-verified live in a browser rather than trusted on sight. Its deal articles
+verified live in a browser rather than trusted on sight. Its own first-visit
+default mirrors the repo's Accept-Language fallback using `navigator.languages`
+instead (Dutch, not English, is its hardcoded last-resort default — an
+intentional difference from the repo, not a bug). Its deal articles
 are Dutch-only editorial content (the mirror image of this repo's
 English-only articles), so non-Dutch readers see a translated notice
 instead of a translated article body. It also mirrors the alliance-grouped
