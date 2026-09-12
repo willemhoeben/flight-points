@@ -1,5 +1,9 @@
 export type SortDir = "asc" | "desc";
 
+export function isSortDir(value: string | null): value is SortDir {
+  return value === "asc" || value === "desc";
+}
+
 /**
  * Sorts a copy of `items` by a numeric or string field, honoring
  * direction. Never mutates the input array.

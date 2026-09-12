@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { nextSort, sortBy } from "@/lib/sort";
+import { isSortDir, nextSort, sortBy } from "@/lib/sort";
 
 type Row = { id: string; name: string; value: number };
 
@@ -38,5 +38,17 @@ describe("nextSort", () => {
       key: "name",
       dir: "asc",
     });
+  });
+});
+
+describe("isSortDir", () => {
+  test("accepts asc and desc", () => {
+    expect(isSortDir("asc")).toBe(true);
+    expect(isSortDir("desc")).toBe(true);
+  });
+
+  test("rejects unknown values", () => {
+    expect(isSortDir("ascending")).toBe(false);
+    expect(isSortDir(null)).toBe(false);
   });
 });

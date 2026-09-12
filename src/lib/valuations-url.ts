@@ -1,6 +1,8 @@
 import type { PointCurrency } from "@/data/valuations";
 import type { SortDir } from "@/lib/sort";
 
+export { isSortDir } from "@/lib/sort";
+
 export type ValuationsSortKey = "name" | "centsPerPoint";
 export type ValuationsTypeFilter = PointCurrency["type"] | null;
 
@@ -13,10 +15,6 @@ export function isValuationType(value: string | null): value is PointCurrency["t
 
 export function isValuationsSortKey(value: string | null): value is ValuationsSortKey {
   return value === "name" || value === "centsPerPoint";
-}
-
-export function isSortDir(value: string | null): value is SortDir {
-  return value === "asc" || value === "desc";
 }
 
 /**
