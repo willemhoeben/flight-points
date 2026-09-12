@@ -76,7 +76,14 @@ program checkboxes on the search tab, the save-deal feature (a star toggle,
 a read-only grid badge, and the "★ Saved" filter pill), the recently-viewed
 deals row, and the System/Light/Dark theme toggle — persisted to the
 browser's localStorage the same way, with the same pre-paint blocking script to
-avoid a flash of the wrong theme on load.
+avoid a flash of the wrong theme on load. It has the same print stylesheet
+too (chrome and interactive-only controls hidden, light palette forced,
+tables expanded to full width) — including a fix for a real overlap bug that
+only showed up there first: at print widths ≥900px, the expanded table and
+the fixed-width points calculator sit in a two-column grid that can't
+actually fit both, so the table overflowed and got visually covered by the
+calculator card. Both this repo and the artifact now force a single-column
+layout when printing.
 
 ## Languages and currencies
 
