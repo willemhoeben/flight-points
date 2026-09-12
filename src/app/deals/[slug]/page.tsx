@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RecordDealView } from "@/components/RecordDealView";
 import { SaveDealButton } from "@/components/SaveDealButton";
 import { DEALS, findDeal } from "@/data/deals";
@@ -75,7 +75,7 @@ export default async function DealPage({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
+      { "@type": "ListItem", position: 1, name: dict.common.home, item: SITE_URL },
       { "@type": "ListItem", position: 2, name: dict.dealsPage.eyebrow, item: `${SITE_URL}/deals` },
       { "@type": "ListItem", position: 3, name: deal.title, item: `${SITE_URL}/deals/${deal.slug}` },
     ],
@@ -86,9 +86,13 @@ export default async function DealPage({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <RecordDealView slug={deal.slug} />
-      <Link href="/deals" className="text-sm font-medium text-brand hover:underline">
-        {dict.dealsPage.backToDeals}
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: dict.common.home, href: "/" },
+          { label: dict.dealsPage.eyebrow, href: "/deals" },
+          { label: deal.title },
+        ]}
+      />
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">

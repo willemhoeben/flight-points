@@ -160,7 +160,12 @@ Vercel's own `VERCEL_URL` at deploy time, otherwise `localhost:3000`. Set
 JSON-LD structured data is on every page: `WebSite`/`Organization` from the
 root layout, plus `Article` (headline, description, publish/expiry dates,
 author/publisher) and `BreadcrumbList` (Home → Deals → the deal itself, with
-the middle crumb in the page's own locale) on each `/deals/[slug]` page.
+every crumb in the page's own locale) on each `/deals/[slug]` page. The
+`BreadcrumbList` isn't just structured data crawlers see — a matching visible
+breadcrumb trail (`src/components/Breadcrumbs.tsx`) renders the same three
+crumbs above every deal, with `aria-current="page"` on the current one, so
+sighted and screen-reader users get the same "where am I" context search
+engines do.
 
 Every page sets a self-referencing canonical URL, a page-specific description,
 and Open Graph/Twitter Card previews (`summary_large_image`, matching the
