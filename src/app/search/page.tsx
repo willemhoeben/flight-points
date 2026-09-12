@@ -50,6 +50,15 @@ function isValidCabin(cabin: string | undefined): cabin is Cabin {
   return !!cabin && CABINS.some((c) => c.id === cabin);
 }
 
+// Every other search param above is validated against a known set; date is
+// free-form user input. Without this, a non-ISO or unparseable ?date= value
+// reaches addDays()'s toISOString() call downstream and throws, crashing
+// the page into the generic error boundary instead of falling back like
+// every other invalid param does.
+function isValidDateParam(value: string | undefined): value is string {
+  return !!value && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(new Date(`${value}T00:00:00Z`).getTime());
+}
+
 export default async function SearchPage({
   searchParams,
 }: {
@@ -63,7 +72,7 @@ export default async function SearchPage({
     ? (firstValue(sp.destination) as string)
     : "LHR";
   const cabin: Cabin = isValidCabin(firstValue(sp.cabin)) ? (firstValue(sp.cabin) as Cabin) : "business";
-  const date = firstValue(sp.date) || addDays(todayIso(), 30);
+  const date = isValidDateParam(firstValue(sp.date)) ? (firstValue(sp.date) as string) : addDays(todayIso(), 30);
   const programIds = toArray(sp.programs);
 
   const baseParams = new URLSearchParams();

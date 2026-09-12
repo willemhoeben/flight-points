@@ -15,7 +15,10 @@ airline or loyalty program.
   route/date/cabin/program params, so a sorted search is exactly as
   bookmarkable and shareable as an unsorted one — same `router.replace`,
   no-reload approach as `/valuations`. Remembers your last search in
-  localStorage and returns to it on a bare `/search` visit.
+  localStorage and returns to it on a bare `/search` visit. Every query
+  param is validated against a known set (airport codes, cabins, an ISO
+  date) before use — an invalid or garbled one falls back to a sensible
+  default instead of breaking the page.
 - **`/valuations`** — a sortable, filterable (bank/airline/hotel) table of
   estimated cents-per-point values for major currencies, plus a two-way
   calculator: points → cash value, or a target cash amount → points needed.
