@@ -88,20 +88,30 @@ h1, h2, h3 {
   }
 }
 
-/* Plane flying across the hero on page load — see PlaneFlyover.tsx. Pure
-   CSS so it needs no client JS and replays naturally on every mount (a hard
-   load or a client-side nav to "/"). The reduced-motion override above
-   already collapses this to its end state near-instantly, so no separate
-   opt-out is needed here. */
+/* Plane crossing the middle of the viewport on page load — see
+   PlaneFlyover.tsx. Pure CSS so it needs no client JS and replays naturally
+   on every mount (a hard load or a client-side nav to "/"). The
+   reduced-motion override above already collapses this to its end state
+   near-instantly, so no separate opt-out is needed here.
+
+   Movement is linear because that's what a real aircraft crossing your view
+   does — it doesn't accelerate into frame. The small scale change reads as
+   perspective (further away on the way in and out, closest at mid-screen),
+   and the sub-degree rotation plus the vh drift give it a gentle climb
+   instead of a flat slide. Transform-only, so it composites on the GPU
+   rather than re-laying-out the page 60 times a second. */
 @keyframes plane-flyover {
-  0% { transform: translate(-15vw, 10px) rotate(2deg); opacity: 0; }
-  8% { opacity: 1; }
-  50% { transform: translate(50vw, -10px) rotate(0deg); }
-  92% { opacity: 1; }
-  100% { transform: translate(115vw, -26px) rotate(2deg); opacity: 0; }
+  0% { transform: translate3d(-28vw, 3.5vh, 0) scale(0.7) rotate(1.8deg); opacity: 0; }
+  14% { opacity: 1; }
+  50% { transform: translate3d(50vw, 0.5vh, 0) scale(1) rotate(-0.4deg); }
+  86% { opacity: 1; }
+  100% { transform: translate3d(128vw, -4vh, 0) scale(0.74) rotate(1.8deg); opacity: 0; }
 }
 .plane-flyover {
-  animation: plane-flyover 4.2s ease-in-out 0.2s 1 both;
+  animation: plane-flyover 6s linear 0.3s 1 both;
+}
+.plane-body {
+  filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.15));
 }
 
 @layer base {
