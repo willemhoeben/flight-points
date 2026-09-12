@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { DEALS, findDeal, type DealCategory } from "@/data/deals";
 import { SITE_NAME } from "@/lib/site";
+import { BRAND_MARK_HOTEL, BRAND_MARK_PLANE, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
 
 export const alt = `${SITE_NAME} deal`;
 export const size = { width: 1200, height: 630 };
@@ -52,7 +53,10 @@ export default async function Image({ params }: { params: Promise<{ slug: string
               justifyContent: "center",
             }}
           >
-            <div style={{ display: "flex", fontSize: 19, fontWeight: 800, letterSpacing: -1, color: "#ffffff" }}>FP</div>
+            <svg width={34} height={34} viewBox={BRAND_MARK_VIEWBOX} fill="#ffffff">
+              <path d={BRAND_MARK_HOTEL} fillRule="evenodd" />
+              <path d={BRAND_MARK_PLANE} />
+            </svg>
           </div>
           <div style={{ display: "flex", fontSize: 28, fontWeight: 700, color: "#1d1d1f" }}>{SITE_NAME}</div>
         </div>
