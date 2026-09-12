@@ -88,7 +88,10 @@ verified live in a browser rather than trusted on sight. Its own first-visit
 default mirrors the repo's Accept-Language fallback using `navigator.languages`
 instead (Dutch, not English, is its hardcoded last-resort default — an
 intentional difference from the repo, not a bug), and its starting currency
-follows that same detected language before anything's saved, same as the repo. Its deal articles
+follows that same detected language before anything's saved, same as the repo.
+Its points calculator remembers its mode, points program, and entered
+amounts the same way too, using the same localStorage pattern as its
+remembered-last-search feature. Its deal articles
 are Dutch-only editorial content (the mirror image of this repo's
 English-only articles), so non-Dutch readers see a translated notice
 instead of a translated article body. It also mirrors the alliance-grouped
