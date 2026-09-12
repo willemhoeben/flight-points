@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandMark } from "@/components/BrandMark";
 import { CurrencySelector } from "@/components/CurrencySelector";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -18,9 +19,9 @@ export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
         <Link href="/" className="flex items-center gap-2 whitespace-nowrap text-[14px] font-semibold tracking-tight">
           <span
             aria-hidden="true"
-            className="flex h-5 w-5 items-center justify-center rounded-[6px] bg-brand text-[10px] font-extrabold tracking-tighter text-brand-foreground"
+            className="flex h-5 w-5 items-center justify-center rounded-[6px] bg-brand text-brand-foreground"
           >
-            FP
+            <BrandMark className="h-[17px] w-[17px]" />
           </span>
           {dict.brand}
         </Link>
