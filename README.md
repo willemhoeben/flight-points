@@ -89,7 +89,10 @@ program checkboxes on the search tab, the save-deal feature (a star toggle,
 a read-only grid badge, and the "★ Saved" filter pill), the recently-viewed
 deals row, and the System/Light/Dark theme toggle — persisted to the
 browser's localStorage the same way, with the same pre-paint blocking script to
-avoid a flash of the wrong theme on load. It has the same print stylesheet
+avoid a flash of the wrong theme on load. Its top-tab bar (Home/Search/
+Valuations/Deals) has its own `role="tablist"`, an architecture the repo's
+real routes don't need — its accessible name is translated, same as its
+language/currency/theme selectors. It has the same print stylesheet
 too (chrome and interactive-only controls hidden, light palette forced,
 tables expanded to full width) — including a fix for a real overlap bug that
 only showed up there first: at print widths ≥900px, the expanded table and
