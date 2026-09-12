@@ -8,6 +8,7 @@ const en = {
     search: "Award search",
     valuations: "Valuations",
     deals: "Deals",
+    compare: "Compare",
     searchCta: "Search awards",
     skipToContent: "Skip to content",
   },
@@ -154,6 +155,20 @@ const en = {
     targetPlaceholder: "e.g. 500",
     pointsNeeded: "Points needed",
   },
+  comparePage: {
+    eyebrow: "Compare programs",
+    title: "Compare what your points are worth",
+    description:
+      "Pick two or more point currencies and see which is worth more for the same balance — a side-by-side view the valuations table doesn't give you on its own.",
+  },
+  compareTool: {
+    selectLabel: "Select currencies to compare",
+    balanceLabel: "Points balance",
+    balancePlaceholder: "e.g. 60000",
+    emptyState: "Select at least 2 currencies above to compare their value.",
+    valueForBalance: "Value at this balance",
+    bestValue: "Best value",
+  },
   dealsPage: {
     eyebrow: "Deals",
     title: "Transfer bonuses & sweet spots",
@@ -196,6 +211,7 @@ const nl: Dictionary = {
     search: "Award-zoeken",
     valuations: "Puntenwaarde",
     deals: "Deals",
+    compare: "Vergelijken",
     searchCta: "Zoek awards",
     skipToContent: "Naar de inhoud",
   },
@@ -342,6 +358,20 @@ const nl: Dictionary = {
     targetPlaceholder: "bijv. 500",
     pointsNeeded: "Benodigde punten",
   },
+  comparePage: {
+    eyebrow: "Programma's vergelijken",
+    title: "Vergelijk wat je punten waard zijn",
+    description:
+      "Kies twee of meer puntenvaluta's en zie welke meer waard is bij hetzelfde saldo — een naast-elkaar-weergave die de waardetabel je niet los geeft.",
+  },
+  compareTool: {
+    selectLabel: "Selecteer valuta's om te vergelijken",
+    balanceLabel: "Puntensaldo",
+    balancePlaceholder: "bijv. 60000",
+    emptyState: "Selecteer hierboven minstens 2 valuta's om hun waarde te vergelijken.",
+    valueForBalance: "Waarde bij dit saldo",
+    bestValue: "Beste waarde",
+  },
   dealsPage: {
     eyebrow: "Deals",
     title: "Transferbonussen & sweet spots",
@@ -384,6 +414,7 @@ const de: Dictionary = {
     search: "Award-Suche",
     valuations: "Punktewert",
     deals: "Deals",
+    compare: "Vergleichen",
     searchCta: "Awards suchen",
     skipToContent: "Zum Inhalt springen",
   },
@@ -530,6 +561,20 @@ const de: Dictionary = {
     targetPlaceholder: "z. B. 500",
     pointsNeeded: "Benötigte Punkte",
   },
+  comparePage: {
+    eyebrow: "Programme vergleichen",
+    title: "Vergleiche, was deine Punkte wert sind",
+    description:
+      "Wähle zwei oder mehr Punktewährungen aus und sieh, welche bei demselben Guthaben mehr wert ist — ein direkter Vergleich, den dir die Wertetabelle allein nicht bietet.",
+  },
+  compareTool: {
+    selectLabel: "Wähle Währungen zum Vergleichen aus",
+    balanceLabel: "Punkteguthaben",
+    balancePlaceholder: "z. B. 60000",
+    emptyState: "Wähle oben mindestens 2 Währungen aus, um ihren Wert zu vergleichen.",
+    valueForBalance: "Wert bei diesem Guthaben",
+    bestValue: "Bester Wert",
+  },
   dealsPage: {
     eyebrow: "Deals",
     title: "Transferboni & Sweet Spots",
@@ -572,6 +617,7 @@ const fr: Dictionary = {
     search: "Recherche awards",
     valuations: "Valorisation",
     deals: "Offres",
+    compare: "Comparer",
     searchCta: "Rechercher",
     skipToContent: "Aller au contenu",
   },
@@ -718,6 +764,20 @@ const fr: Dictionary = {
     targetPlaceholder: "p. ex. 500",
     pointsNeeded: "Points nécessaires",
   },
+  comparePage: {
+    eyebrow: "Comparer les programmes",
+    title: "Comparez ce que valent vos points",
+    description:
+      "Choisissez deux devises de points ou plus et voyez laquelle vaut le plus pour le même solde — une vue côte à côte que le tableau de valorisation ne donne pas à lui seul.",
+  },
+  compareTool: {
+    selectLabel: "Sélectionnez les devises à comparer",
+    balanceLabel: "Solde de points",
+    balancePlaceholder: "ex. 60000",
+    emptyState: "Sélectionnez au moins 2 devises ci-dessus pour comparer leur valeur.",
+    valueForBalance: "Valeur pour ce solde",
+    bestValue: "Meilleure valeur",
+  },
   dealsPage: {
     eyebrow: "Offres",
     title: "Bonus de transfert & bons plans",
@@ -760,6 +820,7 @@ const es: Dictionary = {
     search: "Buscar awards",
     valuations: "Valoración",
     deals: "Ofertas",
+    compare: "Comparar",
     searchCta: "Buscar awards",
     skipToContent: "Saltar al contenido",
   },
@@ -906,6 +967,20 @@ const es: Dictionary = {
     targetPlaceholder: "ej. 500",
     pointsNeeded: "Puntos necesarios",
   },
+  comparePage: {
+    eyebrow: "Comparar programas",
+    title: "Compara lo que valen tus puntos",
+    description:
+      "Elige dos o más divisas de puntos y descubre cuál vale más para el mismo saldo, una vista lado a lado que la tabla de valoración no ofrece por sí sola.",
+  },
+  compareTool: {
+    selectLabel: "Selecciona las divisas a comparar",
+    balanceLabel: "Saldo de puntos",
+    balancePlaceholder: "ej. 60000",
+    emptyState: "Selecciona al menos 2 divisas arriba para comparar su valor.",
+    valueForBalance: "Valor con este saldo",
+    bestValue: "Mejor valor",
+  },
   dealsPage: {
     eyebrow: "Ofertas",
     title: "Bonos de transferencia y chollos",
@@ -948,6 +1023,7 @@ const it: Dictionary = {
     search: "Cerca award",
     valuations: "Valutazioni",
     deals: "Offerte",
+    compare: "Confronta",
     searchCta: "Cerca voli award",
     skipToContent: "Vai al contenuto",
   },
@@ -1094,6 +1170,20 @@ const it: Dictionary = {
     targetPlaceholder: "es. 500",
     pointsNeeded: "Punti necessari",
   },
+  comparePage: {
+    eyebrow: "Confronta i programmi",
+    title: "Confronta quanto valgono i tuoi punti",
+    description:
+      "Scegli due o più valute punti e scopri quale vale di più per lo stesso saldo, una vista affiancata che la tabella delle valutazioni da sola non offre.",
+  },
+  compareTool: {
+    selectLabel: "Seleziona le valute da confrontare",
+    balanceLabel: "Saldo punti",
+    balancePlaceholder: "es. 60000",
+    emptyState: "Seleziona almeno 2 valute sopra per confrontarne il valore.",
+    valueForBalance: "Valore con questo saldo",
+    bestValue: "Miglior valore",
+  },
   dealsPage: {
     eyebrow: "Offerte",
     title: "Bonus di trasferimento e occasioni",
@@ -1136,6 +1226,7 @@ const ja: Dictionary = {
     search: "特典航空券検索",
     valuations: "ポイント価値",
     deals: "お得情報",
+    compare: "比較",
     searchCta: "特典航空券を検索",
     skipToContent: "本文へスキップ",
   },
@@ -1281,6 +1372,19 @@ const ja: Dictionary = {
     targetAmount: "目標金額",
     targetPlaceholder: "例: 500",
     pointsNeeded: "必要ポイント数",
+  },
+  comparePage: {
+    eyebrow: "プログラムを比較",
+    title: "ポイントの価値を比較する",
+    description: "2つ以上のポイント通貨を選ぶと、同じ残高でどちらがより価値があるかがわかります。価値評価テーブル単体では見えない横並び比較です。",
+  },
+  compareTool: {
+    selectLabel: "比較する通貨を選択",
+    balanceLabel: "ポイント残高",
+    balancePlaceholder: "例: 60000",
+    emptyState: "上で通貨を2つ以上選択すると価値を比較できます。",
+    valueForBalance: "この残高での価値",
+    bestValue: "最も価値が高い",
   },
   dealsPage: {
     eyebrow: "お得情報",

@@ -42,6 +42,15 @@ airline or loyalty program.
   reload, but the resulting link is bookmarkable and shareable, same as
   `/search` and `/deals`. A "Copy share link" button sits next to the filter
   pills for exactly that.
+- **`/compare`** — pick two or more point currencies (bank/airline/hotel,
+  grouped the same way as `/search`'s program picker) and a shared points
+  balance to see which is worth more, ranked by cash value with the top
+  pick badged "Best value". Selection and balance are reflected in the URL
+  (`?currencies=chase-ur&currencies=hyatt&balance=100000`, balance omitted
+  at its 60,000-point default) so a comparison is exactly as bookmarkable
+  and shareable as a sorted `/valuations` table — same `router.replace`
+  approach, same silent-drop handling for a stale/unknown currency id in a
+  share link.
 - **`/deals`** — 8 sample transfer-bonus and award-chart sweet-spot writeups, filterable
   by category (`?category=transfer-bonus|sweet-spot|sale`) and sortable by
   newest or soonest-expiring (`?sort=newest|expiring`) — the two compose,
