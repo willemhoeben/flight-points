@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
+import { BrandWordmark } from "@/components/BrandWordmark";
 
 export function Footer({ dict }: { dict: Dictionary["footer"] & { nav: Dictionary["nav"] } }) {
   return (
@@ -7,7 +8,7 @@ export function Footer({ dict }: { dict: Dictionary["footer"] & { nav: Dictionar
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
         <div className="grid gap-6 text-[12.5px] sm:grid-cols-3">
           <div>
-            <div className="font-semibold text-foreground">{dict.nav.brand}</div>
+            <div className="font-semibold text-foreground"><BrandWordmark name={dict.nav.brand} /></div>
             <p className="mt-2 max-w-xs text-muted">{dict.tagline}</p>
           </div>
           <div>
