@@ -129,17 +129,28 @@ Visual design is inspired by apple.com: the system font stack (no web font
 for headings/body), a white/black + `#0071e3` blue palette, borderless gray
 rounded panels, and a dense, compact layout (a 44px navbar, tightened section
 and card spacing throughout) rather than a lot of open whitespace. The brand
-mark is a four-point star. The name does the explaining — "nights" for
-hotel points, "sky" for airline miles — so the mark doesn't have to, and
-that is what lets it be simple enough to survive a 16px browser tab. Its
-geometry lives in `src/lib/brand-mark.ts` as bare path data rather than
-inside a component, because it has to render in two different worlds:
-React DOM for the navbar (`src/components/BrandMark.tsx`, inheriting
-`currentColor`) and Satori for every generated image. Seven renderers, one
-source of truth. The four points aim at the middle of each edge rather
-than into a corner, so the mark keeps its full inset under any corner
-radius — including the one iOS crops onto a home-screen icon.
-`src/app/icon.tsx`, `apple-icon.tsx`, and
+logo is the name itself, set in the UI font with a four-point star standing
+in for the dot on the "i" (`src/components/BrandWordmark.tsx`). The star
+*replaces* the tittle rather than sitting on top of it, so the visible text
+uses a dotless i (U+0131) — overlaying the star on a normal "i" leaves the
+dot poking out from behind it at every size, which reads as a bug rather
+than a logo. That trade is paid inside the component, not by the reader:
+the visual half is `aria-hidden` and `select-none`, and a visually-hidden
+sibling carries the real spelling, so the link's accessible name is
+"Nightsky" and selecting the logo copies "Nightsky". A brand string with
+no "i" falls back to plain text.
+
+Square slots can't hold a wordmark, so the favicon, the iOS icon, and the
+two manifest icons carry the initial instead. Both shapes live in
+`src/lib/brand-mark.ts` as bare path data rather than inside a component,
+because they have to render in two different worlds: React DOM for the
+navbar and footer, and Satori for every generated image. Seven renderers,
+one source of truth. The "N" is drawn rather than typed because Satori
+ships a single font weight and silently ignores `fontWeight`, which
+rendered the letter thin at exactly the sizes that need it to be
+confident; Satori also places the star by absolute offset rather than by
+centring, so that offset was measured off a real render rather than
+guessed. `src/app/icon.tsx`, `apple-icon.tsx`, and
 `opengraph-image.tsx` generate the favicon, iOS home-screen icon, and social
 share image from the same brand mark; each deal also gets its own share
 image (`deals/[slug]/opengraph-image.tsx`) showing that deal's title,
@@ -238,9 +249,10 @@ state, and its own two-column valuations layout moved from 900px to 1100px
 for the same reason the repo's moved to `xl` — at 900 the table column was
 left under the table's 680px minimum. Its print stylesheet forces the table
 back into view, so printing at a narrow paper width still gets the table
-rather than the cards. Its topbar carries the same star, with the path
-copied from `lib/brand-mark.ts` — the one place the single-source-of-truth
-rule can't reach, since the artifact is a single file with no imports. It carries the same seven-language valuation notes
+rather than the cards. Its topbar and footer carry the same wordmark,
+dotless i and all, with the path copied from `lib/brand-mark.ts` — the one
+place the single-source-of-truth rule can't reach, since the artifact is a
+single file with no imports. It carries the same seven-language valuation notes
 too, with the polarity flipped: Dutch is its base wording and lives in its
 own data array, so its translation map holds the other six including
 English, where the repo's holds the other six including Dutch. It gets the same airliner
