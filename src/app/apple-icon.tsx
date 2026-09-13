@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { BRAND_MARK_HOTEL, BRAND_MARK_PLANE, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
+import { BRAND_MARK_STAR, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
@@ -17,11 +17,11 @@ export default function AppleIcon() {
           background: "#0071e3",
         }}
       >
-        {/* iOS rounds and crops the corners itself, so the mark is inset to
-            keep the plane's nose and the hotel's base clear of the mask. */}
+        {/* iOS rounds and crops the corners itself. The star's four points
+            aim at the middle of each edge rather than into a corner, so a
+            modest inset is enough to stay clear of the mask. */}
         <svg width={132} height={132} viewBox={BRAND_MARK_VIEWBOX} fill="#ffffff">
-          <path d={BRAND_MARK_HOTEL} fillRule="evenodd" />
-          <path d={BRAND_MARK_PLANE} />
+          <path d={BRAND_MARK_STAR} />
         </svg>
       </div>
     ),

@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { BRAND_MARK_HOTEL, BRAND_MARK_PLANE, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
+import { BRAND_MARK_STAR, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
 
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
@@ -19,11 +19,10 @@ export default function Icon() {
         }}
       >
         {/* No inset at favicon size: the mark's own 32x32 box already carries
-            ~2 units of padding, and shrinking it further turns the windows
-            into noise at 16px. */}
+            2 units of padding on each side, and a browser tab renders this
+            at 16px, where any further shrinking costs real pixels. */}
         <svg width={32} height={32} viewBox={BRAND_MARK_VIEWBOX} fill="#ffffff">
-          <path d={BRAND_MARK_HOTEL} fillRule="evenodd" />
-          <path d={BRAND_MARK_PLANE} />
+          <path d={BRAND_MARK_STAR} />
         </svg>
       </div>
     ),

@@ -3,7 +3,7 @@ import { AIRPORTS } from "@/data/airports";
 import { PROGRAMS } from "@/data/programs";
 import { VALUATIONS } from "@/data/valuations";
 import { SITE_NAME } from "@/lib/site";
-import { BRAND_MARK_HOTEL, BRAND_MARK_PLANE, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
+import { BRAND_MARK_STAR, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
 
 export const alt = `${SITE_NAME} — award search & points valuations`;
 export const size = { width: 1200, height: 630 };
@@ -37,8 +37,7 @@ export default async function Image() {
             }}
           >
             <svg width={68} height={68} viewBox={BRAND_MARK_VIEWBOX} fill="#ffffff">
-              <path d={BRAND_MARK_HOTEL} fillRule="evenodd" />
-              <path d={BRAND_MARK_PLANE} />
+              <path d={BRAND_MARK_STAR} />
             </svg>
           </div>
           <div style={{ display: "flex", fontSize: 78, fontWeight: 700, color: "#1d1d1f", letterSpacing: -2 }}>

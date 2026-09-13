@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { NextResponse } from "next/server";
-import { BRAND_MARK_HOTEL, BRAND_MARK_PLANE, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
+import { BRAND_MARK_STAR, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
 
 // Chrome's own PWA installability check requires at least a 192x192 icon
 // in the manifest — icon.tsx's 32x32 favicon is too small to satisfy it
@@ -30,8 +30,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ siz
         }}
       >
         <svg width={config.mark} height={config.mark} viewBox={BRAND_MARK_VIEWBOX} fill="#ffffff">
-          <path d={BRAND_MARK_HOTEL} fillRule="evenodd" />
-          <path d={BRAND_MARK_PLANE} />
+          <path d={BRAND_MARK_STAR} />
         </svg>
       </div>
     ),

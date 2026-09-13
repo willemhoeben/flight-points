@@ -1,4 +1,4 @@
-import { BRAND_MARK_HOTEL, BRAND_MARK_PLANE, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
+import { BRAND_MARK_STAR, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
 
 /**
  * The mark on its own, inheriting colour from the surrounding text
@@ -9,8 +9,7 @@ import { BRAND_MARK_HOTEL, BRAND_MARK_PLANE, BRAND_MARK_VIEWBOX } from "@/lib/br
 export function BrandMark({ className }: { className?: string }) {
   return (
     <svg viewBox={BRAND_MARK_VIEWBOX} className={className} fill="currentColor" aria-hidden="true" focusable="false">
-      <path d={BRAND_MARK_HOTEL} fillRule="evenodd" />
-      <path d={BRAND_MARK_PLANE} />
+      <path d={BRAND_MARK_STAR} />
     </svg>
   );
 }
