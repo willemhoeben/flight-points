@@ -1,13 +1,13 @@
 import { ImageResponse } from "next/og";
 import { NextResponse } from "next/server";
-import { BRAND_MARK_STAR, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
+import { BRAND_MARK_N, BRAND_MARK_VIEWBOX } from "@/lib/brand-mark";
 
 // Chrome's own PWA installability check requires at least a 192x192 icon
 // in the manifest — icon.tsx's 32x32 favicon is too small to satisfy it
 // and would render blurry on an Android home screen if reused there.
 const ICON_SIZES: Record<string, { mark: number; borderRadius: number }> = {
-  "192": { mark: 140, borderRadius: 42 },
-  "512": { mark: 374, borderRadius: 112 },
+  "192": { mark: 146, borderRadius: 42 },
+  "512": { mark: 390, borderRadius: 112 },
 };
 
 export async function GET(_request: Request, { params }: { params: Promise<{ size: string }> }) {
@@ -30,7 +30,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ siz
         }}
       >
         <svg width={config.mark} height={config.mark} viewBox={BRAND_MARK_VIEWBOX} fill="#ffffff">
-          <path d={BRAND_MARK_STAR} />
+          <path d={BRAND_MARK_N} />
         </svg>
       </div>
     ),

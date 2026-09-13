@@ -25,24 +25,25 @@ export default async function Image() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
-          <div
-            style={{
-              width: 88,
-              height: 88,
-              borderRadius: 22,
-              background: "#0071e3",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <svg width={68} height={68} viewBox={BRAND_MARK_VIEWBOX} fill="#ffffff">
+        {/* The wordmark, built the same way as BrandWordmark: a dotless i
+            with the star standing in for its tittle. Satori has no
+            select-none or sr-only to worry about — this is a picture. */}
+        <div style={{ display: "flex", fontSize: 78, fontWeight: 700, color: "#1d1d1f", letterSpacing: -2 }}>
+          <div style={{ display: "flex" }}>N</div>
+          <div style={{ display: "flex", position: "relative" }}>
+            <div style={{ display: "flex" }}>{"\u0131"}</div>
+            <svg
+              width={30}
+              height={30}
+              viewBox={BRAND_MARK_VIEWBOX}
+              fill="#0071e3"
+              style={{ position: "absolute", left: -5, top: 2 }}
+            >
               <path d={BRAND_MARK_STAR} />
             </svg>
           </div>
-          <div style={{ display: "flex", fontSize: 78, fontWeight: 700, color: "#1d1d1f", letterSpacing: -2 }}>
-            {SITE_NAME}
-          </div>
+          <div style={{ display: "flex" }}>ghtsky</div>
+        </div>
         </div>
 
         <div style={{ display: "flex", marginTop: 26, fontSize: 32, color: "#6e6e73" }}>

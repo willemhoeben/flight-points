@@ -41,23 +41,24 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           padding: 80,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div
-            style={{
-              width: 44,
-              height: 44,
-              borderRadius: 11,
-              background: "#0071e3",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <svg width={34} height={34} viewBox={BRAND_MARK_VIEWBOX} fill="#ffffff">
+        {/* The wordmark, built the same way as BrandWordmark: a dotless i
+            with the star standing in for its tittle. Satori has no
+            select-none or sr-only to worry about — this is a picture. */}
+        <div style={{ display: "flex", fontSize: 28, fontWeight: 700, color: "#1d1d1f", letterSpacing: -1 }}>
+          <div style={{ display: "flex" }}>N</div>
+          <div style={{ display: "flex", position: "relative" }}>
+            <div style={{ display: "flex" }}>{"\u0131"}</div>
+            <svg
+              width={12}
+              height={12}
+              viewBox={BRAND_MARK_VIEWBOX}
+              fill="#0071e3"
+              style={{ position: "absolute", left: -2, top: 1 }}
+            >
               <path d={BRAND_MARK_STAR} />
             </svg>
           </div>
-          <div style={{ display: "flex", fontSize: 28, fontWeight: 700, color: "#1d1d1f" }}>{SITE_NAME}</div>
+          <div style={{ display: "flex" }}>ghtsky</div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
