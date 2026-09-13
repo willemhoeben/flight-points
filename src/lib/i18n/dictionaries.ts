@@ -4,7 +4,7 @@ export type Dictionary = typeof en;
 
 const en = {
   nav: {
-    brand: "Flight Points",
+    brand: "Nightsky",
     search: "Award search",
     valuations: "Valuations",
     deals: "Deals",
@@ -215,7 +215,7 @@ const en = {
 
 const nl: Dictionary = {
   nav: {
-    brand: "Flight Points",
+    brand: "Nightsky",
     search: "Award-zoeken",
     valuations: "Puntenwaarde",
     deals: "Deals",
@@ -426,7 +426,7 @@ const nl: Dictionary = {
 
 const de: Dictionary = {
   nav: {
-    brand: "Flight Points",
+    brand: "Nightsky",
     search: "Award-Suche",
     valuations: "Punktewert",
     deals: "Deals",
@@ -637,7 +637,7 @@ const de: Dictionary = {
 
 const fr: Dictionary = {
   nav: {
-    brand: "Flight Points",
+    brand: "Nightsky",
     search: "Recherche awards",
     valuations: "Valorisation",
     deals: "Offres",
@@ -848,7 +848,7 @@ const fr: Dictionary = {
 
 const es: Dictionary = {
   nav: {
-    brand: "Flight Points",
+    brand: "Nightsky",
     search: "Buscar awards",
     valuations: "Valoración",
     deals: "Ofertas",
@@ -1059,7 +1059,7 @@ const es: Dictionary = {
 
 const it: Dictionary = {
   nav: {
-    brand: "Flight Points",
+    brand: "Nightsky",
     search: "Cerca award",
     valuations: "Valutazioni",
     deals: "Offerte",
@@ -1270,7 +1270,7 @@ const it: Dictionary = {
 
 const ja: Dictionary = {
   nav: {
-    brand: "Flight Points",
+    brand: "Nightsky",
     search: "特典航空券検索",
     valuations: "ポイント価値",
     deals: "お得情報",
