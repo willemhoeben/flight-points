@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { searchAvailability, searchCalendar } from "@/data/availability";
+import { cashFareUsd, searchAvailability, searchCalendar } from "@/data/availability";
 import { PROGRAMS } from "@/data/programs";
 
 const BASE_SEARCH = { origin: "JFK", destination: "LHR", date: "2026-10-09", cabin: "business" as const };
@@ -51,5 +51,85 @@ describe("searchCalendar", () => {
     const days = searchCalendar({ ...BASE_SEARCH, startDate: BASE_SEARCH.date, days: 1 });
     const direct = searchAvailability(BASE_SEARCH);
     expect(days[0].lowestMiles).toBe(direct.length > 0 ? direct[0].milesCost : null);
+  });
+});
+
+describe("distance-aware pricing", () => {
+  const base = { date: "2026-06-01", cabin: "business" as const };
+
+  test("prices a long route above a short one", () => {
+    const short = searchAvailability({ ...base, origin: "AMS", destination: "LHR" });
+    const long = searchAvailability({ ...base, origin: "JFK", destination: "SYD" });
+    expect(Math.min(...long.map((r) => r.milesCost))).toBeGreaterThan(
+      Math.max(...short.map((r) => r.milesCost)),
+    );
+  });
+
+  test("returns nothing for two airports in the same metro area", () => {
+    expect(searchAvailability({ ...base, origin: "JFK", destination: "EWR" })).toEqual([]);
+    expect(searchAvailability({ ...base, origin: "HND", destination: "NRT" })).toEqual([]);
+  });
+
+  test("flight times track the distance flown", () => {
+    const shortHop = searchAvailability({ ...base, origin: "AMS", destination: "LHR" })
+      .filter((r) => r.direct);
+    const longHaul = searchAvailability({ ...base, origin: "JFK", destination: "HND" })
+      .filter((r) => r.direct);
+    // ~365 km: well under two hours. ~10,850 km: comfortably over ten.
+    for (const r of shortHop) expect(r.durationMinutes).toBeLessThan(120);
+    for (const r of longHaul) expect(r.durationMinutes).toBeGreaterThan(600);
+  });
+
+  test("short routes never claim two connections", () => {
+    const rows = searchAvailability({ ...base, origin: "AMS", destination: "MAD" });
+    for (const r of rows) expect(r.connections).toBeLessThanOrEqual(1);
+  });
+});
+
+describe("cash fare and cents per point", () => {
+  test("every program sees the same cash fare for the same seat", () => {
+    const rows = searchAvailability({
+      origin: "JFK", destination: "LHR", date: "2026-06-01", cabin: "business",
+    });
+    expect(new Set(rows.map((r) => r.cashFareUsd)).size).toBe(1);
+  });
+
+  test("a premium cabin costs more in cash than economy on the same route", () => {
+    const shared = { origin: "JFK", destination: "LHR", date: "2026-06-01" };
+    const economy = cashFareUsd({ ...shared, cabin: "economy" });
+    const business = cashFareUsd({ ...shared, cabin: "business" });
+    expect(business).toBeGreaterThan(economy * 3);
+  });
+
+  test("cents per point is the cash fare net of taxes, over the miles", () => {
+    const rows = searchAvailability({
+      origin: "JFK", destination: "HND", date: "2026-06-01", cabin: "business",
+    });
+    for (const r of rows) {
+      const expected = Math.round(((r.cashFareUsd - r.taxesFeesUsd) / r.milesCost) * 10000) / 100;
+      expect(r.centsPerPoint).toBe(expected);
+    }
+  });
+
+  test("long-haul premium beats short-haul economy on value per point", () => {
+    const shortEconomy = searchAvailability({
+      origin: "AMS", destination: "LHR", date: "2026-06-01", cabin: "economy",
+    });
+    const longBusiness = searchAvailability({
+      origin: "JFK", destination: "HND", date: "2026-06-01", cabin: "business",
+    });
+    expect(Math.max(...longBusiness.map((r) => r.centsPerPoint))).toBeGreaterThan(
+      Math.max(...shortEconomy.map((r) => r.centsPerPoint)),
+    );
+  });
+
+  test("never reports a negative value per point", () => {
+    for (const cabin of ["economy", "premium", "business", "first"] as const) {
+      for (const [o, d] of [["AMS", "LHR"], ["JFK", "MIA"], ["JFK", "SYD"]]) {
+        for (const r of searchAvailability({ origin: o, destination: d, date: "2026-06-01", cabin })) {
+          expect(r.centsPerPoint).toBeGreaterThanOrEqual(0);
+        }
+      }
+    }
   });
 });

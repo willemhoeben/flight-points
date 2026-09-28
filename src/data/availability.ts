@@ -1,5 +1,6 @@
 import { PROGRAMS } from "./programs";
 import { rngFor } from "@/lib/prng";
+import { awardDistanceMultiplier, distanceKm, MIN_ROUTE_KM } from "@/lib/distance";
 
 export type Cabin = "economy" | "premium" | "business" | "first";
 
@@ -17,6 +18,41 @@ const CABIN_BASE_MILES: Record<Cabin, number> = {
   first: 110000,
 };
 
+/**
+ * One-way cash fare multipliers. Premium one-ways are punished far harder
+ * than round-trips, which is exactly why a business award beats a business
+ * ticket and an economy award rarely does.
+ */
+const CABIN_CASH_MULTIPLIER: Record<Cabin, number> = {
+  economy: 1,
+  premium: 2.2,
+  business: 6,
+  first: 11,
+};
+
+/**
+ * What the same seat would cost in cash. Seeded on the route and date but
+ * NOT on the program: the price of a seat is a property of the flight, the
+ * same for every program looking at it.
+ *
+ * Calibrated against published one-way revenue fares: ~$340 economy /
+ * ~$2,000 business New York-London, ~$630 / ~$3,800 New York-Tokyo.
+ */
+export function cashFareUsd(params: {
+  origin: string;
+  destination: string;
+  date: string;
+  cabin: Cabin;
+}): number {
+  const { origin, destination, date, cabin } = params;
+  const km = distanceKm(origin, destination);
+  if (km <= 0) return 0;
+  const rng = rngFor(origin, destination, date, cabin, "cash");
+  const base = 35 + 0.055 * km;
+  const seasonal = 0.85 + rng() * 0.4;
+  return Math.round(base * CABIN_CASH_MULTIPLIER[cabin] * seasonal);
+}
+
 export type BookingWindow = "online" | "call";
 
 export type AwardResult = {
@@ -31,6 +67,10 @@ export type AwardResult = {
   durationMinutes: number;
   connections: number;
   bookingWindow: BookingWindow;
+  /** Estimated one-way cash fare for the same seat. */
+  cashFareUsd: number;
+  /** (cash fare - taxes) / miles, in cents: what each point actually buys. */
+  centsPerPoint: number;
 };
 
 /**
@@ -46,6 +86,11 @@ export function searchAvailability(params: {
   programIds?: string[];
 }): AwardResult[] {
   const { origin, destination, date, cabin, programIds } = params;
+  const km = distanceKm(origin, destination);
+  // Same-metro pairs get no award space at all rather than an invented price.
+  if (km > 0 && km < MIN_ROUTE_KM) return [];
+
+  const fare = cashFareUsd({ origin, destination, date, cabin });
   const candidatePrograms = programIds && programIds.length > 0
     ? PROGRAMS.filter((p) => programIds.includes(p.id))
     : PROGRAMS;
@@ -58,16 +103,25 @@ export function searchAvailability(params: {
     const hasSpace = rng() > 0.35;
     if (!hasSpace) continue;
 
-    const base = CABIN_BASE_MILES[cabin];
-    const variance = 0.75 + rng() * 0.9; // 0.75x - 1.65x of the base
+    const base = CABIN_BASE_MILES[cabin] * awardDistanceMultiplier(km);
+    const variance = 0.85 + rng() * 0.45;
     const milesCost = Math.round((base * variance) / 500) * 500;
     const taxesFeesUsd = Math.round(15 + rng() * (cabin === "economy" ? 45 : 220));
     const seatsRemaining = 1 + Math.floor(rng() * 4);
-    const direct = rng() > 0.45;
-    const connections = direct ? 0 : 1 + Math.floor(rng() * 2);
-    const baseDuration = 300 + Math.floor(rng() * 600);
-    const durationMinutes = baseDuration + connections * 90;
+    // A nonstop gets less likely the further you go, so the routing column
+    // stops claiming a nonstop New York to Sydney on a random Tuesday.
+    const directOdds = km > 12000 ? 0.78 : km > 7000 ? 0.56 : 0.36;
+    const direct = rng() > directOdds;
+    // Short hops do not get double-connected; two stops inside six hours was
+    // the giveaway that the routing column was not thinking about distance.
+    const connections = direct ? 0 : km < 3000 ? 1 : 1 + Math.floor(rng() * 2);
+    const durationMinutes =
+      Math.round((km / 850) * 60 * (0.94 + rng() * 0.14)) + 35 + connections * 95;
     const bookingWindow: BookingWindow = rng() > 0.5 ? "online" : "call";
+    const centsPerPoint =
+      milesCost > 0
+        ? Math.round((Math.max(0, fare - taxesFeesUsd) / milesCost) * 10000) / 100
+        : 0;
 
     results.push({
       id: `${program.id}-${date}-${cabin}`,
@@ -81,6 +135,8 @@ export function searchAvailability(params: {
       durationMinutes,
       connections,
       bookingWindow,
+      cashFareUsd: fare,
+      centsPerPoint,
     });
   }
 
