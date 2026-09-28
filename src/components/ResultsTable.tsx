@@ -229,7 +229,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
               key={r.id}
               className={
                 isBest
-                  ? "rounded-[20px] bg-emerald-500/5 p-4 ring-1 ring-emerald-500/30"
+                  ? "rounded-[20px] bg-emerald-500/5 p-4 ring-1 ring-emerald-500/30 [&_.text-muted]:text-muted-on-tint"
                   // --surface is the same white as --background in light mode, so a
                   // plain surface card would have no visible edge. bg-surface-muted
                   // is the panel treatment the rest of the site already uses.
@@ -283,8 +283,8 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                 <span
                   className={
                     r.bookingWindow === "online"
-                      ? "text-xs font-medium text-emerald-600 dark:text-emerald-400"
-                      : "text-xs font-medium text-amber-600 dark:text-amber-400"
+                      ? "text-xs font-medium text-success-text"
+                      : "text-xs font-medium text-warning-text"
                   }
                 >
                   {r.bookingWindow === "online" ? dict.resultsTable.bookableOnline : dict.resultsTable.callToBook}
@@ -336,7 +336,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                 key={r.id}
                 className={
                   isBest
-                    ? "border-b border-border bg-emerald-500/5 last:border-0 hover:bg-emerald-500/10"
+                    ? "border-b border-border bg-emerald-500/5 last:border-0 hover:bg-emerald-500/10 [&_.text-muted]:text-muted-on-tint"
                     : "border-b border-border last:border-0 hover:bg-surface-muted/60"
                 }
               >
@@ -364,8 +364,8 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                   <span
                     className={
                       r.bookingWindow === "online"
-                        ? "text-xs font-medium text-emerald-600 dark:text-emerald-400"
-                        : "text-xs font-medium text-amber-600 dark:text-amber-400"
+                        ? "text-xs font-medium text-success-text"
+                        : "text-xs font-medium text-warning-text"
                     }
                   >
                     {r.bookingWindow === "online" ? dict.resultsTable.bookableOnline : dict.resultsTable.callToBook}

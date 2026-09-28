@@ -17,7 +17,7 @@ const TYPE_ACCENT: Record<PointCurrency["type"], string> = {
 
 const TREND_ICON: Record<PointCurrency["trend"], string> = { up: "▲", down: "▼", flat: "•" };
 const TREND_CLASS: Record<PointCurrency["trend"], string> = {
-  up: "text-emerald-600 dark:text-emerald-400",
+  up: "text-success-text",
   down: "text-rose-600 dark:text-rose-400",
   flat: "text-muted",
 };

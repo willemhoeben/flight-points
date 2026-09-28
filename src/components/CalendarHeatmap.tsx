@@ -46,7 +46,9 @@ export function CalendarHeatmap({
               tier.className,
             ].join(" ")}
           >
-            <div className="font-mono text-xs text-muted" suppressHydrationWarning>{formatDateShort(day.date, locale)}</div>
+            {/* Every tier gives this cell a tinted background, where the plain
+                muted grey drops under AA — hence the darker token. */}
+            <div className="font-mono text-xs text-muted-on-tint" suppressHydrationWarning>{formatDateShort(day.date, locale)}</div>
             <div className="mt-1 font-mono text-sm font-semibold tabular-nums text-foreground" suppressHydrationWarning>
               {day.lowestMiles !== null ? formatMiles(day.lowestMiles, locale) : "—"}
             </div>
@@ -63,7 +65,7 @@ function priceTier(
   max: number,
 ): { className: string } {
   if (value === null) {
-    return { className: "bg-surface-muted text-muted" };
+    return { className: "bg-surface-muted text-muted-on-tint" };
   }
   if (max === min) {
     return { className: "bg-emerald-500/10" };

@@ -16,7 +16,7 @@ export function SavedDealBadge({ slug }: { slug: string }) {
     <span
       aria-hidden="true"
       suppressHydrationWarning
-      className={saved ? "shrink-0 text-lg leading-none text-brand" : "hidden"}
+      className={saved ? "shrink-0 text-lg leading-none text-brand-text" : "hidden"}
     >
       ★
     </span>

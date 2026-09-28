@@ -30,7 +30,7 @@ export default function ErrorPage({
         >
           {dict.errorPage.tryAgain}
         </button>
-        <Link href="/" className="px-6 py-3 text-sm font-medium text-brand hover:underline">
+        <Link href="/" className="px-6 py-3 text-sm font-medium text-brand-text hover:underline">
           {dict.errorPage.backHome}
         </Link>
       </div>

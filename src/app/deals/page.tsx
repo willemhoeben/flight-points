@@ -114,7 +114,7 @@ export default async function DealsPage({
                         <div className="flex items-center gap-2">
                           <Badge accent={CATEGORY_ACCENT[deal.category]}>{dealCategoryLabel(deal.category, dict.dealsPage)}</Badge>
                           {deal.bonusPercent && (
-                            <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                            <span className="text-sm font-semibold text-success-text">
                               +{deal.bonusPercent}%
                             </span>
                           )}

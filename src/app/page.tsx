@@ -35,11 +35,10 @@ export default async function Home() {
           >
             {dict.home.ctaPrimary}
           </Link>
-          <Link href="/valuations" className="px-3 py-3 text-[15px] font-medium text-brand hover:underline">
+          <Link href="/valuations" className="px-3 py-3 text-[15px] font-medium text-brand-text hover:underline">
             {dict.home.ctaSecondary}
           </Link>
         </div>
-        <p className="mt-2 text-xs text-muted">{dict.home.demoNote}</p>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
@@ -57,7 +56,7 @@ export default async function Home() {
             <Card key={feature.href} className="flex flex-col p-6">
               <h2 className="text-lg text-foreground">{feature.title}</h2>
               <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-muted">{feature.description}</p>
-              <Link href={feature.href} className="mt-4 text-sm font-medium text-brand hover:underline">
+              <Link href={feature.href} className="mt-4 text-sm font-medium text-brand-text hover:underline">
                 {feature.cta} ›
               </Link>
             </Card>
@@ -82,7 +81,7 @@ export default async function Home() {
           ))}
         </div>
         <div className="mt-6 text-center">
-          <Link href="/valuations" className="text-sm font-medium text-brand hover:underline">
+          <Link href="/valuations" className="text-sm font-medium text-brand-text hover:underline">
             {dict.home.valuationsSeeAll}
           </Link>
         </div>
@@ -107,7 +106,7 @@ export default async function Home() {
           ))}
         </div>
         <div className="mt-6 text-center">
-          <Link href="/deals" className="text-sm font-medium text-brand hover:underline">
+          <Link href="/deals" className="text-sm font-medium text-brand-text hover:underline">
             {dict.home.dealsSeeAll}
           </Link>
         </div>

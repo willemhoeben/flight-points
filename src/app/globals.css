@@ -18,6 +18,14 @@
   --brand-strong: #0058b0;
   --brand-foreground: #ffffff;
   --stamp: #d70015;
+  /* --brand stays the brand fill: white on #0071e3 is fine, and the logo
+     is exempt from contrast rules anyway. These four are the same colours
+     pushed to WCAG AA for the places they are TEXT. Every value here was
+     measured, not eyeballed — see the "Contrast" note in the README. */
+  --brand-text: #0062c4;
+  --muted-on-tint: #515154;
+  --success-text: #046c4e;
+  --warning-text: #a34700;
 }
 
 @theme inline {
@@ -30,6 +38,10 @@
   --color-brand: var(--brand);
   --color-brand-strong: var(--brand-strong);
   --color-brand-foreground: var(--brand-foreground);
+  --color-brand-text: var(--brand-text);
+  --color-muted-on-tint: var(--muted-on-tint);
+  --color-success-text: var(--success-text);
+  --color-warning-text: var(--warning-text);
   --color-stamp: var(--stamp);
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-plex-mono);
@@ -46,6 +58,12 @@
   --brand-strong: #3d9bff;
   --brand-foreground: #ffffff;
   --stamp: #ff453a;
+  --brand-text: #4da3ff;
+  --muted-on-tint: #a8a8ae;
+  /* The green and amber already clear AA against the dark surfaces, so
+     these keep the brighter dark-mode shades rather than the light ones. */
+  --success-text: #4cd672;
+  --warning-text: #ffb454;
 }
 
 * {

@@ -32,7 +32,7 @@ export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
           <LanguageSwitcher />
           <CurrencySelector />
           <ThemeToggle />
-          <Link href="/search" className="whitespace-nowrap text-xs font-medium text-brand hover:underline">
+          <Link href="/search" className="whitespace-nowrap text-xs font-medium text-brand-text hover:underline">
             {dict.searchCta}
           </Link>
         </div>

@@ -22,7 +22,7 @@ export function SaveSearchButton({
       className={
         saved
           ? "inline-flex items-center gap-1.5 rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-brand-foreground print:hidden"
-          : "inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-brand hover:text-brand print:hidden"
+          : "inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-brand hover:text-brand-text print:hidden"
       }
     >
       <span aria-hidden="true" suppressHydrationWarning>

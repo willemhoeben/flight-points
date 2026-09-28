@@ -28,13 +28,13 @@ const en = {
     productHeading: "Product",
     aboutHeading: "About this project",
     aboutText:
-      "A demo build inspired by seats.aero and flightpoints.com. All award availability and valuations shown are illustrative mock data, not a live feed, and this project is not affiliated with either site or any airline or loyalty program.",
-    copyright: "Demo project — sample data only.",
+      "Award availability and point valuations shown here are sample figures, not a live feed — always confirm with the program before you book. Not affiliated with any airline or loyalty program.",
+    copyright: "All rights reserved.",
     rssFeed: "RSS feed",
   },
   home: {
     badge: "Award search + points valuations",
-    title: "Find the flight award you didn't think existed.",
+    title: "Find the award flight you didn't think existed.",
     lede: "Search miles and points availability across 16 loyalty programs, check what your points balance is actually worth, and catch transfer bonuses before they expire.",
     ctaPrimary: "Search award flights",
     ctaSecondary: "Value my points ›",
@@ -131,7 +131,7 @@ const en = {
     eyebrow: "Points valuations",
     title: "What your points are worth",
     description:
-      "Estimated redemption value in US cents per point for the major bank, airline, and hotel currencies. Illustrative figures, not a live feed — actual value depends on the redemption.",
+      "Estimated redemption value in US cents per point for the major bank, airline, and hotel currencies. What you actually get depends on the redemption.",
   },
   valuationsTable: {
     currency: "Currency",
@@ -239,8 +239,8 @@ const nl: Dictionary = {
     productHeading: "Product",
     aboutHeading: "Over dit project",
     aboutText:
-      "Een demo, geïnspireerd op seats.aero en flightpoints.com. Alle getoonde award-beschikbaarheid en waarderingen zijn illustratieve nepdata, geen live feed, en dit project is niet verbonden aan een van beide sites, een luchtvaartmaatschappij of een spaarprogramma.",
-    copyright: "Demoproject — alleen voorbeelddata.",
+      "Getoonde award-beschikbaarheid en puntenwaardes zijn voorbeeldcijfers, geen live feed — controleer het altijd bij het programma zelf voordat je boekt. Niet verbonden aan een luchtvaartmaatschappij of spaarprogramma.",
+    copyright: "Alle rechten voorbehouden.",
     rssFeed: "RSS-feed",
   },
   home: {
@@ -342,7 +342,7 @@ const nl: Dictionary = {
     eyebrow: "Puntenwaarde",
     title: "Wat je punten waard zijn",
     description:
-      "Geschatte inwisselwaarde in Amerikaanse centen per punt voor de belangrijkste bank-, luchtvaart- en hotelvaluta. Illustratieve cijfers, geen live feed — de werkelijke waarde hangt af van de inwisseling.",
+      "Geschatte inwisselwaarde in Amerikaanse centen per punt voor de belangrijkste bank-, luchtvaart- en hotelvaluta. De werkelijke waarde hangt af van de inwisseling.",
   },
   valuationsTable: {
     currency: "Valuta",
@@ -391,7 +391,7 @@ const nl: Dictionary = {
   dealsPage: {
     eyebrow: "Deals",
     title: "Transferbonussen & sweet spots",
-    description: "Uitgelichte artikelen over de inwisselingen die het wetenswaardig zijn. Voorbeeldcontent, geen live promoties-feed.",
+    description: "Uitgelichte artikelen over de inwisselingen die het wetenswaardig zijn.",
     expires: "Verloopt",
     published: "Gepubliceerd",
     categoryTransferBonus: "transferbonus",
@@ -450,8 +450,8 @@ const de: Dictionary = {
     productHeading: "Produkt",
     aboutHeading: "Über dieses Projekt",
     aboutText:
-      "Eine Demo, inspiriert von seats.aero und flightpoints.com. Alle angezeigten Award-Verfügbarkeiten und Bewertungen sind illustrative Beispieldaten, kein Live-Feed, und dieses Projekt steht in keiner Verbindung zu einer der beiden Seiten, einer Fluggesellschaft oder einem Vielfliegerprogramm.",
-    copyright: "Demoprojekt — nur Beispieldaten.",
+      "Angezeigte Award-Verfügbarkeiten und Punktebewertungen sind Beispielwerte, kein Live-Feed — prüfen Sie vor der Buchung immer beim Programm selbst. Keine Verbindung zu einer Fluggesellschaft oder einem Vielfliegerprogramm.",
+    copyright: "Alle Rechte vorbehalten.",
     rssFeed: "RSS-Feed",
   },
   home: {
@@ -553,7 +553,7 @@ const de: Dictionary = {
     eyebrow: "Punktewert",
     title: "Was deine Punkte wert sind",
     description:
-      "Geschätzter Einlösewert in US-Cent pro Punkt für die wichtigsten Bank-, Airline- und Hotelwährungen. Illustrative Werte, kein Live-Feed — der tatsächliche Wert hängt von der Einlösung ab.",
+      "Geschätzter Einlösewert in US-Cent pro Punkt für die wichtigsten Bank-, Airline- und Hotelwährungen. Der tatsächliche Wert hängt von der Einlösung ab.",
   },
   valuationsTable: {
     currency: "Währung",
@@ -661,8 +661,8 @@ const fr: Dictionary = {
     productHeading: "Produit",
     aboutHeading: "À propos de ce projet",
     aboutText:
-      "Une démo inspirée de seats.aero et flightpoints.com. Toutes les disponibilités et valorisations affichées sont des données fictives illustratives, pas un flux en direct, et ce projet n'est affilié à aucun des deux sites, à aucune compagnie aérienne ni à aucun programme de fidélité.",
-    copyright: "Projet de démonstration — données fictives uniquement.",
+      "Les disponibilités et valorisations affichées sont des valeurs d'exemple, pas un flux en direct — vérifiez toujours auprès du programme avant de réserver. Non affilié à une compagnie aérienne ou à un programme de fidélité.",
+    copyright: "Tous droits réservés.",
     rssFeed: "Flux RSS",
   },
   home: {
@@ -872,8 +872,8 @@ const es: Dictionary = {
     productHeading: "Producto",
     aboutHeading: "Sobre este proyecto",
     aboutText:
-      "Una demo inspirada en seats.aero y flightpoints.com. Toda la disponibilidad y valoraciones mostradas son datos ficticios ilustrativos, no un feed en vivo, y este proyecto no está afiliado a ninguno de los dos sitios, ni a ninguna aerolínea o programa de fidelización.",
-    copyright: "Proyecto de demostración — solo datos de ejemplo.",
+      "La disponibilidad y las valoraciones mostradas son cifras de ejemplo, no un feed en vivo: confirma siempre con el programa antes de reservar. No afiliado a ninguna aerolínea ni programa de fidelización.",
+    copyright: "Todos los derechos reservados.",
     rssFeed: "Feed RSS",
   },
   home: {
@@ -1083,7 +1083,7 @@ const it: Dictionary = {
     productHeading: "Prodotto",
     aboutHeading: "Info su questo progetto",
     aboutText:
-      "Una demo ispirata a seats.aero e flightpoints.com. Tutta la disponibilità e le valutazioni mostrate sono dati fittizi a scopo illustrativo, non un feed in tempo reale, e questo progetto non è affiliato a nessuno dei due siti, né ad alcuna compagnia aerea o programma fedeltà.",
+      "La disponibilità e le valutazioni mostrate sono valori di esempio, non un feed in tempo reale: verifica sempre con il programma prima di prenotare. Non affiliato ad alcuna compagnia aerea o programma fedeltà.",
     copyright: "Progetto dimostrativo — solo dati di esempio.",
     rssFeed: "Feed RSS",
   },
@@ -1294,8 +1294,8 @@ const ja: Dictionary = {
     productHeading: "プロダクト",
     aboutHeading: "このプロジェクトについて",
     aboutText:
-      "seats.aero や flightpoints.com にヒントを得たデモサイトです。表示されている特典航空券の空席状況や価値はすべて例示用のモックデータであり、リアルタイムのフィードではありません。また、このプロジェクトはいずれのサイト、航空会社、マイレージプログラムとも提携していません。",
-    copyright: "デモプロジェクト — サンプルデータのみ。",
+      "表示している特典航空券の空席状況とポイント価値はサンプル値であり、リアルタイムのデータではありません。予約前に必ず各プログラムでご確認ください。航空会社およびマイレージプログラムとは提携していません。",
+    copyright: "無断転載を禁じます。",
     rssFeed: "RSSフィード",
   },
   home: {
