@@ -25,6 +25,20 @@ export const PROGRAM_CURRENCY: Record<string, string> = {
   alaska: "alaska-mp",
   emirates: "skywards",
   avianca: "lifemiles",
+  turkish: "miles-smiles",
+  sas: "eurobonus",
+  tap: "miles-go",
+  eva: "infinity-mileagelands",
+  copa: "connectmiles",
+  iberia: "iberia-avios",
+  finnair: "finnair-plus",
+  jal: "jal-mileage",
+  koreanair: "skypass",
+  chinaairlines: "dynasty",
+  aeromexico: "club-premier",
+  etihad: "etihad-guest",
+  latam: "latam-pass",
+  southwest: "southwest",
 };
 
 /** What a point in this program is normally worth, in US cents. */
