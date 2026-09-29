@@ -76,8 +76,13 @@ body {
      min-width past its own overflow-x:auto wrapper into the page's grid
      ancestor sizing (a Chromium quirk, not a real content need for extra
      width) — this keeps the whole page pinned to the viewport while
-     leaving each table's own internal horizontal scroll untouched. */
-  overflow-x: hidden;
+     leaving each table's own internal horizontal scroll untouched.
+     `clip` rather than `hidden`: hidden turns this element into a scroll
+     container, and then every `position: sticky` descendant measures
+     against it instead of the viewport and never sticks. That silently
+     unstuck the navbar on every page. `clip` cuts the overflow off
+     without creating a scroll container. */
+  overflow-x: clip;
 }
 
 body {
