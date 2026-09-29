@@ -18,6 +18,7 @@ export function Footer({ dict }: { dict: Dictionary["footer"] & { nav: Dictionar
               <li><Link href="/explore" className="hover:text-foreground">{dict.nav.explore}</Link></li>
               <li><Link href="/network" className="hover:text-foreground">{dict.nav.network}</Link></li>
               <li><Link href="/valuations" className="hover:text-foreground">{dict.nav.valuations}</Link></li>
+              <li><Link href="/wallet" className="hover:text-foreground">{dict.nav.wallet}</Link></li>
               <li><Link href="/compare" className="hover:text-foreground">{dict.nav.compare}</Link></li>
               <li><Link href="/deals" className="hover:text-foreground">{dict.nav.deals}</Link></li>
               <li>

@@ -3,6 +3,7 @@ import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { RouteFocusManager } from "@/components/RouteFocusManager";
+import { BalancesProvider } from "@/lib/balances-context";
 import { CurrencyProvider } from "@/lib/currency-context";
 import { PROGRAMS } from "@/data/programs";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -118,6 +119,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <I18nProvider locale={locale} dict={dict}>
           <ThemeProvider>
             <CurrencyProvider>
+              <BalancesProvider>
               <SavedDealsProvider>
                 <SavedSearchesProvider>
                   <RecentlyViewedProvider>
@@ -130,6 +132,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                   </RecentlyViewedProvider>
                 </SavedSearchesProvider>
               </SavedDealsProvider>
+              </BalancesProvider>
             </CurrencyProvider>
           </ThemeProvider>
         </I18nProvider>
