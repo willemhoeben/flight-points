@@ -36,7 +36,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#ffffff",
+          backgroundColor: "#070a12",
           fontFamily: "sans-serif",
           padding: 80,
         }}
@@ -44,7 +44,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
         {/* The wordmark, built the same way as BrandWordmark: a dotless i
             with the star standing in for its tittle. Satori has no
             select-none or sr-only to worry about — this is a picture. */}
-        <div style={{ display: "flex", fontSize: 28, fontWeight: 700, color: "#1d1d1f", letterSpacing: -1 }}>
+        <div style={{ display: "flex", fontSize: 28, fontWeight: 700, color: "#e7ecf7", letterSpacing: -1 }}>
           <div style={{ display: "flex" }}>N</div>
           <div style={{ display: "flex", position: "relative" }}>
             <div style={{ display: "flex" }}>{"\u0131"}</div>
@@ -52,7 +52,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
               width={12}
               height={12}
               viewBox={BRAND_MARK_VIEWBOX}
-              fill="#0071e3"
+              fill="#ffb547"
               style={{ position: "absolute", left: -2, top: 1 }}
             >
               <path d={BRAND_MARK_STAR} />
@@ -84,7 +84,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
               display: "flex",
               fontSize: 48,
               fontWeight: 700,
-              color: "#1d1d1f",
+              color: "#e7ecf7",
               letterSpacing: -1,
               lineHeight: 1.2,
               maxHeight: 260,
@@ -95,7 +95,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           </div>
         </div>
 
-        <div style={{ display: "flex", fontSize: 22, color: "#6e6e73" }}>Award search + points valuations</div>
+        <div style={{ display: "flex", fontSize: 22, color: "#8d9ab8" }}>Award search + points valuations</div>
       </div>
     ),
     { ...size },

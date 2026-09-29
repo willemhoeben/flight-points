@@ -25,11 +25,11 @@ export async function GET(_request: Request, { params }: { params: Promise<{ siz
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0071e3",
+          background: "#ffb547",
           borderRadius: config.borderRadius,
         }}
       >
-        <svg width={config.mark} height={config.mark} viewBox={BRAND_MARK_VIEWBOX} fill="#ffffff">
+        <svg width={config.mark} height={config.mark} viewBox={BRAND_MARK_VIEWBOX} fill="#130d02">
           <path d={BRAND_MARK_N} />
         </svg>
       </div>

@@ -20,7 +20,7 @@ export default async function Image() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#ffffff",
+          backgroundColor: "#070a12",
           fontFamily: "sans-serif",
         }}
       >
@@ -28,7 +28,7 @@ export default async function Image() {
         {/* The wordmark, built the same way as BrandWordmark: a dotless i
             with the star standing in for its tittle. Satori has no
             select-none or sr-only to worry about — this is a picture. */}
-        <div style={{ display: "flex", fontSize: 78, fontWeight: 700, color: "#1d1d1f", letterSpacing: -2 }}>
+        <div style={{ display: "flex", fontSize: 78, fontWeight: 700, color: "#e7ecf7", letterSpacing: -2 }}>
           <div style={{ display: "flex" }}>N</div>
           <div style={{ display: "flex", position: "relative" }}>
             <div style={{ display: "flex" }}>{"\u0131"}</div>
@@ -36,7 +36,7 @@ export default async function Image() {
               width={30}
               height={30}
               viewBox={BRAND_MARK_VIEWBOX}
-              fill="#0071e3"
+              fill="#ffb547"
               style={{ position: "absolute", left: -5, top: 2 }}
             >
               <path d={BRAND_MARK_STAR} />
@@ -46,7 +46,7 @@ export default async function Image() {
         </div>
         </div>
 
-        <div style={{ display: "flex", marginTop: 26, fontSize: 32, color: "#6e6e73" }}>
+        <div style={{ display: "flex", marginTop: 26, fontSize: 32, color: "#8d9ab8" }}>
           Award search + points valuations
         </div>
 
@@ -57,8 +57,8 @@ export default async function Image() {
             [String(VALUATIONS.length), "currencies"],
           ].map(([value, label]) => (
             <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <div style={{ display: "flex", fontSize: 44, fontWeight: 700, color: "#1d1d1f" }}>{value}</div>
-              <div style={{ display: "flex", fontSize: 22, color: "#6e6e73", marginTop: 4 }}>{label}</div>
+              <div style={{ display: "flex", fontSize: 44, fontWeight: 700, color: "#e7ecf7" }}>{value}</div>
+              <div style={{ display: "flex", fontSize: 22, color: "#8d9ab8", marginTop: 4 }}>{label}</div>
             </div>
           ))}
         </div>

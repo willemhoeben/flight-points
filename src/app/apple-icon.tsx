@@ -14,12 +14,12 @@ export default function AppleIcon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0071e3",
+          background: "#ffb547",
         }}
       >
         {/* iOS rounds and crops the corners itself, so the letter sits well
             inside the square rather than filling it. */}
-        <svg width={136} height={136} viewBox={BRAND_MARK_VIEWBOX} fill="#ffffff">
+        <svg width={136} height={136} viewBox={BRAND_MARK_VIEWBOX} fill="#130d02">
           <path d={BRAND_MARK_N} />
         </svg>
       </div>

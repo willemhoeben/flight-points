@@ -14,14 +14,13 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0071e3",
-          borderRadius: 7,
-        }}
+          background: "#ffb547",
+          }}
       >
         {/* The wordmark can't be a square, so every square slot carries the
             initial instead. At 16px in a browser tab a letter stays readable
             where a drawn mark would not. */}
-        <svg width={32} height={32} viewBox={BRAND_MARK_VIEWBOX} fill="#ffffff">
+        <svg width={32} height={32} viewBox={BRAND_MARK_VIEWBOX} fill="#130d02">
           <path d={BRAND_MARK_N} />
         </svg>
       </div>

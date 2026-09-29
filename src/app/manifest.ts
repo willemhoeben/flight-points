@@ -11,8 +11,8 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
     description: dict.home.lede,
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#0071e3",
+    background_color: "#070a12",
+    theme_color: "#ffb547",
     icons: [
       { src: "/icon", sizes: "32x32", type: "image/png" },
       { src: "/icons/192", sizes: "192x192", type: "image/png" },
