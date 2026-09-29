@@ -8,6 +8,7 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
   const LINKS = [
     { href: "/search", label: dict.search },
+    { href: "/explore", label: dict.explore },
     { href: "/valuations", label: dict.valuations },
     { href: "/compare", label: dict.compare },
     { href: "/deals", label: dict.deals },

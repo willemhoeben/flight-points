@@ -1,0 +1,238 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { SectionHeading } from "@/components/ui";
+import { ValueBadge, valueTierLabel } from "@/components/ValueBadge";
+import { AIRPORTS, findAirport } from "@/data/airports";
+import { CABINS, type Cabin } from "@/data/availability";
+import { exploreDestinations, isExploreSort, sortDestinations, type ExploreSort } from "@/lib/explore";
+import { addDays, formatCentsPerPoint, formatDateLabel, formatMiles, todayIso } from "@/lib/format";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { interpolate } from "@/lib/i18n/format";
+import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
+import { peakCentsPerPoint, valueTier } from "@/lib/value";
+import { CurrencyAmount } from "@/components/CurrencyAmount";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { locale, dict } = await getDictionary();
+  return {
+    title: dict.explore.title,
+    description: dict.explore.description,
+    alternates: { canonical: "/explore" },
+    openGraph: {
+      title: dict.explore.title,
+      description: dict.explore.description,
+      url: "/explore",
+      type: "website",
+      locale: toOgLocale(locale),
+      alternateLocale: alternateOgLocales(locale),
+    },
+    twitter: { card: "summary_large_image", title: dict.explore.title, description: dict.explore.description },
+  };
+}
+
+type SearchParams = Record<string, string | string[] | undefined>;
+
+function firstValue(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function isValidAirport(code: string | undefined): code is string {
+  return !!code && AIRPORTS.some((a) => a.code === code);
+}
+
+function isValidCabin(cabin: string | undefined): cabin is Cabin {
+  return !!cabin && CABINS.some((c) => c.id === cabin);
+}
+
+/** Free-form numeric input; anything that isn't a positive number means "no budget". */
+function parseBudget(value: string | undefined): number | null {
+  if (!value) return null;
+  const n = Number(value.replace(/[^0-9]/g, ""));
+  return Number.isFinite(n) && n > 0 ? Math.round(n) : null;
+}
+
+export default async function ExplorePage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const sp = await searchParams;
+  const { locale, dict } = await getDictionary();
+
+  const origin = isValidAirport(firstValue(sp.origin)) ? (firstValue(sp.origin) as string) : "JFK";
+  const cabin: Cabin = isValidCabin(firstValue(sp.cabin)) ? (firstValue(sp.cabin) as Cabin) : "business";
+  const budgetRaw = firstValue(sp.budget) ?? "";
+  const budget = parseBudget(budgetRaw);
+  const sort: ExploreSort = isExploreSort(firstValue(sp.sort)) ? (firstValue(sp.sort) as ExploreSort) : "cheapest";
+
+  const startDate = addDays(todayIso(), 30);
+  const all = exploreDestinations({ origin, cabin, startDate });
+  const withinBudget = budget ? all.filter((r) => r.best.milesCost <= budget) : all;
+  const rows = sortDestinations(withinBudget, sort);
+  const peakCpp = peakCentsPerPoint(rows.map((r) => r.best));
+
+  const originAirport = findAirport(origin);
+  const meta = budget
+    ? interpolate(dict.explore.within, {
+        count: withinBudget.length,
+        total: all.length,
+        miles: formatMiles(budget, locale),
+      })
+    : interpolate(dict.explore.allFound, {
+        count: all.length,
+        origin: originAirport?.city ?? origin,
+      });
+
+  const sortHref = (next: ExploreSort) => {
+    const params = new URLSearchParams();
+    params.set("origin", origin);
+    params.set("cabin", cabin);
+    if (budgetRaw) params.set("budget", budgetRaw);
+    params.set("sort", next);
+    return `/explore?${params.toString()}`;
+  };
+
+  return (
+    <div className="mx-auto w-full max-w-6xl px-4 py-9 sm:px-6">
+      <SectionHeading
+        eyebrow={dict.explore.eyebrow}
+        title={dict.explore.title}
+        description={dict.explore.description}
+      />
+
+      {/* Plain GET form, like the search form: every result is server-rendered
+          and the URL is the whole state, so a set of destinations is shareable. */}
+      <form method="get" action="/explore" className="mt-8 space-y-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <label className="block">
+            <span className="mb-1 block text-sm font-medium text-foreground">{dict.searchForm.from}</span>
+            <select name="origin" defaultValue={origin} className="form-select">
+              {AIRPORTS.map((a) => (
+                <option key={a.code} value={a.code}>
+                  {a.city} ({a.code})
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-sm font-medium text-foreground">{dict.searchForm.cabin}</span>
+            <select name="cabin" defaultValue={cabin} className="form-select">
+              {CABINS.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {dict.cabins[c.id]}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-sm font-medium text-foreground">{dict.explore.budgetLabel}</span>
+            <input
+              type="text"
+              inputMode="numeric"
+              name="budget"
+              defaultValue={budgetRaw}
+              placeholder={dict.explore.budgetPlaceholder}
+              className="form-select"
+            />
+          </label>
+        </div>
+        <input type="hidden" name="sort" value={sort} />
+        <button
+          type="submit"
+          className="w-full rounded-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90 sm:w-auto print:hidden"
+        >
+          {dict.explore.submit}
+        </button>
+      </form>
+
+      <div className="mt-10">
+        <div className="flex flex-wrap items-center gap-2 print:hidden" role="group" aria-label={dict.common.sortBy}>
+          <span className="text-xs font-medium text-muted">{dict.common.sortBy}</span>
+          {(["cheapest", "value"] as const).map((key) => (
+            <Link
+              key={key}
+              href={sortHref(key)}
+              aria-current={sort === key ? "true" : undefined}
+              className={
+                sort === key
+                  ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+                  : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+              }
+            >
+              {key === "cheapest" ? dict.explore.sortCheapest : dict.explore.sortValue}
+            </Link>
+          ))}
+        </div>
+
+        <p className="mt-4 text-sm text-muted">{meta}</p>
+
+        {rows.length === 0 ? (
+          <div className="mt-4 rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">
+            {budget
+              ? interpolate(dict.explore.none, { miles: formatMiles(budget, locale) })
+              : dict.search.noAwardSpace}
+          </div>
+        ) : (
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {rows.map(({ airport, best }) => {
+              const tier = valueTier(best, peakCpp);
+              const routeParams = new URLSearchParams({
+                origin,
+                destination: airport.code,
+                date: best.date,
+                cabin,
+              });
+              return (
+                <li key={airport.code} className="flex flex-col rounded-[20px] bg-surface-muted p-4">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="font-serif text-lg font-semibold leading-tight text-foreground">{airport.city}</div>
+                      <div className="mt-0.5 text-xs text-muted">
+                        {airport.country} · {airport.code}
+                      </div>
+                    </div>
+                    <div className="shrink-0 text-right">
+                      <div className="font-mono text-base font-medium tabular-nums text-foreground" suppressHydrationWarning>
+                        {formatMiles(best.milesCost, locale)}
+                      </div>
+                      <div className="mt-0.5 font-mono text-[11px] tabular-nums text-muted" suppressHydrationWarning>
+                        + <CurrencyAmount usd={best.taxesFeesUsd} />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 text-[13px] leading-snug text-muted">
+                    {best.programName}
+                    <br />
+                    {interpolate(dict.explore.cheapestOn, { date: formatDateLabel(best.date, locale) })}
+                  </div>
+
+                  <div className="mt-2 font-mono text-[11.5px] text-muted" suppressHydrationWarning>
+                    {formatCentsPerPoint(best.centsPerPoint, locale)} · {dict.resultsTable.cashFare}{" "}
+                    <CurrencyAmount usd={best.cashFareUsd} rounded />
+                  </div>
+
+                  <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                    <span className="inline-flex items-center rounded-full bg-surface px-2 py-0.5 text-[10.5px] font-medium text-muted">
+                      {best.direct
+                        ? dict.resultsTable.nonstop
+                        : `${best.connections} ${best.connections > 1 ? dict.resultsTable.stops : dict.resultsTable.stop}`}
+                    </span>
+                    {tier && <ValueBadge tier={tier} label={valueTierLabel(tier, dict.resultsTable)} />}
+                  </div>
+
+                  <Link
+                    href={`/search?${routeParams.toString()}`}
+                    aria-label={interpolate(dict.explore.viewRouteAria, {
+                      origin,
+                      destination: airport.code,
+                    })}
+                    className="mt-3 self-start text-[13px] font-medium text-brand-text hover:underline"
+                  >
+                    {dict.explore.viewRoute} →
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
