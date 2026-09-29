@@ -9,7 +9,9 @@ const ACCENT_CLASSES: Record<string, string> = {
   amber: "bg-amber-500/10 text-warning-text dark:text-amber-300",
   rose: "bg-rose-500/10 text-rose-700 dark:text-rose-300",
   emerald: "bg-emerald-500/10 text-success-text",
-  cyan: "bg-cyan-500/10 text-cyan-700 dark:text-cyan-300",
+  // cyan-700 lands at 4.44 on its own 10% tint over the highlighted
+  // best-price row — just under AA, the same near miss amber has above.
+  cyan: "bg-cyan-500/10 text-cyan-800 dark:text-cyan-300",
   fuchsia: "bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300",
 };
 
