@@ -4,6 +4,8 @@ import { PROGRAMS } from "@/data/programs";
 import { groupProgramsByAlliance } from "@/lib/program-groups";
 import { interpolate } from "@/lib/i18n/format";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
+import type { Locale } from "@/lib/i18n/locales";
+import { cityName } from "@/lib/i18n/place-names";
 
 export type SearchFormValues = {
   origin: string;
@@ -21,10 +23,12 @@ export function SearchForm({
   values,
   dict,
   cabins,
+  locale,
 }: {
   values: SearchFormValues;
   dict: Dictionary["searchForm"];
   cabins: Dictionary["cabins"];
+  locale: Locale;
 }) {
   // No ?programs= at all means "search everything", which is also what every
   // box being ticked means — so both read as "all" in the summary.
@@ -43,7 +47,7 @@ export function SearchForm({
           <select name="origin" defaultValue={values.origin} className="form-select">
             {AIRPORTS.map((a) => (
               <option key={a.code} value={a.code}>
-                {a.city} ({a.code})
+                {cityName(a, locale)} ({a.code})
               </option>
             ))}
           </select>
@@ -52,7 +56,7 @@ export function SearchForm({
           <select name="destination" defaultValue={values.destination} className="form-select">
             {AIRPORTS.map((a) => (
               <option key={a.code} value={a.code}>
-                {a.city} ({a.code})
+                {cityName(a, locale)} ({a.code})
               </option>
             ))}
           </select>

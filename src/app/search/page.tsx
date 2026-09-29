@@ -12,6 +12,7 @@ import { AIRPORTS, findAirport } from "@/data/airports";
 import { CABINS, searchAvailability, searchCalendar, type Cabin } from "@/data/availability";
 import { addDays, formatDateLabel, todayIso } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { cityName } from "@/lib/i18n/place-names";
 import { interpolate, pluralize } from "@/lib/i18n/format";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 
@@ -107,15 +108,15 @@ export default async function SearchPage({
       <SavedSearchesList />
 
       <div className="mt-8">
-        <SearchForm values={{ origin, destination, date, cabin, programs: programIds }} dict={dict.searchForm} cabins={dict.cabins} />
+        <SearchForm values={{ origin, destination, date, cabin, programs: programIds }} dict={dict.searchForm} cabins={dict.cabins} locale={locale} />
       </div>
 
       <div className="mt-10">
         <h2 className="text-sm font-semibold text-foreground">{dict.search.cheapestDayHeading}</h2>
         <p className="mt-1 text-sm text-muted">
           {interpolate(dict.search.cheapestDaySub, {
-            origin: originAirport?.city ?? origin,
-            destination: destinationAirport?.city ?? destination,
+            origin: originAirport ? cityName(originAirport, locale) : origin,
+            destination: destinationAirport ? cityName(destinationAirport, locale) : destination,
           })}
         </p>
         <div className="mt-4">
@@ -134,7 +135,7 @@ export default async function SearchPage({
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="text-sm font-semibold text-foreground">
-              {originAirport?.city ?? origin} ({origin}) → {destinationAirport?.city ?? destination} ({destination})
+              {originAirport ? cityName(originAirport, locale) : origin} ({origin}) → {destinationAirport ? cityName(destinationAirport, locale) : destination} ({destination})
             </h2>
             <p className="mt-1 text-sm text-muted">
               {cabinLabel} · {formatDateLabel(date, locale)} ·{" "}

@@ -6,6 +6,7 @@ import { CABINS, type Cabin } from "@/data/availability";
 import { exploreDestinations, isExploreSort, sortDestinations, type ExploreSort } from "@/lib/explore";
 import { addDays, formatCentsPerPoint, formatDateLabel, formatMiles, todayIso } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { cityName, countryName } from "@/lib/i18n/place-names";
 import { interpolate } from "@/lib/i18n/format";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 import { CurrencyAmount } from "@/components/CurrencyAmount";
@@ -84,7 +85,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
       })
     : interpolate(dict.explore.allFound, {
         count: all.length,
-        origin: originAirport?.city ?? origin,
+        origin: originAirport ? cityName(originAirport, locale) : origin,
       });
 
   const sortHref = (next: ExploreSort) => {
@@ -113,7 +114,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
             <select name="origin" defaultValue={origin} className="form-select">
               {AIRPORTS.map((a) => (
                 <option key={a.code} value={a.code}>
-                  {a.city} ({a.code})
+                  {cityName(a, locale)} ({a.code})
                 </option>
               ))}
             </select>
@@ -189,9 +190,9 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
                 <li key={airport.code} className="flex flex-col rounded-[20px] bg-surface-muted p-4">
                   <div className="flex items-baseline justify-between gap-3">
                     <div className="min-w-0">
-                      <div className="font-serif text-lg font-semibold leading-tight text-foreground">{airport.city}</div>
+                      <div className="font-serif text-lg font-semibold leading-tight text-foreground">{cityName(airport, locale)}</div>
                       <div className="mt-0.5 text-xs text-muted">
-                        {airport.country} · {airport.code}
+                        {countryName(airport, locale)} · {airport.code}
                       </div>
                     </div>
                     <div className="shrink-0 text-right">

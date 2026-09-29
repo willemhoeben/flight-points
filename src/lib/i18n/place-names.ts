@@ -1,0 +1,152 @@
+import type { Airport } from "@/data/airports";
+import type { Locale } from "@/lib/i18n/locales";
+
+type Translated = Record<Exclude<Locale, "en">, string>;
+
+/**
+ * City and country names in the other six languages.
+ *
+ * These live here rather than in `dictionaries.ts` because they are keyed by
+ * a data value, not by a UI string, and rather than in `data/airports.ts`
+ * because that file is the data layer and should not know about locales.
+ * English stays in the data file as the single source for the original
+ * spelling, which is why the key type excludes it.
+ *
+ * Only names that actually differ need an entry; `cityName` falls back to
+ * the English form, so "Boston" costs nothing while "Copenhagen" earns its
+ * six translations.
+ */
+export const CITY_NAMES: Record<string, Translated> = {
+  "Abu Dhabi": { nl: "Abu Dhabi", de: "Abu Dhabi", fr: "Abou Dabi", es: "Abu Dabi", it: "Abu Dhabi", ja: "アブダビ" },
+  "Amsterdam": { nl: "Amsterdam", de: "Amsterdam", fr: "Amsterdam", es: "Ámsterdam", it: "Amsterdam", ja: "アムステルダム" },
+  "Athens": { nl: "Athene", de: "Athen", fr: "Athènes", es: "Atenas", it: "Atene", ja: "アテネ" },
+  "Atlanta": { nl: "Atlanta", de: "Atlanta", fr: "Atlanta", es: "Atlanta", it: "Atlanta", ja: "アトランタ" },
+  "Auckland": { nl: "Auckland", de: "Auckland", fr: "Auckland", es: "Auckland", it: "Auckland", ja: "オークランド" },
+  "Bangkok": { nl: "Bangkok", de: "Bangkok", fr: "Bangkok", es: "Bangkok", it: "Bangkok", ja: "バンコク" },
+  "Barcelona": { nl: "Barcelona", de: "Barcelona", fr: "Barcelone", es: "Barcelona", it: "Barcellona", ja: "バルセロナ" },
+  "Beijing": { nl: "Peking", de: "Peking", fr: "Pékin", es: "Pekín", it: "Pechino", ja: "北京" },
+  "Bogotá": { nl: "Bogota", de: "Bogotá", fr: "Bogota", es: "Bogotá", it: "Bogotà", ja: "ボゴタ" },
+  "Boston": { nl: "Boston", de: "Boston", fr: "Boston", es: "Boston", it: "Boston", ja: "ボストン" },
+  "Brussels": { nl: "Brussel", de: "Brüssel", fr: "Bruxelles", es: "Bruselas", it: "Bruxelles", ja: "ブリュッセル" },
+  "Buenos Aires": { nl: "Buenos Aires", de: "Buenos Aires", fr: "Buenos Aires", es: "Buenos Aires", it: "Buenos Aires", ja: "ブエノスアイレス" },
+  "Cairo": { nl: "Caïro", de: "Kairo", fr: "Le Caire", es: "El Cairo", it: "Il Cairo", ja: "カイロ" },
+  "Cape Town": { nl: "Kaapstad", de: "Kapstadt", fr: "Le Cap", es: "Ciudad del Cabo", it: "Città del Capo", ja: "ケープタウン" },
+  "Casablanca": { nl: "Casablanca", de: "Casablanca", fr: "Casablanca", es: "Casablanca", it: "Casablanca", ja: "カサブランカ" },
+  "Chicago": { nl: "Chicago", de: "Chicago", fr: "Chicago", es: "Chicago", it: "Chicago", ja: "シカゴ" },
+  "Copenhagen": { nl: "Kopenhagen", de: "Kopenhagen", fr: "Copenhague", es: "Copenhague", it: "Copenaghen", ja: "コペンハーゲン" },
+  "Dallas": { nl: "Dallas", de: "Dallas", fr: "Dallas", es: "Dallas", it: "Dallas", ja: "ダラス" },
+  "Delhi": { nl: "Delhi", de: "Delhi", fr: "Delhi", es: "Delhi", it: "Delhi", ja: "デリー" },
+  "Denver": { nl: "Denver", de: "Denver", fr: "Denver", es: "Denver", it: "Denver", ja: "デンバー" },
+  "Doha": { nl: "Doha", de: "Doha", fr: "Doha", es: "Doha", it: "Doha", ja: "ドーハ" },
+  "Dubai": { nl: "Dubai", de: "Dubai", fr: "Dubaï", es: "Dubái", it: "Dubai", ja: "ドバイ" },
+  "Dublin": { nl: "Dublin", de: "Dublin", fr: "Dublin", es: "Dublín", it: "Dublino", ja: "ダブリン" },
+  "Frankfurt": { nl: "Frankfurt", de: "Frankfurt", fr: "Francfort", es: "Fráncfort", it: "Francoforte", ja: "フランクフルト" },
+  "Helsinki": { nl: "Helsinki", de: "Helsinki", fr: "Helsinki", es: "Helsinki", it: "Helsinki", ja: "ヘルシンキ" },
+  "Hong Kong": { nl: "Hongkong", de: "Hongkong", fr: "Hong Kong", es: "Hong Kong", it: "Hong Kong", ja: "香港" },
+  "Houston": { nl: "Houston", de: "Houston", fr: "Houston", es: "Houston", it: "Houston", ja: "ヒューストン" },
+  "Istanbul": { nl: "Istanbul", de: "Istanbul", fr: "Istanbul", es: "Estambul", it: "Istanbul", ja: "イスタンブール" },
+  "Jakarta": { nl: "Jakarta", de: "Jakarta", fr: "Jakarta", es: "Yakarta", it: "Giacarta", ja: "ジャカルタ" },
+  "Johannesburg": { nl: "Johannesburg", de: "Johannesburg", fr: "Johannesbourg", es: "Johannesburgo", it: "Johannesburg", ja: "ヨハネスブルグ" },
+  "Kuala Lumpur": { nl: "Kuala Lumpur", de: "Kuala Lumpur", fr: "Kuala Lumpur", es: "Kuala Lumpur", it: "Kuala Lumpur", ja: "クアラルンプール" },
+  "Lima": { nl: "Lima", de: "Lima", fr: "Lima", es: "Lima", it: "Lima", ja: "リマ" },
+  "Lisbon": { nl: "Lissabon", de: "Lissabon", fr: "Lisbonne", es: "Lisboa", it: "Lisbona", ja: "リスボン" },
+  "London": { nl: "Londen", de: "London", fr: "Londres", es: "Londres", it: "Londra", ja: "ロンドン" },
+  "Los Angeles": { nl: "Los Angeles", de: "Los Angeles", fr: "Los Angeles", es: "Los Ángeles", it: "Los Angeles", ja: "ロサンゼルス" },
+  "Madrid": { nl: "Madrid", de: "Madrid", fr: "Madrid", es: "Madrid", it: "Madrid", ja: "マドリード" },
+  "Manila": { nl: "Manilla", de: "Manila", fr: "Manille", es: "Manila", it: "Manila", ja: "マニラ" },
+  "Melbourne": { nl: "Melbourne", de: "Melbourne", fr: "Melbourne", es: "Melbourne", it: "Melbourne", ja: "メルボルン" },
+  "Mexico City": { nl: "Mexico-Stad", de: "Mexiko-Stadt", fr: "Mexico", es: "Ciudad de México", it: "Città del Messico", ja: "メキシコシティ" },
+  "Miami": { nl: "Miami", de: "Miami", fr: "Miami", es: "Miami", it: "Miami", ja: "マイアミ" },
+  "Milan": { nl: "Milaan", de: "Mailand", fr: "Milan", es: "Milán", it: "Milano", ja: "ミラノ" },
+  "Montreal": { nl: "Montreal", de: "Montreal", fr: "Montréal", es: "Montreal", it: "Montreal", ja: "モントリオール" },
+  "Mumbai": { nl: "Mumbai", de: "Mumbai", fr: "Bombay", es: "Bombay", it: "Mumbai", ja: "ムンバイ" },
+  "Munich": { nl: "München", de: "München", fr: "Munich", es: "Múnich", it: "Monaco di Baviera", ja: "ミュンヘン" },
+  "Nairobi": { nl: "Nairobi", de: "Nairobi", fr: "Nairobi", es: "Nairobi", it: "Nairobi", ja: "ナイロビ" },
+  "New York": { nl: "New York", de: "New York", fr: "New York", es: "Nueva York", it: "New York", ja: "ニューヨーク" },
+  "Newark": { nl: "Newark", de: "Newark", fr: "Newark", es: "Newark", it: "Newark", ja: "ニューアーク" },
+  "Osaka": { nl: "Osaka", de: "Osaka", fr: "Osaka", es: "Osaka", it: "Osaka", ja: "大阪" },
+  "Oslo": { nl: "Oslo", de: "Oslo", fr: "Oslo", es: "Oslo", it: "Oslo", ja: "オスロ" },
+  "Panama City": { nl: "Panama-Stad", de: "Panama-Stadt", fr: "Panama", es: "Ciudad de Panamá", it: "Città di Panama", ja: "パナマシティ" },
+  "Paris": { nl: "Parijs", de: "Paris", fr: "Paris", es: "París", it: "Parigi", ja: "パリ" },
+  "Perth": { nl: "Perth", de: "Perth", fr: "Perth", es: "Perth", it: "Perth", ja: "パース" },
+  "Rio de Janeiro": { nl: "Rio de Janeiro", de: "Rio de Janeiro", fr: "Rio de Janeiro", es: "Río de Janeiro", it: "Rio de Janeiro", ja: "リオデジャネイロ" },
+  "Rome": { nl: "Rome", de: "Rom", fr: "Rome", es: "Roma", it: "Roma", ja: "ローマ" },
+  "San Francisco": { nl: "San Francisco", de: "San Francisco", fr: "San Francisco", es: "San Francisco", it: "San Francisco", ja: "サンフランシスコ" },
+  "Santiago": { nl: "Santiago", de: "Santiago", fr: "Santiago", es: "Santiago", it: "Santiago", ja: "サンティアゴ" },
+  "Seattle": { nl: "Seattle", de: "Seattle", fr: "Seattle", es: "Seattle", it: "Seattle", ja: "シアトル" },
+  "Seoul": { nl: "Seoul", de: "Seoul", fr: "Séoul", es: "Seúl", it: "Seul", ja: "ソウル" },
+  "Shanghai": { nl: "Shanghai", de: "Shanghai", fr: "Shanghai", es: "Shanghái", it: "Shanghai", ja: "上海" },
+  "Singapore": { nl: "Singapore", de: "Singapur", fr: "Singapour", es: "Singapur", it: "Singapore", ja: "シンガポール" },
+  "Stockholm": { nl: "Stockholm", de: "Stockholm", fr: "Stockholm", es: "Estocolmo", it: "Stoccolma", ja: "ストックホルム" },
+  "Sydney": { nl: "Sydney", de: "Sydney", fr: "Sydney", es: "Sídney", it: "Sydney", ja: "シドニー" },
+  "São Paulo": { nl: "São Paulo", de: "São Paulo", fr: "São Paulo", es: "São Paulo", it: "San Paolo", ja: "サンパウロ" },
+  "Taipei": { nl: "Taipei", de: "Taipeh", fr: "Taipei", es: "Taipéi", it: "Taipei", ja: "台北" },
+  "Tel Aviv": { nl: "Tel Aviv", de: "Tel Aviv", fr: "Tel Aviv", es: "Tel Aviv", it: "Tel Aviv", ja: "テルアビブ" },
+  "Tokyo": { nl: "Tokio", de: "Tokio", fr: "Tokyo", es: "Tokio", it: "Tokyo", ja: "東京" },
+  "Toronto": { nl: "Toronto", de: "Toronto", fr: "Toronto", es: "Toronto", it: "Toronto", ja: "トロント" },
+  "Vancouver": { nl: "Vancouver", de: "Vancouver", fr: "Vancouver", es: "Vancouver", it: "Vancouver", ja: "バンクーバー" },
+  "Vienna": { nl: "Wenen", de: "Wien", fr: "Vienne", es: "Viena", it: "Vienna", ja: "ウィーン" },
+  "Warsaw": { nl: "Warschau", de: "Warschau", fr: "Varsovie", es: "Varsovia", it: "Varsavia", ja: "ワルシャワ" },
+  "Washington D.C.": { nl: "Washington D.C.", de: "Washington, D.C.", fr: "Washington", es: "Washington D. C.", it: "Washington", ja: "ワシントンD.C." },
+  "Zurich": { nl: "Zürich", de: "Zürich", fr: "Zurich", es: "Zúrich", it: "Zurigo", ja: "チューリッヒ" },
+};
+
+export const COUNTRY_NAMES: Record<string, Translated> = {
+  "Argentina": { nl: "Argentinië", de: "Argentinien", fr: "Argentine", es: "Argentina", it: "Argentina", ja: "アルゼンチン" },
+  "Australia": { nl: "Australië", de: "Australien", fr: "Australie", es: "Australia", it: "Australia", ja: "オーストラリア" },
+  "Austria": { nl: "Oostenrijk", de: "Österreich", fr: "Autriche", es: "Austria", it: "Austria", ja: "オーストリア" },
+  "Belgium": { nl: "België", de: "Belgien", fr: "Belgique", es: "Bélgica", it: "Belgio", ja: "ベルギー" },
+  "Brazil": { nl: "Brazilië", de: "Brasilien", fr: "Brésil", es: "Brasil", it: "Brasile", ja: "ブラジル" },
+  "Canada": { nl: "Canada", de: "Kanada", fr: "Canada", es: "Canadá", it: "Canada", ja: "カナダ" },
+  "Chile": { nl: "Chili", de: "Chile", fr: "Chili", es: "Chile", it: "Cile", ja: "チリ" },
+  "China": { nl: "China", de: "China", fr: "Chine", es: "China", it: "Cina", ja: "中国" },
+  "Colombia": { nl: "Colombia", de: "Kolumbien", fr: "Colombie", es: "Colombia", it: "Colombia", ja: "コロンビア" },
+  "Denmark": { nl: "Denemarken", de: "Dänemark", fr: "Danemark", es: "Dinamarca", it: "Danimarca", ja: "デンマーク" },
+  "Egypt": { nl: "Egypte", de: "Ägypten", fr: "Égypte", es: "Egipto", it: "Egitto", ja: "エジプト" },
+  "Finland": { nl: "Finland", de: "Finnland", fr: "Finlande", es: "Finlandia", it: "Finlandia", ja: "フィンランド" },
+  "France": { nl: "Frankrijk", de: "Frankreich", fr: "France", es: "Francia", it: "Francia", ja: "フランス" },
+  "Germany": { nl: "Duitsland", de: "Deutschland", fr: "Allemagne", es: "Alemania", it: "Germania", ja: "ドイツ" },
+  "Greece": { nl: "Griekenland", de: "Griechenland", fr: "Grèce", es: "Grecia", it: "Grecia", ja: "ギリシャ" },
+  "Hong Kong": { nl: "Hongkong", de: "Hongkong", fr: "Hong Kong", es: "Hong Kong", it: "Hong Kong", ja: "香港" },
+  "India": { nl: "India", de: "Indien", fr: "Inde", es: "India", it: "India", ja: "インド" },
+  "Indonesia": { nl: "Indonesië", de: "Indonesien", fr: "Indonésie", es: "Indonesia", it: "Indonesia", ja: "インドネシア" },
+  "Ireland": { nl: "Ierland", de: "Irland", fr: "Irlande", es: "Irlanda", it: "Irlanda", ja: "アイルランド" },
+  "Israel": { nl: "Israël", de: "Israel", fr: "Israël", es: "Israel", it: "Israele", ja: "イスラエル" },
+  "Italy": { nl: "Italië", de: "Italien", fr: "Italie", es: "Italia", it: "Italia", ja: "イタリア" },
+  "Japan": { nl: "Japan", de: "Japan", fr: "Japon", es: "Japón", it: "Giappone", ja: "日本" },
+  "Kenya": { nl: "Kenia", de: "Kenia", fr: "Kenya", es: "Kenia", it: "Kenya", ja: "ケニア" },
+  "Malaysia": { nl: "Maleisië", de: "Malaysia", fr: "Malaisie", es: "Malasia", it: "Malesia", ja: "マレーシア" },
+  "Mexico": { nl: "Mexico", de: "Mexiko", fr: "Mexique", es: "México", it: "Messico", ja: "メキシコ" },
+  "Morocco": { nl: "Marokko", de: "Marokko", fr: "Maroc", es: "Marruecos", it: "Marocco", ja: "モロッコ" },
+  "Netherlands": { nl: "Nederland", de: "Niederlande", fr: "Pays-Bas", es: "Países Bajos", it: "Paesi Bassi", ja: "オランダ" },
+  "New Zealand": { nl: "Nieuw-Zeeland", de: "Neuseeland", fr: "Nouvelle-Zélande", es: "Nueva Zelanda", it: "Nuova Zelanda", ja: "ニュージーランド" },
+  "Norway": { nl: "Noorwegen", de: "Norwegen", fr: "Norvège", es: "Noruega", it: "Norvegia", ja: "ノルウェー" },
+  "Panama": { nl: "Panama", de: "Panama", fr: "Panama", es: "Panamá", it: "Panama", ja: "パナマ" },
+  "Peru": { nl: "Peru", de: "Peru", fr: "Pérou", es: "Perú", it: "Perù", ja: "ペルー" },
+  "Philippines": { nl: "Filipijnen", de: "Philippinen", fr: "Philippines", es: "Filipinas", it: "Filippine", ja: "フィリピン" },
+  "Poland": { nl: "Polen", de: "Polen", fr: "Pologne", es: "Polonia", it: "Polonia", ja: "ポーランド" },
+  "Portugal": { nl: "Portugal", de: "Portugal", fr: "Portugal", es: "Portugal", it: "Portogallo", ja: "ポルトガル" },
+  "Qatar": { nl: "Qatar", de: "Katar", fr: "Qatar", es: "Catar", it: "Qatar", ja: "カタール" },
+  "Singapore": { nl: "Singapore", de: "Singapur", fr: "Singapour", es: "Singapur", it: "Singapore", ja: "シンガポール" },
+  "South Africa": { nl: "Zuid-Afrika", de: "Südafrika", fr: "Afrique du Sud", es: "Sudáfrica", it: "Sudafrica", ja: "南アフリカ" },
+  "South Korea": { nl: "Zuid-Korea", de: "Südkorea", fr: "Corée du Sud", es: "Corea del Sur", it: "Corea del Sud", ja: "韓国" },
+  "Spain": { nl: "Spanje", de: "Spanien", fr: "Espagne", es: "España", it: "Spagna", ja: "スペイン" },
+  "Sweden": { nl: "Zweden", de: "Schweden", fr: "Suède", es: "Suecia", it: "Svezia", ja: "スウェーデン" },
+  "Switzerland": { nl: "Zwitserland", de: "Schweiz", fr: "Suisse", es: "Suiza", it: "Svizzera", ja: "スイス" },
+  "Taiwan": { nl: "Taiwan", de: "Taiwan", fr: "Taïwan", es: "Taiwán", it: "Taiwan", ja: "台湾" },
+  "Thailand": { nl: "Thailand", de: "Thailand", fr: "Thaïlande", es: "Tailandia", it: "Thailandia", ja: "タイ" },
+  "Turkey": { nl: "Turkije", de: "Türkei", fr: "Turquie", es: "Turquía", it: "Turchia", ja: "トルコ" },
+  "United Arab Emirates": { nl: "Verenigde Arabische Emiraten", de: "Vereinigte Arabische Emirate", fr: "Émirats arabes unis", es: "Emiratos Árabes Unidos", it: "Emirati Arabi Uniti", ja: "アラブ首長国連邦" },
+  "United Kingdom": { nl: "Verenigd Koninkrijk", de: "Vereinigtes Königreich", fr: "Royaume-Uni", es: "Reino Unido", it: "Regno Unito", ja: "イギリス" },
+  "United States": { nl: "Verenigde Staten", de: "Vereinigte Staaten", fr: "États-Unis", es: "Estados Unidos", it: "Stati Uniti", ja: "アメリカ" },
+};
+
+export function cityName(airport: Airport, locale: Locale): string {
+  if (locale === "en") return airport.city;
+  return CITY_NAMES[airport.city]?.[locale] ?? airport.city;
+}
+
+export function countryName(airport: Airport, locale: Locale): string {
+  if (locale === "en") return airport.country;
+  return COUNTRY_NAMES[airport.country]?.[locale] ?? airport.country;
+}
