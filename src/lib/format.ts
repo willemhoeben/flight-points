@@ -42,3 +42,12 @@ export function addDays(dateStr: string, days: number): string {
 export function todayIso(): string {
   return new Date().toISOString().slice(0, 10);
 }
+
+/** Cents per point, to one decimal, with the cent sign: "3,7 ¢". */
+export function formatCentsPerPoint(cents: number, locale: Locale): string {
+  const n = cents.toLocaleString(toBcp47(locale), {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  });
+  return `${n} ¢`;
+}

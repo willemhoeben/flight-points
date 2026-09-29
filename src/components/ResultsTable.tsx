@@ -5,11 +5,14 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { AwardResult } from "@/data/availability";
 import { PROGRAMS, type Alliance } from "@/data/programs";
 import { Badge } from "@/components/ui";
+import { PointsOrCash } from "@/components/PointsOrCash";
+import { ValueBadge } from "@/components/ValueBadge";
 import { useCurrency } from "@/lib/currency-context";
-import { formatDuration, formatMiles } from "@/lib/format";
+import { formatCentsPerPoint, formatDuration, formatMiles } from "@/lib/format";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
 import { interpolate } from "@/lib/i18n/format";
 import { isSortDir, nextSort, sortBy, type SortDir } from "@/lib/sort";
+import { peakCentsPerPoint, valueTier } from "@/lib/value";
 import {
   allianceFromSlug,
   buildResultsSortUrl,
@@ -45,6 +48,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
     { key: "durationMinutes", label: dict.resultsTable.duration },
     { key: "seatsRemaining", label: dict.resultsTable.seats },
     { key: "milesCost", label: dict.resultsTable.miles },
+    { key: "centsPerPoint", label: dict.resultsTable.valuePerPoint },
   ];
 
   const allianceLabel = (alliance: Alliance) => (alliance === "Unaligned" ? dict.searchForm.allianceUnaligned : alliance);
@@ -69,6 +73,10 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
   const cheapestId = filtered.length > 1 ? filtered[0].id : null;
 
   const sorted = useMemo(() => sortBy(filtered, sortKey, sortDir), [filtered, sortKey, sortDir]);
+
+  // Rated against the best option on screen, so the badge says which row to
+  // book rather than repeating the same verdict down the whole column.
+  const peakCpp = useMemo(() => peakCentsPerPoint(filtered), [filtered]);
 
   const sortAnnouncement = interpolate(sortDir === "asc" ? dict.common.sortAscending : dict.common.sortDescending, {
     column: SORTABLE_COLUMNS.find((col) => col.key === sortKey)?.label ?? "",
@@ -185,20 +193,21 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
 
   return (
     <div>
+      <PointsOrCash results={filtered} />
       {filterControls}
       <span aria-live="polite" className="sr-only">
         {sortAnnouncement}
       </span>
 
-      {/* The table needs 720px, which the page's content column only
-          reaches at md. Below that only Program/Routing/Duration fit and
-          miles and taxes — the whole point of the search — sit off the
-          right edge behind a sideways scroll nothing hints at. So narrow
-          screens get the same rows as cards instead, with every number
-          visible; two columns once there's room for them. The table is
-          still the md-and-up layout, since it compares rows far better
-          than cards do once it fits. */}
-      <div className="flex flex-wrap items-center gap-2 print:hidden md:hidden" role="group" aria-label={dict.common.sortBy}>
+      {/* The table needs 860px since the value column landed, which the
+          page's content column only reaches at lg. Below that only
+          Program/Routing/Duration fit and miles, value and taxes — the whole
+          point of the search — sit off the right edge behind a sideways
+          scroll nothing hints at. So narrower screens get the same rows as
+          cards instead, with every number visible; two columns once there's
+          room for them. The table is still the lg-and-up layout, since it
+          compares rows far better than cards do once it fits. */}
+      <div className="flex flex-wrap items-center gap-2 print:hidden lg:hidden" role="group" aria-label={dict.common.sortBy}>
         <span className="text-xs font-medium text-muted">{dict.common.sortBy}</span>
         {SORTABLE_COLUMNS.map((col) => (
           <button
@@ -220,7 +229,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
         ))}
       </div>
 
-      <ul className="mt-3 grid gap-3 sm:grid-cols-2 md:hidden">
+      <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:hidden">
         {sorted.map((r) => {
           const program = PROGRAMS.find((p) => p.id === r.programId);
           const isBest = r.id === cheapestId;
@@ -277,6 +286,19 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                     {r.seatsRemaining} {dict.resultsTable.seatsLeft}
                   </dd>
                 </div>
+                <div>
+                  <dt className="text-[11px] text-muted">{dict.resultsTable.valuePerPoint}</dt>
+                  <dd className="font-mono tabular-nums text-foreground" suppressHydrationWarning>
+                    {formatCentsPerPoint(r.centsPerPoint, locale)}{" "}
+                    <ValueBadge tier={valueTier(r, peakCpp)} />
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[11px] text-muted">{dict.resultsTable.cashFare}</dt>
+                  <dd className="font-mono tabular-nums text-foreground" suppressHydrationWarning>
+                    {formatRounded(r.cashFareUsd)}
+                  </dd>
+                </div>
               </dl>
 
               <div className="mt-3">
@@ -295,8 +317,8 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
         })}
       </ul>
 
-      <div className="hidden overflow-x-auto rounded-[20px] bg-surface md:block">
-        <table className="w-full min-w-[720px] text-left text-sm">
+      <div className="hidden overflow-x-auto rounded-[20px] bg-surface lg:block">
+        <table className="w-full min-w-[860px] text-left text-sm">
         <thead className="bg-surface-muted text-xs font-medium text-muted">
           <tr>
             <th scope="col" className="px-4 py-3">{dict.resultsTable.program}</th>
@@ -305,7 +327,9 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
               <th
                 key={col.key}
                 scope="col"
-                className={col.key === "milesCost" ? "px-4 py-3 text-right" : "px-4 py-3"}
+                className={
+                  col.key === "milesCost" || col.key === "centsPerPoint" ? "px-4 py-3 text-right" : "px-4 py-3"
+                }
                 aria-sort={sortKey === col.key ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
               >
                 <button
@@ -313,7 +337,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                   onClick={() => goToSort(col.key)}
                   className={[
                     "inline-flex items-center gap-1 hover:text-foreground",
-                    col.key === "milesCost" ? "flex-row-reverse" : "",
+                    col.key === "milesCost" || col.key === "centsPerPoint" ? "flex-row-reverse" : "",
                   ].join(" ")}
                 >
                   {col.label}
@@ -358,6 +382,14 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                 </td>
                 <td className="px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground" suppressHydrationWarning>
                   {formatMiles(r.milesCost, locale)}
+                </td>
+                <td className="px-4 py-3 text-right" suppressHydrationWarning>
+                  <div className="font-mono text-[13px] tabular-nums text-foreground">
+                    {formatCentsPerPoint(r.centsPerPoint, locale)}
+                  </div>
+                  <div className="mt-1">
+                    <ValueBadge tier={valueTier(r, peakCpp)} />
+                  </div>
                 </td>
                 <td className="px-4 py-3 text-right font-mono text-[13px] tabular-nums text-muted" suppressHydrationWarning>{format(r.taxesFeesUsd)}</td>
                 <td className="px-4 py-3">

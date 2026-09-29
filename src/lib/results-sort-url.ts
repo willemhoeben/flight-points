@@ -1,13 +1,18 @@
 import type { Alliance } from "@/data/programs";
 import type { SortDir } from "@/lib/sort";
 
-export type ResultsSortKey = "milesCost" | "durationMinutes" | "seatsRemaining";
+export type ResultsSortKey = "milesCost" | "durationMinutes" | "seatsRemaining" | "centsPerPoint";
 
 export const DEFAULT_RESULTS_SORT_KEY: ResultsSortKey = "milesCost";
 export const DEFAULT_RESULTS_SORT_DIR: SortDir = "asc";
 
 export function isResultsSortKey(value: string | null): value is ResultsSortKey {
-  return value === "milesCost" || value === "durationMinutes" || value === "seatsRemaining";
+  return (
+    value === "milesCost" ||
+    value === "durationMinutes" ||
+    value === "seatsRemaining" ||
+    value === "centsPerPoint"
+  );
 }
 
 export function isNonstopOnlyParam(value: string | null): boolean {
