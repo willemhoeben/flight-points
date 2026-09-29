@@ -21,7 +21,7 @@ airline or loyalty program.
   rather than a set of routes, so it scopes the layer to its Home tab
   explicitly and replays the flight on each return, which is what
   remounting the component does here.)
-- **`/search`** — search award availability by route, date, and cabin across 16
+- **`/search`** — search award availability by route, date, and cabin across 30
   loyalty programs (grouped by alliance — Star Alliance/Oneworld/SkyTeam/
   Unaligned — in the program filter), with a 14-day calendar view highlighting
   the cheapest day to fly and a sortable results table (Duration/Seats/Miles).
@@ -45,9 +45,9 @@ airline or loyalty program.
   "Under €46", not "Under $50") — same currency-conversion path the taxes
   & fees column itself already uses, with the cents dropped via
   `formatCurrency`'s `round` option, since a coarse threshold shouldn't
-  imply two decimal places of precision. The 16-program picker is a
-  collapsed `<details>` that summarises its own state ("All 16 programs",
-  or "2 of 16 programs" when narrowed, in which case it opens on arrival):
+  imply two decimal places of precision. The 30-program picker is a
+  collapsed `<details>` that summarises its own state ("All 30 programs",
+  or "2 of 30 programs" when narrowed, in which case it opens on arrival):
   every box is ticked by default and most people never narrow it, so
   leaving it expanded pushed the calendar and the results themselves below
   the fold. It's a native element, so the form stays JS-free and the
@@ -111,6 +111,29 @@ airline or loyalty program.
   the results table's badge relies on. So the page shows the cents-per-point
   figure, lets the sort rank them, and marks the single best-value
   destination. One marker cannot be miscalibrated.
+
+- **`/network`** — where a single airline can actually take you. Pick a
+  loyalty program and one of its hubs and you get every destination that
+  airline reaches, drawn on an azimuthal equidistant projection centred on
+  that hub. That projection is the point of the page: it is the one where a
+  straight line out of the middle really is the great circle the aircraft
+  flies, so the angle of each spoke is the true initial bearing and the
+  rings are true distances rather than decoration. Beside the chart the same
+  destinations are grouped by region, nearest first, each one a link into a
+  search for that route. Plain GET form (`?program=lufthansa&hub=FRA`), so
+  one airline's map is a shareable URL.
+
+  Three things the first version got wrong and this one doesn't. The plot
+  scales to the longest route rather than to the next round ring above it,
+  because rounding 15,335 km up to a 20,000 km ring left a quarter of the
+  radius permanently empty. Every program carries its own longest-sector
+  limit, because without one the nine global programs all drew the same
+  chart — "flies everywhere" filtered nothing out. And airport codes are
+  placed by reserving the rectangle each one will occupy, so a code is
+  drawn only where it fits: the transatlantic bearings out of a US hub
+  stack twenty destinations within a few degrees of one another, and a
+  looser test left them overlapping into a blob. Measured across nine
+  programs: zero overlapping labels, and every network fills its circle.
 
 - **`/valuations`** — a sortable, filterable (bank/airline/hotel) table of
   estimated cents-per-point values for major currencies, plus a two-way
@@ -377,7 +400,7 @@ source behind `src/data/availability.ts`'s `searchAvailability` /
 
 The points valuations (`src/data/valuations.ts`) are illustrative example
 figures in the style of published points-guide valuations, not a live feed.
-All 25 currencies there are reachable from the search: every program in
+All 38 currencies there are reachable from the search: every program in
 `src/data/programs.ts` maps to one in `src/lib/program-currency.ts`, and a
 test fails the build if a new program arrives without a valuation to judge
 its redemptions against.
@@ -404,7 +427,13 @@ differently for Amsterdam to Frankfurt than for New York to Sydney.
 
 Two airports in the same metro area are not a route anyone redeems for, so
 JFK to EWR and HND to NRT return no award space at all rather than an
-invented price.
+invented price. The same floor keeps a hub out of its own network map.
+
+The route data covers 73 airports across 47 countries and 30 loyalty
+programs. City and country names are translated into all six non-English
+locales (`src/lib/i18n/place-names.ts`), with a test that fails if an
+airport arrives without them — a silent fall back to English on one city
+in a list of seventy is exactly the kind of gap nobody notices by eye.
 
 ## The name
 
