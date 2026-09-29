@@ -28,12 +28,23 @@ export function Badge({ accent = "sky", children }: { accent?: string; children:
   );
 }
 
-export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return (
-    <div className={`bg-surface-muted ${className}`}>
-      {children}
-    </div>
-  );
+/**
+ * `ruled` (the default) is a column under a hairline, which is what most of
+ * these are: one of a set read across, not an object to pick up. `filled`
+ * is for a panel that really is a separate thing on the page — the points
+ * calculator sitting beside a table, say.
+ */
+export function Card({
+  children,
+  className = "",
+  variant = "ruled",
+}: {
+  children: ReactNode;
+  className?: string;
+  variant?: "ruled" | "filled";
+}) {
+  const base = variant === "filled" ? "bg-surface-muted" : "border-t border-border-strong";
+  return <div className={`${base} ${className}`}>{children}</div>;
 }
 
 export function SectionHeading({

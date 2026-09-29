@@ -63,7 +63,7 @@ export function PointsCalculator() {
   );
 
   return (
-    <Card className="p-6">
+    <Card variant="filled" className="p-6">
       <h2 className="text-lg text-foreground">{dict.calculator.heading}</h2>
       <p className="mt-1 text-sm text-muted">{dict.calculator.description}</p>
 

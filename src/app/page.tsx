@@ -45,7 +45,7 @@ export default async function Home() {
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
-        <div className="grid grid-cols-2 gap-y-8 bg-gradient-to-b from-brand/[0.07] to-surface-muted px-6 py-10 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-y-8 border-y border-border-strong py-10 sm:grid-cols-4">
           <Stat value={`${PROGRAMS.length}`} label={dict.home.statPrograms} />
           <Stat value={`${AIRPORTS.length}`} label={dict.home.statAirports} />
           <Stat value="14-day" label={dict.home.statCalendar} />
@@ -54,9 +54,9 @@ export default async function Home() {
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-x-9 sm:grid-cols-3">
           {features.map((feature) => (
-            <Card key={feature.href} className="flex flex-col p-6">
+            <Card key={feature.href} className="flex flex-col py-5">
               <h2 className="text-lg text-foreground">{feature.title}</h2>
               <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-muted">{feature.description}</p>
               <Link href={feature.href} className="mt-4 text-sm font-medium text-brand-text hover:underline">
@@ -68,22 +68,22 @@ export default async function Home() {
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
-        <div className="text-center">
+        <div className="max-w-2xl">
           <h2 className="text-3xl text-foreground">{dict.home.valuationsHeading}</h2>
           <p className="mt-2 text-base text-muted">{dict.home.valuationsSub}</p>
         </div>
-        <div className="mt-8 grid gap-4 sm:grid-cols-4">
+        <div className="mt-8 grid gap-x-9 sm:grid-cols-4">
           {topValuations.map((v) => (
-            <Card key={v.id} className="p-5 text-center">
-              <div className="text-sm text-muted">{v.name}</div>
-              <div className="mt-2 text-[26px] font-semibold tracking-tight text-foreground">
+            <Card key={v.id} className="py-5">
+              <div className="text-[13px] text-muted">{v.name}</div>
+              <div className="mt-2 font-mono text-[26px] font-semibold tracking-tight tabular-nums text-foreground">
                 {v.centsPerPoint.toFixed(2)}¢
               </div>
-              <div className="text-xs text-muted">{dict.home.perPoint}</div>
+              <div className="mt-0.5 text-xs text-muted">{dict.home.perPoint}</div>
             </Card>
           ))}
         </div>
-        <div className="mt-6 text-center">
+        <div className="mt-6">
           <Link href="/valuations" className="text-sm font-medium text-brand-text hover:underline">
             {dict.home.valuationsSeeAll}
           </Link>
@@ -91,24 +91,24 @@ export default async function Home() {
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
-        <div className="text-center">
+        <div className="max-w-2xl">
           <h2 className="text-3xl text-foreground">{dict.home.dealsHeading}</h2>
           <p className="mt-2 text-base text-muted">{dict.home.dealsSub}</p>
         </div>
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+        <div className="mt-8 grid gap-x-9 sm:grid-cols-3">
           {featuredDeals.map((deal) => (
-            <Link key={deal.slug} href={`/deals/${deal.slug}`}>
-              <Card className="flex h-full flex-col p-6 transition-transform hover:-translate-y-0.5">
+            <Link key={deal.slug} href={`/deals/${deal.slug}`} className="group">
+              <Card className="flex h-full flex-col items-start py-5">
                 <Badge accent={deal.category === "transfer-bonus" ? "emerald" : deal.category === "sale" ? "amber" : "violet"}>
                   {dealCategoryLabel(deal.category, dict.dealsPage)}
                 </Badge>
-                <h3 className="mt-3 text-base text-foreground">{deal.title}</h3>
+                <h3 className="mt-3 text-base text-foreground group-hover:text-brand-text">{deal.title}</h3>
                 <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-muted">{deal.summary}</p>
               </Card>
             </Link>
           ))}
         </div>
-        <div className="mt-6 text-center">
+        <div className="mt-6">
           <Link href="/deals" className="text-sm font-medium text-brand-text hover:underline">
             {dict.home.dealsSeeAll}
           </Link>

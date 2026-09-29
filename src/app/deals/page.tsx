@@ -105,11 +105,11 @@ export default async function DealsPage({
         ) : (
           <>
             <SavedOnlyEmptyState slugs={deals.map((d) => d.slug)} message={dict.dealsPage.noSavedDeals} />
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-6 grid gap-x-9 sm:grid-cols-2 lg:grid-cols-3">
               {deals.map((deal) => (
                 <DealCardVisibility key={deal.slug} slug={deal.slug}>
-                  <Link href={`/deals/${deal.slug}`}>
-                    <Card className="flex h-full flex-col p-5 transition-transform hover:-translate-y-0.5">
+                  <Link href={`/deals/${deal.slug}`} className="group">
+                    <Card className="flex h-full flex-col py-5">
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
                           <Badge accent={CATEGORY_ACCENT[deal.category]}>{dealCategoryLabel(deal.category, dict.dealsPage)}</Badge>
@@ -121,7 +121,7 @@ export default async function DealsPage({
                         </div>
                         <SavedDealBadge slug={deal.slug} />
                       </div>
-                      <h2 className="mt-3 text-base text-foreground">{deal.title}</h2>
+                      <h2 className="mt-3 text-base text-foreground group-hover:text-brand-text">{deal.title}</h2>
                       <p className="mt-2 flex-1 text-sm text-muted">{deal.summary}</p>
                       <div className="mt-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs text-muted">
                         <span>{deal.program}</span>
