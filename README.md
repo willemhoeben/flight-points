@@ -51,9 +51,10 @@ airline or loyalty program.
   every box is ticked by default and most people never narrow it, so
   leaving it expanded pushed the calendar and the results themselves below
   the fold. It's a native element, so the form stays JS-free and the
-  collapsed checkboxes still submit. Below `md` the results render as
-  cards rather than a table: the table needs 720px, which the content
-  column only reaches at `md`, so narrower screens used to see Program,
+  collapsed checkboxes still submit. Below `lg` the results render as
+  cards rather than a table: the table needs 860px since the value column
+  landed, which the content column only reaches at `lg`, so narrower
+  screens used to see Program,
   Routing, and part of Duration while the miles cost and the taxes &
   fees sat off the right edge behind a sideways scroll with nothing to
   hint at it — you could run a search on your phone and never see a
@@ -77,6 +78,40 @@ airline or loyalty program.
   first. This is the explicit, user-curated counterpart to the passive
   "remember my last search" behavior above — same relationship as saved
   deals vs. recently-viewed deals.
+  Above the results a **points-or-cash verdict** says which way to pay, in
+  one sentence, with the estimated cash fare beside it. Every row carries
+  what each point actually buys on that redemption, and the column sorts
+  like the others, so you can rank by value instead of by price. The badge
+  beside each figure rates that row against the best option on screen rather
+  than against the currency's lifetime average: every row prices the same
+  seat, so an absolute scale put all twelve rows of a long-haul search in one
+  band and said nothing about which to book. The absolute figure still has a
+  vote — a redemption below what those points are normally worth can never
+  come out on top, however well it compares to its neighbours.
+
+- **`/explore`** — the question most people actually start with, which the
+  search page cannot answer: not "what does New York to London cost" but
+  "where can I go with what I have". Pick a departure airport, a cabin, and
+  how many points you want to spend, and it scans every destination across
+  the 14-day window and keeps the cheapest award it finds for each, cheapest
+  first, with the day it found and what each point buys there. Sort by best
+  value instead and you get a different trip entirely: from New York the
+  cheapest is Washington at 22,500, the best value is Tokyo at 6.5 cents per
+  point. Each card links into `/search` pre-filled with that route and that
+  date, so "where can I go" flows into "show me the seats" without retyping
+  anything. It's a plain GET form like the search page, so every set of
+  destinations is server-rendered and shareable as a URL
+  (`?origin=AMS&cabin=first&budget=200000&sort=value`).
+
+  There is deliberately no graded value badge on these cards. Rated against
+  the best destination on screen it painted every short-haul red; rated
+  against each currency's own baseline it painted nineteen of twenty-four
+  green. Either scale carried no information, because every card here prices
+  a different seat rather than the same one — which is exactly the condition
+  the results table's badge relies on. So the page shows the cents-per-point
+  figure, lets the sort rank them, and marks the single best-value
+  destination. One marker cannot be miscalibrated.
+
 - **`/valuations`** — a sortable, filterable (bank/airline/hotel) table of
   estimated cents-per-point values for major currencies, plus a two-way
   calculator: points → cash value, or a target cash amount → points needed.
@@ -342,6 +377,34 @@ source behind `src/data/availability.ts`'s `searchAvailability` /
 
 The points valuations (`src/data/valuations.ts`) are illustrative example
 figures in the style of published points-guide valuations, not a live feed.
+All 25 currencies there are reachable from the search: every program in
+`src/data/programs.ts` maps to one in `src/lib/program-currency.ts`, and a
+test fails the build if a new program arrives without a valuation to judge
+its redemptions against.
+
+### The numbers are mock, but they are no longer arbitrary
+
+Award prices, flight times and cash fares all follow the real distance
+flown (`src/lib/distance.ts`). Before that they did not, and the results
+were quietly nonsense: a business seat to Newark priced like a business
+seat to Tokyo, Amsterdam to London took eight hours, and a 1,700 km hop
+could arrive with two connections inside six hours. None of it showed
+while you looked at one route at a time; all of it was obvious the moment
+`/explore` put a list of destinations side by side.
+
+The award multiplier is sublinear the way a published chart is — three
+times the distance costs well under three times the miles — and lands
+within a few thousand miles of the Aeroplan and KrisFlyer charts on both
+the Atlantic and the Pacific. Cash fares are modelled as one-way fares,
+which is what the search prices, and premium one-ways are punished far
+harder than round-trips. That is the whole reason a long-haul business
+award beats a business ticket and a short-haul economy award does not, and
+it is what makes the points-or-cash verdict on `/search` come out
+differently for Amsterdam to Frankfurt than for New York to Sydney.
+
+Two airports in the same metro area are not a route anyone redeems for, so
+JFK to EWR and HND to NRT return no award space at all rather than an
+invented price.
 
 ## The name
 
