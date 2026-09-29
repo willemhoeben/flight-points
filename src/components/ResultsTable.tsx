@@ -6,7 +6,7 @@ import type { AwardResult } from "@/data/availability";
 import { PROGRAMS, type Alliance } from "@/data/programs";
 import { Badge } from "@/components/ui";
 import { PointsOrCash } from "@/components/PointsOrCash";
-import { ValueBadge } from "@/components/ValueBadge";
+import { ValueBadge, valueTierLabel } from "@/components/ValueBadge";
 import { useCurrency } from "@/lib/currency-context";
 import { formatCentsPerPoint, formatDuration, formatMiles } from "@/lib/format";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
@@ -290,7 +290,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                   <dt className="text-[11px] text-muted">{dict.resultsTable.valuePerPoint}</dt>
                   <dd className="font-mono tabular-nums text-foreground" suppressHydrationWarning>
                     {formatCentsPerPoint(r.centsPerPoint, locale)}{" "}
-                    <ValueBadge tier={valueTier(r, peakCpp)} />
+                    <RatedBadge row={r} peak={peakCpp} dict={dict.resultsTable} />
                   </dd>
                 </div>
                 <div>
@@ -388,7 +388,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                     {formatCentsPerPoint(r.centsPerPoint, locale)}
                   </div>
                   <div className="mt-1">
-                    <ValueBadge tier={valueTier(r, peakCpp)} />
+                    <RatedBadge row={r} peak={peakCpp} dict={dict.resultsTable} />
                   </div>
                 </td>
                 <td className="px-4 py-3 text-right font-mono text-[13px] tabular-nums text-muted" suppressHydrationWarning>{format(r.taxesFeesUsd)}</td>
@@ -444,4 +444,19 @@ function FilterPill({
       {children}
     </button>
   );
+}
+
+/** Rates a row against the best on screen and labels it in the current language. */
+function RatedBadge({
+  row,
+  peak,
+  dict,
+}: {
+  row: AwardResult;
+  peak: number;
+  dict: { valueGreat: string; valueGood: string; valueFair: string; valueWeak: string };
+}) {
+  const tier = valueTier(row, peak);
+  if (!tier) return null;
+  return <ValueBadge tier={tier} label={valueTierLabel(tier, dict)} />;
 }
