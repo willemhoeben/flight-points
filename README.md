@@ -161,6 +161,29 @@ airline or loyalty program.
   pins the key sets against the real currency list in both directions, so a
   new currency can't ship one English line into six translated tables and a
   removed one can't leave orphaned strings behind.
+
+- **`/wallet`** — the valuations page answers "what is one point worth";
+  this one answers "what can the pile I am sitting on actually do". Type in
+  what you hold across the thirty-eight currencies and you get three
+  figures: the cash value of the lot, how many currencies you hold, and how
+  many of the thirty airline programs you can genuinely put miles behind.
+  Beside the form, one block per balance: the programs it spends on
+  directly, and the programs it transfers into 1:1.
+
+  Two decisions carry the page. The reach of a balance is the best SINGLE
+  route, never the sum — no airline lets you pay one award out of two
+  programs, so adding 30,000 held in MileagePlus to 40,000 transferable
+  from Chase and calling it 70,000 would tell you an award is within reach
+  when it is not. And a balance that reaches nothing at all, hotel points
+  mostly, is named rather than dropped: it counts toward the total value,
+  so leaving it out of the reach column without a word reads as a bug
+  rather than an answer.
+
+  Balances live in localStorage and nowhere else, which the page says
+  directly above the inputs. Only 1:1 transfer partners are listed
+  (`src/data/transfers.ts`); a 3:1 partner is a different kind of decision
+  and showing it at the same weight would flatter it.
+
 - **`/compare`** — pick two or more point currencies (bank/airline/hotel,
   grouped the same way as `/search`'s program picker) and a shared points
   balance to see which is worth more, ranked by cash value with the top
