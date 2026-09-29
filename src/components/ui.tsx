@@ -1,24 +1,28 @@
 import type { ReactNode } from "react";
 
+/**
+ * One measured ink-on-tint pair per accent, defined in globals.css for both
+ * themes. Previously these were Tailwind palette steps over a 10%-alpha
+ * tint, which left the effective background dependent on whatever surface
+ * the badge happened to land on — and three of them dropped under AA on the
+ * mobile card layout, where that surface differs from the table.
+ */
 const ACCENT_CLASSES: Record<string, string> = {
-  sky: "bg-sky-500/10 text-sky-700 dark:text-sky-300",
-  indigo: "bg-indigo-500/10 text-indigo-700 dark:text-indigo-300",
-  violet: "bg-violet-500/10 text-violet-700 dark:text-violet-300",
-  // amber-700 lands at 4.3 on its own 10% tint — just under AA, so this
-  // badge uses the measured warning token instead of the Tailwind step.
-  amber: "bg-amber-500/10 text-warning-text dark:text-amber-300",
-  rose: "bg-rose-500/10 text-rose-700 dark:text-rose-300",
-  emerald: "bg-emerald-500/10 text-success-text",
-  // cyan-700 lands at 4.44 on its own 10% tint over the highlighted
-  // best-price row — just under AA, the same near miss amber has above.
-  cyan: "bg-cyan-500/10 text-cyan-800 dark:text-cyan-300",
-  fuchsia: "bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300",
+  sky: "bg-tint-sky text-ink-sky",
+  indigo: "bg-tint-indigo text-ink-indigo",
+  violet: "bg-tint-violet text-ink-violet",
+  fuchsia: "bg-tint-fuchsia text-ink-fuchsia",
+  amber: "bg-tint-amber text-ink-amber",
+  rose: "bg-tint-rose text-ink-rose",
+  emerald: "bg-tint-emerald text-ink-emerald",
+  cyan: "bg-tint-cyan text-ink-cyan",
 };
+
 
 export function Badge({ accent = "sky", children }: { accent?: string; children: ReactNode }) {
   const cls = ACCENT_CLASSES[accent] ?? ACCENT_CLASSES.sky;
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${cls}`}>
+    <span className={`inline-flex items-center px-2.5 py-1 text-xs font-medium ${cls}`}>
       {children}
     </span>
   );
@@ -26,7 +30,7 @@ export function Badge({ accent = "sky", children }: { accent?: string; children:
 
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`rounded-[20px] bg-surface-muted ${className}`}>
+    <div className={`bg-surface-muted ${className}`}>
       {children}
     </div>
   );

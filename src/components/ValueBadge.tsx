@@ -1,10 +1,10 @@
 import type { ValueTier } from "@/lib/value";
 
 const TIER_CLASSES: Record<ValueTier, string> = {
-  great: "bg-emerald-500/10 text-success-text",
-  good: "bg-brand/10 text-brand-text",
+  great: "bg-tint-emerald text-ink-emerald",
+  good: "bg-tint-amber text-ink-amber",
   fair: "bg-surface-muted text-muted",
-  weak: "bg-rose-500/10 text-rose-700 dark:text-rose-300",
+  weak: "bg-tint-rose text-ink-rose",
 };
 
 /**

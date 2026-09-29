@@ -67,11 +67,14 @@ function priceTier(
   if (value === null) {
     return { className: "bg-surface-muted text-muted-on-tint" };
   }
+  // The same solid tints the badges use, rather than an alpha wash: a
+  // heatmap cell has to read as one of three bands at a glance, and an
+  // alpha tint changes shade with whatever is behind it.
   if (max === min) {
-    return { className: "bg-emerald-500/10" };
+    return { className: "bg-tint-emerald" };
   }
   const ratio = (value - min) / (max - min);
-  if (ratio <= 0.33) return { className: "bg-emerald-500/10" };
-  if (ratio <= 0.66) return { className: "bg-amber-500/10" };
-  return { className: "bg-rose-500/10" };
+  if (ratio <= 0.33) return { className: "bg-tint-emerald" };
+  if (ratio <= 0.66) return { className: "bg-tint-amber" };
+  return { className: "bg-tint-rose" };
 }

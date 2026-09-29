@@ -144,7 +144,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
         <input type="hidden" name="sort" value={sort} />
         <button
           type="submit"
-          className="w-full rounded-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90 sm:w-auto print:hidden"
+          className="w-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90 sm:w-auto print:hidden"
         >
           {dict.explore.submit}
         </button>
@@ -160,8 +160,8 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
               aria-current={sort === key ? "true" : undefined}
               className={
                 sort === key
-                  ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-                  : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+                  ? "bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+                  : "bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
               }
             >
               {key === "cheapest" ? dict.explore.sortCheapest : dict.explore.sortValue}
@@ -172,7 +172,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
         <p className="mt-4 text-sm text-muted">{meta}</p>
 
         {rows.length === 0 ? (
-          <div className="mt-4 rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">
+          <div className="mt-4 bg-surface-muted p-10 text-center text-sm text-muted">
             {budget
               ? interpolate(dict.explore.none, { miles: formatMiles(budget, locale) })
               : dict.search.noAwardSpace}
@@ -187,7 +187,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
                 cabin,
               });
               return (
-                <li key={airport.code} className="flex flex-col rounded-[20px] bg-surface-muted p-4">
+                <li key={airport.code} className="flex flex-col bg-surface-muted p-4">
                   <div className="flex items-baseline justify-between gap-3">
                     <div className="min-w-0">
                       <div className="font-serif text-lg font-semibold leading-tight text-foreground">{cityName(airport, locale)}</div>
@@ -217,13 +217,13 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
                   </div>
 
                   <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                    <span className="inline-flex items-center rounded-full bg-surface px-2 py-0.5 text-[10.5px] font-medium text-muted">
+                    <span className="inline-flex items-center bg-surface px-2 py-0.5 text-[10.5px] font-medium text-muted">
                       {best.direct
                         ? dict.resultsTable.nonstop
                         : `${best.connections} ${best.connections > 1 ? dict.resultsTable.stops : dict.resultsTable.stop}`}
                     </span>
                     {airport.code === bestValueCode && (
-                      <span className="inline-block whitespace-nowrap rounded-md bg-emerald-500/10 px-1.5 py-0.5 text-[10.5px] font-semibold text-success-text">
+                      <span className="inline-block whitespace-nowrap rounded-md bg-tint-emerald px-1.5 py-0.5 text-[10.5px] font-semibold text-ink-emerald">
                         {dict.explore.sortValue}
                       </span>
                     )}
