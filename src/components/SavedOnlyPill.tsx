@@ -12,8 +12,8 @@ export function SavedOnlyPill({ label }: { label: string }) {
       onClick={toggleShowSavedOnly}
       className={
         showSavedOnly
-          ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-          : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+          ? "bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+          : "bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
       }
     >
       ★ {label}

@@ -14,12 +14,12 @@ export default async function DealsLoading() {
         </div>
         <div className="mt-6 flex flex-wrap gap-2">
           {Array.from({ length: 4 }).map((_, i) => (
-            <Skeleton key={i} className="h-7 w-20 rounded-full" />
+            <Skeleton key={i} className="h-7 w-20 " />
           ))}
         </div>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-44 w-full rounded-[20px]" />
+            <Skeleton key={i} className="h-44 w-full " />
           ))}
         </div>
       </div>

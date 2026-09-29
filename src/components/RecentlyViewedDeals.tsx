@@ -25,7 +25,7 @@ export function RecentlyViewedDeals({ heading }: { heading: string }) {
           <Link
             key={deal.slug}
             href={`/deals/${deal.slug}`}
-            className="rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+            className="bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
           >
             {deal.title}
           </Link>

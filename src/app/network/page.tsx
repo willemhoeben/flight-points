@@ -328,7 +328,7 @@ export default async function NetworkPage({ searchParams }: { searchParams: Prom
         </label>
         <button
           type="submit"
-          className="w-full rounded-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90 sm:w-auto print:hidden"
+          className="w-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90 sm:w-auto print:hidden"
         >
           {dict.network.submit}
         </button>
@@ -339,7 +339,7 @@ export default async function NetworkPage({ searchParams }: { searchParams: Prom
       </p>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
-        <div className="self-start rounded-[20px] bg-surface-muted p-4 sm:p-6 lg:sticky lg:top-14">
+        <div className="self-start bg-surface-muted p-4 sm:p-6 lg:sticky lg:top-14">
           <NetworkChart
             programId={programId}
             hub={hub}

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono } from "next/font/google";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { RouteFocusManager } from "@/components/RouteFocusManager";
 import { CurrencyProvider } from "@/lib/currency-context";
+import { PROGRAMS } from "@/data/programs";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { interpolate } from "@/lib/i18n/format";
 import { I18nProvider } from "@/lib/i18n/i18n-context";
 import { RecentlyViewedProvider } from "@/lib/recently-viewed-context";
 import { SavedDealsProvider } from "@/lib/saved-deals-context";
@@ -14,9 +16,18 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 import "./globals.css";
 
-// Headings/body use the system font stack (defined in globals.css) so the
-// page renders in each visitor's native UI font — no web font to load for
-// them. IBM Plex Mono is loaded only for tabular figures in data tables.
+// Archivo for everything that is read as language, IBM Plex Mono for
+// everything that is read as a measurement: codes, distances, miles, dates.
+// The split is the whole typographic idea — a route is a number and a place,
+// and the two should not look alike. Archivo is a grotesque with a
+// variable width axis, which keeps a long German label on one line where a
+// fixed-width face would wrap it.
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin"],
+  axes: ["wdth"],
+});
+
 const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   subsets: ["latin"],
@@ -26,6 +37,7 @@ const plexMono = IBM_Plex_Mono({
 export async function generateMetadata(): Promise<Metadata> {
   const { locale, dict } = await getDictionary();
   const title = `${SITE_NAME} — ${dict.home.badge}`;
+  const lede = interpolate(dict.home.lede, { count: PROGRAMS.length });
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -33,11 +45,11 @@ export async function generateMetadata(): Promise<Metadata> {
       default: title,
       template: `%s · ${SITE_NAME}`,
     },
-    description: dict.home.lede,
+    description: lede,
     alternates: { canonical: "/" },
     openGraph: {
       title,
-      description: dict.home.lede,
+      description: lede,
       url: "/",
       siteName: SITE_NAME,
       type: "website",
@@ -47,13 +59,15 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title,
-      description: dict.home.lede,
+      description: lede,
     },
   };
 }
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const { locale, dict } = await getDictionary();
+
+  const lede = interpolate(dict.home.lede, { count: PROGRAMS.length });
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -62,7 +76,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         "@type": "WebSite",
         name: SITE_NAME,
         url: SITE_URL,
-        description: dict.home.lede,
+        description: lede,
       },
       {
         "@type": "Organization",
@@ -73,7 +87,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   };
 
   return (
-    <html lang={locale} className={`${plexMono.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang={locale} className={`${archivo.variable} ${plexMono.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
         {/* Matches the mobile browser chrome (address/status bar) to the
             current page background, same idea as the manifest's separate
@@ -85,7 +99,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             a second, orphaned copy that later updates kept hitting instead
             of this one — a wrong browser-chrome color for one frame is a
             smaller cost than a meta tag that silently stops updating. */}
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#eef1f7" />
         {/* Blocking, runs before first paint to avoid a flash of the wrong
             theme. Storage key must match theme-context.tsx's STORAGE_KEY —
             this can't import it, it has to run before any JS bundle loads. */}
@@ -97,7 +111,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a
           href="#main-content"
-          className="sr-only rounded-full bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 print:hidden"
+          className="sr-only bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 print:hidden"
         >
           {dict.nav.skipToContent}
         </a>

@@ -20,7 +20,7 @@ export function ThemeToggle() {
       <select
         value={theme}
         onChange={(e) => setTheme(e.target.value as Theme)}
-        className="cursor-pointer rounded-full border-0 bg-transparent py-1 pl-0 pr-1 text-xs font-medium text-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+        className="cursor-pointer border-0 bg-transparent py-1 pl-0 pr-1 text-xs font-medium text-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
       >
         {THEMES.map((t) => (
           <option key={t} value={t}>

@@ -9,7 +9,7 @@ export default async function DealLoading() {
       <div className="mx-auto w-full max-w-3xl px-4 py-9 sm:px-6">
         <Skeleton className="h-4 w-24" />
         <div className="mt-4 flex items-center gap-3">
-          <Skeleton className="h-6 w-28 rounded-full" />
+          <Skeleton className="h-6 w-28 " />
         </div>
         <Skeleton className="mt-3 h-9 w-full max-w-xl" />
         <Skeleton className="mt-3 h-4 w-64" />

@@ -8,5 +8,5 @@ export function SavedOnlyEmptyState({ slugs, message }: { slugs: string[]; messa
   const { showSavedOnly } = useSavedFilter();
 
   if (!showSavedOnly || slugs.some(isSaved)) return null;
-  return <div className="mt-8 rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">{message}</div>;
+  return <div className="mt-8 bg-surface-muted p-10 text-center text-sm text-muted">{message}</div>;
 }

@@ -26,7 +26,7 @@ export default function ErrorPage({
         <button
           type="button"
           onClick={() => reset()}
-          className="rounded-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-colors hover:bg-brand-strong"
+          className="bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-colors hover:bg-brand-strong"
         >
           {dict.errorPage.tryAgain}
         </button>

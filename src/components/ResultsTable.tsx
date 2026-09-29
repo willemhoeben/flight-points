@@ -137,7 +137,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
 
   if (results.length === 0) {
     return (
-      <div className="rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">{dict.search.noAwardSpace}</div>
+      <div className="bg-surface-muted p-10 text-center text-sm text-muted">{dict.search.noAwardSpace}</div>
     );
   }
 
@@ -184,7 +184,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
     return (
       <div>
         {filterControls}
-        <div className="rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">
+        <div className="bg-surface-muted p-10 text-center text-sm text-muted">
           {hasAdvancedFilter ? dict.resultsTable.noFilteredResults : dict.resultsTable.noNonstopResults}
         </div>
       </div>
@@ -217,8 +217,8 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
             aria-current={sortKey === col.key ? "true" : undefined}
             className={
               sortKey === col.key
-                ? "inline-flex items-center gap-1 rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-                : "inline-flex items-center gap-1 rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+                ? "inline-flex items-center gap-1 bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+                : "inline-flex items-center gap-1 bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
             }
           >
             {col.label}
@@ -238,11 +238,11 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
               key={r.id}
               className={
                 isBest
-                  ? "rounded-[20px] bg-emerald-500/5 p-4 ring-1 ring-emerald-500/30 [&_.text-muted]:text-muted-on-tint"
+                  ? "bg-emerald-500/5 p-4 ring-1 ring-emerald-500/30 [&_.text-muted]:text-muted-on-tint"
                   // --surface is the same white as --background in light mode, so a
                   // plain surface card would have no visible edge. bg-surface-muted
                   // is the panel treatment the rest of the site already uses.
-                  : "rounded-[20px] bg-surface-muted p-4"
+                  : "bg-surface-muted p-4"
               }
             >
               <div className="flex items-start justify-between gap-3">
@@ -317,7 +317,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
         })}
       </ul>
 
-      <div className="hidden overflow-x-auto rounded-[20px] bg-surface lg:block">
+      <div className="hidden overflow-x-auto bg-surface lg:block">
         <table className="w-full min-w-[860px] text-left text-sm">
         <thead className="bg-surface-muted text-xs font-medium text-muted">
           <tr>
@@ -437,8 +437,8 @@ function FilterPill({
       aria-current={!toggle && active ? "true" : undefined}
       className={
         active
-          ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-          : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+          ? "bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+          : "bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
       }
     >
       {children}

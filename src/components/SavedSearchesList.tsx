@@ -40,7 +40,7 @@ export function SavedSearchesList() {
           return (
             <div
               key={search.id}
-              className="inline-flex items-center gap-1 rounded-full bg-surface-muted py-1 pl-3.5 pr-1.5 text-xs font-medium text-muted"
+              className="inline-flex items-center gap-1 bg-surface-muted py-1 pl-3.5 pr-1.5 text-xs font-medium text-muted"
             >
               <Link href={searchHref(search)} className="hover:text-foreground">
                 {label}
@@ -49,7 +49,7 @@ export function SavedSearchesList() {
                 type="button"
                 onClick={() => removeSearch(search.id)}
                 aria-label={interpolate(dict.savedSearches.removeAria, { search: label })}
-                className="rounded-full p-1 hover:bg-surface hover:text-foreground"
+                className="p-1 hover:bg-surface hover:text-foreground"
               >
                 <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="h-3 w-3">
                   <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />

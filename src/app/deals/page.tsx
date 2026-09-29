@@ -101,7 +101,7 @@ export default async function DealsPage({
         </div>
 
         {deals.length === 0 ? (
-          <div className="mt-8 rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">{dict.dealsPage.noDeals}</div>
+          <div className="mt-8 bg-surface-muted p-10 text-center text-sm text-muted">{dict.dealsPage.noDeals}</div>
         ) : (
           <>
             <SavedOnlyEmptyState slugs={deals.map((d) => d.slug)} message={dict.dealsPage.noSavedDeals} />
@@ -150,8 +150,8 @@ function FilterPill({ href, active, children }: { href: string; active: boolean;
       aria-current={active ? "true" : undefined}
       className={
         active
-          ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-          : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+          ? "bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+          : "bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
       }
     >
       {children}

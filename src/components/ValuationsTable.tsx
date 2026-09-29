@@ -111,7 +111,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
       </div>
 
       {sorted.length === 0 ? (
-        <div className="rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">{dict.valuationsTable.noResults}</div>
+        <div className="bg-surface-muted p-10 text-center text-sm text-muted">{dict.valuationsTable.noResults}</div>
       ) : (
         <>
         {/* Same reason as the search results: below md the table is wider
@@ -128,8 +128,8 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
               aria-current={sortKey === key ? "true" : undefined}
               className={
                 sortKey === key
-                  ? "inline-flex items-center gap-1 rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-                  : "inline-flex items-center gap-1 rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+                  ? "inline-flex items-center gap-1 bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+                  : "inline-flex items-center gap-1 bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
               }
             >
               {SORT_LABEL[key]}
@@ -142,7 +142,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
 
         <ul className="mt-3 grid gap-3 sm:grid-cols-2 md:hidden">
           {sorted.map((v) => (
-            <li key={v.id} className="rounded-[20px] bg-surface-muted p-4">
+            <li key={v.id} className="bg-surface-muted p-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="font-medium text-foreground">{v.name}</div>
@@ -167,7 +167,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
           ))}
         </ul>
 
-        <div className="hidden overflow-x-auto rounded-[20px] bg-surface md:block">
+        <div className="hidden overflow-x-auto bg-surface md:block">
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead className="bg-surface-muted text-xs font-medium text-muted">
               <tr>
@@ -253,8 +253,8 @@ function FilterPill({
       aria-current={active ? "true" : undefined}
       className={
         active
-          ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-          : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+          ? "bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+          : "bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
       }
     >
       {children}

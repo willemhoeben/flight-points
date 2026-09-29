@@ -89,8 +89,8 @@ export function CompareTool({ valuations }: { valuations: PointCurrency[] }) {
                       aria-pressed={active}
                       className={
                         active
-                          ? "rounded-full bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-                          : "rounded-full bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+                          ? "bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
+                          : "bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
                       }
                     >
                       {v.name}
@@ -116,7 +116,7 @@ export function CompareTool({ valuations }: { valuations: PointCurrency[] }) {
 
       <div className="mt-6">
         {ranked.length < 2 ? (
-          <div className="rounded-[20px] bg-surface-muted p-10 text-center text-sm text-muted">
+          <div className="bg-surface-muted p-10 text-center text-sm text-muted">
             {dict.compareTool.emptyState}
           </div>
         ) : (
@@ -128,8 +128,8 @@ export function CompareTool({ valuations }: { valuations: PointCurrency[] }) {
                   key={currency.id}
                   className={
                     isBest
-                      ? "rounded-[20px] border border-emerald-500/40 bg-emerald-500/5 p-5"
-                      : "rounded-[20px] bg-surface-muted p-5"
+                      ? "border border-emerald-500/40 bg-emerald-500/5 p-5"
+                      : "bg-surface-muted p-5"
                   }
                 >
                   <div className="flex items-start justify-between gap-2">
