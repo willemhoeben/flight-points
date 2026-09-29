@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionHeading } from "@/components/ui";
-import { ValueBadge, valueTierLabel } from "@/components/ValueBadge";
 import { AIRPORTS, findAirport } from "@/data/airports";
 import { CABINS, type Cabin } from "@/data/availability";
 import { exploreDestinations, isExploreSort, sortDestinations, type ExploreSort } from "@/lib/explore";
@@ -9,7 +8,6 @@ import { addDays, formatCentsPerPoint, formatDateLabel, formatMiles, todayIso } 
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { interpolate } from "@/lib/i18n/format";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
-import { peakCentsPerPoint, valueTier } from "@/lib/value";
 import { CurrencyAmount } from "@/components/CurrencyAmount";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -65,7 +63,17 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
   const all = exploreDestinations({ origin, cabin, startDate });
   const withinBudget = budget ? all.filter((r) => r.best.milesCost <= budget) : all;
   const rows = sortDestinations(withinBudget, sort);
-  const peakCpp = peakCentsPerPoint(rows.map((r) => r.best));
+  // One marker rather than a graded badge. Every card here prices a different
+  // seat, so any scale is either mostly red or mostly green and says nothing;
+  // naming the single best-value destination cannot be miscalibrated.
+  const bestValueCode = rows.reduce<string | null>(
+    (best, r) =>
+      best === null ||
+      r.best.centsPerPoint > (rows.find((x) => x.airport.code === best)?.best.centsPerPoint ?? 0)
+        ? r.airport.code
+        : best,
+    null,
+  );
 
   const originAirport = findAirport(origin);
   const meta = budget
@@ -171,7 +179,6 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
         ) : (
           <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {rows.map(({ airport, best }) => {
-              const tier = valueTier(best, peakCpp);
               const routeParams = new URLSearchParams({
                 origin,
                 destination: airport.code,
@@ -214,7 +221,11 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
                         ? dict.resultsTable.nonstop
                         : `${best.connections} ${best.connections > 1 ? dict.resultsTable.stops : dict.resultsTable.stop}`}
                     </span>
-                    {tier && <ValueBadge tier={tier} label={valueTierLabel(tier, dict.resultsTable)} />}
+                    {airport.code === bestValueCode && (
+                      <span className="inline-block whitespace-nowrap rounded-md bg-emerald-500/10 px-1.5 py-0.5 text-[10.5px] font-semibold text-success-text">
+                        {dict.explore.sortValue}
+                      </span>
+                    )}
                   </div>
 
                   <Link
