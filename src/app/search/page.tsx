@@ -11,6 +11,7 @@ import { SavedSearchesList } from "@/components/SavedSearchesList";
 import { AIRPORTS, findAirport } from "@/data/airports";
 import { CABINS, searchAvailability, searchCalendar, type Cabin } from "@/data/availability";
 import { addDays, formatDateLabel, todayIso } from "@/lib/format";
+import { PROGRAMS } from "@/data/programs";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { cityName } from "@/lib/i18n/place-names";
 import { interpolate, pluralize } from "@/lib/i18n/format";
@@ -20,17 +21,17 @@ export async function generateMetadata(): Promise<Metadata> {
   const { locale, dict } = await getDictionary();
   return {
     title: dict.search.eyebrow,
-    description: dict.search.description,
+    description: interpolate(dict.search.description, { count: PROGRAMS.length }),
     alternates: { canonical: "/search" },
     openGraph: {
       title: dict.search.eyebrow,
-      description: dict.search.description,
+      description: interpolate(dict.search.description, { count: PROGRAMS.length }),
       url: "/search",
       type: "website",
       locale: toOgLocale(locale),
       alternateLocale: alternateOgLocales(locale),
     },
-    twitter: { card: "summary_large_image", title: dict.search.eyebrow, description: dict.search.description },
+    twitter: { card: "summary_large_image", title: dict.search.eyebrow, description: interpolate(dict.search.description, { count: PROGRAMS.length }) },
   };
 }
 
@@ -104,7 +105,7 @@ export default async function SearchPage({
       <Suspense fallback={null}>
         <SearchMemory />
       </Suspense>
-      <SectionHeading eyebrow={dict.search.eyebrow} title={dict.search.title} description={dict.search.description} />
+      <SectionHeading eyebrow={dict.search.eyebrow} title={dict.search.title} description={interpolate(dict.search.description, { count: PROGRAMS.length })} />
       <SavedSearchesList />
 
       <div className="mt-8">

@@ -37,7 +37,7 @@ const en = {
   home: {
     badge: "Award search + points valuations",
     title: "Find the award flight you didn't think existed.",
-    lede: "Search miles and points availability across 16 loyalty programs, check what your points balance is actually worth, and catch transfer bonuses before they expire.",
+    lede: "Search miles and points availability across {count} loyalty programs, check what your points balance is actually worth, and catch transfer bonuses before they expire.",
     ctaPrimary: "Search award flights",
     ctaSecondary: "Value my points ›",
     demoNote: "Demo build — availability and valuations shown are illustrative sample data.",
@@ -47,7 +47,7 @@ const en = {
     statCurrencies: "currencies valued",
     featureSearchTitle: "Award search",
     featureSearchDescription:
-      "Search award availability across 16 airline programs by route, date, and cabin, with a two-week calendar view to spot the cheapest day to fly.",
+      "Search award availability across {count} airline programs by route, date, and cabin, with a two-week calendar view to spot the cheapest day to fly.",
     featureSearchCta: "Search awards",
     featureValuationsTitle: "Points valuations",
     featureValuationsDescription:
@@ -86,7 +86,7 @@ const en = {
     eyebrow: "Award search",
     title: "Find award availability",
     description:
-      "Search 16 loyalty programs by route, date, and cabin. Same search always returns the same sample results, so it's safe to bookmark and share.",
+      "Search {count} loyalty programs by route, date, and cabin. Same search always returns the same sample results, so it's safe to bookmark and share.",
     cheapestDayHeading: "Cheapest day to fly",
     cheapestDaySub: "Lowest miles price per day, {origin} → {destination}.",
     resultsCountOne: "{count} result",
@@ -294,7 +294,7 @@ const nl: Dictionary = {
   home: {
     badge: "Award-zoeken + puntenwaardering",
     title: "Vind de award-vlucht waarvan je niet wist dat die bestond.",
-    lede: "Doorzoek miles- en puntenbeschikbaarheid bij 16 spaarprogramma's, bekijk wat je puntensaldo echt waard is, en mis geen transferbonussen meer voordat ze verlopen.",
+    lede: "Doorzoek miles- en puntenbeschikbaarheid bij {count} spaarprogramma's, bekijk wat je puntensaldo echt waard is, en mis geen transferbonussen meer voordat ze verlopen.",
     ctaPrimary: "Zoek award-vluchten",
     ctaSecondary: "Waardeer mijn punten ›",
     demoNote: "Demo — getoonde beschikbaarheid en waarderingen zijn illustratieve voorbeelddata.",
@@ -304,7 +304,7 @@ const nl: Dictionary = {
     statCurrencies: "gewaardeerde valuta",
     featureSearchTitle: "Award-zoeken",
     featureSearchDescription:
-      "Doorzoek award-beschikbaarheid bij 16 luchtvaartprogramma's op route, datum en cabine, met een tweewekelijkse kalenderweergave om de goedkoopste dag te vinden.",
+      "Doorzoek award-beschikbaarheid bij {count} luchtvaartprogramma's op route, datum en cabine, met een tweewekelijkse kalenderweergave om de goedkoopste dag te vinden.",
     featureSearchCta: "Zoek awards",
     featureValuationsTitle: "Puntenwaarde",
     featureValuationsDescription:
@@ -343,7 +343,7 @@ const nl: Dictionary = {
     eyebrow: "Award-zoeken",
     title: "Vind award-beschikbaarheid",
     description:
-      "Doorzoek 16 spaarprogramma's op route, datum en cabine. Dezelfde zoekopdracht geeft altijd dezelfde voorbeeldresultaten, dus veilig om te bookmarken en delen.",
+      "Doorzoek {count} spaarprogramma's op route, datum en cabine. Dezelfde zoekopdracht geeft altijd dezelfde voorbeeldresultaten, dus veilig om te bookmarken en delen.",
     cheapestDayHeading: "Goedkoopste dag om te vliegen",
     cheapestDaySub: "Laagste miles-prijs per dag, {origin} → {destination}.",
     resultsCountOne: "{count} resultaat",
@@ -551,7 +551,7 @@ const de: Dictionary = {
   home: {
     badge: "Award-Suche + Punktebewertung",
     title: "Finde den Award-Flug, von dem du nicht wusstest, dass es ihn gibt.",
-    lede: "Durchsuche Meilen- und Punkteverfügbarkeit bei 16 Vielfliegerprogrammen, prüfe, was dein Punktestand wirklich wert ist, und verpasse keine Transferboni mehr, bevor sie ablaufen.",
+    lede: "Durchsuche Meilen- und Punkteverfügbarkeit bei {count} Vielfliegerprogrammen, prüfe, was dein Punktestand wirklich wert ist, und verpasse keine Transferboni mehr, bevor sie ablaufen.",
     ctaPrimary: "Award-Flüge suchen",
     ctaSecondary: "Meine Punkte bewerten ›",
     demoNote: "Demo — angezeigte Verfügbarkeit und Bewertungen sind illustrative Beispieldaten.",
@@ -561,7 +561,7 @@ const de: Dictionary = {
     statCurrencies: "bewertete Währungen",
     featureSearchTitle: "Award-Suche",
     featureSearchDescription:
-      "Durchsuche Award-Verfügbarkeit bei 16 Airline-Programmen nach Strecke, Datum und Kabine, mit einer Zwei-Wochen-Kalenderansicht für den günstigsten Flugtag.",
+      "Durchsuche Award-Verfügbarkeit bei {count} Airline-Programmen nach Strecke, Datum und Kabine, mit einer Zwei-Wochen-Kalenderansicht für den günstigsten Flugtag.",
     featureSearchCta: "Awards suchen",
     featureValuationsTitle: "Punktewert",
     featureValuationsDescription:
@@ -600,7 +600,7 @@ const de: Dictionary = {
     eyebrow: "Award-Suche",
     title: "Award-Verfügbarkeit finden",
     description:
-      "Durchsuche 16 Vielfliegerprogramme nach Strecke, Datum und Kabine. Dieselbe Suche liefert immer dieselben Beispielergebnisse — sicher zum Speichern und Teilen.",
+      "Durchsuche {count} Vielfliegerprogramme nach Strecke, Datum und Kabine. Dieselbe Suche liefert immer dieselben Beispielergebnisse — sicher zum Speichern und Teilen.",
     cheapestDayHeading: "Günstigster Flugtag",
     cheapestDaySub: "Niedrigster Meilenpreis pro Tag, {origin} → {destination}.",
     resultsCountOne: "{count} Ergebnis",
@@ -808,7 +808,7 @@ const fr: Dictionary = {
   home: {
     badge: "Recherche awards + valorisation des points",
     title: "Trouvez le billet award que vous ne pensiez pas exister.",
-    lede: "Recherchez la disponibilité en miles et points sur 16 programmes de fidélité, découvrez la vraie valeur de votre solde de points, et ne manquez plus aucun bonus de transfert avant son expiration.",
+    lede: "Recherchez la disponibilité en miles et points sur {count} programmes de fidélité, découvrez la vraie valeur de votre solde de points, et ne manquez plus aucun bonus de transfert avant son expiration.",
     ctaPrimary: "Rechercher des vols award",
     ctaSecondary: "Valoriser mes points ›",
     demoNote: "Démo — les disponibilités et valorisations affichées sont des données fictives illustratives.",
@@ -818,7 +818,7 @@ const fr: Dictionary = {
     statCurrencies: "devises valorisées",
     featureSearchTitle: "Recherche awards",
     featureSearchDescription:
-      "Recherchez la disponibilité award sur 16 programmes aériens par itinéraire, date et cabine, avec une vue calendrier de deux semaines pour repérer le jour le moins cher.",
+      "Recherchez la disponibilité award sur {count} programmes aériens par itinéraire, date et cabine, avec une vue calendrier de deux semaines pour repérer le jour le moins cher.",
     featureSearchCta: "Rechercher",
     featureValuationsTitle: "Valorisation des points",
     featureValuationsDescription:
@@ -857,7 +857,7 @@ const fr: Dictionary = {
     eyebrow: "Recherche awards",
     title: "Trouver une disponibilité award",
     description:
-      "Recherchez 16 programmes de fidélité par itinéraire, date et cabine. La même recherche renvoie toujours les mêmes résultats d'exemple, donc sûre à enregistrer et à partager.",
+      "Recherchez {count} programmes de fidélité par itinéraire, date et cabine. La même recherche renvoie toujours les mêmes résultats d'exemple, donc sûre à enregistrer et à partager.",
     cheapestDayHeading: "Jour le moins cher pour voler",
     cheapestDaySub: "Prix en miles le plus bas par jour, {origin} → {destination}.",
     resultsCountOne: "{count} résultat",
@@ -1065,7 +1065,7 @@ const es: Dictionary = {
   home: {
     badge: "Búsqueda de awards + valoración de puntos",
     title: "Encuentra el vuelo award que no sabías que existía.",
-    lede: "Busca disponibilidad de millas y puntos en 16 programas de fidelización, comprueba cuánto vale realmente tu saldo de puntos, y no te pierdas ningún bono de transferencia antes de que caduque.",
+    lede: "Busca disponibilidad de millas y puntos en {count} programas de fidelización, comprueba cuánto vale realmente tu saldo de puntos, y no te pierdas ningún bono de transferencia antes de que caduque.",
     ctaPrimary: "Buscar vuelos award",
     ctaSecondary: "Valorar mis puntos ›",
     demoNote: "Demo — la disponibilidad y las valoraciones mostradas son datos de ejemplo ilustrativos.",
@@ -1075,7 +1075,7 @@ const es: Dictionary = {
     statCurrencies: "divisas valoradas",
     featureSearchTitle: "Buscar awards",
     featureSearchDescription:
-      "Busca disponibilidad de awards en 16 programas de aerolíneas por ruta, fecha y cabina, con una vista de calendario de dos semanas para encontrar el día más barato.",
+      "Busca disponibilidad de awards en {count} programas de aerolíneas por ruta, fecha y cabina, con una vista de calendario de dos semanas para encontrar el día más barato.",
     featureSearchCta: "Buscar awards",
     featureValuationsTitle: "Valoración de puntos",
     featureValuationsDescription:
@@ -1114,7 +1114,7 @@ const es: Dictionary = {
     eyebrow: "Buscar awards",
     title: "Encontrar disponibilidad de awards",
     description:
-      "Busca en 16 programas de fidelización por ruta, fecha y cabina. La misma búsqueda siempre devuelve los mismos resultados de ejemplo, así que es segura para guardar y compartir.",
+      "Busca en {count} programas de fidelización por ruta, fecha y cabina. La misma búsqueda siempre devuelve los mismos resultados de ejemplo, así que es segura para guardar y compartir.",
     cheapestDayHeading: "Día más barato para volar",
     cheapestDaySub: "Precio en millas más bajo por día, {origin} → {destination}.",
     resultsCountOne: "{count} resultado",
@@ -1322,7 +1322,7 @@ const it: Dictionary = {
   home: {
     badge: "Ricerca award + valutazione punti",
     title: "Trova il volo award che non pensavi esistesse.",
-    lede: "Cerca la disponibilità di miglia e punti in 16 programmi fedeltà, scopri quanto vale davvero il tuo saldo punti e non perderti i bonus di trasferimento prima che scadano.",
+    lede: "Cerca la disponibilità di miglia e punti in {count} programmi fedeltà, scopri quanto vale davvero il tuo saldo punti e non perderti i bonus di trasferimento prima che scadano.",
     ctaPrimary: "Cerca voli award",
     ctaSecondary: "Valuta i miei punti ›",
     demoNote: "Versione demo — la disponibilità e le valutazioni mostrate sono dati di esempio a scopo illustrativo.",
@@ -1332,7 +1332,7 @@ const it: Dictionary = {
     statCurrencies: "valute valutate",
     featureSearchTitle: "Ricerca award",
     featureSearchDescription:
-      "Cerca la disponibilità di award in 16 programmi aerei per tratta, data e cabina, con una vista calendario di due settimane per individuare il giorno più economico per volare.",
+      "Cerca la disponibilità di award in {count} programmi aerei per tratta, data e cabina, con una vista calendario di due settimane per individuare il giorno più economico per volare.",
     featureSearchCta: "Cerca award",
     featureValuationsTitle: "Valutazione punti",
     featureValuationsDescription:
@@ -1371,7 +1371,7 @@ const it: Dictionary = {
     eyebrow: "Cerca award",
     title: "Trova disponibilità award",
     description:
-      "Cerca in 16 programmi fedeltà per tratta, data e cabina. La stessa ricerca restituisce sempre gli stessi risultati di esempio, quindi puoi salvarla nei preferiti e condividerla in sicurezza.",
+      "Cerca in {count} programmi fedeltà per tratta, data e cabina. La stessa ricerca restituisce sempre gli stessi risultati di esempio, quindi puoi salvarla nei preferiti e condividerla in sicurezza.",
     cheapestDayHeading: "Giorno più economico per volare",
     cheapestDaySub: "Prezzo in miglia più basso per giorno, {origin} → {destination}.",
     resultsCountOne: "{count} risultato",
@@ -1579,7 +1579,7 @@ const ja: Dictionary = {
   home: {
     badge: "特典航空券検索 + ポイント価値評価",
     title: "存在すら知らなかった特典航空券を見つけよう。",
-    lede: "16のマイレージプログラムのマイル・ポイント空席状況を検索し、保有ポイントの実際の価値を確認して、移行ボーナスを期限切れ前にキャッチしましょう。",
+    lede: "{count}のマイレージプログラムのマイル・ポイント空席状況を検索し、保有ポイントの実際の価値を確認して、移行ボーナスを期限切れ前にキャッチしましょう。",
     ctaPrimary: "特典航空券を検索",
     ctaSecondary: "ポイントの価値を見る ›",
     demoNote: "デモビルド — 表示されている空席状況や価値評価は例示用のサンプルデータです。",
@@ -1589,7 +1589,7 @@ const ja: Dictionary = {
     statCurrencies: "評価対象通貨",
     featureSearchTitle: "特典航空券検索",
     featureSearchDescription:
-      "16の航空会社プログラムの特典航空券空席状況を、路線・日付・クラスで検索。2週間分のカレンダー表示で最も安く飛べる日がひと目でわかります。",
+      "{count}の航空会社プログラムの特典航空券空席状況を、路線・日付・クラスで検索。2週間分のカレンダー表示で最も安く飛べる日がひと目でわかります。",
     featureSearchCta: "特典航空券を検索",
     featureValuationsTitle: "ポイント価値評価",
     featureValuationsDescription:
@@ -1628,7 +1628,7 @@ const ja: Dictionary = {
     eyebrow: "特典航空券検索",
     title: "特典航空券の空席状況を検索",
     description:
-      "16のマイレージプログラムを路線・日付・クラスで検索できます。同じ検索条件では常に同じサンプル結果が返るため、安心してブックマークや共有ができます。",
+      "{count}のマイレージプログラムを路線・日付・クラスで検索できます。同じ検索条件では常に同じサンプル結果が返るため、安心してブックマークや共有ができます。",
     cheapestDayHeading: "最も安く飛べる日",
     cheapestDaySub: "{origin} → {destination} の1日あたり最安マイル数。",
     resultsCountOne: "{count} 件の結果",

@@ -7,6 +7,7 @@ import { DEALS } from "@/data/deals";
 import { VALUATIONS } from "@/data/valuations";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { dealCategoryLabel } from "@/lib/i18n/deal-category";
+import { interpolate } from "@/lib/i18n/format";
 
 export default async function Home() {
   const { dict } = await getDictionary();
@@ -14,7 +15,7 @@ export default async function Home() {
   const featuredDeals = DEALS.slice(0, 3);
 
   const features = [
-    { title: dict.home.featureSearchTitle, description: dict.home.featureSearchDescription, href: "/search", cta: dict.home.featureSearchCta },
+    { title: dict.home.featureSearchTitle, description: interpolate(dict.home.featureSearchDescription, { count: PROGRAMS.length }), href: "/search", cta: dict.home.featureSearchCta },
     { title: dict.home.featureValuationsTitle, description: dict.home.featureValuationsDescription, href: "/valuations", cta: dict.home.featureValuationsCta },
     { title: dict.home.featureDealsTitle, description: dict.home.featureDealsDescription, href: "/deals", cta: dict.home.featureDealsCta },
   ];
@@ -27,11 +28,13 @@ export default async function Home() {
         <h1 className="mt-4 text-[44px] leading-[1.06] tracking-tight text-foreground sm:text-5xl">
           {dict.home.title}
         </h1>
-        <p className="mx-auto mt-5 max-w-md text-lg text-muted">{dict.home.lede}</p>
+        <p className="mx-auto mt-5 max-w-md text-lg text-muted">
+          {interpolate(dict.home.lede, { count: PROGRAMS.length })}
+        </p>
         <div className="mt-7 flex flex-wrap items-center justify-center gap-2">
           <Link
             href="/search"
-            className="rounded-full bg-brand px-6 py-3 text-[15px] font-semibold text-brand-foreground transition-colors hover:bg-brand-strong"
+            className="bg-brand px-6 py-3 text-[15px] font-semibold text-brand-foreground transition-colors hover:bg-brand-strong"
           >
             {dict.home.ctaPrimary}
           </Link>
@@ -42,7 +45,7 @@ export default async function Home() {
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6">
-        <div className="grid grid-cols-2 gap-y-8 rounded-[28px] bg-gradient-to-b from-brand/[0.07] to-surface-muted px-6 py-10 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-y-8 bg-gradient-to-b from-brand/[0.07] to-surface-muted px-6 py-10 sm:grid-cols-4">
           <Stat value={`${PROGRAMS.length}`} label={dict.home.statPrograms} />
           <Stat value={`${AIRPORTS.length}`} label={dict.home.statAirports} />
           <Stat value="14-day" label={dict.home.statCalendar} />
