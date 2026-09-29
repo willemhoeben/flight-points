@@ -776,7 +776,7 @@ const de: Dictionary = {
 const fr: Dictionary = {
   nav: {
     brand: "Nightsky",
-    search: "Recherche awards",
+    search: "Vols award",
     explore: "Explorer",
     network: "Réseau",
     valuations: "Valorisation",

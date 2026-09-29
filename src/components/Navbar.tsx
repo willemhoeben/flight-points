@@ -39,9 +39,13 @@ export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
           </Link>
         </div>
       </div>
-      <nav className="flex items-center gap-4 overflow-x-auto border-t border-border px-4 py-1.5 text-xs font-medium text-muted sm:hidden">
+      {/* Six links in a 3x2 grid rather than one scrolling row. The row fit
+          at no width in any language: the last link sat past the right edge
+          with nothing to say it was there, and a nav you have to discover by
+          swiping is a nav most people never finish reading. */}
+      <nav className="grid grid-cols-3 gap-x-3 gap-y-1 border-t border-border px-4 py-2 text-xs font-medium text-muted sm:hidden">
         {LINKS.map((link) => (
-          <Link key={link.href} href={link.href} className="whitespace-nowrap transition-colors hover:text-foreground">
+          <Link key={link.href} href={link.href} className="truncate transition-colors hover:text-foreground">
             {link.label}
           </Link>
         ))}
