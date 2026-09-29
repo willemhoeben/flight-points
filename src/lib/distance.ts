@@ -53,3 +53,23 @@ export function isRedeemableRoute(originCode: string, destinationCode: string): 
   const km = distanceKm(originCode, destinationCode);
   return km >= MIN_ROUTE_KM;
 }
+
+/**
+ * Initial great-circle bearing from one airport to another, in degrees
+ * clockwise from north. Paired with `distanceKm` this is everything an
+ * azimuthal equidistant plot needs: the projection where a straight line
+ * out of the centre is the route the aircraft actually flies.
+ */
+export function bearingDeg(originCode: string, destinationCode: string): number {
+  const a = findAirport(originCode);
+  const b = findAirport(destinationCode);
+  if (!a || !b) return 0;
+
+  const rad = Math.PI / 180;
+  const dLon = (b.lon - a.lon) * rad;
+  const lat1 = a.lat * rad;
+  const lat2 = b.lat * rad;
+  const y = Math.sin(dLon) * Math.cos(lat2);
+  const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+  return (Math.atan2(y, x) / rad + 360) % 360;
+}
