@@ -112,6 +112,13 @@ airline or loyalty program.
   figure, lets the sort rank them, and marks the single best-value
   destination. One marker cannot be miscalibrated.
 
+  Once a balance exists on `/wallet`, each card also carries the verdict the
+  search results carry — you can cover this, reachable via a named transfer,
+  this many miles short, or no route at all. Seventy-one destinations with a
+  points figure on each used to leave you checking every number against a
+  balance in your head, on the one page whose whole question is what your
+  points can reach.
+
 - **`/network`** — where a single airline can actually take you. Pick a
   loyalty program and one of its hubs and you get every destination that
   airline reaches, drawn on an azimuthal equidistant projection centred on
@@ -216,6 +223,14 @@ airline or loyalty program.
   and shareable as a sorted `/valuations` table — same `router.replace`
   approach, same silent-drop handling for a stale/unknown currency id in a
   share link.
+  It opens on the two bank currencies at the top of the table rather than on
+  an empty shell with "select at least 2 currencies above" in it — the first
+  thing anyone saw used to be work to do rather than what the tool does. A
+  link carrying a selection still wins, and the default only stands until
+  you touch the picker: unticking everything gives the prompt back rather
+  than reinstating the two, which is what keying off the URL alone would
+  have done, since the URL drops the parameter when nothing is selected.
+
 - **`/deals`** — 8 sample transfer-bonus and award-chart sweet-spot writeups, filterable
   by category (`?category=transfer-bonus|sweet-spot|sale`) and sortable by
   newest or soonest-expiring (`?sort=newest|expiring`) — the two compose,
