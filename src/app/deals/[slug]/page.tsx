@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -58,6 +59,9 @@ export default async function DealPage({
   if (!deal) notFound();
 
   const { locale, dict } = await getDictionary();
+
+  // Newest first, minus this one. DEALS is already in publication order.
+  const others = DEALS.filter((d) => d.slug !== deal.slug).slice(0, 4);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -125,8 +129,12 @@ export default async function DealPage({
 
       {locale !== "en" && <p className="mt-6 text-xs italic text-muted">{dict.dealsPage.englishOnlyNote}</p>}
 
+      {/* Capped by character count rather than by the page column: the
+          column is 768px wide, which runs prose out to roughly ninety
+          characters a line, well past where the eye starts losing its
+          place returning to the left edge. */}
       <div
-        className="mt-4 space-y-4 text-base leading-7 text-foreground"
+        className="mt-4 max-w-[64ch] space-y-4 text-base leading-7 text-foreground"
         lang={locale !== "en" ? "en" : undefined}
       >
         {deal.body.map((paragraph, i) => (
@@ -134,6 +142,32 @@ export default async function DealPage({
         ))}
       </div>
 
+      {/* An article used to be a dead end: the breadcrumb was the only way
+          onward. */}
+      {others.length > 0 && (
+        <section className="mt-12">
+          <h2 className="border-b border-border-strong pb-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">
+            {dict.dealsPage.moreDeals}
+          </h2>
+          <ul>
+            {others.map((other) => (
+              <li key={other.slug}>
+                <Link
+                  href={`/deals/${other.slug}`}
+                  className="group flex items-baseline justify-between gap-4 border-b border-border py-3"
+                >
+                  <span className="text-[15px] font-medium text-foreground group-hover:text-brand-text">
+                    {other.title}
+                  </span>
+                  <span className="shrink-0 font-mono text-[11.5px] uppercase tracking-[0.06em] text-muted">
+                    {dealCategoryLabel(other.category, dict.dealsPage)}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }

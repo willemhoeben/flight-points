@@ -273,6 +273,7 @@ const en = {
     saveDeal: "Save", savedDeal: "Saved",
     savedOnly: "Saved", noSavedDeals: "You haven't saved any deals yet.",
     recentlyViewed: "Recently viewed",
+    moreDeals: "More deals",
   },
   notFound: {
     eyebrow: "404",
@@ -561,6 +562,7 @@ const nl: Dictionary = {
     saveDeal: "Opslaan", savedDeal: "Opgeslagen",
     savedOnly: "Opgeslagen", noSavedDeals: "Je hebt nog geen deals opgeslagen.",
     recentlyViewed: "Onlangs bekeken",
+    moreDeals: "Meer deals",
   },
   notFound: {
     eyebrow: "404",
@@ -849,6 +851,7 @@ const de: Dictionary = {
     saveDeal: "Speichern", savedDeal: "Gespeichert",
     savedOnly: "Gespeichert", noSavedDeals: "Du hast noch keine Deals gespeichert.",
     recentlyViewed: "Kürzlich angesehen",
+    moreDeals: "Weitere Deals",
   },
   notFound: {
     eyebrow: "404",
@@ -1137,6 +1140,7 @@ const fr: Dictionary = {
     saveDeal: "Enregistrer", savedDeal: "Enregistré",
     savedOnly: "Enregistrées", noSavedDeals: "Vous n'avez encore enregistré aucune offre.",
     recentlyViewed: "Consultées récemment",
+    moreDeals: "Autres offres",
   },
   notFound: {
     eyebrow: "404",
@@ -1425,6 +1429,7 @@ const es: Dictionary = {
     saveDeal: "Guardar", savedDeal: "Guardado",
     savedOnly: "Guardadas", noSavedDeals: "Aún no has guardado ninguna oferta.",
     recentlyViewed: "Vistas recientemente",
+    moreDeals: "Más ofertas",
   },
   notFound: {
     eyebrow: "404",
@@ -1713,6 +1718,7 @@ const it: Dictionary = {
     saveDeal: "Salva", savedDeal: "Salvato",
     savedOnly: "Salvate", noSavedDeals: "Non hai ancora salvato nessuna offerta.",
     recentlyViewed: "Visualizzate di recente",
+    moreDeals: "Altre offerte",
   },
   notFound: {
     eyebrow: "404",
@@ -2000,6 +2006,7 @@ const ja: Dictionary = {
     saveDeal: "保存", savedDeal: "保存済み",
     savedOnly: "保存済み", noSavedDeals: "まだ保存したお得情報はありません。",
     recentlyViewed: "最近見た",
+    moreDeals: "ほかのディール",
   },
   notFound: {
     eyebrow: "404",
