@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { PointCurrency } from "@/data/valuations";
 import { Badge } from "@/components/ui";
@@ -35,7 +36,16 @@ export function CompareTool({ valuations }: { valuations: PointCurrency[] }) {
   // Requested ids come straight from the URL, so an id for a currency that
   // no longer exists (a stale share link after the mock dataset changes)
   // is silently dropped rather than rendered as a broken selection.
-  const selectedIds = searchParams.getAll("currencies").filter((id) => valuations.some((v) => v.id === id));
+  const requestedIds = searchParams.getAll("currencies");
+  const validIds = requestedIds.filter((id) => valuations.some((v) => v.id === id));
+  // A first visit opens on a real comparison rather than an empty shell with
+  // an instruction in it. The default only stands until the visitor touches
+  // the picker: the URL drops the param entirely when nothing is selected,
+  // so keying off the URL alone would reinstate the default under someone
+  // who had just deliberately cleared it.
+  const [picked, setPicked] = useState(false);
+  const selectedIds =
+    requestedIds.length === 0 && !picked ? valuations.slice(0, 2).map((v) => v.id) : validIds;
   const balance = parseBalance(searchParams.get("balance"));
 
   function updateUrl(next: { currencyIds: string[]; balance: number }) {
@@ -43,6 +53,7 @@ export function CompareTool({ valuations }: { valuations: PointCurrency[] }) {
   }
 
   function toggleCurrency(id: string) {
+    setPicked(true);
     updateUrl({ currencyIds: toggleCompareId(selectedIds, id), balance });
   }
 
