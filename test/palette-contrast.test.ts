@@ -82,6 +82,20 @@ describe("palette contrast", () => {
     }
   });
 
+  /**
+   * WCAG 1.4.11 asks 3:1 of a graphical object that carries meaning, and a
+   * route line carries the whole point of the network chart. The chart
+   * draws those lines in this token at 0.75-0.8 opacity, which lands above
+   * 3:1 only because the solid colour is well clear of it — so the solid
+   * colour is held to the higher bar here, with the headroom the blend
+   * spends.
+   */
+  test.each(THEMES)("%s: the route colour leaves room for the blend", (_name, p) => {
+    for (const surface of SURFACES) {
+      expect(contrast(p["--route"], p[surface]), `--route on ${surface}`).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
   test.each(THEMES)("%s: text on the brand fill clears AA", (_name, p) => {
     expect(contrast(p["--brand-foreground"], p["--brand"])).toBeGreaterThanOrEqual(4.5);
   });

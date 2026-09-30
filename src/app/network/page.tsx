@@ -189,9 +189,14 @@ function NetworkChart({
             y1={C}
             x2={p[0].toFixed(1)}
             y2={p[1].toFixed(1)}
-            stroke="var(--brand)"
+            stroke="var(--route)"
             strokeWidth={1}
-            strokeOpacity={0.4}
+            // 0.8, not the 0.4 this started at: a route line is a graphical
+            // object that carries meaning, and at 0.4 it measured 1.75
+            // against the daylight panel. At 0.8 it is 3.37 there and 6.59
+            // on the night one, both past the 3:1 WCAG asks of a mark you
+            // have to be able to see.
+            strokeOpacity={0.8}
           />
         );
       })}
@@ -220,7 +225,7 @@ function NetworkChart({
             cx={p[0].toFixed(1)}
             cy={p[1].toFixed(1)}
             r={2.6}
-            fill="var(--brand)"
+            fill="var(--route)"
           />
         );
       })}
