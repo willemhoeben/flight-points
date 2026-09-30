@@ -15,9 +15,16 @@ export default async function Home() {
   const topValuations = VALUATIONS.slice(0, 4);
   const featuredDeals = DEALS.slice(0, 3);
 
+  // All six destinations, not the three the site opened with. Two of the
+  // newer ones — the network map and the wallet — are the least guessable
+  // things here, and a landing page that leaves them out of the map is a
+  // landing page that hides them.
   const features = [
     { title: dict.home.featureSearchTitle, description: interpolate(dict.home.featureSearchDescription, { count: PROGRAMS.length }), href: "/search", cta: dict.home.featureSearchCta },
+    { title: dict.home.featureExploreTitle, description: dict.home.featureExploreDescription, href: "/explore", cta: dict.home.featureExploreCta },
+    { title: dict.home.featureNetworkTitle, description: dict.home.featureNetworkDescription, href: "/network", cta: dict.home.featureNetworkCta },
     { title: dict.home.featureValuationsTitle, description: dict.home.featureValuationsDescription, href: "/valuations", cta: dict.home.featureValuationsCta },
+    { title: dict.home.featureWalletTitle, description: dict.home.featureWalletDescription, href: "/wallet", cta: dict.home.featureWalletCta },
     { title: dict.home.featureDealsTitle, description: dict.home.featureDealsDescription, href: "/deals", cta: dict.home.featureDealsCta },
   ];
 
@@ -55,7 +62,7 @@ export default async function Home() {
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
-        <div className="grid gap-x-9 sm:grid-cols-3">
+        <div className="grid gap-x-9 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => (
             <Card key={feature.href} className="flex flex-col py-5">
               <h2 className="text-lg text-foreground">{feature.title}</h2>
