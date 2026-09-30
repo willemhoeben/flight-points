@@ -11,8 +11,8 @@
   /* Daylight chart: the same instrument, printed on paper. Not an inversion
      of the night palette — the amber darkens to stay legible on white and
      the route cyan goes to a deep teal ink. Every text colour here was
-     measured against the surface it sits on; see the "Contrast" note in the
-     README. */
+     measured against the surface it sits on, and
+     test/palette-contrast.test.ts recomputes them on every run. */
   color-scheme: light;
   --background: #eef1f7;
   --foreground: #0a1020;

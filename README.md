@@ -369,6 +369,56 @@ ranked comparison cards with a "Best value" badge on the top pick —
 kept as in-memory tab state rather than URL-synced, same distinction
 as the nonstop filter.
 
+## The look
+
+The site is an instrument for reading routes, so its signature state is the
+dark one. A near-black navy ground, amber for anything you act on, cyan for
+the routes themselves. Light mode is the same instrument printed on paper
+rather than a mechanical inversion: the amber darkens to stay legible on
+white and the route cyan goes to a deep teal ink.
+
+Archivo for everything read as language, IBM Plex Mono for everything read
+as a measurement — codes, distances, miles, dates, cents per point. A route
+is a place and a number, and the two should not look alike. Archivo is
+variable on the width axis, which keeps a long German label on one line
+where a fixed-width face would wrap it.
+
+Every corner is a right angle. Tailwind's whole radius scale is zeroed in
+the theme, so `rounded-xl` left on a component is a no-op rather than
+something to hunt down file by file. Most blocks are hairline-ruled columns
+rather than filled cards: a border, a fill and a shadow each mark a thing
+as a separate object to pick up, and three ways into the site or four point
+values are one set you read across, not four objects.
+
+### Contrast is measured, not eyeballed
+
+Every colour pair in `src/app/globals.css` was computed rather than judged
+by eye, and `test/palette-contrast.test.ts` recomputes them on every run so
+a palette change cannot quietly drop one below the line:
+
+| What | Requirement | Daylight | Night |
+|---|---|---|---|
+| Body, muted and accent text, on all three surfaces | AA 4.5 | 5.15–6.39 | 6.09–12.78 |
+| Badge ink on its own tint, eight accents | AA 4.5 | 4.99–7.43 | 6.77–9.15 |
+| Keyboard focus ring, on all three surfaces | WCAG 2.2, 3.0 | 5.24–6.39 | 9.78–11.26 |
+| Button text on the brand fill | AA 4.5 | 8.15 | 11.00 |
+
+Two of those came from real defects. The badges used to be Tailwind palette
+steps over a 10%-alpha tint, so the background behind the text was whatever
+surface the badge landed on — a table row on desktop, a card on a phone —
+and three of them fell under AA on the phone layout when the palette
+changed. A solid tint has exactly one background, so a ratio measured once
+stays true wherever the badge goes. And the focus ring was the brand amber,
+which is 1.87 against the daylight muted surface. axe does not check
+focus-indicator contrast, so nothing caught it; the ring has its own token
+now.
+
+Printing is part of the palette, not an afterthought. A page picked up in
+dark mode prints the full daylight palette on paper white, and
+`test/print-palette.test.ts` fails the build if the print block misses a
+single token the night palette overrides — a half-reverted palette puts
+near-black badge tints on a white sheet.
+
 ## Languages and currencies
 
 The navbar has two independent selectors:
