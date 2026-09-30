@@ -1,5 +1,6 @@
 import { AIRPORTS } from "@/data/airports";
 import { CABINS } from "@/data/availability";
+import { PASSENGER_OPTIONS } from "@/lib/passengers";
 import { PROGRAMS } from "@/data/programs";
 import { groupProgramsByAlliance } from "@/lib/program-groups";
 import { interpolate } from "@/lib/i18n/format";
@@ -12,6 +13,7 @@ export type SearchFormValues = {
   destination: string;
   date: string;
   cabin: string;
+  passengers: number;
   programs: string[];
 };
 
@@ -42,7 +44,7 @@ export function SearchForm({
 
   return (
     <form method="get" action="/search" className="space-y-4">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <Field label={dict.from}>
           <select name="origin" defaultValue={values.origin} className="form-select">
             {AIRPORTS.map((a) => (
@@ -73,9 +75,20 @@ export function SearchForm({
             ))}
           </select>
         </Field>
+        {/* Award space is per seat: a route can show four programs with one
+            seat left each and be bookable for nobody travelling in a pair. */}
+        <Field label={dict.passengers}>
+          <select name="pax" defaultValue={String(values.passengers)} className="form-select">
+            {PASSENGER_OPTIONS.map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </select>
+        </Field>
       </div>
 
-      {/* Collapsed by default: all 16 programs are searched unless you say
+      {/* Collapsed by default: every program is searched unless you say
           otherwise, so the picker only needs to be open when you're actually
           narrowing it. Left expanded on a narrowed search so the current
           selection stays visible. A native <details> keeps this JS-free, and

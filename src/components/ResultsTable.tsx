@@ -32,7 +32,14 @@ import {
 
 const ALLIANCES: Alliance[] = ["Star Alliance", "Oneworld", "SkyTeam", "Unaligned"];
 
-export function ResultsTable({ results }: { results: AwardResult[] }) {
+export function ResultsTable({
+  results,
+  passengers = 1,
+}: {
+  results: AwardResult[];
+  /** Seats needed. Prices stay per person; what the balances have to cover does not. */
+  passengers?: number;
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -67,12 +74,12 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
         if (allianceFilter && PROGRAMS.find((p) => p.id === r.programId)?.alliance !== allianceFilter) return false;
         if (maxFeesFilter && r.taxesFeesUsd > maxFeesFilter) return false;
         if (withinReachOnly) {
-          const state = affordability(balances, r.programId, r.milesCost);
+          const state = affordability(balances, r.programId, r.milesCost * passengers);
           if (state.kind !== "covered" && state.kind !== "transfer") return false;
         }
         return true;
       }),
-    [results, nonstopOnly, allianceFilter, maxFeesFilter, withinReachOnly, balances],
+    [results, nonstopOnly, allianceFilter, maxFeesFilter, withinReachOnly, balances, passengers],
   );
 
   const hasAdvancedFilter = allianceFilter !== null || maxFeesFilter !== null || withinReachOnly;
@@ -300,7 +307,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                   <div className="mt-1.5 flex flex-wrap gap-1.5">
                     {program && <Badge accent={program.accent}>{allianceLabel(program.alliance)}</Badge>}
                     {isBest && <Badge accent="emerald">{dict.resultsTable.bestPrice}</Badge>}
-                    <AffordBadge programId={r.programId} milesCost={r.milesCost} />
+                    <AffordBadge programId={r.programId} milesCost={r.milesCost * passengers} />
                   </div>
                 </div>
                 <div className="shrink-0 text-right">
@@ -419,7 +426,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                   <div className="mt-1 flex flex-wrap gap-1.5">
                     {program && <Badge accent={program.accent}>{allianceLabel(program.alliance)}</Badge>}
                     {isBest && <Badge accent="emerald">{dict.resultsTable.bestPrice}</Badge>}
-                    <AffordBadge programId={r.programId} milesCost={r.milesCost} />
+                    <AffordBadge programId={r.programId} milesCost={r.milesCost * passengers} />
                   </div>
                 </td>
                 <td className="px-4 py-3 text-muted">

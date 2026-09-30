@@ -15,6 +15,7 @@ import { PROGRAMS } from "@/data/programs";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { cityName } from "@/lib/i18n/place-names";
 import { interpolate, pluralize } from "@/lib/i18n/format";
+import { parsePassengers } from "@/lib/passengers";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -78,14 +79,21 @@ export default async function SearchPage({
   const cabin: Cabin = isValidCabin(firstValue(sp.cabin)) ? (firstValue(sp.cabin) as Cabin) : "business";
   const date = isValidDateParam(firstValue(sp.date)) ? (firstValue(sp.date) as string) : addDays(todayIso(), 30);
   const programIds = toArray(sp.programs);
+  const passengers = parsePassengers(firstValue(sp.pax));
 
   const baseParams = new URLSearchParams();
   baseParams.set("origin", origin);
   baseParams.set("destination", destination);
   baseParams.set("cabin", cabin);
+  if (passengers > 1) baseParams.set("pax", String(passengers));
   for (const id of programIds) baseParams.append("programs", id);
 
-  const results = searchAvailability({ origin, destination, date, cabin, programIds });
+  // Award space is per seat, so a row with one seat left is not an option
+  // for two people. The prices stay per person, which is how award search
+  // is read everywhere; only the availability changes.
+  const results = searchAvailability({ origin, destination, date, cabin, programIds }).filter(
+    (r) => r.seatsRemaining >= passengers,
+  );
   const calendarStart = addDays(date, -3);
   const calendarDays = searchCalendar({
     origin,
@@ -94,6 +102,7 @@ export default async function SearchPage({
     startDate: calendarStart,
     days: 14,
     programIds,
+    minSeats: passengers,
   });
 
   const originAirport = findAirport(origin);
@@ -109,7 +118,7 @@ export default async function SearchPage({
       <SavedSearchesList />
 
       <div className="mt-8">
-        <SearchForm values={{ origin, destination, date, cabin, programs: programIds }} dict={dict.searchForm} cabins={dict.cabins} locale={locale} />
+        <SearchForm values={{ origin, destination, date, cabin, passengers, programs: programIds }} dict={dict.searchForm} cabins={dict.cabins} locale={locale} />
       </div>
 
       <div className="mt-10">
@@ -142,6 +151,7 @@ export default async function SearchPage({
               {cabinLabel} · {formatDateLabel(date, locale)} ·{" "}
               {pluralize(results.length, dict.search.resultsCountOne, dict.search.resultsCountOther)}
             </p>
+            {passengers > 1 && <p className="mt-1 text-xs text-muted">{dict.search.perPerson}</p>}
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <SaveSearchButton search={{ origin, destination, date, cabin, programs: programIds }} />
@@ -150,7 +160,7 @@ export default async function SearchPage({
         </div>
         <div className="mt-4">
           <Suspense fallback={null}>
-            <ResultsTable results={results} />
+            <ResultsTable results={results} passengers={passengers} />
           </Suspense>
         </div>
       </div>
