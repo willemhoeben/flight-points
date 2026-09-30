@@ -24,6 +24,66 @@ describe("savedSearchId", () => {
     expect(savedSearchId({ ...JFK_LHR, date: "2026-11-16" })).not.toBe(base);
     expect(savedSearchId({ ...JFK_LHR, cabin: "first" })).not.toBe(base);
   });
+
+  test("a round trip is a different trip from the one-way it starts with", () => {
+    const base = savedSearchId(JFK_LHR);
+    expect(savedSearchId({ ...JFK_LHR, returnDate: "2026-11-22" })).not.toBe(base);
+    expect(savedSearchId({ ...JFK_LHR, returnDate: "2026-11-22" })).not.toBe(
+      savedSearchId({ ...JFK_LHR, returnDate: "2026-11-29" }),
+    );
+  });
+
+  /**
+   * Entries saved before round trips existed have no returnDate at all. If
+   * absent keyed differently from null, every one of them would stop
+   * matching its own stored id the moment the page re-derived it.
+   */
+  test("absent, null and empty all key as the same one-way trip", () => {
+    const base = savedSearchId(JFK_LHR);
+    expect(savedSearchId({ ...JFK_LHR, returnDate: null })).toBe(base);
+    expect(savedSearchId({ ...JFK_LHR, returnDate: undefined })).toBe(base);
+  });
+});
+
+describe("round trips in the store", () => {
+  const trip = { ...JFK_LHR, returnDate: "2026-11-22" };
+
+  test("a saved round trip and a saved one-way live side by side", () => {
+    const list = addSavedSearch(addSavedSearch([], JFK_LHR), trip);
+    expect(list).toHaveLength(2);
+    expect(isSearchSaved(list, JFK_LHR)).toBe(true);
+    expect(isSearchSaved(list, trip)).toBe(true);
+  });
+
+  test("saving the same trip again refreshes it rather than duplicating", () => {
+    const list = addSavedSearch(addSavedSearch([], trip), { ...trip, programs: [] });
+    expect(list).toHaveLength(1);
+    expect(list[0].returnDate).toBe("2026-11-22");
+  });
+
+  test("an entry with no returnDate survives validation, as one way", () => {
+    const legacy = { ...JFK_LHR, id: savedSearchId(JFK_LHR), savedAt: "2026-09-12T00:00:00.000Z" };
+    expect(isValidSavedSearch(legacy)).toBe(true);
+    expect(sanitizeSavedSearches([legacy])).toHaveLength(1);
+  });
+
+  test("a stored return before its own departure is thrown out, not flown", () => {
+    const broken = {
+      ...JFK_LHR,
+      returnDate: "2026-11-01",
+      id: "x",
+      savedAt: "2026-09-12T00:00:00.000Z",
+    };
+    expect(isValidSavedSearch(broken)).toBe(false);
+    expect(sanitizeSavedSearches([broken])).toHaveLength(0);
+  });
+
+  test("a stored return that is not a date at all is thrown out", () => {
+    for (const bad of ["soon", "2026-13-40", 20261122, {}]) {
+      const entry = { ...JFK_LHR, returnDate: bad, id: "x", savedAt: "2026-09-12T00:00:00.000Z" };
+      expect(isValidSavedSearch(entry), String(bad)).toBe(false);
+    }
+  });
 });
 
 describe("addSavedSearch", () => {

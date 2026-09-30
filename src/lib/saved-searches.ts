@@ -7,12 +7,27 @@ export type SavedSearch = {
   origin: string;
   destination: string;
   date: string;
+  /**
+   * null, or absent entirely on an entry saved before round trips existed,
+   * both meaning one way. Stored rather than treated as view state because
+   * coming back on the 5th is part of the trip, not a way of looking at it.
+   */
+  returnDate?: string | null;
   cabin: Cabin;
   programs: string[];
   savedAt: string;
 };
 
-export type SavedSearchInput = { origin: string; destination: string; date: string; cabin: Cabin; programs: string[] };
+export type SavedSearchInput = {
+  origin: string;
+  destination: string;
+  date: string;
+  returnDate?: string | null;
+  cabin: Cabin;
+  programs: string[];
+};
+
+type SearchKey = { origin: string; destination: string; date: string; returnDate?: string | null; cabin: Cabin };
 
 /** Default max number of saved searches to remember. */
 export const MAX_SAVED_SEARCHES = 8;
@@ -36,12 +51,17 @@ function sanitizePrograms(value: unknown): string[] {
 }
 
 /**
- * A saved search is identified by its route + date + cabin — saving the
+ * A saved search is identified by its route + dates + cabin — saving the
  * same combination again (even with a different program selection) updates
- * the existing entry in place instead of creating a near-duplicate.
+ * the existing entry in place instead of creating a near-duplicate. A
+ * one-way and a round trip on the same outbound are different trips, so
+ * the return date is part of the identity; leaving it out of the key for a
+ * one-way keeps every entry saved before round trips existed matching its
+ * own id.
  */
-export function savedSearchId(params: { origin: string; destination: string; date: string; cabin: Cabin }): string {
-  return `${params.origin}|${params.destination}|${params.date}|${params.cabin}`;
+export function savedSearchId(params: SearchKey): string {
+  const back = params.returnDate ? `|${params.returnDate}` : "";
+  return `${params.origin}|${params.destination}|${params.date}${back}|${params.cabin}`;
 }
 
 /**
@@ -64,7 +84,7 @@ export function removeSavedSearch(current: SavedSearch[], id: string): SavedSear
   return current.filter((s) => s.id !== id);
 }
 
-export function isSearchSaved(current: SavedSearch[], params: { origin: string; destination: string; date: string; cabin: Cabin }): boolean {
+export function isSearchSaved(current: SavedSearch[], params: SearchKey): boolean {
   return current.some((s) => s.id === savedSearchId(params));
 }
 
@@ -83,6 +103,11 @@ export function isValidSavedSearch(value: unknown): value is SavedSearch {
     isValidAirportCode(v.origin) &&
     isValidAirportCode(v.destination) &&
     isValidDate(v.date) &&
+    // Absent is the pre-round-trip shape and means one way; present has to
+    // be a real date that the trip could actually be flown on.
+    (v.returnDate === undefined ||
+      v.returnDate === null ||
+      (isValidDate(v.returnDate) && v.returnDate >= v.date)) &&
     isValidCabin(v.cabin) &&
     Array.isArray(v.programs) &&
     v.programs.every((p) => typeof p === "string") &&
