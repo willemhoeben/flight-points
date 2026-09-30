@@ -10,6 +10,7 @@ import { cityName, countryName } from "@/lib/i18n/place-names";
 import { interpolate } from "@/lib/i18n/format";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 import { CurrencyAmount } from "@/components/CurrencyAmount";
+import { AffordBadge } from "@/components/AffordBadge";
 import { UseMyBalance } from "@/components/UseMyBalance";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -183,7 +184,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
               : dict.search.noAwardSpace}
           </div>
         ) : (
-          <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <ul className="mt-4 grid gap-x-9 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {rows.map(({ airport, best }) => {
               const routeParams = new URLSearchParams({
                 origin,
@@ -192,10 +193,10 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
                 cabin,
               });
               return (
-                <li key={airport.code} className="flex flex-col bg-surface-muted p-4">
+                <li key={airport.code} className="flex flex-col border-t border-border-strong py-4">
                   <div className="flex items-baseline justify-between gap-3">
                     <div className="min-w-0">
-                      <div className="font-serif text-lg font-semibold leading-tight text-foreground">{cityName(airport, locale)}</div>
+                      <div className="text-[17px] font-semibold leading-tight text-foreground">{cityName(airport, locale)}</div>
                       <div className="mt-0.5 text-xs text-muted">
                         {countryName(airport, locale)} · {airport.code}
                       </div>
@@ -222,7 +223,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
                   </div>
 
                   <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                    <span className="inline-flex items-center bg-surface px-2 py-0.5 text-[10.5px] font-medium text-muted">
+                    <span className="inline-flex items-center bg-surface-muted px-2 py-0.5 text-[10.5px] font-medium text-muted">
                       {best.direct
                         ? dict.resultsTable.nonstop
                         : `${best.connections} ${best.connections > 1 ? dict.resultsTable.stops : dict.resultsTable.stop}`}
@@ -232,6 +233,11 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
                         {dict.explore.sortValue}
                       </span>
                     )}
+                    {/* The page's whole question is "where can I go with my
+                        points", so once balances exist each card can answer
+                        it outright instead of leaving the reader to check
+                        the number against a balance in their head. */}
+                    <AffordBadge programId={best.programId} milesCost={best.milesCost} />
                   </div>
 
                   <Link
