@@ -30,7 +30,7 @@ export function WalletPanel() {
           the page never opens as an empty form with no idea what it does. */}
       <div className="mt-8 border-y border-border-strong py-5">
         {held === 0 ? (
-          <p className="text-sm text-muted">{dict.wallet.empty}</p>
+          <p className="max-w-[62ch] text-sm text-muted">{dict.wallet.empty}</p>
         ) : (
           <div className="flex flex-wrap gap-x-10 gap-y-5">
             <Stat
@@ -46,7 +46,7 @@ export function WalletPanel() {
       <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-x-12">
         <section>
           <h2 className="text-[15px] font-semibold text-foreground">{dict.wallet.balancesHeading}</h2>
-          <p className="mt-1 text-xs text-muted">{dict.wallet.privacy}</p>
+          <p className="mt-1 max-w-[62ch] text-xs text-muted">{dict.wallet.privacy}</p>
 
           {TYPES.map((type) => (
             <div key={type} className="mt-6">
@@ -85,10 +85,10 @@ export function WalletPanel() {
 
         <section className="self-start lg:sticky lg:top-14">
           <h2 className="text-[15px] font-semibold text-foreground">{dict.wallet.reachHeading}</h2>
-          <p className="mt-1 text-xs text-muted">{dict.wallet.ratioNote}</p>
+          <p className="mt-1 max-w-[62ch] text-xs text-muted">{dict.wallet.ratioNote}</p>
 
           {groups.length === 0 ? (
-            <p className="mt-6 text-sm text-muted">{dict.wallet.reachEmpty}</p>
+            <p className="mt-6 max-w-[62ch] text-sm text-muted">{dict.wallet.reachEmpty}</p>
           ) : (
             <div className="mt-4">
               {groups.map((g) => (

@@ -334,7 +334,7 @@ export default async function NetworkPage({ searchParams }: { searchParams: Prom
         </button>
       </form>
 
-      <p className="mt-6 text-sm text-muted" suppressHydrationWarning>
+      <p className="mt-6 max-w-[62ch] text-sm text-muted" suppressHydrationWarning>
         {meta}
       </p>
 

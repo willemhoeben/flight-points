@@ -220,7 +220,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
           yet. Nothing else on this page says the verdict column exists, and
           a feature nobody finds may as well not ship. */}
       {Object.keys(balances).length === 0 && (
-        <p className="basis-full text-xs text-muted">
+        <p className="basis-full max-w-[72ch] text-xs text-muted">
           {dict.resultsTable.walletHint}{" "}
           <Link href="/wallet" className="font-medium text-brand-text hover:underline">
             {dict.nav.wallet} →
