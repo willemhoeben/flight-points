@@ -10,6 +10,7 @@ import { cityName, countryName } from "@/lib/i18n/place-names";
 import { interpolate } from "@/lib/i18n/format";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 import { CurrencyAmount } from "@/components/CurrencyAmount";
+import { UseMyBalance } from "@/components/UseMyBalance";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { locale, dict } = await getDictionary();
@@ -132,6 +133,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
           <label className="block">
             <span className="mb-1 block text-sm font-medium text-foreground">{dict.explore.budgetLabel}</span>
             <input
+              id="explore-budget"
               type="text"
               inputMode="numeric"
               name="budget"
@@ -142,6 +144,9 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
           </label>
         </div>
         <input type="hidden" name="sort" value={sort} />
+        {/* Client-side: the balances live in this browser, so the button
+            only exists once there is something to offer. */}
+        <UseMyBalance inputId="explore-budget" />
         <button
           type="submit"
           className="w-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90 sm:w-auto print:hidden"

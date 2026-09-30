@@ -5,6 +5,7 @@ import { VALUATIONS } from "@/data/valuations";
 import { PROGRAM_CURRENCY } from "@/lib/program-currency";
 import {
   affordability,
+  bestSingleReach,
   normalizeBalances,
   programsReached,
   reachFor,
@@ -202,5 +203,29 @@ describe("affordability", () => {
 
   test("no route at all when nothing held reaches the program", () => {
     expect(affordability({ hyatt: 500_000 }, "united", 50_000)).toEqual({ kind: "no-route" });
+  });
+});
+
+describe("bestSingleReach", () => {
+  test("nothing held reaches nothing", () => {
+    expect(bestSingleReach({})).toBe(0);
+  });
+
+  test("a balance held directly is its own reach", () => {
+    expect(bestSingleReach({ "united-mp": 45_000 })).toBe(45_000);
+  });
+
+  test("a transferable balance counts too", () => {
+    expect(bestSingleReach({ "chase-ur": 90_000 })).toBe(90_000);
+  });
+
+  test("takes the largest single route rather than the sum", () => {
+    // 60k Chase and 40k in MileagePlus is a 60k ceiling on one award, not
+    // 100k: the two cannot pay for the same seat together.
+    expect(bestSingleReach({ "chase-ur": 60_000, "united-mp": 40_000 })).toBe(60_000);
+  });
+
+  test("a balance that reaches no airline program contributes nothing", () => {
+    expect(bestSingleReach({ hyatt: 500_000 })).toBe(0);
   });
 });

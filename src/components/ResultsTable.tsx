@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { AwardResult } from "@/data/availability";
 import { PROGRAMS, type Alliance } from "@/data/programs";
@@ -214,6 +215,18 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
           </FilterPill>
         ))}
       </div>
+
+      {/* One muted line, and only for someone who has not used the wallet
+          yet. Nothing else on this page says the verdict column exists, and
+          a feature nobody finds may as well not ship. */}
+      {Object.keys(balances).length === 0 && (
+        <p className="basis-full text-xs text-muted">
+          {dict.resultsTable.walletHint}{" "}
+          <Link href="/wallet" className="font-medium text-brand-text hover:underline">
+            {dict.nav.wallet} →
+          </Link>
+        </p>
+      )}
     </div>
   );
 

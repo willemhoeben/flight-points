@@ -132,3 +132,18 @@ export function affordability(
 export function currencyName(currencyId: string): string {
   return VALUATIONS.find((v) => v.id === currencyId)?.name ?? currencyId;
 }
+
+/**
+ * The largest number of miles the visitor can put behind a single award,
+ * across every program they can reach. That is the right budget for
+ * "where can I go": the most expensive seat they could actually pay for is
+ * capped by their best single route, not by the sum of everything held.
+ */
+export function bestSingleReach(balances: Balances): number {
+  let best = 0;
+  for (const p of PROGRAMS) {
+    const reach = reachFor(balances, p.id);
+    if (reach && reach.miles > best) best = reach.miles;
+  }
+  return best;
+}
