@@ -184,6 +184,21 @@ airline or loyalty program.
   (`src/data/transfers.ts`); a 3:1 partner is a different kind of decision
   and showing it at the same weight would flatter it.
 
+  Once a balance exists, it reaches the rest of the site. Every row on
+  `/search` carries a verdict — you can cover this, reachable via a named
+  transfer, this many miles short, or no route at all — and a "Within
+  reach" filter pill collapses the table to what you could actually book
+  (`?reach=1`, so a shared link lands on the same view, just an inert one
+  for a visitor with no balances of their own). The verdict inherits the
+  best-single-route rule, so two balances that each fall short never add up
+  to "covered". On `/explore`, a "Use my balance" button fills the points
+  budget from the largest single route rather than the sum, for the same
+  reason. Everything here only appears when it has something to say: no
+  pill you cannot use, no button that can only report its own
+  uselessness — and, for anyone who has not found the wallet yet, one muted
+  line on `/search` pointing at it, which disappears the moment a balance
+  exists.
+
 - **`/compare`** — pick two or more point currencies (bank/airline/hotel,
   grouped the same way as `/search`'s program picker) and a shared points
   balance to see which is worth more, ranked by cash value with the top
