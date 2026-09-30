@@ -82,6 +82,45 @@ export const AIRPORTS: Airport[] = [
   { code: "LIM", city: "Lima", country: "Peru", name: "Jorge Chávez Intl", lat: -12.0219, lon: -77.1143 },
   { code: "GIG", city: "Rio de Janeiro", country: "Brazil", name: "Galeão Intl", lat: -22.81, lon: -43.2506 },
   { code: "PTY", city: "Panama City", country: "Panama", name: "Tocumen Intl", lat: 9.0714, lon: -79.3835 },
+  // Second and third gateways for metros that already have one. Award space
+  // is sold per airport, so a New Yorker who only ever searches JFK misses
+  // whatever EWR and LGA released that morning.
+  { code: "LGA", city: "New York", country: "United States", name: "LaGuardia", lat: 40.7769, lon: -73.874 },
+  { code: "LGW", city: "London", country: "United Kingdom", name: "Gatwick", lat: 51.1537, lon: -0.1821 },
+  { code: "ORY", city: "Paris", country: "France", name: "Orly", lat: 48.7262, lon: 2.3652 },
+  { code: "DCA", city: "Washington D.C.", country: "United States", name: "Ronald Reagan National", lat: 38.8512, lon: -77.0402 },
+  { code: "BWI", city: "Baltimore", country: "United States", name: "Baltimore/Washington Intl", lat: 39.1774, lon: -76.6684 },
+  { code: "MDW", city: "Chicago", country: "United States", name: "Midway Intl", lat: 41.7868, lon: -87.7522 },
+  { code: "OAK", city: "Oakland", country: "United States", name: "Oakland Intl", lat: 37.7126, lon: -122.2197 },
+  { code: "HOU", city: "Houston", country: "United States", name: "William P. Hobby", lat: 29.6454, lon: -95.2789 },
+  { code: "DAL", city: "Dallas", country: "United States", name: "Dallas Love Field", lat: 32.8471, lon: -96.8518 },
+  { code: "GMP", city: "Seoul", country: "South Korea", name: "Gimpo Intl", lat: 37.5583, lon: 126.7906 },
+  { code: "SHA", city: "Shanghai", country: "China", name: "Hongqiao Intl", lat: 31.1979, lon: 121.3363 },
+  { code: "LIN", city: "Milan", country: "Italy", name: "Linate", lat: 45.4451, lon: 9.2767 },
+
+  // The places people actually save points for, and the hubs that reach them.
+  { code: "HNL", city: "Honolulu", country: "United States", name: "Daniel K. Inouye Intl", lat: 21.3245, lon: -157.9251 },
+  { code: "ANC", city: "Anchorage", country: "United States", name: "Ted Stevens Anchorage Intl", lat: 61.1743, lon: -149.9962 },
+  { code: "CUN", city: "Cancún", country: "Mexico", name: "Cancún Intl", lat: 21.0365, lon: -86.8771 },
+  { code: "SJO", city: "San José", country: "Costa Rica", name: "Juan Santamaría Intl", lat: 9.9939, lon: -84.2088 },
+  { code: "MLE", city: "Malé", country: "Maldives", name: "Velana Intl", lat: 4.1918, lon: 73.5291 },
+  { code: "DPS", city: "Denpasar", country: "Indonesia", name: "Ngurah Rai Intl", lat: -8.7482, lon: 115.1672 },
+  { code: "PPT", city: "Papeete", country: "French Polynesia", name: "Faa'a Intl", lat: -17.5537, lon: -149.607 },
+  { code: "NAN", city: "Nadi", country: "Fiji", name: "Nadi Intl", lat: -17.7554, lon: 177.4434 },
+  { code: "MRU", city: "Port Louis", country: "Mauritius", name: "Sir Seewoosagur Ramgoolam Intl", lat: -20.4302, lon: 57.6836 },
+  { code: "ADD", city: "Addis Ababa", country: "Ethiopia", name: "Bole Intl", lat: 8.9779, lon: 38.7993 },
+  { code: "LOS", city: "Lagos", country: "Nigeria", name: "Murtala Muhammed Intl", lat: 6.5774, lon: 3.3212 },
+  { code: "ACC", city: "Accra", country: "Ghana", name: "Kotoka Intl", lat: 5.6052, lon: -0.1668 },
+  { code: "SGN", city: "Ho Chi Minh City", country: "Vietnam", name: "Tan Son Nhat Intl", lat: 10.8188, lon: 106.652 },
+  { code: "HAN", city: "Hanoi", country: "Vietnam", name: "Noi Bai Intl", lat: 21.2212, lon: 105.8072 },
+  { code: "RUH", city: "Riyadh", country: "Saudi Arabia", name: "King Khalid Intl", lat: 24.9576, lon: 46.6988 },
+  { code: "JED", city: "Jeddah", country: "Saudi Arabia", name: "King Abdulaziz Intl", lat: 21.6796, lon: 39.1565 },
+  { code: "CMB", city: "Colombo", country: "Sri Lanka", name: "Bandaranaike Intl", lat: 7.1808, lon: 79.8841 },
+  { code: "KEF", city: "Reykjavík", country: "Iceland", name: "Keflavík Intl", lat: 63.985, lon: -22.6056 },
+  { code: "PRG", city: "Prague", country: "Czechia", name: "Václav Havel Airport Prague", lat: 50.1008, lon: 14.26 },
+  { code: "BUD", city: "Budapest", country: "Hungary", name: "Ferenc Liszt Intl", lat: 47.4369, lon: 19.2556 },
+  { code: "EDI", city: "Edinburgh", country: "United Kingdom", name: "Edinburgh Airport", lat: 55.95, lon: -3.3725 },
+  { code: "BNE", city: "Brisbane", country: "Australia", name: "Brisbane Airport", lat: -27.3842, lon: 153.1175 },
 ];
 
 export function findAirport(code: string): Airport | undefined {

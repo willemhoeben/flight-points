@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { AIRPORTS } from "@/data/airports";
+import { distanceKm, MIN_ROUTE_KM } from "@/lib/distance";
 import { exploreDestinations, isExploreSort, sortDestinations } from "@/lib/explore";
 
 const params = { origin: "JFK", cabin: "business" as const, startDate: "2026-06-01" };
@@ -7,12 +8,20 @@ const params = { origin: "JFK", cabin: "business" as const, startDate: "2026-06-
 describe("exploreDestinations", () => {
   const rows = exploreDestinations(params);
 
+  /**
+   * Stated as the rule rather than a count: New York has three gateways
+   * now and could have four, and a test that hard-codes how many are
+   * dropped fails on the day one is added rather than on the day the rule
+   * breaks.
+   */
   test("covers every airport except the origin and its own metro area", () => {
-    const codes = rows.map((r) => r.airport.code);
-    expect(codes).not.toContain("JFK");
-    // EWR is 35 km from JFK, so it is not a route anyone redeems for.
-    expect(codes).not.toContain("EWR");
-    expect(codes.length).toBe(AIRPORTS.length - 2);
+    const codes = new Set(rows.map((r) => r.airport.code));
+    const nearJfk = AIRPORTS.filter((a) => distanceKm("JFK", a.code) < MIN_ROUTE_KM).map((a) => a.code);
+    expect(nearJfk).toContain("JFK");
+    expect(nearJfk).toContain("EWR");
+    expect(nearJfk).toContain("LGA");
+    for (const code of nearJfk) expect(codes.has(code), `${code} is in the JFK metro`).toBe(false);
+    expect(codes.size).toBe(AIRPORTS.length - nearJfk.length);
   });
 
   test("is sorted cheapest first", () => {
