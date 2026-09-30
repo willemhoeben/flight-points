@@ -278,6 +278,10 @@ export default async function NetworkPage({ searchParams }: { searchParams: Prom
   // which is what happens when someone switches programme in the plain GET
   // form and the old hub rides along in the URL.
   const hub = askedHub && hubs.includes(askedHub) ? askedHub : hubs[0];
+  // Switching programme in a plain GET form carries the old hub along in the
+  // URL, and the page then quietly shows a different one. Saying so beats
+  // letting someone wonder why they are looking at Dubai.
+  const fellBack = !!askedHub && askedHub !== hub;
 
   const legs = networkFrom(programId, hub);
   const groups = byRegion(legs);
@@ -337,6 +341,15 @@ export default async function NetworkPage({ searchParams }: { searchParams: Prom
       <p className="mt-6 max-w-[62ch] text-sm text-muted" suppressHydrationWarning>
         {meta}
       </p>
+      {fellBack && (
+        <p className="mt-1 max-w-[62ch] text-xs text-muted">
+          {interpolate(dict.network.hubFallback, {
+            program: programName,
+            asked: askedHub as string,
+            hub: hubLabel,
+          })}
+        </p>
+      )}
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="self-start bg-surface-muted p-4 sm:p-6 lg:sticky lg:top-14">
