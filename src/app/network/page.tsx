@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ProgramReach } from "@/components/ProgramReach";
 import { SectionHeading } from "@/components/ui";
 import { findAirport } from "@/data/airports";
 import { PROGRAMS } from "@/data/programs";
@@ -346,6 +347,7 @@ export default async function NetworkPage({ searchParams }: { searchParams: Prom
       <p className="mt-6 max-w-[62ch] text-sm text-muted" suppressHydrationWarning>
         {meta}
       </p>
+      <ProgramReach programId={programId} programName={programName} />
       {fellBack && (
         <p className="mt-1 max-w-[62ch] text-xs text-muted">
           {interpolate(dict.network.hubFallback, {
