@@ -26,6 +26,12 @@
   --brand-strong: #8a5200;
   --brand-foreground: #1a1200;
   --brand-text: #8a5200;
+  /* The keyboard focus ring is its own token, not --brand. Amber on a pale
+     page measures 1.87-2.28 against the surfaces it lands on, under the 3:1
+     WCAG 2.2 asks of a focus indicator — and axe does not check focus
+     contrast, so nothing would have caught it. This deep amber measures
+     5.24 on the muted surface, 5.65 on the page and 6.39 on white. */
+  --focus: #8a5200;
   --route: #0d6e85;
   --stamp: #b3261e;
   --success-text: #0e6b48;
@@ -64,6 +70,7 @@
   --color-warning-text: var(--warning-text);
   --color-stamp: var(--stamp);
   --color-border-strong: var(--border-strong);
+  --color-focus: var(--focus);
   --color-route: var(--route);
   --color-tint-sky: var(--tint-sky);          --color-ink-sky: var(--ink-sky);
   --color-tint-indigo: var(--tint-indigo);    --color-ink-indigo: var(--ink-indigo);
@@ -106,6 +113,8 @@
   --brand-strong: #ffc670;
   --brand-foreground: #130d02;
   --brand-text: #ffc670;
+  /* 9.78 to 11.26 against the night surfaces, so the accent itself works. */
+  --focus: #ffb547;
   --route: #5ad1e6;
   --stamp: #ff7a7a;
   --success-text: #5fd39a;
@@ -205,14 +214,14 @@ h1, h2, h3 {
   a:focus-visible,
   button:focus-visible,
   [tabindex]:focus-visible {
-    outline: 2px solid var(--brand);
+    outline: 2px solid var(--focus);
     outline-offset: 2px;
   }
 }
 
 @layer components {
   .form-select {
-    @apply w-full rounded-xl border border-transparent bg-surface-muted px-3 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-brand focus:bg-surface focus:ring-2 focus:ring-brand/15;
+    @apply w-full rounded-xl border border-transparent bg-surface-muted px-3 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-focus focus:bg-surface focus:ring-2 focus:ring-focus/25;
   }
 }
 
@@ -239,6 +248,7 @@ h1, h2, h3 {
     --brand-strong: #8a5200;
     --brand-foreground: #1a1200;
     --brand-text: #8a5200;
+    --focus: #8a5200;
     --route: #0d6e85;
     --stamp: #b3261e;
     --success-text: #0e6b48;
