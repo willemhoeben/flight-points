@@ -52,6 +52,39 @@ describe("searchCalendar", () => {
     const direct = searchAvailability(BASE_SEARCH);
     expect(days[0].lowestMiles).toBe(direct.length > 0 ? direct[0].milesCost : null);
   });
+
+  /**
+   * The calendar is the one place that quotes a price for a day the visitor
+   * has not opened yet. If it ignored the party size it would advertise a
+   * cheaper day that the search then shows as empty.
+   */
+  test("minSeats only ever quotes a day the same search would show", () => {
+    for (const minSeats of [1, 2, 3, 4]) {
+      const days = searchCalendar({ ...BASE_SEARCH, startDate: "2026-10-01", days: 30, minSeats });
+      for (const day of days) {
+        if (day.lowestMiles === null) continue;
+        const rows = searchAvailability({ ...BASE_SEARCH, date: day.date }).filter(
+          (r) => r.seatsRemaining >= minSeats,
+        );
+        expect(rows.length, `${day.date} with ${minSeats} seats`).toBeGreaterThan(0);
+        expect(day.lowestMiles).toBe(rows[0].milesCost);
+      }
+    }
+  });
+
+  test("asking for more seats never opens a day that one seat could not", () => {
+    const one = searchCalendar({ ...BASE_SEARCH, startDate: "2026-10-01", days: 30, minSeats: 1 });
+    const four = searchCalendar({ ...BASE_SEARCH, startDate: "2026-10-01", days: 30, minSeats: 4 });
+    for (let i = 0; i < one.length; i++) {
+      if (four[i].lowestMiles !== null) expect(one[i].lowestMiles).not.toBeNull();
+    }
+  });
+
+  test("defaults to one seat when minSeats is left out", () => {
+    const implicit = searchCalendar({ ...BASE_SEARCH, startDate: "2026-10-01", days: 14 });
+    const explicit = searchCalendar({ ...BASE_SEARCH, startDate: "2026-10-01", days: 14, minSeats: 1 });
+    expect(implicit).toEqual(explicit);
+  });
 });
 
 describe("distance-aware pricing", () => {

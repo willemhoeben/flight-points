@@ -157,8 +157,14 @@ export function searchCalendar(params: {
   startDate: string;
   days: number;
   programIds?: string[];
+  /**
+   * Seats the party needs. A day whose only award has one seat left is not a
+   * cheaper day for two people, it is a day with nothing on it — so the
+   * calendar hides it rather than quoting a price the search will not show.
+   */
+  minSeats?: number;
 }): CalendarDay[] {
-  const { origin, destination, cabin, startDate, days, programIds } = params;
+  const { origin, destination, cabin, startDate, days, programIds, minSeats = 1 } = params;
   const start = new Date(`${startDate}T00:00:00Z`);
   const out: CalendarDay[] = [];
 
@@ -166,7 +172,9 @@ export function searchCalendar(params: {
     const d = new Date(start);
     d.setUTCDate(d.getUTCDate() + i);
     const dateStr = d.toISOString().slice(0, 10);
-    const results = searchAvailability({ origin, destination, date: dateStr, cabin, programIds });
+    const results = searchAvailability({ origin, destination, date: dateStr, cabin, programIds }).filter(
+      (r) => r.seatsRemaining >= minSeats,
+    );
     const lowest = results[0] ?? null;
     out.push({
       date: dateStr,
