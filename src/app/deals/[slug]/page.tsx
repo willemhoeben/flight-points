@@ -9,6 +9,7 @@ import { DEALS, findDeal } from "@/data/deals";
 import { formatDateLabel } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { dealCategoryLabel } from "@/lib/i18n/deal-category";
+import { dealText } from "@/lib/i18n/deal-text";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
@@ -31,19 +32,20 @@ export async function generateMetadata({
   const deal = findDeal(slug);
   const { locale, dict } = await getDictionary();
   if (deal) {
+    const text = dealText(deal, locale);
     return {
-      title: deal.title,
-      description: deal.summary,
+      title: text.title,
+      description: text.summary,
       alternates: { canonical: `/deals/${deal.slug}` },
       openGraph: {
-        title: deal.title,
-        description: deal.summary,
+        title: text.title,
+        description: text.summary,
         url: `/deals/${deal.slug}`,
         type: "article",
         locale: toOgLocale(locale),
         alternateLocale: alternateOgLocales(locale),
       },
-      twitter: { card: "summary_large_image", title: deal.title, description: deal.summary },
+      twitter: { card: "summary_large_image", title: text.title, description: text.summary },
     };
   }
   return { title: dict.notFound.title };
@@ -60,14 +62,15 @@ export default async function DealPage({
 
   const { locale, dict } = await getDictionary();
 
+  const text = dealText(deal, locale);
   // Newest first, minus this one. DEALS is already in publication order.
   const others = DEALS.filter((d) => d.slug !== deal.slug).slice(0, 4);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: deal.title,
-    description: deal.summary,
+    headline: text.title,
+    description: text.summary,
     datePublished: deal.publishedAt,
     ...(deal.expires ? { expires: deal.expires } : {}),
     author: { "@type": "Organization", name: SITE_NAME },
@@ -81,7 +84,7 @@ export default async function DealPage({
     itemListElement: [
       { "@type": "ListItem", position: 1, name: dict.common.home, item: SITE_URL },
       { "@type": "ListItem", position: 2, name: dict.dealsPage.eyebrow, item: `${SITE_URL}/deals` },
-      { "@type": "ListItem", position: 3, name: deal.title, item: `${SITE_URL}/deals/${deal.slug}` },
+      { "@type": "ListItem", position: 3, name: text.title, item: `${SITE_URL}/deals/${deal.slug}` },
     ],
   };
 
@@ -95,7 +98,7 @@ export default async function DealPage({
         items={[
           { label: dict.common.home, href: "/" },
           { label: dict.dealsPage.eyebrow, href: "/deals" },
-          { label: deal.title },
+          { label: text.title },
         ]}
       />
 
@@ -111,8 +114,8 @@ export default async function DealPage({
         <SaveDealButton slug={deal.slug} />
       </div>
 
-      <h1 className="mt-3 text-3xl text-foreground" lang={locale !== "en" ? "en" : undefined}>
-        {deal.title}
+      <h1 className="mt-3 text-3xl text-foreground">
+        {text.title}
       </h1>
 
       <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
@@ -127,17 +130,12 @@ export default async function DealPage({
         )}
       </div>
 
-      {locale !== "en" && <p className="mt-6 text-xs italic text-muted">{dict.dealsPage.englishOnlyNote}</p>}
-
       {/* Capped by character count rather than by the page column: the
           column is 768px wide, which runs prose out to roughly ninety
           characters a line, well past where the eye starts losing its
           place returning to the left edge. */}
-      <div
-        className="mt-4 max-w-[64ch] space-y-4 text-base leading-7 text-foreground"
-        lang={locale !== "en" ? "en" : undefined}
-      >
-        {deal.body.map((paragraph, i) => (
+      <div className="mt-4 max-w-[64ch] space-y-4 text-base leading-7 text-foreground">
+        {text.body.map((paragraph, i) => (
           <p key={i}>{paragraph}</p>
         ))}
       </div>
@@ -157,7 +155,7 @@ export default async function DealPage({
                   className="group flex items-baseline justify-between gap-4 border-b border-border py-3"
                 >
                   <span className="text-[15px] font-medium text-foreground group-hover:text-brand-text">
-                    {other.title}
+                    {dealText(other, locale).title}
                   </span>
                   <span className="shrink-0 font-mono text-[11.5px] uppercase tracking-[0.06em] text-muted">
                     {dealCategoryLabel(other.category, dict.dealsPage)}

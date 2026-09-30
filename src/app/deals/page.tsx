@@ -11,6 +11,7 @@ import { DEALS, type DealCategory } from "@/data/deals";
 import { formatDateLabel } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { dealCategoryLabel } from "@/lib/i18n/deal-category";
+import { dealText } from "@/lib/i18n/deal-text";
 import { isDealSort, sortDeals, type DealSort } from "@/lib/deal-sort";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 
@@ -121,8 +122,8 @@ export default async function DealsPage({
                         </div>
                         <SavedDealBadge slug={deal.slug} />
                       </div>
-                      <h2 className="mt-3 text-base text-foreground group-hover:text-brand-text">{deal.title}</h2>
-                      <p className="mt-2 flex-1 text-sm text-muted">{deal.summary}</p>
+                      <h2 className="mt-3 text-base text-foreground group-hover:text-brand-text">{dealText(deal, locale).title}</h2>
+                      <p className="mt-2 flex-1 text-sm text-muted">{dealText(deal, locale).summary}</p>
                       <div className="mt-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs text-muted">
                         <span>{deal.program}</span>
                         {deal.expires && (

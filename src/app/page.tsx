@@ -7,10 +7,11 @@ import { DEALS } from "@/data/deals";
 import { VALUATIONS } from "@/data/valuations";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { dealCategoryLabel } from "@/lib/i18n/deal-category";
+import { dealText } from "@/lib/i18n/deal-text";
 import { interpolate } from "@/lib/i18n/format";
 
 export default async function Home() {
-  const { dict } = await getDictionary();
+  const { locale, dict } = await getDictionary();
   const topValuations = VALUATIONS.slice(0, 4);
   const featuredDeals = DEALS.slice(0, 3);
 
@@ -102,8 +103,8 @@ export default async function Home() {
                 <Badge accent={deal.category === "transfer-bonus" ? "emerald" : deal.category === "sale" ? "amber" : "violet"}>
                   {dealCategoryLabel(deal.category, dict.dealsPage)}
                 </Badge>
-                <h3 className="mt-3 text-base text-foreground group-hover:text-brand-text">{deal.title}</h3>
-                <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-muted">{deal.summary}</p>
+                <h3 className="mt-3 text-base text-foreground group-hover:text-brand-text">{dealText(deal, locale).title}</h3>
+                <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-muted">{dealText(deal, locale).summary}</p>
               </Card>
             </Link>
           ))}

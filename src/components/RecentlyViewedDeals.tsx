@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { findDeal } from "@/data/deals";
+import { dealText } from "@/lib/i18n/deal-text";
+import { useLocale } from "@/lib/i18n/i18n-context";
 import { useRecentlyViewed } from "@/lib/recently-viewed-context";
 
 /**
@@ -13,6 +15,7 @@ import { useRecentlyViewed } from "@/lib/recently-viewed-context";
  */
 export function RecentlyViewedDeals({ heading }: { heading: string }) {
   const { recentSlugs } = useRecentlyViewed();
+  const locale = useLocale();
   const deals = recentSlugs.map((slug) => findDeal(slug)).filter((d): d is NonNullable<typeof d> => d !== undefined);
 
   if (deals.length === 0) return null;
@@ -27,7 +30,7 @@ export function RecentlyViewedDeals({ heading }: { heading: string }) {
             href={`/deals/${deal.slug}`}
             className="bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
           >
-            {deal.title}
+            {dealText(deal, locale).title}
           </Link>
         ))}
       </div>

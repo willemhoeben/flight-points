@@ -11,6 +11,13 @@ function escapeXml(value: string): string {
 }
 
 export async function GET() {
+  // Deliberately one canonical English feed rather than one that follows
+  // the reader's Accept-Language. A feed is a single cacheable document
+  // fetched by software that does not carry a person's language
+  // preference, so content-negotiating it would mostly mean serving
+  // whatever language the first fetch happened to ask for. Per-language
+  // feeds would need their own URLs; the channel declares which one this
+  // is instead.
   const items = [...DEALS]
     .sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1))
     .map((deal) => {
@@ -31,6 +38,7 @@ export async function GET() {
   <channel>
     <title>${escapeXml(SITE_NAME)} — Deals</title>
     <link>${SITE_URL}/deals</link>
+    <language>en</language>
     <atom:link xmlns:atom="http://www.w3.org/2005/Atom" href="${SITE_URL}/deals/feed.xml" rel="self" type="application/rss+xml" />
     <description>Transfer bonuses and award-chart sweet spots. Sample editorial content, not a live promotions feed.</description>
     <language>en</language>

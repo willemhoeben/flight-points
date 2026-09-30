@@ -162,6 +162,14 @@ airline or loyalty program.
   new currency can't ship one English line into six translated tables and a
   removed one can't leave orphaned strings behind.
 
+  The deal articles are translated too (`src/lib/i18n/deal-text.ts`) — title,
+  summary and every paragraph, in all six non-English languages. They used to
+  be English-only with a line above them saying so, translated into six
+  languages: the notice was localized and the article underneath it was not.
+  `test/deal-text.test.ts` pins the key sets in both directions and fails a
+  body that is the English left untouched, so a new deal cannot ship one
+  English article into six translated ones.
+
 - **`/wallet`** — the valuations page answers "what is one point worth";
   this one answers "what can the pile I am sitting on actually do". Type in
   what you hold across the thirty-eight currencies and you get three
@@ -301,10 +309,9 @@ remembered-last-search feature. Its own share-link and remembered-search
 fields are validated the same way as the repo's search params — a
 malformed date falls back to a real date instead of throwing and
 breaking the page's script, and an unrecognized origin/destination/cabin
-falls back to a default instead of rendering a raw, unrecognized code. Its deal articles
-are Dutch-only editorial content (the mirror image of this repo's
-English-only articles), so non-Dutch readers see a translated notice
-instead of a translated article body. It also mirrors the alliance-grouped
+falls back to a default instead of rendering a raw, unrecognized code. Its deal
+articles are translated the same way this repo's are, from the same copy.
+It also mirrors the alliance-grouped
 program checkboxes on the search tab, the save-deal feature (a star toggle,
 a read-only grid badge, and the "★ Saved" filter pill), the recently-viewed
 deals row, and the System/Light/Dark theme toggle — persisted to the
