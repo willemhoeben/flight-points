@@ -79,6 +79,30 @@ airline or loyalty program.
   "remember my last search" behavior above — same relationship as saved
   deals vs. recently-viewed deals.
 
+  A **Return** field sits next to the departure, and leaving it empty is
+  what makes a trip one way — the control and the answer are the same thing,
+  so there is no one-way/return mode to set first. Fill it in and the page
+  prices the whole trip: 98,000 miles and $172 for New York to London and
+  back on 29 October / 5 November, named by program, with a line saying so
+  when that means two awards out of two balances. Each leg is priced
+  independently rather than forced onto one program, because nothing stops
+  you booking two one-way awards from two programs and points travellers do
+  it constantly; insisting on a single program would quote a price above the
+  one that is actually bookable.
+
+  The two legs share one results table with a switch above it rather than
+  stacking two tables. Two tables would mean two filter rows, two sorts and
+  two empty states for one trip; this way every control keeps meaning exactly
+  one thing. The cheapest-day calendar follows the switch too, so a cell
+  moves the date of whichever leg you are looking at and leaves the other
+  where it is, and the return leg's calendar opens no earlier than the
+  departure — a day before the outbound is not a trip. A return date that
+  lands before the departure, or that cannot be read at all, falls back to
+  the one-way search and says which of the two happened; guessing a year or
+  swapping the dates would book a trip nobody asked for. Saved searches keep
+  the return date, so a one-way and a round trip on the same outbound are two
+  entries rather than one overwriting the other.
+
   A **Passengers** control (1–4) sits beside the cabin. Award space is sold
   per seat, so it filters rather than decorates: a JFK–LHR search that shows
   22 options for one traveller shows 15 for two and 4 for four, because a row
