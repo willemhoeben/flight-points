@@ -159,11 +159,12 @@ export function SearchForm({
 function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-sm font-medium text-foreground">
-        {label}
-        {hint && <span className="ml-2 font-normal text-xs text-muted">{hint}</span>}
-      </span>
+      <span className="mb-1 block text-sm font-medium text-foreground">{label}</span>
       {children}
+      {/* Under the input, not beside the label: a German or French hint
+          beside it wraps to a second line and pushes this one field's
+          input below the baseline every other field sits on. */}
+      {hint && <span className="mt-1 block text-xs text-muted">{hint}</span>}
     </label>
   );
 }
