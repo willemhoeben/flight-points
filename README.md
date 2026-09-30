@@ -78,6 +78,23 @@ airline or loyalty program.
   first. This is the explicit, user-curated counterpart to the passive
   "remember my last search" behavior above — same relationship as saved
   deals vs. recently-viewed deals.
+
+  A **Passengers** control (1–4) sits beside the cabin. Award space is sold
+  per seat, so it filters rather than decorates: a JFK–LHR search that shows
+  22 options for one traveller shows 15 for two and 4 for four, because a row
+  with one seat left is not an option for a couple. The cheapest-day calendar
+  takes the same floor — it is the one place that quotes a price for a day you
+  have not opened yet, so without it the calendar would advertise a cheaper
+  Tuesday the search then shows as empty. Prices stay per person, which is how
+  award search reads everywhere and what keeps cents per point comparable
+  between a search for one and a search for four, with a line under the result
+  count saying so once you ask for more than one seat. The affordability
+  verdict and the Within-reach filter use the party total instead, because
+  "can I book this" means booking every seat: 80,000 Aeroplan covers one
+  51,500-mile seat and falls 23,000 short of two. Saved searches still key on
+  route, date, and cabin — the seat count is view state, like the sort and the
+  filters beside it.
+
   Above the results a **points-or-cash verdict** says which way to pay, in
   one sentence, with the estimated cash fare beside it. Every row carries
   what each point actually buys on that redemption, and the column sorts
@@ -411,6 +428,27 @@ something to hunt down file by file. Most blocks are hairline-ruled columns
 rather than filled cards: a border, a fill and a shadow each mark a thing
 as a separate object to pick up, and three ways into the site or four point
 values are one set you read across, not four objects.
+
+### A phone header that costs 6% of the screen, not 19%
+
+Seven links laid out in the bar wanted three rows on a phone, and at three
+rows each link was 16px tall — a thumb aiming at one hits the one above it,
+which is the target-size failure WCAG 2.2 names. Padding them to a hittable
+28px took the sticky header to 161px: a fifth of a 390×844 screen, held there
+on every page and every scroll.
+
+So the links go behind one button. The header is 49px at 320, 360, 390 and
+430 across all seven languages, and the links get 44px rows inside the panel
+— roomier than the bar ever allowed them to be. The panel overlays the page
+rather than pushing it, so opening it does not slide the content out from
+under the thumb that opened it, and it closes on Escape, on a tap outside,
+and on navigation (a client-side route change would otherwise leave it
+hanging open over the new page). Language and currency move in with it; the
+theme toggle stays in the bar because it is the one people flip often.
+Above 640px nothing changes — the links sit in the bar as before.
+
+Measured after: zero axe violations with the panel open, zero target-size
+findings across all nine pages at 390px.
 
 ### Contrast is measured, not eyeballed
 
