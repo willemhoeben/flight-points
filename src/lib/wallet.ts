@@ -98,3 +98,37 @@ export function strandedBalances(balances: Balances): PointCurrency[] {
   const reaching = new Set(reachGroups(balances).map((g) => g.source.id));
   return VALUATIONS.filter((v) => balances[v.id] && !reaching.has(v.id));
 }
+
+export type Affordability =
+  /** Nothing entered, so the page says nothing. */
+  | { kind: "unknown" }
+  /** Held directly in that program's own currency. */
+  | { kind: "covered" }
+  /** Covered, but only after moving points from a bank currency. */
+  | { kind: "transfer"; via: string }
+  /** Short by this many miles on the best single route. */
+  | { kind: "short"; shortfall: number }
+  /** Nothing held reaches that program at all. */
+  | { kind: "no-route" };
+
+/**
+ * Whether a given award is within reach of what the visitor holds. Reads
+ * `reachFor`, so it inherits the best-single-route rule: a result is only
+ * "covered" if one program can pay for it on its own.
+ */
+export function affordability(
+  balances: Balances,
+  programId: string,
+  milesCost: number,
+): Affordability {
+  if (Object.keys(balances).length === 0) return { kind: "unknown" };
+  const reach = reachFor(balances, programId);
+  if (!reach) return { kind: "no-route" };
+  if (reach.miles < milesCost) return { kind: "short", shortfall: milesCost - reach.miles };
+  return reach.via ? { kind: "transfer", via: reach.via } : { kind: "covered" };
+}
+
+/** The display name of a point currency, for the "via Chase" line. */
+export function currencyName(currencyId: string): string {
+  return VALUATIONS.find((v) => v.id === currencyId)?.name ?? currencyId;
+}

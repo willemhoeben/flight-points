@@ -5,6 +5,7 @@ import {
   buildResultsSortUrl,
   isNonstopOnlyParam,
   isResultsSortKey,
+  isWithinReachParam,
   maxFeesFromParam,
 } from "@/lib/results-sort-url";
 
@@ -69,7 +70,14 @@ describe("maxFeesFromParam", () => {
   });
 });
 
-const BASE_VIEW = { sortKey: "milesCost", sortDir: "asc", nonstopOnly: false, alliance: null, maxTaxesFees: null } as const;
+const BASE_VIEW = {
+  sortKey: "milesCost",
+  sortDir: "asc",
+  nonstopOnly: false,
+  alliance: null,
+  maxTaxesFees: null,
+  withinReach: false,
+} as const;
 
 describe("buildResultsSortUrl", () => {
   test("omits sort/dir/nonstop/alliance/maxFees at the default state", () => {
@@ -102,6 +110,26 @@ describe("buildResultsSortUrl", () => {
   test("strips sort and dir when returning to the default state", () => {
     const url = buildResultsSortUrl("/search", "origin=JFK&sort=seatsRemaining&dir=desc", BASE_VIEW);
     expect(url).toBe("/search?origin=JFK");
+  });
+
+  test("adds reach=1 when the within-reach filter is on", () => {
+    const url = buildResultsSortUrl("/search", "origin=JFK", { ...BASE_VIEW, withinReach: true });
+    expect(url).toBe("/search?origin=JFK&reach=1");
+  });
+
+  test("strips reach when the within-reach filter goes back off", () => {
+    const url = buildResultsSortUrl("/search", "origin=JFK&reach=1", BASE_VIEW);
+    expect(url).toBe("/search?origin=JFK");
+  });
+
+  test("combines within-reach with the other filters", () => {
+    const url = buildResultsSortUrl("/search", "origin=JFK", {
+      ...BASE_VIEW,
+      nonstopOnly: true,
+      maxTaxesFees: 100,
+      withinReach: true,
+    });
+    expect(url).toBe("/search?origin=JFK&nonstop=1&maxFees=100&reach=1");
   });
 
   test("adds nonstop=1 when the filter is on", () => {
@@ -160,6 +188,7 @@ describe("buildResultsSortUrl", () => {
       nonstopOnly: true,
       alliance: "Star Alliance",
       maxTaxesFees: 50,
+    withinReach: false,
     });
     expect(url).toBe("/search?origin=JFK&nonstop=1&alliance=star-alliance&maxFees=50");
   });
@@ -170,5 +199,12 @@ describe("buildResultsSortUrl", () => {
       nonstopOnly: true,
     });
     expect(url).toBe("/search?origin=JFK&nonstop=1");
+  });
+});
+
+describe("isWithinReachParam", () => {
+  test("only the literal 1 turns it on", () => {
+    expect(isWithinReachParam("1")).toBe(true);
+    for (const v of [null, "", "0", "true", "yes"]) expect(isWithinReachParam(v)).toBe(false);
   });
 });

@@ -19,6 +19,16 @@ export function isNonstopOnlyParam(value: string | null): boolean {
   return value === "1";
 }
 
+/**
+ * Parses ?reach=1, the "only what my balances can pay for" filter. It reads
+ * from the URL like every other filter here even though what it filters
+ * against lives in the browser, so a link carrying it still lands on the
+ * same view — just an inert one for a visitor with no balances entered.
+ */
+export function isWithinReachParam(value: string | null): boolean {
+  return value === "1";
+}
+
 // URL slugs instead of the raw Alliance strings — "Star Alliance" contains a
 // space, and a plain query param round-trips ambiguously across encodings.
 const ALLIANCE_SLUGS: Record<Alliance, string> = {
@@ -53,7 +63,7 @@ export function maxFeesFromParam(value: string | null): number | null {
 /**
  * Builds the shareable results URL for a given sort/filter state, preserving
  * every other existing query param (origin/destination/date/cabin/programs)
- * and omitting sort/dir/nonstop/alliance/maxFees when they're at their
+ * and omitting sort/dir/nonstop/alliance/maxFees/reach when they're at their
  * default — so a plain search only ever picks up these params once the
  * visitor actually changes the view.
  */
@@ -66,6 +76,7 @@ export function buildResultsSortUrl(
     nonstopOnly: boolean;
     alliance: Alliance | null;
     maxTaxesFees: number | null;
+    withinReach: boolean;
   },
 ): string {
   const params = new URLSearchParams(currentSearch);
@@ -91,6 +102,11 @@ export function buildResultsSortUrl(
     params.set("maxFees", String(view.maxTaxesFees));
   } else {
     params.delete("maxFees");
+  }
+  if (view.withinReach) {
+    params.set("reach", "1");
+  } else {
+    params.delete("reach");
   }
   const qs = params.toString();
   return qs ? `${pathname}?${qs}` : pathname;

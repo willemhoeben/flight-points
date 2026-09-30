@@ -4,6 +4,7 @@ import { TRANSFERS } from "@/data/transfers";
 import { VALUATIONS } from "@/data/valuations";
 import { PROGRAM_CURRENCY } from "@/lib/program-currency";
 import {
+  affordability,
   normalizeBalances,
   programsReached,
   reachFor,
@@ -162,5 +163,44 @@ describe("strandedBalances", () => {
     const left = strandedBalances(balances).map((v) => v.id);
     expect(grouped.filter((id) => left.includes(id))).toEqual([]);
     expect([...grouped, ...left].sort()).toEqual(Object.keys(balances).sort());
+  });
+});
+
+describe("affordability", () => {
+  test("says nothing at all until a balance is entered", () => {
+    expect(affordability({}, "united", 50_000)).toEqual({ kind: "unknown" });
+  });
+
+  test("covered when the program's own currency is enough", () => {
+    expect(affordability({ "united-mp": 60_000 }, "united", 50_000)).toEqual({ kind: "covered" });
+  });
+
+  test("a transfer route is named rather than called covered", () => {
+    expect(affordability({ "chase-ur": 60_000 }, "united", 50_000)).toEqual({
+      kind: "transfer",
+      via: "chase-ur",
+    });
+  });
+
+  test("an exact match is covered, not short", () => {
+    expect(affordability({ "united-mp": 50_000 }, "united", 50_000)).toEqual({ kind: "covered" });
+  });
+
+  test("short by the difference on the best single route", () => {
+    expect(affordability({ "united-mp": 30_000 }, "united", 50_000)).toEqual({
+      kind: "short",
+      shortfall: 20_000,
+    });
+  });
+
+  test("two balances that each fall short do not add up to covered", () => {
+    // 30k held plus 30k transferable is 30k of bookable miles, so a 50k
+    // award is still 20k away however it is sliced.
+    const state = affordability({ "united-mp": 30_000, "chase-ur": 30_000 }, "united", 50_000);
+    expect(state).toEqual({ kind: "short", shortfall: 20_000 });
+  });
+
+  test("no route at all when nothing held reaches the program", () => {
+    expect(affordability({ hyatt: 500_000 }, "united", 50_000)).toEqual({ kind: "no-route" });
   });
 });

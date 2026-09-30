@@ -7,16 +7,21 @@ import { PROGRAMS, type Alliance } from "@/data/programs";
 import { Badge } from "@/components/ui";
 import { PointsOrCash } from "@/components/PointsOrCash";
 import { ValueBadge, valueTierLabel } from "@/components/ValueBadge";
+import { useBalances } from "@/lib/balances-context";
 import { useCurrency } from "@/lib/currency-context";
 import { formatCentsPerPoint, formatDuration, formatMiles } from "@/lib/format";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
+import type { Locale } from "@/lib/i18n/locales";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
 import { interpolate } from "@/lib/i18n/format";
 import { isSortDir, nextSort, sortBy, type SortDir } from "@/lib/sort";
 import { peakCentsPerPoint, valueTier } from "@/lib/value";
+import { affordability, currencyName, type Balances } from "@/lib/wallet";
 import {
   allianceFromSlug,
   buildResultsSortUrl,
   isNonstopOnlyParam,
+  isWithinReachParam,
   isResultsSortKey,
   maxFeesFromParam,
   DEFAULT_RESULTS_SORT_DIR,
@@ -39,7 +44,9 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
   const nonstopOnly = isNonstopOnlyParam(searchParams.get("nonstop"));
   const allianceFilter = allianceFromSlug(searchParams.get("alliance"));
   const maxFeesFilter = maxFeesFromParam(searchParams.get("maxFees"));
+  const withinReachOnly = isWithinReachParam(searchParams.get("reach"));
 
+  const { balances } = useBalances();
   const { format, formatRounded } = useCurrency();
   const dict = useDictionary();
   const locale = useLocale();
@@ -59,12 +66,16 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
         if (nonstopOnly && !r.direct) return false;
         if (allianceFilter && PROGRAMS.find((p) => p.id === r.programId)?.alliance !== allianceFilter) return false;
         if (maxFeesFilter && r.taxesFeesUsd > maxFeesFilter) return false;
+        if (withinReachOnly) {
+          const state = affordability(balances, r.programId, r.milesCost);
+          if (state.kind !== "covered" && state.kind !== "transfer") return false;
+        }
         return true;
       }),
-    [results, nonstopOnly, allianceFilter, maxFeesFilter],
+    [results, nonstopOnly, allianceFilter, maxFeesFilter, withinReachOnly, balances],
   );
 
-  const hasAdvancedFilter = allianceFilter !== null || maxFeesFilter !== null;
+  const hasAdvancedFilter = allianceFilter !== null || maxFeesFilter !== null || withinReachOnly;
 
   // filtered preserves results' original order (a .filter() never
   // reorders), and results itself arrives pre-sorted ascending by miles
@@ -91,6 +102,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
         nonstopOnly,
         alliance: allianceFilter,
         maxTaxesFees: maxFeesFilter,
+        withinReach: withinReachOnly,
       }),
       { scroll: false },
     );
@@ -104,6 +116,21 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
         nonstopOnly: !nonstopOnly,
         alliance: allianceFilter,
         maxTaxesFees: maxFeesFilter,
+        withinReach: withinReachOnly,
+      }),
+      { scroll: false },
+    );
+  }
+
+  function toggleWithinReach() {
+    router.replace(
+      buildResultsSortUrl(pathname, searchParams.toString(), {
+        sortKey,
+        sortDir,
+        nonstopOnly,
+        alliance: allianceFilter,
+        maxTaxesFees: maxFeesFilter,
+        withinReach: !withinReachOnly,
       }),
       { scroll: false },
     );
@@ -117,6 +144,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
         nonstopOnly,
         alliance,
         maxTaxesFees: maxFeesFilter,
+        withinReach: withinReachOnly,
       }),
       { scroll: false },
     );
@@ -130,6 +158,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
         nonstopOnly,
         alliance: allianceFilter,
         maxTaxesFees,
+        withinReach: withinReachOnly,
       }),
       { scroll: false },
     );
@@ -153,6 +182,14 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
       <FilterPill active={nonstopOnly} toggle onClick={toggleNonstopOnly}>
         {dict.resultsTable.nonstopOnly}
       </FilterPill>
+
+      {/* Only offered once a balance exists on /wallet: a filter that can
+          only ever return nothing is worse than no filter. */}
+      {Object.keys(balances).length > 0 && (
+        <FilterPill active={withinReachOnly} toggle onClick={toggleWithinReach}>
+          {dict.resultsTable.withinReachOnly}
+        </FilterPill>
+      )}
 
       <div className="flex flex-wrap items-center gap-2" role="group" aria-label={dict.resultsTable.allianceLabel}>
         <span className="text-xs font-medium text-muted">{dict.resultsTable.allianceLabel}</span>
@@ -251,6 +288,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                   <div className="mt-1.5 flex flex-wrap gap-1.5">
                     {program && <Badge accent={program.accent}>{allianceLabel(program.alliance)}</Badge>}
                     {isBest && <Badge accent="emerald">{dict.resultsTable.bestPrice}</Badge>}
+                    <AffordBadge row={r} balances={balances} dict={dict.resultsTable} locale={locale} />
                   </div>
                 </div>
                 <div className="shrink-0 text-right">
@@ -369,6 +407,7 @@ export function ResultsTable({ results }: { results: AwardResult[] }) {
                   <div className="mt-1 flex flex-wrap gap-1.5">
                     {program && <Badge accent={program.accent}>{allianceLabel(program.alliance)}</Badge>}
                     {isBest && <Badge accent="emerald">{dict.resultsTable.bestPrice}</Badge>}
+                    <AffordBadge row={r} balances={balances} dict={dict.resultsTable} locale={locale} />
                   </div>
                 </td>
                 <td className="px-4 py-3 text-muted">
@@ -459,4 +498,46 @@ function RatedBadge({
   const tier = valueTier(row, peak);
   if (!tier) return null;
   return <ValueBadge tier={tier} label={valueTierLabel(tier, dict)} />;
+}
+
+/**
+ * What the visitor's own balances say about one result: covered outright,
+ * covered after a transfer, short by a stated number of miles, or out of
+ * reach entirely. Renders nothing at all until a balance is entered on
+ * /wallet, so the table looks exactly as it did before for anyone who has
+ * not used that page.
+ */
+function AffordBadge({
+  row,
+  balances,
+  dict,
+  locale,
+}: {
+  row: AwardResult;
+  balances: Balances;
+  dict: Dictionary["resultsTable"];
+  locale: Locale;
+}) {
+  const state = affordability(balances, row.programId, row.milesCost);
+  if (state.kind === "unknown") return null;
+
+  if (state.kind === "covered") return <Badge accent="emerald">{dict.affordCovered}</Badge>;
+  if (state.kind === "transfer") {
+    return <Badge accent="amber">{interpolate(dict.affordVia, { source: currencyName(state.via) })}</Badge>;
+  }
+  if (state.kind === "short") {
+    return (
+      <span
+        className="inline-flex items-center bg-surface-muted px-2.5 py-1 text-xs font-medium text-muted"
+        suppressHydrationWarning
+      >
+        {interpolate(dict.affordShort, { miles: formatMiles(state.shortfall, locale) })}
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center bg-surface-muted px-2.5 py-1 text-xs font-medium text-muted">
+      {dict.affordNoRoute}
+    </span>
+  );
 }
