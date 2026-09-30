@@ -1,13 +1,13 @@
 "use client";
 
-import type { Cabin } from "@/data/availability";
+import type { SavedSearchInput } from "@/lib/saved-searches";
 import { useDictionary } from "@/lib/i18n/i18n-context";
 import { useSavedSearches } from "@/lib/saved-searches-context";
 
 export function SaveSearchButton({
   search,
 }: {
-  search: { origin: string; destination: string; date: string; cabin: Cabin; programs: string[] };
+  search: SavedSearchInput;
 }) {
   const { isSaved, saveSearch } = useSavedSearches();
   const dict = useDictionary();

@@ -16,6 +16,9 @@ import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { cityName } from "@/lib/i18n/place-names";
 import { interpolate, pluralize } from "@/lib/i18n/format";
 import { parsePassengers } from "@/lib/passengers";
+import { cheapestRoundTrip, nightsAway, parseLeg, resolveTripDates } from "@/lib/trip";
+import { LegSwitch } from "@/components/LegSwitch";
+import { RoundTripSummary } from "@/components/RoundTripSummary";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -64,6 +67,11 @@ function isValidDateParam(value: string | undefined): value is string {
   return !!value && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(new Date(`${value}T00:00:00Z`).getTime());
 }
 
+/** ISO dates sort lexically, so the later of two is just the larger string. */
+function maxDate(a: string, b: string): string {
+  return a > b ? a : b;
+}
+
 export default async function SearchPage({
   searchParams,
 }: {
@@ -80,6 +88,9 @@ export default async function SearchPage({
   const date = isValidDateParam(firstValue(sp.date)) ? (firstValue(sp.date) as string) : addDays(todayIso(), 30);
   const programIds = toArray(sp.programs);
   const passengers = parsePassengers(firstValue(sp.pax));
+  const trip = resolveTripDates(date, firstValue(sp.ret), isValidDateParam);
+  // A leg the trip does not have cannot be the one on screen.
+  const leg = trip.returnDate ? parseLeg(firstValue(sp.leg)) : "outbound";
 
   const baseParams = new URLSearchParams();
   baseParams.set("origin", origin);
@@ -91,13 +102,32 @@ export default async function SearchPage({
   // Award space is per seat, so a row with one seat left is not an option
   // for two people. The prices stay per person, which is how award search
   // is read everywhere; only the availability changes.
-  const results = searchAvailability({ origin, destination, date, cabin, programIds }).filter(
-    (r) => r.seatsRemaining >= passengers,
-  );
-  const calendarStart = addDays(date, -3);
+  const seats = (r: { seatsRemaining: number }) => r.seatsRemaining >= passengers;
+  const outboundResults = searchAvailability({ origin, destination, date, cabin, programIds }).filter(seats);
+  const returnResults = trip.returnDate
+    ? searchAvailability({
+        origin: destination,
+        destination: origin,
+        date: trip.returnDate,
+        cabin,
+        programIds,
+      }).filter(seats)
+    : [];
+
+  const showingReturn = leg === "return";
+  const results = showingReturn ? returnResults : outboundResults;
+  const shownOrigin = showingReturn ? destination : origin;
+  const shownDestination = showingReturn ? origin : destination;
+  const shownDate = showingReturn ? (trip.returnDate as string) : date;
+
+  const roundTrip = trip.returnDate ? cheapestRoundTrip(outboundResults, returnResults) : null;
+
+  // The return leg's calendar opens on the departure rather than three days
+  // before the return, because a day before the outbound is not a trip.
+  const calendarStart = showingReturn ? maxDate(addDays(shownDate, -3), date) : addDays(date, -3);
   const calendarDays = searchCalendar({
-    origin,
-    destination,
+    origin: shownOrigin,
+    destination: shownDestination,
     cabin,
     startDate: calendarStart,
     days: 14,
@@ -105,8 +135,18 @@ export default async function SearchPage({
     minSeats: passengers,
   });
 
-  const originAirport = findAirport(origin);
-  const destinationAirport = findAirport(destination);
+  // A calendar cell moves the date of whichever leg is on screen, and
+  // leaves the other one where it is.
+  const calendarParams = new URLSearchParams(baseParams);
+  if (showingReturn) {
+    calendarParams.set("date", date);
+    calendarParams.set("leg", "return");
+  } else if (trip.returnDate) {
+    calendarParams.set("ret", trip.returnDate);
+  }
+
+  const originAirport = findAirport(shownOrigin);
+  const destinationAirport = findAirport(shownDestination);
   const cabinLabel = dict.cabins[cabin];
 
   return (
@@ -118,8 +158,67 @@ export default async function SearchPage({
       <SavedSearchesList />
 
       <div className="mt-8">
-        <SearchForm values={{ origin, destination, date, cabin, passengers, programs: programIds }} dict={dict.searchForm} cabins={dict.cabins} locale={locale} />
+        <SearchForm
+          values={{ origin, destination, date, returnDate: trip.returnDate ?? "", cabin, passengers, programs: programIds }}
+          dict={dict.searchForm}
+          cabins={dict.cabins}
+          locale={locale}
+        />
       </div>
+
+      {/* A return date that cannot be flown is dropped, not repaired — but
+          never silently, or the page reads as a one-way search nobody asked
+          for with nothing to say why. */}
+      {trip.issue && (
+        <p className="mt-4 border-t border-border-strong pt-3 text-sm text-brand-text">
+          {trip.issue === "before-departure"
+            ? interpolate(dict.search.returnIgnoredEarly, {
+                date: formatDateLabel(firstValue(sp.ret) as string, locale),
+              })
+            : dict.search.returnIgnoredBad}
+        </p>
+      )}
+
+      {trip.returnDate && (
+        <div className="mt-8">
+          {roundTrip ? (
+            <RoundTripSummary
+              heading={dict.search.roundTripHeading}
+              total={dict.search.roundTripTotal}
+              milesCost={roundTrip.milesCost}
+              taxesFeesUsd={roundTrip.taxesFeesUsd}
+              programLine={
+                roundTrip.sameProgram
+                  ? interpolate(dict.search.roundTripSameProgram, { program: roundTrip.outbound.programName })
+                  : interpolate(dict.search.roundTripTwoPrograms, {
+                      outbound: roundTrip.outbound.programName,
+                      inbound: roundTrip.inbound.programName,
+                    })
+              }
+              nights={pluralize(
+                nightsAway(date, trip.returnDate),
+                dict.search.nightsOne,
+                dict.search.nightsOther,
+              )}
+            />
+          ) : (
+            <p className="border-t border-border-strong pt-3 text-sm text-muted">{dict.search.roundTripNone}</p>
+          )}
+        </div>
+      )}
+
+      {trip.returnDate && (
+        <div className="mt-8">
+          <LegSwitch
+            leg={leg}
+            baseParams={baseParams}
+            departure={date}
+            returnDate={trip.returnDate}
+            labels={{ group: dict.search.legLabel, outbound: dict.search.legOutbound, back: dict.search.legReturn }}
+            locale={locale}
+          />
+        </div>
+      )}
 
       <div className="mt-10">
         <h2 className="text-sm font-semibold text-foreground">{dict.search.cheapestDayHeading}</h2>
@@ -132,8 +231,9 @@ export default async function SearchPage({
         <div className="mt-4">
           <CalendarHeatmap
             days={calendarDays}
-            selectedDate={date}
-            baseParams={baseParams}
+            selectedDate={shownDate}
+            baseParams={calendarParams}
+            dateParam={showingReturn ? "ret" : "date"}
             noAwardSpaceLabel={dict.search.noAwardSpaceAria}
             milesLabel={dict.resultsTable.miles}
             locale={locale}
@@ -145,16 +245,16 @@ export default async function SearchPage({
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="text-sm font-semibold text-foreground">
-              {originAirport ? cityName(originAirport, locale) : origin} ({origin}) → {destinationAirport ? cityName(destinationAirport, locale) : destination} ({destination})
+              {originAirport ? cityName(originAirport, locale) : shownOrigin} ({shownOrigin}) → {destinationAirport ? cityName(destinationAirport, locale) : shownDestination} ({shownDestination})
             </h2>
             <p className="mt-1 text-sm text-muted">
-              {cabinLabel} · {formatDateLabel(date, locale)} ·{" "}
+              {cabinLabel} · {formatDateLabel(shownDate, locale)} ·{" "}
               {pluralize(results.length, dict.search.resultsCountOne, dict.search.resultsCountOther)}
             </p>
             {passengers > 1 && <p className="mt-1 text-xs text-muted">{dict.search.perPerson}</p>}
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <SaveSearchButton search={{ origin, destination, date, cabin, programs: programIds }} />
+            <SaveSearchButton search={{ origin, destination, date, returnDate: trip.returnDate, cabin, programs: programIds }} />
             <CopyLinkButton />
           </div>
         </div>

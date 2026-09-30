@@ -12,6 +12,8 @@ export type SearchFormValues = {
   origin: string;
   destination: string;
   date: string;
+  /** Empty string for a one-way trip. */
+  returnDate: string;
   cabin: string;
   passengers: number;
   programs: string[];
@@ -44,7 +46,7 @@ export function SearchForm({
 
   return (
     <form method="get" action="/search" className="space-y-4">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Field label={dict.from}>
           <select name="origin" defaultValue={values.origin} className="form-select">
             {AIRPORTS.map((a) => (
@@ -65,6 +67,19 @@ export function SearchForm({
         </Field>
         <Field label={dict.depart}>
           <input type="date" name="date" defaultValue={values.date} className="form-select" />
+        </Field>
+        {/* Empty is a one-way trip, so this needs no "one way / return"
+            switch of its own — the control and the answer are the same
+            thing. min pins it to the departure, which is the only rule the
+            picker can enforce; a hand-edited URL is caught on the page. */}
+        <Field label={dict.returnDate} hint={dict.returnHint}>
+          <input
+            type="date"
+            name="ret"
+            min={values.date}
+            defaultValue={values.returnDate}
+            className="form-select"
+          />
         </Field>
         <Field label={dict.cabin}>
           <select name="cabin" defaultValue={values.cabin} className="form-select">
@@ -141,10 +156,13 @@ export function SearchForm({
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-sm font-medium text-foreground">{label}</span>
+      <span className="mb-1 block text-sm font-medium text-foreground">
+        {label}
+        {hint && <span className="ml-2 font-normal text-xs text-muted">{hint}</span>}
+      </span>
       {children}
     </label>
   );

@@ -12,6 +12,7 @@ function searchHref(search: SavedSearch): string {
   params.set("origin", search.origin);
   params.set("destination", search.destination);
   params.set("date", search.date);
+  if (search.returnDate) params.set("ret", search.returnDate);
   params.set("cabin", search.cabin);
   for (const id of search.programs) params.append("programs", id);
   return `/search?${params.toString()}`;
@@ -36,7 +37,12 @@ export function SavedSearchesList() {
       <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">{dict.savedSearches.heading}</div>
       <div className="flex flex-wrap gap-2">
         {savedSearches.map((search) => {
-          const label = `${search.origin} → ${search.destination} · ${dict.cabins[search.cabin]} · ${formatDateLabel(search.date, locale)}`;
+          // A round trip shows both dates, so two entries on the same
+          // outbound are told apart by the chip rather than by opening them.
+          const dates = search.returnDate
+            ? `${formatDateLabel(search.date, locale)} – ${formatDateLabel(search.returnDate, locale)}`
+            : formatDateLabel(search.date, locale);
+          const label = `${search.origin} → ${search.destination} · ${dict.cabins[search.cabin]} · ${dates}`;
           return (
             <div
               key={search.id}

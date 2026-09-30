@@ -3,9 +3,9 @@ import type { CalendarDay } from "@/data/availability";
 import { formatDateLabel, formatDateShort, formatMiles } from "@/lib/format";
 import type { Locale } from "@/lib/i18n/locales";
 
-function buildHref(baseParams: URLSearchParams, date: string): string {
+function buildHref(baseParams: URLSearchParams, date: string, dateParam: string): string {
   const params = new URLSearchParams(baseParams);
-  params.set("date", date);
+  params.set(dateParam, date);
   return `/search?${params.toString()}`;
 }
 
@@ -16,6 +16,7 @@ export function CalendarHeatmap({
   noAwardSpaceLabel,
   milesLabel,
   locale,
+  dateParam = "date",
 }: {
   days: CalendarDay[];
   selectedDate: string;
@@ -23,6 +24,8 @@ export function CalendarHeatmap({
   noAwardSpaceLabel: string;
   milesLabel: string;
   locale: Locale;
+  /** Which date a cell sets — the departure, or a round trip's return. */
+  dateParam?: string;
 }) {
   const priced = days.map((d) => d.lowestMiles).filter((v): v is number => v !== null);
   const min = priced.length > 0 ? Math.min(...priced) : 0;
@@ -36,7 +39,7 @@ export function CalendarHeatmap({
         return (
           <Link
             key={day.date}
-            href={buildHref(baseParams, day.date)}
+            href={buildHref(baseParams, day.date, dateParam)}
             aria-current={isSelected ? "date" : undefined}
             aria-label={`${formatDateLabel(day.date, locale)}: ${day.lowestMiles !== null ? `${formatMiles(day.lowestMiles, locale)} ${milesLabel}` : noAwardSpaceLabel}`}
             suppressHydrationWarning
