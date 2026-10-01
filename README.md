@@ -21,7 +21,7 @@ airline or loyalty program.
   rather than a set of routes, so it scopes the layer to its Home tab
   explicitly and replays the flight on each return, which is what
   remounting the component does here.)
-- **`/search`** — search award availability by route, date, and cabin across 30
+- **`/search`** — search award availability by route, date, and cabin across 40
   loyalty programs (grouped by alliance — Star Alliance/Oneworld/SkyTeam/
   Unaligned — in the program filter), with a 14-day calendar view highlighting
   the cheapest day to fly and a sortable results table (Duration/Seats/Miles).
@@ -45,9 +45,9 @@ airline or loyalty program.
   "Under €46", not "Under $50") — same currency-conversion path the taxes
   & fees column itself already uses, with the cents dropped via
   `formatCurrency`'s `round` option, since a coarse threshold shouldn't
-  imply two decimal places of precision. The 30-program picker is a
-  collapsed `<details>` that summarises its own state ("All 30 programs",
-  or "2 of 30 programs" when narrowed, in which case it opens on arrival):
+  imply two decimal places of precision. The 40-program picker is a
+  collapsed `<details>` that summarises its own state ("All 40 programs",
+  or "2 of 40 programs" when narrowed, in which case it opens on arrival):
   every box is ticked by default and most people never narrow it, so
   leaving it expanded pushed the calendar and the results themselves below
   the fold. It's a native element, so the form stays JS-free and the
@@ -617,7 +617,20 @@ Two airports in the same metro area are not a route anyone redeems for, so
 JFK to EWR and HND to NRT return no award space at all rather than an
 invented price. The same floor keeps a hub out of its own network map.
 
-The route data covers 107 airports across 61 countries and 30 loyalty
+A program only prices a route its alliance actually reaches. Every program
+used to appear on every route, which was fine while the list was thirty
+mostly-global airlines and obviously wrong the moment regional ones joined
+it: Southwest pricing Addis Ababa to London, Icelandair pricing Sydney to
+Auckland. A program now prices a route when its own airline reaches both
+ends, or when anyone in its alliance does — which is most of what makes a
+mileage currency worth holding, since Aegean flies no further than the
+Middle East and Aegean miles still book a Star Alliance seat across the
+Pacific. An unaligned program sells only its own flying. Regions decide it
+rather than the longest sector each airline operates: an award itinerary
+connects, and gating the whole route on sector length put New York to
+Sydney at zero programs.
+
+The route data covers 107 airports across 61 countries and 40 loyalty
 programs. Thirteen metros have more than one gateway — the three New York
 fields, Heathrow and Gatwick, O'Hare and Midway, Dulles and National and
 BWI, Haneda and Narita, Incheon and Gimpo, and the rest — which is what
