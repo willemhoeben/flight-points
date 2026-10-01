@@ -17,21 +17,22 @@ export const TRANSFERS: Record<string, Record<string, number>> = {
   "amex-mr": {
     ana: 1, airfrance: 1, britishairways: 1, aircanada: 1, delta: 1,
     virginatlantic: 1, cathay: 1, qantas: 1, singapore: 1, emirates: 1,
-    avianca: 1, iberia: 1, etihad: 1, aeromexico: 1,
+    avianca: 1, iberia: 1, etihad: 1, aeromexico: 1, hawaiian: 1, jetblue: 1,
   },
   bilt: {
     aircanada: 1, airfrance: 1, britishairways: 1, cathay: 1, emirates: 1,
     virginatlantic: 1, united: 1, turkish: 1, alaska: 1, avianca: 1, iberia: 1,
+    hawaiian: 1,
   },
   "capital-one": {
     airfrance: 1, aircanada: 1, britishairways: 1, cathay: 1, singapore: 1,
     qantas: 1, emirates: 1, virginatlantic: 1, avianca: 1, etihad: 1,
-    tap: 1, finnair: 1, eva: 1, aeromexico: 1,
+    tap: 1, finnair: 1, eva: 1, aeromexico: 1, malaysia: 1, vietnam: 1,
   },
   "citi-typ": {
     singapore: 1, airfrance: 1, cathay: 1, qatar: 1, emirates: 1,
     virginatlantic: 1, qantas: 1, avianca: 1, turkish: 1, eva: 1,
-    etihad: 1, aeromexico: 1,
+    etihad: 1, aeromexico: 1, thai: 1, malaysia: 1, jetblue: 1,
   },
 };
 
