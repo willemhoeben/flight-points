@@ -95,6 +95,42 @@ export const DEAL_TEXT: Record<Exclude<Locale, "en">, Record<string, DealText>> 
         "De chart beloont vroeg boeken: partner award-ruimte komt ruim van tevoren vrij en droogt op naarmate het vertrek nadert, dus dit is geen last-minute strategie.",
       ],
     },
+    "ethiopian-shebamiles-intra-africa": {
+      title: "ShebaMiles is de enige verstandige manier om binnen Afrika te vliegen",
+      summary: "Addis Abeba bereikt meer van het continent dan welke hub ook, en niemand anders rekent dat in punten af.",
+      body: [
+        "Vliegen tussen twee Afrikaanse steden betekent meestal contant betalen, en duur ook: op de meeste van deze routes is er zo weinig concurrentie dat een enkele reis meer kost dan een transatlantisch ticket dat je dezelfde week koopt.",
+        "Ethiopian vliegt meer van het continent dan welke andere maatschappij ook, bijna alles via Addis Abeba, en ShebaMiles prijst die stukken in een lage regionale band in plaats van ze mee te laten bewegen met de contante prijs. Lagos, Nairobi, Accra en Johannesburg vallen vanuit Addis allemaal in dezelfde band.",
+        "Het addertje: je moet die miles eerst hebben. Geen enkele bank zet 1:1 over naar ShebaMiles, dus dit is een programma waar je in spaart door te vliegen of door Star Alliance-vluchten eraan te koppelen. Regel dat dus ruim vóór de reis die je wilt maken.",
+      ],
+    },
+    "hawaiian-inter-island-awards": {
+      title: "Tussen de eilanden is de laatste vaste prijs van Hawaï",
+      summary: "Honolulu naar de buureilanden kost nog steeds evenveel punten, wat de contante prijs ook doet.",
+      body: [
+        "Hawaiian prijst zijn vluchten naar het vasteland tegenwoordig op basis van de ticketprijs: een zaterdag in de zomer naar Honolulu kost wat een zaterdag in de zomer kost. De sprongen tussen de eilanden zijn niet meegegaan.",
+        "Honolulu naar Kahului, Kona of Lihue heeft een vaste awardprijs, ongeacht de datum, en juist in de weken waarin de contante prijzen tussen de eilanden omhoogschieten is dat het hele punt. Een gezin van vier dat halverwege de reis van eiland wisselt, verdient het er zo uit.",
+        "HawaiianMiles komen 1:1 binnen vanuit Amex Membership Rewards en vanuit Bilt, dus het saldo is makkelijk aan te vullen. Boek de eilandsprong op punten en houd het geld voor het deel van de reis dat niet vastligt.",
+      ],
+    },
+    "citi-typ-to-thai-20-bonus": {
+      title: "Citi ThankYou → Thai: 20% transferbonus",
+      summary: "Korte hops door Zuidoost-Azië zijn al goedkoop met Royal Orchid Plus; dit maakt ze goedkoper.",
+      body: [
+        "Citi geeft er 20% bij als je ThankYou-punten naar Thai Royal Orchid Plus overzet, tot eind oktober.",
+        "Royal Orchid Plus is onopvallend op de lange afstand en echt goed binnen Zuidoost-Azië: Bangkok naar Singapore, Kuala Lumpur, Hanoi of Ho Chi Minhstad zit in een korte regionale band, en met 20% erbij kom je boven de 1,2 miles per ThankYou-punt uit.",
+        "Zie het als een manier om de aansluitende stukken te betalen van een reis die je toch al maakt, niet als de reis zelf. Een transfer is niet terug te draaien, dus zet alleen over wat een concrete boeking nodig heeft.",
+      ],
+    },
+    "icelandair-saga-stopover": {
+      title: "De gratis stop in Reykjavik is nog steeds de reden om Saga-punten te hebben",
+      summary: "De awardtabel is gewoontjes. Onderweg een week in IJsland blijven is dat niet.",
+      body: [
+        "Icelandair rekent tussen Europa en Noord-Amerika niets bijzonders, en op zichzelf zou dat geen alinea waard zijn.",
+        "Waar het om gaat is de stopover. Keflavik ligt ongeveer halverwege, en Icelandair laat je er op een transatlantisch award tot een week blijven zonder extra punten, waardoor één boeking twee reizen wordt. Niemand anders op die oceaan biedt dat gratis aan.",
+        "Saga Club kent geen 1:1 banktransfer, dus de punten komen uit vliegen of uit de creditcard. De moeite waard als IJsland toch al op het lijstje stond, niet de moeite waard als dat niet zo was.",
+      ],
+    },
   },
   de: {
     "amex-mr-to-ana-30-bonus": {
@@ -167,6 +203,42 @@ export const DEAL_TEXT: Record<Exclude<Locale, "en">, Record<string, DealText>> 
         "Alaska Mileage Plan hat seine Oneworld-Partnervorteile beibehalten, während die meisten US-Programme auf dynamische Preise umstiegen, und die veröffentlichte Partnertabelle gilt weiterhin für Award-Plätze bei Cathay Pacific, Qatar Airways und Japan Airlines.",
         "Eine Business-Class-Einlösung nach Nordasien kann Tausende Meilen günstiger liegen als das, was das ausführende Programm für denselben Platz verlangen würde.",
         "Die Tabelle belohnt frühes Buchen: Partner-Award-Plätze werden lange im Voraus freigegeben und versiegen mit näher rückendem Abflug. Als Last-Minute-Strategie taugt das also nicht.",
+      ],
+    },
+    "ethiopian-shebamiles-intra-africa": {
+      title: "ShebaMiles ist der einzige vernünftige Weg, innerafrikanisch zu fliegen",
+      summary: "Addis Abeba erreicht mehr vom Kontinent als jeder andere Hub, und sonst rechnet das niemand in Punkten ab.",
+      body: [
+        "Zwischen zwei afrikanischen Städten zu fliegen heißt meist bar zahlen, und teuer: auf den meisten dieser Strecken ist die Konkurrenz so dünn, dass ein One-Way mehr kostet als ein Transatlantikticket aus derselben Woche.",
+        "Ethiopian bedient mehr vom Kontinent als jede andere Airline, fast alles über Addis Abeba, und ShebaMiles bepreist diese Abschnitte in einem niedrigen regionalen Band, statt sie am Barpreis mitlaufen zu lassen. Lagos, Nairobi, Accra und Johannesburg landen ab Addis alle im selben Band.",
+        "Der Haken ist, überhaupt an die Meilen zu kommen. Keine Bank überträgt 1:1 in ShebaMiles, also sammelt man hier durch Fliegen oder durch Gutschrift von Star-Alliance-Flügen. Das richtet man besser vor der Reise ein als währenddessen.",
+      ],
+    },
+    "hawaiian-inter-island-awards": {
+      title: "Zwischen den Inseln gilt der letzte Festpreis auf Hawaii",
+      summary: "Honolulu zu den Nachbarinseln kostet weiterhin gleich viele Punkte, egal was der Barpreis macht.",
+      body: [
+        "Hawaiian bepreist seine Festlandstrecken inzwischen nach dem Barpreis: ein Sommersamstag nach Honolulu kostet, was ein Sommersamstag kostet. Die Inselhüpfer sind dem nicht gefolgt.",
+        "Honolulu nach Kahului, Kona oder Lihue liegt bei einem festen Awardpreis, unabhängig vom Datum, und genau in den Wochen, in denen die Barpreise zwischen den Inseln hochschießen, ist das der ganze Punkt. Eine vierköpfige Familie, die mitten in der Reise die Insel wechselt, holt es damit heraus.",
+        "HawaiianMiles kommen 1:1 von Amex Membership Rewards und von Bilt, das Guthaben lässt sich also leicht auffüllen. Buche den Inselhüpfer mit Punkten und spare das Bargeld für den Teil der Reise, der nicht festgeschrieben ist.",
+      ],
+    },
+    "citi-typ-to-thai-20-bonus": {
+      title: "Citi ThankYou → Thai: 20% Transferbonus",
+      summary: "Kurze Hüpfer durch Südostasien sind mit Royal Orchid Plus schon günstig; das macht sie günstiger.",
+      body: [
+        "Citi legt 20% drauf, wenn du ThankYou-Punkte zu Thai Royal Orchid Plus überträgst, bis Ende Oktober.",
+        "Royal Orchid Plus ist auf der Langstrecke unauffällig und innerhalb Südostasiens richtig gut: Bangkok nach Singapur, Kuala Lumpur, Hanoi oder Ho-Chi-Minh-Stadt liegt in einem kurzen regionalen Band, und mit 20% obendrauf kommst du über 1,2 Meilen pro ThankYou-Punkt.",
+        "Nimm es als Weg, die Anschlussabschnitte einer Reise zu zahlen, die du ohnehin machst, nicht als die Reise selbst. Ein Transfer lässt sich nicht rückgängig machen, übertrage also nur, was eine konkrete Buchung braucht.",
+      ],
+    },
+    "icelandair-saga-stopover": {
+      title: "Der kostenlose Stopover in Reykjavik ist weiter der Grund für Saga-Punkte",
+      summary: "Die Awardtabelle ist gewöhnlich. Unterwegs eine Woche in Island zu bleiben ist es nicht.",
+      body: [
+        "Icelandairs Awardpreise zwischen Europa und Nordamerika sind unauffällig, und für sich genommen wären sie keinen Absatz wert.",
+        "Was sie trotzdem lohnend macht, ist der Stopover. Keflavik liegt ungefähr auf halber Strecke, und Icelandair lässt dich dort auf einem Transatlantik-Award bis zu eine Woche bleiben, ohne zusätzliche Punkte. Aus einer Einlösung werden so zwei Reisen. Sonst bietet das über diesem Ozean niemand kostenlos an.",
+        "Saga Club nimmt keinen 1:1-Banktransfer, die Punkte kommen also aus dem Fliegen oder aus der Kreditkarte. Lohnend, wenn Island ohnehin auf der Liste stand, nicht lohnend, wenn nicht.",
       ],
     },
   },
@@ -243,6 +315,42 @@ export const DEAL_TEXT: Record<Exclude<Locale, "en">, Record<string, DealText>> 
         "Le barème récompense la réservation anticipée : les places partenaires s'ouvrent longtemps à l'avance et se raréfient à l'approche du départ. Ce n'est donc pas une stratégie de dernière minute.",
       ],
     },
+    "ethiopian-shebamiles-intra-africa": {
+      title: "ShebaMiles est la seule façon sensée de payer un vol intra-africain",
+      summary: "Addis-Abeba dessert plus du continent que n'importe quel autre hub, et personne d'autre ne le facture en points.",
+      body: [
+        "Voler entre deux villes africaines veut dire payer comptant, et cher : sur la plupart de ces lignes la concurrence est si mince qu'un aller simple coûte plus qu'un billet transatlantique acheté la même semaine.",
+        "Ethiopian dessert plus du continent que toute autre compagnie, presque tout via Addis-Abeba, et ShebaMiles tarife ces segments dans une bande régionale basse au lieu de les indexer sur le tarif comptant. Lagos, Nairobi, Accra et Johannesburg tombent toutes dans la même bande au départ d'Addis.",
+        "Le hic, c'est d'avoir les miles. Aucune banque ne transfère en 1:1 vers ShebaMiles : on y accumule en volant ou en créditant des vols Star Alliance. Mieux vaut donc s'en occuper avant le voyage visé que pendant.",
+      ],
+    },
+    "hawaiian-inter-island-awards": {
+      title: "Entre les îles, c'est le dernier prix fixe d'Hawaï",
+      summary: "Honolulu vers les îles voisines coûte toujours le même nombre de points, quoi que fasse le tarif comptant.",
+      body: [
+        "Hawaiian tarife désormais ses lignes vers le continent d'après le prix comptant : un samedi d'été vers Honolulu coûte ce que coûte un samedi d'été. Les sauts inter-îles n'ont pas suivi.",
+        "Honolulu vers Kahului, Kona ou Lihue reste à un prix prime fixe quelle que soit la date, et c'est précisément dans les semaines où les tarifs comptants entre les îles s'envolent que ça compte. Une famille de quatre qui change d'île en milieu de séjour s'y retrouve largement.",
+        "Les HawaiianMiles arrivent en 1:1 depuis Amex Membership Rewards et depuis Bilt, le solde est donc facile à compléter. Réservez le saut d'île en points et gardez l'argent pour la partie du voyage qui n'est pas fixe.",
+      ],
+    },
+    "citi-typ-to-thai-20-bonus": {
+      title: "Citi ThankYou → Thai : 20% de bonus de transfert",
+      summary: "Les courts sauts en Asie du Sud-Est sont déjà bon marché sur Royal Orchid Plus ; là ils le deviennent plus encore.",
+      body: [
+        "Citi ajoute 20% quand vous transférez des points ThankYou vers Thai Royal Orchid Plus, jusqu'à fin octobre.",
+        "Royal Orchid Plus n'a rien de remarquable sur le long-courrier et devient vraiment bon à l'intérieur de l'Asie du Sud-Est : Bangkok vers Singapour, Kuala Lumpur, Hanoï ou Hô Chi Minh-Ville tombe dans une bande régionale courte, et 20% de plus porte le taux effectif au-delà de 1,2 mile par point ThankYou.",
+        "Voyez-y un moyen de payer les segments de correspondance d'un voyage que vous faites déjà, pas le voyage lui-même. Un transfert est irréversible : ne transférez que ce qu'une réservation précise demande.",
+      ],
+    },
+    "icelandair-saga-stopover": {
+      title: "L'escale gratuite à Reykjavik reste la raison de garder des points Saga",
+      summary: "Le barème des primes est ordinaire. Passer une semaine en Islande en chemin ne l'est pas.",
+      body: [
+        "Les primes d'Icelandair entre l'Europe et l'Amérique du Nord n'ont rien de remarquable, et à elles seules elles ne mériteraient pas un paragraphe.",
+        "Ce qui vaut le coup, c'est l'escale. Keflavik se trouve à peu près à mi-chemin, et Icelandair vous laisse y rester jusqu'à une semaine sur une prime transatlantique sans points supplémentaires, ce qui transforme une réservation en deux voyages. Personne d'autre ne l'offre gratuitement sur cet océan.",
+        "Saga Club n'accepte aucun transfert bancaire en 1:1 : les points viennent des vols ou de la carte co-brandée. À prévoir si l'Islande figurait déjà sur la liste, pas à courir après si ce n'était pas le cas.",
+      ],
+    },
   },
   es: {
     "amex-mr-to-ana-30-bonus": {
@@ -315,6 +423,42 @@ export const DEAL_TEXT: Record<Exclude<Locale, "en">, Record<string, DealText>> 
         "Alaska Mileage Plan mantuvo intactas sus ventajas de socio Oneworld mientras la mayoría de programas estadounidenses pasaban a precios dinámicos, y la tabla de socios publicada sigue aplicándose a las plazas de Cathay Pacific, Qatar Airways y Japan Airlines.",
         "Un canje en clase ejecutiva al norte de Asia puede costar miles de millas menos de lo que pediría el propio programa operador por el mismo asiento.",
         "La tabla premia reservar pronto: las plazas de socios se abren con mucha antelación y se agotan según se acerca la salida, así que no es una estrategia de última hora.",
+      ],
+    },
+    "ethiopian-shebamiles-intra-africa": {
+      title: "ShebaMiles es la única forma sensata de pagar un vuelo dentro de África",
+      summary: "Adís Abeba llega a más del continente que cualquier otro hub, y nadie más lo cobra en puntos.",
+      body: [
+        "Volar entre dos ciudades africanas suele significar pagar en efectivo, y caro: en la mayoría de estas rutas hay tan poca competencia que un sencillo cuesta más que un billete transatlántico comprado esa misma semana.",
+        "Ethiopian vuela a más partes del continente que ninguna otra aerolínea, casi todo vía Adís Abeba, y ShebaMiles tarifica esos tramos en una banda regional baja en lugar de seguir la tarifa en efectivo. Lagos, Nairobi, Accra y Johannesburgo caen todas en la misma banda desde Adís.",
+        "El problema es conseguir las millas. Ningún banco transfiere 1:1 a ShebaMiles, así que es un programa en el que se acumula volando o acreditando vuelos de Star Alliance. Conviene montarlo antes del viaje que quieres, no durante.",
+      ],
+    },
+    "hawaiian-inter-island-awards": {
+      title: "Entre islas está el último precio fijo de Hawái",
+      summary: "Honolulú a las islas vecinas sigue costando los mismos puntos, haga lo que haga la tarifa en efectivo.",
+      body: [
+        "Hawaiian ya tarifica sus rutas al continente según la tarifa en efectivo: un sábado de verano a Honolulú cuesta lo que cuesta un sábado de verano. Los saltos entre islas no siguieron ese camino.",
+        "Honolulú a Kahului, Kona o Lihue mantiene un precio premio plano sea cual sea la fecha, y justo en las semanas en que las tarifas en efectivo entre islas se disparan está todo el sentido. Una familia de cuatro que cambia de isla a mitad del viaje lo amortiza ahí.",
+        "Las HawaiianMiles entran 1:1 desde Amex Membership Rewards y desde Bilt, así que el saldo es fácil de completar. Reserva el salto entre islas con puntos y guarda el dinero para la parte del viaje que no está fija.",
+      ],
+    },
+    "citi-typ-to-thai-20-bonus": {
+      title: "Citi ThankYou → Thai: 20% de bonus de transferencia",
+      summary: "Los saltos cortos por el Sudeste Asiático ya son baratos con Royal Orchid Plus; esto los abarata más.",
+      body: [
+        "Citi añade un 20% cuando pasas puntos ThankYou a Thai Royal Orchid Plus, hasta final de octubre.",
+        "Royal Orchid Plus no destaca en largo radio y es realmente bueno dentro del Sudeste Asiático: Bangkok a Singapur, Kuala Lumpur, Hanói o Ciudad Ho Chi Minh cae en una banda regional corta, y con un 20% encima el cambio efectivo supera las 1,2 millas por punto ThankYou.",
+        "Tómalo como una manera de pagar los tramos de conexión de un viaje que ya ibas a hacer, no como el viaje en sí. Una transferencia no se deshace, así que mueve solo lo que una reserva concreta necesite.",
+      ],
+    },
+    "icelandair-saga-stopover": {
+      title: "La escala gratis en Reikiavik sigue siendo el motivo para tener puntos Saga",
+      summary: "La tabla de premios es corriente. Pasar una semana en Islandia de camino no lo es.",
+      body: [
+        "Los premios de Icelandair entre Europa y Norteamérica no tienen nada de particular, y por sí solos no merecerían un párrafo.",
+        "Lo que sí merece la pena es la escala. Keflavik queda más o menos a mitad de camino, e Icelandair te deja quedarte allí hasta una semana en un premio transatlántico sin puntos extra, con lo que una redención se convierte en dos viajes. Nadie más lo ofrece gratis en ese océano.",
+        "Saga Club no admite transferencia bancaria 1:1, así que los puntos vienen de volar o de la tarjeta. Merece la pena si Islandia ya estaba en la lista, no merece la pena perseguirlo si no lo estaba.",
       ],
     },
   },
@@ -391,6 +535,42 @@ export const DEAL_TEXT: Record<Exclude<Locale, "en">, Record<string, DealText>> 
         "La tabella premia chi prenota presto: i posti premio partner si aprono con largo anticipo e si esauriscono avvicinandosi alla partenza, quindi non è una strategia last minute.",
       ],
     },
+    "ethiopian-shebamiles-intra-africa": {
+      title: "ShebaMiles è l'unico modo sensato di pagare un volo dentro l'Africa",
+      summary: "Addis Abeba raggiunge più continente di qualsiasi altro hub, e nessun altro lo mette in punti.",
+      body: [
+        "Volare fra due città africane di solito vuol dire pagare in contanti, e caro: su gran parte di queste rotte la concorrenza è così scarsa che un solo andata costa più di un biglietto transatlantico comprato nella stessa settimana.",
+        "Ethiopian serve più continente di qualsiasi altra compagnia, quasi tutto via Addis Abeba, e ShebaMiles prezza quelle tratte in una banda regionale bassa invece di seguire la tariffa in contanti. Lagos, Nairobi, Accra e Johannesburg finiscono tutte nella stessa banda da Addis.",
+        "Il problema è avere le miglia. Nessuna banca trasferisce 1:1 verso ShebaMiles, quindi è un programma in cui si accumula volando o accreditando voli Star Alliance. Meglio sistemarlo prima del viaggio che vuoi fare, non durante.",
+      ],
+    },
+    "hawaiian-inter-island-awards": {
+      title: "Fra le isole c'è l'ultimo prezzo fisso delle Hawaii",
+      summary: "Honolulu verso le isole vicine costa sempre gli stessi punti, qualunque cosa faccia la tariffa in contanti.",
+      body: [
+        "Hawaiian ormai prezza le rotte verso il continente in base alla tariffa in contanti: un sabato d'estate per Honolulu costa quello che costa un sabato d'estate. I salti fra le isole non hanno seguito.",
+        "Honolulu verso Kahului, Kona o Lihue resta a un prezzo premio fisso qualunque sia la data, e proprio nelle settimane in cui le tariffe in contanti fra le isole schizzano sta tutto il punto. Una famiglia di quattro che cambia isola a metà viaggio ci rientra lì.",
+        "Le HawaiianMiles arrivano 1:1 da Amex Membership Rewards e da Bilt, quindi il saldo è facile da ricaricare. Prenota il salto fra le isole con i punti e tieni i contanti per la parte di viaggio che non è fissa.",
+      ],
+    },
+    "citi-typ-to-thai-20-bonus": {
+      title: "Citi ThankYou → Thai: 20% di bonus sul trasferimento",
+      summary: "Le tratte brevi nel Sud-est asiatico sono già economiche con Royal Orchid Plus; così lo diventano di più.",
+      body: [
+        "Citi aggiunge il 20% quando sposti punti ThankYou verso Thai Royal Orchid Plus, fino a fine ottobre.",
+        "Royal Orchid Plus non ha nulla di speciale sul lungo raggio ed è davvero buono dentro il Sud-est asiatico: Bangkok verso Singapore, Kuala Lumpur, Hanoi o Ho Chi Minh rientra in una banda regionale corta, e con il 20% in più il cambio effettivo supera 1,2 miglia per punto ThankYou.",
+        "Prendilo come un modo di pagare le tratte di collegamento di un viaggio che stai già facendo, non come il viaggio stesso. Un trasferimento non si annulla, quindi sposta solo quello che serve a una prenotazione precisa.",
+      ],
+    },
+    "icelandair-saga-stopover": {
+      title: "Lo scalo gratuito a Reykjavík resta il motivo per tenere i punti Saga",
+      summary: "La tabella premi è ordinaria. Passare una settimana in Islanda lungo la strada non lo è.",
+      body: [
+        "I premi di Icelandair fra Europa e Nord America non hanno nulla di notevole, e da soli non meriterebbero un paragrafo.",
+        "Quello che vale è lo scalo. Keflavík sta più o meno a metà strada, e Icelandair ti lascia fermarti fino a una settimana su un premio transatlantico senza punti in più, così una prenotazione diventa due viaggi. Su quell'oceano non lo offre gratis nessun altro.",
+        "Saga Club non accetta trasferimenti bancari 1:1, quindi i punti arrivano dai voli o dalla carta. Vale la pena se l'Islanda era comunque in lista, non vale la pena rincorrerlo se non lo era.",
+      ],
+    },
   },
   ja: {
     "amex-mr-to-ana-30-bonus": {
@@ -463,6 +643,42 @@ export const DEAL_TEXT: Record<Exclude<Locale, "en">, Record<string, DealText>> 
         "多くの米国プログラムが変動制へ移る中、アラスカ マイレージプランはワンワールド提携の条件を維持しました。公開されている提携社チャートは今もキャセイパシフィック、カタール航空、日本航空の特典枠に適用されます。",
         "北アジア行きのビジネスクラス特典は、同じ座席に対して運航側のプログラムが求める水準より数千マイル安くなることがあります。",
         "このチャートは早い予約に報います。提携社の特典枠はかなり前に開放され、出発が近づくほど減っていくため、直前狙いの戦略には向きません。",
+      ],
+    },
+    "ethiopian-shebamiles-intra-africa": {
+      title: "アフリカ域内を飛ぶなら、まともな選択肢はShebaMilesだけ",
+      summary: "アディスアベバはどのハブよりも広く大陸をカバーし、それをポイントで払えるのはここだけです。",
+      body: [
+        "アフリカの都市間を飛ぶとたいてい現金払いになり、しかも高い。多くの路線で競争が乏しく、片道が同じ週に買う大西洋線の往復より高くつくこともあります。",
+        "エチオピア航空はどの航空会社より広く大陸を飛び、そのほとんどがアディスアベバ経由です。ShebaMilesはこれらの区間を現金運賃に連動させず、低い地域ゾーンで価格づけします。ラゴス、ナイロビ、アクラ、ヨハネスブルグはアディス発ではどれも同じゾーンに入ります。",
+        "難点はマイルを手に入れること。1:1で移行できる銀行ポイントはないので、搭乗するかスターアライアンス便を加算して貯める必要があります。行きたい旅の直前ではなく、前もって準備しておきたいプログラムです。",
+      ],
+    },
+    "hawaiian-inter-island-awards": {
+      title: "島間路線はハワイに残った最後の固定価格",
+      summary: "ホノルルから近隣の島へは、現金運賃がどう動いても必要ポイントは変わりません。",
+      body: [
+        "ハワイアン航空は本土線を現金運賃連動にしました。夏の土曜のホノルル行きは、夏の土曜の値段になります。島間のホップはそれに追随しませんでした。",
+        "ホノルルからカフルイ、コナ、リフエは日付にかかわらず特典価格が一定です。島間の現金運賃が跳ね上がる週こそ、この固定価格が効いてきます。旅の途中で島を移る4人家族なら、それだけで元が取れます。",
+        "HawaiianMilesはAmexメンバーシップ・リワードとBiltから1:1で移行できるので、残高は補充しやすい。島間は特典で押さえて、現金は固定されていない部分に回しましょう。",
+      ],
+    },
+    "citi-typ-to-thai-20-bonus": {
+      title: "Citi ThankYou → タイ国際航空：20%移行ボーナス",
+      summary: "東南アジアの短距離はロイヤルオーキッドプラスで元から安く、これでさらに安くなります。",
+      body: [
+        "Citiは10月末まで、ThankYouポイントをタイ国際航空ロイヤルオーキッドプラスへ移行すると20%上乗せします。",
+        "ロイヤルオーキッドプラスは長距離では平凡ですが、東南アジア域内は本当に優秀です。バンコクからシンガポール、クアラルンプール、ハノイ、ホーチミンは短い地域ゾーンに収まり、20%上乗せで実質1ThankYouポイントあたり1.2マイルを超えます。",
+        "すでに決まっている旅の乗り継ぎ区間を払う手段と考えるのがよく、旅そのものに使うものではありません。移行は取り消せないので、具体的な予約に必要な分だけ動かしてください。",
+      ],
+    },
+    "icelandair-saga-stopover": {
+      title: "レイキャビクの無料ストップオーバーは、いまもSagaポイントを持つ理由",
+      summary: "特典チャートは普通。途中でアイスランドに1週間滞在できるのは普通ではありません。",
+      body: [
+        "ヨーロッパと北米を結ぶアイスランド航空の特典価格に、特筆すべきところはありません。それだけなら一段落を割く価値もないでしょう。",
+        "価値があるのはストップオーバーです。ケプラヴィークはちょうど中間あたりにあり、大西洋線の特典で最大1週間、追加ポイントなしで滞在できます。1回の発券が2つの旅になるわけです。この大洋で無料でそれを認めている会社はほかにありません。",
+        "Saga Clubに1:1の銀行移行はないので、ポイントは搭乗か提携カードから貯めます。もともとアイスランドが候補にあったなら計画する価値があり、なかったなら追いかけるほどではありません。",
       ],
     },
   },

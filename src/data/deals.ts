@@ -131,6 +131,60 @@ export const DEALS: Deal[] = [
       "The chart rewards booking early: partner award space is released far in advance and dries up close to departure, so this is not a last-minute strategy.",
     ],
   },
+  {
+    slug: "ethiopian-shebamiles-intra-africa",
+    title: "ShebaMiles is the only sane way to pay for intra-Africa flying",
+    summary: "Addis Ababa reaches more of the continent than anywhere else, and nobody else prices it in points.",
+    category: "sweet-spot",
+    program: "Ethiopian ShebaMiles",
+    publishedAt: "2026-09-09",
+    body: [
+      "Flying between two African cities usually means cash, and expensive cash: thin competition on most of these routes keeps one-way fares higher than a transatlantic ticket bought the same week.",
+      "Ethiopian flies more of the continent than any other airline, nearly all of it through Addis Ababa, and ShebaMiles prices those sectors on a short regional band rather than scaling them to what the cash fare happens to be. Lagos, Nairobi, Accra and Johannesburg all land in the same low band from Addis.",
+      "The catch is getting the miles in the first place. No bank transfers into ShebaMiles at 1:1, so this is a program you earn into by flying or by crediting Star Alliance partners to it, which makes it worth setting up before the trip you want rather than during it.",
+    ],
+  },
+  {
+    slug: "hawaiian-inter-island-awards",
+    title: "Inter-island awards are the last fixed price in Hawaii",
+    summary: "Honolulu to the neighbour islands still costs the same number of points whatever the cash fare does.",
+    category: "sweet-spot",
+    program: "Hawaiian HawaiianMiles",
+    publishedAt: "2026-09-11",
+    body: [
+      "Hawaiian prices its mainland routes off the cash fare now, which means a summer Saturday to Honolulu costs what a summer Saturday costs. The inter-island hops did not follow.",
+      "Honolulu to Kahului, Kona or Lihue sits at a flat award price regardless of date, and in the weeks when cash fares between the islands spike, that flat price is the whole point. A family of four moving islands mid-trip is where it pays for itself.",
+      "HawaiianMiles transfer in 1:1 from Amex Membership Rewards and from Bilt, so the balance is easy to top up. Book the island hop on points and put the cash toward the part of the trip that is not fixed.",
+    ],
+  },
+  {
+    slug: "citi-typ-to-thai-20-bonus",
+    title: "Citi ThankYou → Thai: 20% transfer bonus",
+    summary: "Short Southeast Asian hops are already cheap on Royal Orchid Plus; this makes them cheaper.",
+    category: "transfer-bonus",
+    program: "Thai Royal Orchid Plus",
+    bonusPercent: 20,
+    expires: "2026-10-31",
+    publishedAt: "2026-09-13",
+    body: [
+      "Citi is adding 20% when you move ThankYou points to Thai Royal Orchid Plus, through the end of October.",
+      "Royal Orchid Plus is unremarkable on long-haul and genuinely good on everything inside Southeast Asia: Bangkok to Singapore, Kuala Lumpur, Hanoi or Ho Chi Minh City prices on a short regional band, and 20% on top takes the effective rate past 1.2 miles per ThankYou point.",
+      "Treat it as a way to pay for the connecting legs of a trip you are already taking rather than as the trip itself. Transfers are not reversible, so move only what a specific booking needs.",
+    ],
+  },
+  {
+    slug: "icelandair-saga-stopover",
+    title: "The free Reykjavik stopover is still the reason to hold Saga points",
+    summary: "The award chart is ordinary. Stopping in Iceland for a week on the way is not.",
+    category: "sweet-spot",
+    program: "Icelandair Saga Club",
+    publishedAt: "2026-09-15",
+    body: [
+      "Icelandair's award pricing between Europe and North America is unremarkable, and on its own it would not be worth a paragraph.",
+      "What makes it worth holding is the stopover. Keflavik sits roughly halfway, and Icelandair lets you stop there for up to a week on a transatlantic award at no extra points cost, which turns one redemption into two trips. Nobody else on that ocean offers the same thing for free.",
+      "Saga Club takes no 1:1 bank transfer, so the points come from flying or from the co-branded card. Worth planning around if Iceland was ever going to be on the list anyway, not worth chasing if it was not.",
+    ],
+  },
 ];
 
 export function findDeal(slug: string): Deal | undefined {
