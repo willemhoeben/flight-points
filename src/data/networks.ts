@@ -1,5 +1,5 @@
 import { AIRPORTS, findAirport, type Airport } from "@/data/airports";
-import { PROGRAMS } from "@/data/programs";
+import { PROGRAMS, type Alliance } from "@/data/programs";
 
 export type Region =
   | "North America"
@@ -122,20 +122,12 @@ export function allHubs(): string[] {
 }
 
 /**
- * Whether a program's own airline reaches both ends of this route.
- *
- * Regions only, deliberately not maxKm: that field is the longest single
- * sector the airline operates, and an award itinerary connects. Gating the
- * whole route on it put New York to Sydney at zero programs, which is one
- * of the routes people hold miles for in the first place.
+ * Regions decide whether an airline reaches a route, deliberately not
+ * maxKm: that field is the longest single sector the airline operates, and
+ * an award itinerary connects. Gating the whole route on it put New York to
+ * Sydney at zero programs, which is one of the routes people hold miles for
+ * in the first place.
  */
-function flysItself(programId: string, origin: string, destination: string): boolean {
-  const net = NETWORKS[programId];
-  const a = findAirport(origin);
-  const b = findAirport(destination);
-  if (!net || !a || !b) return false;
-  return net.regions.includes(regionOf(a)) && net.regions.includes(regionOf(b));
-}
 
 /**
  * Whether a program can price this route at all.
@@ -150,9 +142,45 @@ function flysItself(programId: string, origin: string, destination: string): boo
  * was thirty mostly-global airlines, obviously wrong the moment regional
  * ones joined it.
  */
+const PROGRAM_BY_ID = new Map(PROGRAMS.map((p) => [p.id, p]));
+
+/**
+ * Whether any member of an alliance reaches both of these regions, cached.
+ *
+ * Deliberately not a union of each member's regions: a union would say an
+ * alliance serves Europe to Asia when one member flies only Europe and
+ * another only Asia, and neither can actually sell the route. The answer
+ * only depends on the two regions, so there are at most four alliances
+ * times seven regions squared of them — small enough to keep all of them
+ * rather than rescan forty programs per airline per route, which /explore
+ * would otherwise do roughly sixty thousand times for one page.
+ */
+const allianceReach = new Map<string, boolean>();
+
+function allianceReaches(alliance: Alliance, from: Region, to: Region): boolean {
+  const key = `${alliance}|${from}|${to}`;
+  const cached = allianceReach.get(key);
+  if (cached !== undefined) return cached;
+  const answer = PROGRAMS.some((p) => {
+    if (p.alliance !== alliance) return false;
+    const net = NETWORKS[p.id];
+    return !!net && net.regions.includes(from) && net.regions.includes(to);
+  });
+  allianceReach.set(key, answer);
+  return answer;
+}
+
 export function programServesRoute(programId: string, origin: string, destination: string): boolean {
-  if (flysItself(programId, origin, destination)) return true;
-  const alliance = PROGRAMS.find((p) => p.id === programId)?.alliance;
+  const a = findAirport(origin);
+  const b = findAirport(destination);
+  if (!a || !b) return false;
+  const from = regionOf(a);
+  const to = regionOf(b);
+
+  const own = NETWORKS[programId];
+  if (own && own.regions.includes(from) && own.regions.includes(to)) return true;
+
+  const alliance = PROGRAM_BY_ID.get(programId)?.alliance;
   if (!alliance || alliance === "Unaligned") return false;
-  return PROGRAMS.some((p) => p.alliance === alliance && flysItself(p.id, origin, destination));
+  return allianceReaches(alliance, from, to);
 }

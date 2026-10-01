@@ -123,6 +123,14 @@ export const AIRPORTS: Airport[] = [
   { code: "BNE", city: "Brisbane", country: "Australia", name: "Brisbane Airport", lat: -27.3842, lon: 153.1175 },
 ];
 
+/**
+ * Indexed rather than scanned. findAirport is called from inside the award
+ * search's per-program loop, which /explore runs 1,470 times for one page,
+ * and a linear scan of a hundred-odd airports inside that is the classic
+ * find-in-a-loop.
+ */
+const BY_CODE = new Map(AIRPORTS.map((a) => [a.code, a]));
+
 export function findAirport(code: string): Airport | undefined {
-  return AIRPORTS.find((a) => a.code === code);
+  return BY_CODE.get(code);
 }

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { AIRPORTS } from "@/data/airports";
+import { AIRPORTS, findAirport } from "@/data/airports";
 import { PROGRAMS } from "@/data/programs";
 import { NETWORKS, REGION_ORDER, allHubs, hubsFor, programServesRoute, regionOf } from "@/data/networks";
 import { bearingDeg, distanceKm, MIN_ROUTE_KM } from "@/lib/distance";
@@ -199,6 +199,63 @@ describe("programServesRoute", () => {
         if (o === d || distanceKm(o, d) < MIN_ROUTE_KM) continue;
         const n = PROGRAMS.filter((p) => programServesRoute(p.id, o, d)).length;
         expect(n, `${o}-${d}`).toBeGreaterThan(5);
+      }
+    }
+  });
+});
+
+describe("the alliance-reach cache", () => {
+  /**
+   * A union of each member's regions would be wrong: it would say an
+   * alliance serves Europe to Asia when one member flies only Europe and
+   * another only Asia, and neither can actually sell the route. This pins
+   * the cached answer against the naive rescan for every program and every
+   * pair of airports in the data.
+   */
+  function naiveFlys(id: string, origin: string, destination: string): boolean {
+    const net = NETWORKS[id];
+    const a = findAirport(origin);
+    const b = findAirport(destination);
+    if (!net || !a || !b) return false;
+    return net.regions.includes(regionOf(a)) && net.regions.includes(regionOf(b));
+  }
+
+  function naive(id: string, origin: string, destination: string): boolean {
+    if (naiveFlys(id, origin, destination)) return true;
+    const alliance = PROGRAMS.find((p) => p.id === id)?.alliance;
+    if (!alliance || alliance === "Unaligned") return false;
+    return PROGRAMS.some((p) => p.alliance === alliance && naiveFlys(p.id, origin, destination));
+  }
+
+  test("answers exactly what rescanning every program would", () => {
+    // One airport in each region is enough: the answer depends on the pair
+    // of regions, not on which airport inside one you picked.
+    const sample = REGION_ORDER.map((r) => AIRPORTS.find((a) => regionOf(a) === r)).filter(
+      (a): a is NonNullable<typeof a> => !!a,
+    );
+    expect(sample.length).toBe(REGION_ORDER.length);
+    for (const p of PROGRAMS) {
+      for (const a of sample) {
+        for (const b of sample) {
+          expect(programServesRoute(p.id, a.code, b.code), `${p.id} ${a.code}-${b.code}`).toBe(
+            naive(p.id, a.code, b.code),
+          );
+        }
+      }
+    }
+  });
+
+  test("two airports in the same region always answer alike", () => {
+    const byRegionPair = new Map<string, boolean>();
+    for (const p of PROGRAMS.slice(0, 6)) {
+      for (const a of AIRPORTS) {
+        for (const b of AIRPORTS.slice(0, 24)) {
+          const key = `${p.id}|${regionOf(a)}|${regionOf(b)}`;
+          const answer = programServesRoute(p.id, a.code, b.code);
+          const seen = byRegionPair.get(key);
+          if (seen === undefined) byRegionPair.set(key, answer);
+          else expect(answer, `${key} via ${a.code}-${b.code}`).toBe(seen);
+        }
       }
     }
   });
