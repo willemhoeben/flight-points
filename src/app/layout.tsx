@@ -1,4 +1,6 @@
+import { headers } from "next/headers";
 import { jsonLdHtml } from "@/lib/json-ld";
+import { NONCE_HEADER } from "@/lib/csp";
 import type { Metadata } from "next";
 import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
@@ -68,6 +70,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const { locale, dict } = await getDictionary();
+  // Next stamps its own script tags from the CSP request header. The
+  // pre-paint theme script below is ours, so it needs the nonce by hand.
+  // Undefined only on a path middleware skips, where nothing enforces a CSP.
+  const nonce = (await headers()).get(NONCE_HEADER) ?? undefined;
 
   const lede = interpolate(dict.home.lede, { count: PROGRAMS.length });
 
@@ -106,6 +112,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             theme. Storage key must match theme-context.tsx's STORAGE_KEY —
             this can't import it, it has to run before any JS bundle loads. */}
         <script
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem("flight-points:theme");var d=t==="dark"||((t===null||t==="system")&&window.matchMedia("(prefers-color-scheme: dark)").matches);if(d)document.documentElement.classList.add("dark");}catch(e){}})();`,
           }}
