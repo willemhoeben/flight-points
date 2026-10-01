@@ -532,6 +532,77 @@ dark mode prints the full daylight palette on paper white, and
 single token the night palette overrides — a half-reverted palette puts
 near-black badge tints on a white sheet.
 
+### Every control is big enough to hit
+
+The phone header got the 44px treatment when it was built. Nothing else had.
+Measuring every interactive element on nine pages at 390px found 426 under
+the line: the sort and filter pills at 28px, the forty programme checkbox
+labels at 20px, the six search fields at 39–42px, the theme, language and
+currency selects at 24px, the hundred-plus network destination rows at 30px,
+and the footer links at 14px text on a 20px pitch, which is a row of
+mis-taps waiting to happen.
+
+The pills turned out to be the same two class strings copied into eight
+files, which is exactly how seven of them stayed small while one got fixed.
+They are one `Pill` now (`src/components/ui.tsx`), and its `semantics` prop
+decides whether it announces as *current* (one of a group, like a sort
+column) or *pressed* (independently on or off, like a nonstop filter) —
+getting that wrong is not cosmetic, it tells a screen-reader user that a
+sort column is "pressed". The three chromeless selects shared a third copied
+string; that is `BARE_SELECT`. The floor lives in those two constants, so
+the next pill inherits it.
+
+It applies at phone widths only. A cursor hits 28px perfectly well and the
+compact row is the intended look once there is a pointer, so the height goes
+up where the hand is, not everywhere. Two places took a layout decision
+instead of padding: the footer's eight links go to two columns on a phone
+(44px rows in one column would have cost 352px of footer; two columns cost
+176px), and the card and section links trade margin for the height the floor
+adds, so the optical spacing is unchanged.
+
+Measured after: zero elements under 44px, counting the offscreen skip link,
+the forty checkboxes behind 44px labels, and one inline link in prose as the
+exemptions they are. No horizontal overflow and no clipped footer link
+across all seven languages at 390, 768 and 1280.
+
+### The nav says which page you are on
+
+All seven links rendered identically on all nine pages. Cover the content
+and the navigation could not tell you where you were, and a screen reader was
+told nothing at all, because no link carried `aria-current`. The phone panel
+had done this since it was built; the bar never did.
+
+The current item now gets a rule under it *and* the full-strength text
+colour, two signals rather than one, because colour alone is no signal to a
+reader with a colour vision deficiency. It marks the **section**, so a deal
+article marks Deals: exact-match would leave the nav blank on all twelve
+deal pages, which is where the question is hardest, since a deal is usually
+arrived at from a link rather than from the nav.
+
+### One stylesheet rule was beating every utility
+
+Three rules sat at the top level of `globals.css`: `*` setting
+`border-color`, `body` setting background and font, and `h1, h2, h3` setting
+weight and letter-spacing. Unlayered CSS outranks everything inside a
+Tailwind layer, so each of them silently overrode the utilities on the
+elements it matched. Nothing errored and nothing looked obviously broken,
+which is why it lasted.
+
+| Utility | Was | Is |
+|---|---|---|
+| `border-border-strong` (14 elements on the home page alone) | `#ccd5e6` | `#a9b6cf` |
+| `border-brand` on the nav marker | `#ccd5e6` | `#e0a020` |
+| `hover:border-brand` on the copy and save buttons | no change | grey → gold |
+| `focus:border-focus` on every form field | no change | transparent → `#8a5200` |
+| `tracking-[0.1em]` on the uppercase mono labels | −0.165px | +1.1px |
+| `tracking-tight` on the home headline | −0.72px | −1.2px |
+
+The uppercase labels are the visible one: the design asks for the widest
+tracking on the site in exactly the place that was getting the narrowest.
+They are inside `@layer base` now, so the defaults still apply to anything
+that asks for nothing and a utility wins. `test/border-cascade.test.ts`
+fails if a bare universal or element rule is ever added outside a layer.
+
 ## Languages and currencies
 
 The navbar has two independent selectors:
@@ -652,6 +723,85 @@ country names are translated into all six non-English locales
 (`src/lib/i18n/place-names.ts`), with a test that fails if an airport
 arrives without them — a silent fall back to English on one city in a list
 of a hundred is exactly the kind of gap nobody notices by eye.
+
+## What the site sends, and what it refuses
+
+The site has no accounts, no database and no outbound requests, so most of
+the usual hardening has nothing to protect. These are the parts that still
+earn their place on a page that renders editorial copy and reads query
+parameters.
+
+**A real script policy, not a decorative one.** `src/middleware.ts` mints a
+128-bit nonce per request and puts the CSP on both the request and the
+response: the response header is what the browser enforces, the request
+header is where Next finds the nonce for the script tags it writes itself.
+The pre-paint theme script is ours, so the layout stamps that one by hand,
+and `'strict-dynamic'` covers the route chunks the bootstrap injects.
+
+A nonce normally costs static rendering, which is why most content sites
+settle for `script-src 'self' 'unsafe-inline'` and permit precisely the
+injection a CSP is for. It costs nothing here: every page reads the locale
+cookie, so `next build` already emits exactly one prerendered HTML file.
+Styles keep `'unsafe-inline'` — a style nonce does not cover the `style=`
+attributes React writes, which needs `'unsafe-hashes'`, and an injected
+style can deface but cannot run code.
+
+Verified rather than asserted: a parser-inserted inline script planted into
+the response is refused with the policy on and runs with the policy
+stripped, across all nine pages plus the 404 and a populated search, with
+hydration confirmed live each time by driving the theme select and watching
+the class and `localStorage` change. `test/csp.test.ts` pins the shape,
+including the mistake this nearly shipped as — omitting `script-src` does
+not leave scripts unconstrained, it inherits `default-src` and blocks every
+inline script on the site.
+
+**JSON-LD is escaped, because `JSON.stringify` does not escape `</script>`.**
+A deal title of `</script><script>…` closes the tag and the browser runs what
+follows. Verified by planting one and watching it execute before
+`src/lib/json-ld.ts` existed, then confirming the same payload inert after.
+Nothing on this site takes structured data from a visitor, so there is no
+attacker path through it today; the reason to escape anyway is that the deal
+articles are editorial copy in seven languages, and "our own content can't be
+hostile" is the assumption that ships this class of bug.
+
+**A deal URL that does not exist answers 404.** It used to answer 200. A
+visitor running JavaScript saw the right not-found page, so nothing looked
+wrong, but a crawler was told every invented URL under `/deals/` was a real
+page and a visitor without JavaScript sat on a loading skeleton that never
+resolved. The cause was a `loading.tsx` above the route: it wraps the subtree
+in a Suspense boundary, and once that shell has flushed React cannot abort
+it, so `notFound()` degrades to a client-side fallback. Both deals skeletons
+are gone — these pages render from a compiled-in array with no I/O and answer
+in about 30ms, so the skeleton was never on screen long enough to be seen.
+`test/not-found-status.test.ts` fails if one is ever put back above a route
+that calls `notFound()`.
+
+**The HTML is compressed.** It was not. Measured over the wire against
+`next start`:
+
+| Page | Before | After | Saved |
+|---|---|---|---|
+| `/explore` | 410,010 | 33,781 | 92% |
+| `/network` | 261,629 | 30,406 | 88% |
+| `/search` | 227,521 | 29,762 | 87% |
+| `/valuations` | 143,325 | 22,969 | 84% |
+| `/deals` | 78,330 | 16,066 | 79% |
+| `/` | 70,391 | 15,507 | 78% |
+
+Explore is both the heaviest page and the one most likely to be opened on a
+phone, since it is the one that answers "where can I go with the points I
+have". A CDN in front of this would compress anyway, and most deployments
+have one; that is a reason to keep `compress: true` in the repo, not a
+reason to rely on something outside it for the single largest saving.
+
+**Four fixed headers**, in `next.config.ts` so they also cover the paths
+middleware skips: `X-Content-Type-Options: nosniff`, a referrer policy,
+`X-Frame-Options: DENY` as belt and braces with the CSP's `frame-ancestors`,
+and a `Permissions-Policy` turning off camera, microphone, geolocation,
+payment and USB, none of which the page asks for. `poweredByHeader` is off:
+advertising the framework and its version only helps someone matching the
+site against a CVE list. The locale cookie is marked `Secure` on https and
+not on plain http, so it still sets during local development.
 
 ## The name
 
