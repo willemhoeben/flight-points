@@ -1,4 +1,5 @@
 import { PROGRAMS } from "./programs";
+import { programServesRoute } from "./networks";
 import { rngFor } from "@/lib/prng";
 import { awardDistanceMultiplier, distanceKm, MIN_ROUTE_KM } from "@/lib/distance";
 
@@ -98,6 +99,10 @@ export function searchAvailability(params: {
   const results: AwardResult[] = [];
 
   for (const program of candidatePrograms) {
+    // A program that cannot reach both ends, itself or through its
+    // alliance, has nothing to sell here.
+    if (!programServesRoute(program.id, origin, destination)) continue;
+
     const rng = rngFor(origin, destination, date, cabin, program.id);
     // Not every program has award space on every route/date/cabin.
     const hasSpace = rng() > 0.35;

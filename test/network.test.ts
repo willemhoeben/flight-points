@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import { AIRPORTS } from "@/data/airports";
 import { PROGRAMS } from "@/data/programs";
-import { NETWORKS, REGION_ORDER, allHubs, hubsFor, regionOf } from "@/data/networks";
-import { bearingDeg, distanceKm } from "@/lib/distance";
+import { NETWORKS, REGION_ORDER, allHubs, hubsFor, programServesRoute, regionOf } from "@/data/networks";
+import { bearingDeg, distanceKm, MIN_ROUTE_KM } from "@/lib/distance";
 import { byRegion, networkFrom, ringsFor } from "@/lib/network";
 
 describe("network data", () => {
@@ -138,6 +138,68 @@ describe("byRegion", () => {
   test("keeps each region's legs sorted outward", () => {
     for (const { legs } of byRegion(networkFrom("united", "SFO"))) {
       for (let i = 1; i < legs.length; i++) expect(legs[i].km).toBeGreaterThanOrEqual(legs[i - 1].km);
+    }
+  });
+});
+
+describe("programServesRoute", () => {
+  test("an unaligned program only sells where its own metal flies", () => {
+    // Southwest is North America only, and has no alliance to borrow from.
+    expect(programServesRoute("southwest", "JFK", "LAX")).toBe(true);
+    expect(programServesRoute("southwest", "JFK", "LHR")).toBe(false);
+    expect(programServesRoute("southwest", "ADD", "LHR")).toBe(false);
+    // Icelandair reaches Europe and North America, nothing else.
+    expect(programServesRoute("icelandair", "KEF", "JFK")).toBe(true);
+    expect(programServesRoute("icelandair", "SYD", "AKL")).toBe(false);
+    expect(programServesRoute("icelandair", "HNL", "NRT")).toBe(false);
+  });
+
+  /**
+   * The whole reason to hold an alliance currency: you spend it on anyone
+   * in the alliance. Aegean flies no further than the Middle East, and
+   * Aegean miles still book a Star Alliance seat across the Pacific.
+   */
+  test("an alliance program sells anywhere its alliance reaches", () => {
+    expect(programServesRoute("aegean", "ATH", "FCO")).toBe(true);
+    expect(programServesRoute("aegean", "JFK", "SYD")).toBe(true);
+    expect(programServesRoute("thai", "JFK", "LHR")).toBe(true);
+    expect(programServesRoute("royalairmaroc", "SYD", "AKL")).toBe(true);
+  });
+
+  test("is symmetric, and true of a program's own hubs", () => {
+    for (const p of PROGRAMS) {
+      const hubs = NETWORKS[p.id]?.hubs ?? [];
+      for (const hub of hubs) {
+        for (const other of hubs) {
+          if (hub === other) continue;
+          expect(programServesRoute(p.id, hub, other), `${p.id} ${hub}-${other}`).toBe(true);
+        }
+      }
+      for (const [o, d] of [["JFK", "LHR"], ["SYD", "AKL"], ["ADD", "NBO"], ["HNL", "NRT"]]) {
+        expect(programServesRoute(p.id, o, d)).toBe(programServesRoute(p.id, d, o));
+      }
+    }
+  });
+
+  test("an unknown program or airport sells nothing", () => {
+    expect(programServesRoute("nope", "JFK", "LHR")).toBe(false);
+    expect(programServesRoute("united", "ZZZ", "LHR")).toBe(false);
+    expect(programServesRoute("united", "JFK", "")).toBe(false);
+  });
+
+  /**
+   * The gate has to narrow the list without emptying it: a route nobody
+   * can price is a page with nothing on it, which is worse than a page
+   * with one implausible airline.
+   */
+  test("every pair of hubs in the data still has programs that can price it", () => {
+    const hubs = allHubs();
+    for (const o of hubs) {
+      for (const d of hubs) {
+        if (o === d || distanceKm(o, d) < MIN_ROUTE_KM) continue;
+        const n = PROGRAMS.filter((p) => programServesRoute(p.id, o, d)).length;
+        expect(n, `${o}-${d}`).toBeGreaterThan(5);
+      }
     }
   });
 });

@@ -1,4 +1,5 @@
-import { AIRPORTS, type Airport } from "@/data/airports";
+import { AIRPORTS, findAirport, type Airport } from "@/data/airports";
+import { PROGRAMS } from "@/data/programs";
 
 export type Region =
   | "North America"
@@ -118,4 +119,40 @@ export function allHubs(): string[] {
   const seen = new Set<string>();
   for (const net of Object.values(NETWORKS)) for (const h of net.hubs) seen.add(h);
   return AIRPORTS.filter((a) => seen.has(a.code)).map((a) => a.code);
+}
+
+/**
+ * Whether a program's own airline reaches both ends of this route.
+ *
+ * Regions only, deliberately not maxKm: that field is the longest single
+ * sector the airline operates, and an award itinerary connects. Gating the
+ * whole route on it put New York to Sydney at zero programs, which is one
+ * of the routes people hold miles for in the first place.
+ */
+function flysItself(programId: string, origin: string, destination: string): boolean {
+  const net = NETWORKS[programId];
+  const a = findAirport(origin);
+  const b = findAirport(destination);
+  if (!net || !a || !b) return false;
+  return net.regions.includes(regionOf(a)) && net.regions.includes(regionOf(b));
+}
+
+/**
+ * Whether a program can price this route at all.
+ *
+ * You can spend an alliance member's miles on any member's metal, which is
+ * most of what makes a mileage currency worth holding — so an alliance
+ * program prices a route if anyone in its alliance reaches both ends.
+ * An unaligned program only sells its own flying.
+ *
+ * Without this every program showed up on every route: Southwest on Addis
+ * Ababa to London, Icelandair on Sydney to Auckland. Fine while the list
+ * was thirty mostly-global airlines, obviously wrong the moment regional
+ * ones joined it.
+ */
+export function programServesRoute(programId: string, origin: string, destination: string): boolean {
+  if (flysItself(programId, origin, destination)) return true;
+  const alliance = PROGRAMS.find((p) => p.id === programId)?.alliance;
+  if (!alliance || alliance === "Unaligned") return false;
+  return PROGRAMS.some((p) => p.alliance === alliance && flysItself(p.id, origin, destination));
 }
