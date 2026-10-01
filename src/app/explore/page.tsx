@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/ui";
 import { AIRPORTS, findAirport } from "@/data/airports";
 import { CABINS, type Cabin } from "@/data/availability";
 import { exploreDestinations, isExploreSort, sortDestinations, type ExploreSort } from "@/lib/explore";
+import { PASSENGER_OPTIONS, parsePassengers } from "@/lib/passengers";
 import { addDays, formatCentsPerPoint, formatDateLabel, formatMiles, todayIso } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { cityName, countryName } from "@/lib/i18n/place-names";
@@ -61,9 +62,12 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
   const budgetRaw = firstValue(sp.budget) ?? "";
   const budget = parseBudget(budgetRaw);
   const sort: ExploreSort = isExploreSort(firstValue(sp.sort)) ? (firstValue(sp.sort) as ExploreSort) : "cheapest";
+  const passengers = parsePassengers(firstValue(sp.pax));
 
   const startDate = addDays(todayIso(), 30);
-  const all = exploreDestinations({ origin, cabin, startDate });
+  // Award space is per seat, so a party of four is shown only the
+  // destinations the search would also show them.
+  const all = exploreDestinations({ origin, cabin, startDate, minSeats: passengers });
   const withinBudget = budget ? all.filter((r) => r.best.milesCost <= budget) : all;
   const rows = sortDestinations(withinBudget, sort);
   // One marker rather than a graded badge. Every card here prices a different
@@ -95,6 +99,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
     params.set("origin", origin);
     params.set("cabin", cabin);
     if (budgetRaw) params.set("budget", budgetRaw);
+    if (passengers > 1) params.set("pax", String(passengers));
     params.set("sort", next);
     return `/explore?${params.toString()}`;
   };
@@ -110,7 +115,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
       {/* Plain GET form, like the search form: every result is server-rendered
           and the URL is the whole state, so a set of destinations is shareable. */}
       <form method="get" action="/explore" className="mt-8 space-y-4">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <label className="block">
             <span className="mb-1 block text-sm font-medium text-foreground">{dict.searchForm.from}</span>
             <select name="origin" defaultValue={origin} className="form-select">
@@ -127,6 +132,16 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
               {CABINS.map((c) => (
                 <option key={c.id} value={c.id}>
                   {dict.cabins[c.id]}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-sm font-medium text-foreground">{dict.searchForm.passengers}</span>
+            <select name="pax" defaultValue={String(passengers)} className="form-select">
+              {PASSENGER_OPTIONS.map((n) => (
+                <option key={n} value={n}>
+                  {n}
                 </option>
               ))}
             </select>
@@ -192,6 +207,10 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
                 date: best.date,
                 cabin,
               });
+              // The card was priced for this party, so the search it opens
+              // is too; otherwise following it would widen the result back
+              // out to seats the card never promised.
+              if (passengers > 1) routeParams.set("pax", String(passengers));
               return (
                 <li key={airport.code} className="flex flex-col border-t border-border-strong py-4">
                   <div className="flex items-baseline justify-between gap-3">
@@ -237,7 +256,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
                         points", so once balances exist each card can answer
                         it outright instead of leaving the reader to check
                         the number against a balance in their head. */}
-                    <AffordBadge programId={best.programId} milesCost={best.milesCost} />
+                    <AffordBadge programId={best.programId} milesCost={best.milesCost * passengers} />
                   </div>
 
                   <Link

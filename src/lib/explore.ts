@@ -29,8 +29,14 @@ export function exploreDestinations(params: {
   startDate: string;
   programIds?: string[];
   days?: number;
+  /**
+   * Seats the party needs. Award space is sold per seat, so without this a
+   * family of four is shown destinations the search then says are not
+   * bookable, which is the one thing a "where can I go" page must not do.
+   */
+  minSeats?: number;
 }): ExploreDestination[] {
-  const { origin, cabin, startDate, programIds, days = EXPLORE_DAYS } = params;
+  const { origin, cabin, startDate, programIds, days = EXPLORE_DAYS, minSeats = 1 } = params;
   const out: ExploreDestination[] = [];
 
   for (const airport of AIRPORTS) {
@@ -40,7 +46,7 @@ export function exploreDestinations(params: {
     for (let i = 0; i < days; i++) {
       const date = addDays(startDate, i);
       const results = searchAvailability({ origin, destination: airport.code, date, cabin, programIds });
-      const top = results[0];
+      const top = results.find((r) => r.seatsRemaining >= minSeats);
       if (!top) continue;
       if (!best || top.milesCost < best.milesCost) best = { ...top, date };
     }
