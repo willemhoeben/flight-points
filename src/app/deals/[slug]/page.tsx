@@ -5,15 +5,16 @@ import { Badge } from "@/components/ui";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RecordDealView } from "@/components/RecordDealView";
 import { SaveDealButton } from "@/components/SaveDealButton";
-import { DEALS, findDeal } from "@/data/deals";
+import { DEALS, findDeal, type DealCategory } from "@/data/deals";
 import { formatDateLabel } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { dealCategoryLabel } from "@/lib/i18n/deal-category";
 import { dealText } from "@/lib/i18n/deal-text";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import type { Accent } from "@/lib/accent";
 
-const CATEGORY_ACCENT: Record<string, string> = {
+const CATEGORY_ACCENT: Record<DealCategory, Accent> = {
   "transfer-bonus": "emerald",
   "sweet-spot": "violet",
   sale: "amber",

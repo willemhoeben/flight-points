@@ -1,3 +1,5 @@
+import type { Accent } from "@/lib/accent";
+
 export type Alliance = "Star Alliance" | "Oneworld" | "SkyTeam" | "Unaligned";
 
 export type Program = {
@@ -5,8 +7,12 @@ export type Program = {
   name: string;
   airline: string;
   alliance: Alliance;
-  /** Tailwind color token used for badges/chips */
-  accent: "sky" | "violet" | "amber" | "rose" | "emerald" | "cyan" | "fuchsia";
+  /**
+   * Which measured ink-on-tint pair the badge uses. The same union the
+   * Badge component takes, so a programme cannot name a colour that has no
+   * token behind it.
+   */
+  accent: Accent;
 };
 
 export const PROGRAMS: Program[] = [

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { Accent } from "@/lib/accent";
 
 /**
  * One measured ink-on-tint pair per accent, defined in globals.css for both
@@ -7,7 +8,7 @@ import type { ReactNode } from "react";
  * the badge happened to land on — and three of them dropped under AA on the
  * mobile card layout, where that surface differs from the table.
  */
-const ACCENT_CLASSES: Record<string, string> = {
+const ACCENT_CLASSES: Record<Accent, string> = {
   sky: "bg-tint-sky text-ink-sky",
   indigo: "bg-tint-indigo text-ink-indigo",
   violet: "bg-tint-violet text-ink-violet",
@@ -19,8 +20,8 @@ const ACCENT_CLASSES: Record<string, string> = {
 };
 
 
-export function Badge({ accent = "sky", children }: { accent?: string; children: ReactNode }) {
-  const cls = ACCENT_CLASSES[accent] ?? ACCENT_CLASSES.sky;
+export function Badge({ accent = "sky", children }: { accent?: Accent; children: ReactNode }) {
+  const cls = ACCENT_CLASSES[accent];
   return (
     <span className={`inline-flex items-center px-2.5 py-1 text-xs font-medium ${cls}`}>
       {children}

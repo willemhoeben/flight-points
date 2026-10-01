@@ -9,6 +9,7 @@ import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
 import { valuationNote } from "@/lib/i18n/valuation-notes";
 import { interpolate } from "@/lib/i18n/format";
 import { nextSort, sortBy, type SortDir } from "@/lib/sort";
+import type { Accent } from "@/lib/accent";
 import {
   buildValuationsUrl,
   isSortDir,
@@ -19,7 +20,7 @@ import {
   type ValuationsSortKey,
 } from "@/lib/valuations-url";
 
-const TYPE_ACCENT: Record<PointCurrency["type"], string> = {
+const TYPE_ACCENT: Record<PointCurrency["type"], Accent> = {
   bank: "sky",
   airline: "violet",
   hotel: "amber",

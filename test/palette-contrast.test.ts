@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import fs from "node:fs";
 import path from "node:path";
+import { ACCENTS } from "@/lib/accent";
 
 const CSS = fs.readFileSync(path.join(process.cwd(), "src/app/globals.css"), "utf-8");
 
@@ -59,11 +60,28 @@ describe("palette contrast", () => {
     }
   });
 
+  /**
+   * The union and the token set have to stay the same size. Before Accent
+   * was a type the Badge fell back to sky for anything it did not know,
+   * so an accent with no token behind it rendered as the wrong colour
+   * rather than failing anywhere.
+   */
+  test.each(THEMES)("%s: every accent in the union has both tokens", (_name, p) => {
+    for (const accent of ACCENTS) {
+      expect(p[`--tint-${accent}`], `--tint-${accent}`).toBeDefined();
+      expect(p[`--ink-${accent}`], `--ink-${accent}`).toBeDefined();
+    }
+    const tokenAccents = Object.keys(p)
+      .filter((t) => t.startsWith("--ink-"))
+      .map((t) => t.slice("--ink-".length));
+    expect([...tokenAccents].sort()).toEqual([...ACCENTS].sort());
+  });
+
   test.each(THEMES)("%s: every badge ink clears AA on its own tint", (_name, p) => {
     const accents = Object.keys(p)
       .filter((t) => t.startsWith("--ink-"))
       .map((t) => t.slice("--ink-".length));
-    expect(accents.length).toBe(8);
+    expect(accents.length).toBe(ACCENTS.length);
     for (const accent of accents) {
       const ratio = contrast(p[`--ink-${accent}`], p[`--tint-${accent}`]);
       expect(ratio, `ink-${accent} on tint-${accent}`).toBeGreaterThanOrEqual(4.5);

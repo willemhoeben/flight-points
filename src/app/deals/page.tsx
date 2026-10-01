@@ -14,6 +14,7 @@ import { dealCategoryLabel } from "@/lib/i18n/deal-category";
 import { dealText } from "@/lib/i18n/deal-text";
 import { isDealSort, sortDeals, type DealSort } from "@/lib/deal-sort";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
+import type { Accent } from "@/lib/accent";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { locale, dict } = await getDictionary();
@@ -36,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const CATEGORY_ACCENT: Record<string, string> = {
+const CATEGORY_ACCENT: Record<DealCategory, Accent> = {
   "transfer-bonus": "emerald",
   "sweet-spot": "violet",
   sale: "amber",

@@ -9,8 +9,9 @@ import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
 import { formatMiles } from "@/lib/format";
 import { pointsToUsd } from "@/lib/points-calc";
 import { buildCompareUrl, DEFAULT_COMPARE_BALANCE, parseBalance, toggleCompareId } from "@/lib/compare-url";
+import type { Accent } from "@/lib/accent";
 
-const TYPE_ACCENT: Record<PointCurrency["type"], string> = {
+const TYPE_ACCENT: Record<PointCurrency["type"], Accent> = {
   bank: "sky",
   airline: "violet",
   hotel: "amber",
