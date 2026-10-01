@@ -1,3 +1,4 @@
+import { jsonLdHtml } from "@/lib/json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -91,8 +92,8 @@ export default async function DealPage({
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-9 sm:px-6">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdHtml(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbJsonLd) }} />
       <RecordDealView slug={deal.slug} />
       <Breadcrumbs
         ariaLabel={dict.common.breadcrumb}
