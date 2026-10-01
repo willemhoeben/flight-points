@@ -830,11 +830,24 @@ every existing clone's remote, and it costs nothing to leave alone.
 
 ```bash
 bun install
-bun run dev      # start the dev server on http://localhost:3000
-bun run build    # production build
-bun run lint     # eslint
-bun run test     # bun:test — date/format/currency/prng/sort helpers, data integrity, the mock availability engine
+bun run dev        # start the dev server on http://localhost:3000
+bun run build      # production build
+bun run check      # lint + typecheck + tests, which is what CI runs
+bun run lint       # eslint
+bun run typecheck  # tsc --noEmit
+bun run test       # bun:test — date/format/currency/prng/sort helpers, data integrity, the mock availability engine
 ```
+
+`bun run check` is the one to run before pushing. It takes a few seconds and
+is the same sequence `.github/workflows/ci.yml` runs on every push and pull
+request, in the order that fails fastest.
+
+Several of those tests are invariant tripwires rather than unit tests, and
+they only earn their keep if something runs them without being asked: the
+palette contrast ratios, the print palette's token coverage, the stylesheet
+layer cascade, the CSP's shape, and the rule that no `loading.tsx` may sit
+above a route that calls `notFound()`. Each one exists because the thing it
+guards broke once without anything going red.
 
 Built with Next.js (App Router), TypeScript, and Tailwind CSS v4.
 
