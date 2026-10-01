@@ -33,24 +33,28 @@ export async function generateMetadata({
   const { slug } = await params;
   const deal = findDeal(slug);
   const { locale, dict } = await getDictionary();
-  if (deal) {
-    const text = dealText(deal, locale);
-    return {
+  // The component below turns an unknown slug into a 404. `noindex` is the
+  // belt to that pair of braces: Next resolves the not-found BODY on the
+  // client for this route shape, so a crawler that does not run scripts
+  // sees a correct 404 status over an empty document, and this says plainly
+  // that there is nothing here to keep.
+  if (!deal) return { title: dict.notFound.title, robots: { index: false, follow: false } };
+
+  const text = dealText(deal, locale);
+  return {
+    title: text.title,
+    description: text.summary,
+    alternates: { canonical: `/deals/${deal.slug}` },
+    openGraph: {
       title: text.title,
       description: text.summary,
-      alternates: { canonical: `/deals/${deal.slug}` },
-      openGraph: {
-        title: text.title,
-        description: text.summary,
-        url: `/deals/${deal.slug}`,
-        type: "article",
-        locale: toOgLocale(locale),
-        alternateLocale: alternateOgLocales(locale),
-      },
-      twitter: { card: "summary_large_image", title: text.title, description: text.summary },
-    };
-  }
-  return { title: dict.notFound.title };
+      url: `/deals/${deal.slug}`,
+      type: "article",
+      locale: toOgLocale(locale),
+      alternateLocale: alternateOgLocales(locale),
+    },
+    twitter: { card: "summary_large_image", title: text.title, description: text.summary },
+  };
 }
 
 export default async function DealPage({
