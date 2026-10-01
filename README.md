@@ -103,6 +103,22 @@ airline or loyalty program.
   the return date, so a one-way and a round trip on the same outbound are two
   entries rather than one overwriting the other.
 
+  Under the results, **the gateways next door**, priced on the same day.
+  Award space is released per airport rather than per city, so a New Yorker
+  who only ever searches JFK never sees what Newark and LaGuardia let go that
+  morning. Washington to Tokyo says National is 1,000 miles cheaper than
+  Dulles and Narita 500 cheaper than Haneda, each a link into that search
+  with the date, cabin, party and programs carried over. Each line names the
+  airport it would send you to and how far that is from the one you searched,
+  because on an origin swap both routes read "New York to London" and that
+  says nothing about where you would actually be driving. Routes with nothing
+  released stay on the list rather than disappearing from it: "Newark has
+  nothing" is an answer, and a list that quietly drops what it checked cannot
+  be trusted to have checked it. The threshold is 120km, deliberately tighter
+  than the 250km floor that decides two airports are too close to fly between
+  — at 250km that rule also pairs Vienna with Budapest and Seattle with
+  Vancouver, which are not a second way out of the same city.
+
   A **Passengers** control (1–4) sits beside the cabin. Award space is sold
   per seat, so it filters rather than decorates: a JFK–LHR search that shows
   22 options for one traveller shows 15 for two and 4 for four, because a row
@@ -601,11 +617,15 @@ Two airports in the same metro area are not a route anyone redeems for, so
 JFK to EWR and HND to NRT return no award space at all rather than an
 invented price. The same floor keeps a hub out of its own network map.
 
-The route data covers 73 airports across 47 countries and 30 loyalty
-programs. City and country names are translated into all six non-English
-locales (`src/lib/i18n/place-names.ts`), with a test that fails if an
-airport arrives without them — a silent fall back to English on one city
-in a list of seventy is exactly the kind of gap nobody notices by eye.
+The route data covers 107 airports across 61 countries and 30 loyalty
+programs. Thirteen metros have more than one gateway — the three New York
+fields, Heathrow and Gatwick, O'Hare and Midway, Dulles and National and
+BWI, Haneda and Narita, Incheon and Gimpo, and the rest — which is what
+makes the nearby-airport suggestions on `/search` worth reading. City and
+country names are translated into all six non-English locales
+(`src/lib/i18n/place-names.ts`), with a test that fails if an airport
+arrives without them — a silent fall back to English on one city in a list
+of a hundred is exactly the kind of gap nobody notices by eye.
 
 ## The name
 
