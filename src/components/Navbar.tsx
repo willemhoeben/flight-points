@@ -3,11 +3,12 @@ import { BrandWordmark } from "@/components/BrandWordmark";
 import { CurrencySelector } from "@/components/CurrencySelector";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { MobileNav } from "@/components/MobileNav";
+import { NavLinks, type NavLink } from "@/components/NavLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 
 export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
-  const LINKS = [
+  const LINKS: NavLink[] = [
     { href: "/search", label: dict.search },
     { href: "/explore", label: dict.explore },
     { href: "/network", label: dict.network },
@@ -24,13 +25,7 @@ export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
           <BrandWordmark name={dict.brand} />
         </Link>
 
-        <nav className="hidden items-center gap-6 text-xs font-medium text-muted sm:flex">
-          {LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="transition-colors hover:text-foreground">
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <NavLinks links={LINKS} />
 
         <div className="flex items-center gap-3">
           {/* Language and currency move into the panel on a phone; the theme

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { CurrencySelector } from "@/components/CurrencySelector";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { isCurrentSection, type NavLink } from "@/components/NavLinks";
 import { useDictionary } from "@/lib/i18n/i18n-context";
 
 /**
@@ -16,7 +17,7 @@ import { useDictionary } from "@/lib/i18n/i18n-context";
  * back. The links then get 44px rows inside the panel, which is roomier
  * than the bar ever allowed.
  */
-export function MobileNav({ links }: { links: { href: string; label: string }[] }) {
+export function MobileNav({ links }: { links: NavLink[] }) {
   const dict = useDictionary();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -70,7 +71,7 @@ export function MobileNav({ links }: { links: { href: string; label: string }[] 
       >
         <nav className="flex flex-col text-sm font-medium">
           {links.map((link) => {
-            const current = pathname === link.href;
+            const current = isCurrentSection(pathname, link.href);
             return (
               <Link
                 key={link.href}
