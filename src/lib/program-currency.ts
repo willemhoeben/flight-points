@@ -39,6 +39,16 @@ export const PROGRAM_CURRENCY: Record<string, string> = {
   etihad: "etihad-guest",
   latam: "latam-pass",
   southwest: "southwest",
+  ethiopian: "sheba-miles",
+  aegean: "miles-bonus",
+  thai: "royal-orchid",
+  malaysia: "enrich",
+  royalairmaroc: "safar-flyer",
+  vietnam: "lotusmiles",
+  saudia: "alfursan",
+  hawaiian: "hawaiianmiles",
+  jetblue: "trueblue",
+  icelandair: "saga-club",
 };
 
 /** What a point in this program is normally worth, in US cents. */

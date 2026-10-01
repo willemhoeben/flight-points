@@ -40,6 +40,16 @@ export const PROGRAMS: Program[] = [
   { id: "etihad", name: "Etihad Guest", airline: "Etihad Airways", alliance: "Unaligned", accent: "emerald" },
   { id: "latam", name: "LATAM Pass", airline: "LATAM Airlines", alliance: "Unaligned", accent: "cyan" },
   { id: "southwest", name: "Southwest Rapid Rewards", airline: "Southwest Airlines", alliance: "Unaligned", accent: "fuchsia" },
+  { id: "ethiopian", name: "Ethiopian ShebaMiles", airline: "Ethiopian Airlines", alliance: "Star Alliance", accent: "emerald" },
+  { id: "aegean", name: "Aegean Miles+Bonus", airline: "Aegean Airlines", alliance: "Star Alliance", accent: "cyan" },
+  { id: "thai", name: "Thai Royal Orchid Plus", airline: "Thai Airways", alliance: "Star Alliance", accent: "violet" },
+  { id: "malaysia", name: "Malaysia Enrich", airline: "Malaysia Airlines", alliance: "Oneworld", accent: "sky" },
+  { id: "royalairmaroc", name: "Royal Air Maroc Safar Flyer", airline: "Royal Air Maroc", alliance: "Oneworld", accent: "rose" },
+  { id: "vietnam", name: "Vietnam Airlines Lotusmiles", airline: "Vietnam Airlines", alliance: "SkyTeam", accent: "amber" },
+  { id: "saudia", name: "Saudia Alfursan", airline: "Saudia", alliance: "SkyTeam", accent: "emerald" },
+  { id: "hawaiian", name: "Hawaiian HawaiianMiles", airline: "Hawaiian Airlines", alliance: "Unaligned", accent: "fuchsia" },
+  { id: "jetblue", name: "JetBlue TrueBlue", airline: "JetBlue", alliance: "Unaligned", accent: "sky" },
+  { id: "icelandair", name: "Icelandair Saga Club", airline: "Icelandair", alliance: "Unaligned", accent: "cyan" },
 ];
 
 export function findProgram(id: string): Program | undefined {

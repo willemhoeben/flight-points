@@ -97,6 +97,16 @@ export const NETWORKS: Record<string, NetworkShape> = {
   etihad: { hubs: ["AUH"], regions: ALL, maxKm: 14000 },
   latam: { hubs: ["SCL", "GRU", "LIM", "BOG"], regions: ["Latin America", "North America", "Europe", "Oceania"], maxKm: 13500 },
   southwest: { hubs: ["DFW", "DEN", "ATL", "LAX"], regions: ["North America"], maxKm: 4500 },
+  ethiopian: { hubs: ["ADD"], regions: ["Africa", "Europe", "Middle East", "Asia", "North America", "Latin America"], maxKm: 13000 },
+  aegean: { hubs: ["ATH"], regions: ["Europe", "Middle East", "Africa"], maxKm: 4500 },
+  thai: { hubs: ["BKK"], regions: ["Asia", "Europe", "Oceania"], maxKm: 10500 },
+  malaysia: { hubs: ["KUL"], regions: ["Asia", "Oceania", "Europe"], maxKm: 11000 },
+  royalairmaroc: { hubs: ["CMN"], regions: ["Africa", "Europe", "North America", "Middle East"], maxKm: 8000 },
+  vietnam: { hubs: ["SGN", "HAN"], regions: ["Asia", "Europe", "Oceania"], maxKm: 10500 },
+  saudia: { hubs: ["JED", "RUH"], regions: ["Middle East", "Europe", "Asia", "Africa", "North America"], maxKm: 12500 },
+  hawaiian: { hubs: ["HNL"], regions: ["North America", "Oceania", "Asia"], maxKm: 8500 },
+  jetblue: { hubs: ["JFK", "BOS", "MIA"], regions: ["North America", "Latin America", "Europe"], maxKm: 6000 },
+  icelandair: { hubs: ["KEF"], regions: ["Europe", "North America"], maxKm: 7000 },
 };
 
 export function hubsFor(programId: string): string[] {

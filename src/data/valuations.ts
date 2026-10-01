@@ -53,6 +53,16 @@ export const VALUATIONS: PointCurrency[] = [
   { id: "skywards", name: "Emirates Skywards", issuer: "Emirates", type: "airline", centsPerPoint: 1.2, trend: "down", notes: "First class on the A380 is the reason to save these points." },
   { id: "marriott", name: "Marriott Bonvoy", issuer: "Marriott", type: "hotel", centsPerPoint: 0.8, trend: "flat", notes: "Points needed per night are high; value depends on peak/off-peak." },
   { id: "hilton", name: "Hilton Honors", issuer: "Hilton", type: "hotel", centsPerPoint: 0.5, trend: "flat", notes: "Low per-point value offset by very large earning rates." },
+  { id: "sheba-miles", name: "Ethiopian ShebaMiles", issuer: "Ethiopian Airlines", type: "airline", centsPerPoint: 1.0, trend: "flat", notes: "The only realistic way to pay for intra-Africa flying with points." },
+  { id: "miles-bonus", name: "Aegean Miles+Bonus", issuer: "Aegean Airlines", type: "airline", centsPerPoint: 1.6, trend: "down", notes: "Star Alliance business to Europe for well under what partners charge." },
+  { id: "royal-orchid", name: "Thai Royal Orchid Plus", issuer: "Thai Airways", type: "airline", centsPerPoint: 1.2, trend: "flat", notes: "Cheap short hops around Southeast Asia; long-haul is priced ordinarily." },
+  { id: "enrich", name: "Malaysia Enrich", issuer: "Malaysia Airlines", type: "airline", centsPerPoint: 1.1, trend: "flat", notes: "Oneworld partner awards out of Kuala Lumpur, with modest surcharges." },
+  { id: "safar-flyer", name: "Royal Air Maroc Safar Flyer", issuer: "Royal Air Maroc", type: "airline", centsPerPoint: 1.0, trend: "flat", notes: "Newest Oneworld member; useful for West Africa, thin everywhere else." },
+  { id: "lotusmiles", name: "Vietnam Airlines Lotusmiles", issuer: "Vietnam Airlines", type: "airline", centsPerPoint: 1.1, trend: "up", notes: "Good value on its own metal, almost none on SkyTeam partners." },
+  { id: "alfursan", name: "Saudia Alfursan", issuer: "Saudia", type: "airline", centsPerPoint: 1.0, trend: "flat", notes: "Worth holding only for Jeddah and Riyadh departures you were taking anyway." },
+  { id: "hawaiianmiles", name: "Hawaiian HawaiianMiles", issuer: "Hawaiian Airlines", type: "airline", centsPerPoint: 1.2, trend: "up", notes: "Inter-island awards stay cheap; mainland pricing moves with the cash fare." },
+  { id: "trueblue", name: "JetBlue TrueBlue", issuer: "JetBlue", type: "airline", centsPerPoint: 1.3, trend: "flat", notes: "Fixed to the cash fare, so it never surprises you in either direction." },
+  { id: "saga-club", name: "Icelandair Saga Club", issuer: "Icelandair", type: "airline", centsPerPoint: 1.1, trend: "flat", notes: "A free Reykjavik stopover is the point; the award chart is unremarkable." },
 ];
 
 export function findValuation(id: string): PointCurrency | undefined {
