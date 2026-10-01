@@ -21,7 +21,10 @@ export function Navbar({ dict }: { dict: Dictionary["nav"] }) {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-xl print:hidden">
       <div className="mx-auto flex h-12 items-center justify-between gap-x-4 px-4 sm:h-11 sm:px-6 max-w-6xl">
-        <Link href="/" className="flex items-center gap-2 whitespace-nowrap text-[14px] font-semibold tracking-tight">
+        <Link
+          href="/"
+          className="flex min-h-11 items-center gap-2 whitespace-nowrap text-[14px] font-semibold tracking-tight sm:min-h-0"
+        >
           <BrandWordmark name={dict.brand} />
         </Link>
 

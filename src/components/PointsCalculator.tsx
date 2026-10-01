@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useSyncExternalStore } from "react";
 import { VALUATIONS } from "@/data/valuations";
-import { Card } from "@/components/ui";
+import { Card, Pill } from "@/components/ui";
 import { useCurrency } from "@/lib/currency-context";
 import { convertToUsd } from "@/lib/currency";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
@@ -155,17 +155,8 @@ function ModePill({
   children: React.ReactNode;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-current={active ? "true" : undefined}
-      className={
-        active
-          ? "bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-          : "bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
-      }
-    >
+    <Pill selected={active} semantics="choice" onClick={onClick}>
       {children}
-    </button>
+    </Pill>
   );
 }

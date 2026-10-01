@@ -241,8 +241,12 @@
 }
 
 @layer components {
+  /* min-h-11 is the 44px floor a fingertip needs. Without it the selects
+     landed at 39px and the date inputs at 42px — close enough to look right
+     and short enough to miss, which is the worst of both. The padding stays:
+     it is what sets the height once the text is bigger than the floor. */
   .form-select {
-    @apply w-full rounded-xl border border-transparent bg-surface-muted px-3 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-focus focus:bg-surface focus:ring-2 focus:ring-focus/25;
+    @apply min-h-11 w-full rounded-xl border border-transparent bg-surface-muted px-3 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-focus focus:bg-surface focus:ring-2 focus:ring-focus/25;
   }
 }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { PILL_SHELL } from "@/components/ui";
 import { findDeal } from "@/data/deals";
 import { dealText } from "@/lib/i18n/deal-text";
 import { useLocale } from "@/lib/i18n/i18n-context";
@@ -28,7 +29,7 @@ export function RecentlyViewedDeals({ heading }: { heading: string }) {
           <Link
             key={deal.slug}
             href={`/deals/${deal.slug}`}
-            className="bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+            className={`${PILL_SHELL} bg-surface-muted font-medium text-muted transition-colors hover:text-foreground`}
           >
             {dealText(deal, locale).title}
           </Link>

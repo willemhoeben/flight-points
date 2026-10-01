@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { AwardResult } from "@/data/availability";
 import { PROGRAMS, type Alliance } from "@/data/programs";
-import { Badge } from "@/components/ui";
+import { Badge, Pill } from "@/components/ui";
 import { AffordBadge } from "@/components/AffordBadge";
 import { PointsOrCash } from "@/components/PointsOrCash";
 import { ValueBadge, valueTierLabel } from "@/components/ValueBadge";
@@ -266,22 +266,17 @@ export function ResultsTable({
       <div className="flex flex-wrap items-center gap-2 print:hidden lg:hidden" role="group" aria-label={dict.common.sortBy}>
         <span className="text-xs font-medium text-muted">{dict.common.sortBy}</span>
         {SORTABLE_COLUMNS.map((col) => (
-          <button
+          <Pill
             key={col.key}
-            type="button"
+            selected={sortKey === col.key}
+            semantics="choice"
             onClick={() => goToSort(col.key)}
-            aria-current={sortKey === col.key ? "true" : undefined}
-            className={
-              sortKey === col.key
-                ? "inline-flex items-center gap-1 bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-                : "inline-flex items-center gap-1 bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
-            }
           >
             {col.label}
             <span aria-hidden="true" className="text-[10px] leading-none">
               {sortKey === col.key ? (sortDir === "asc" ? "▲" : "▼") : "↕"}
             </span>
-          </button>
+          </Pill>
         ))}
       </div>
 
@@ -473,8 +468,9 @@ export function ResultsTable({
 
 /**
  * `toggle` switches the pill between the two semantics in this row: the
- * nonstop pill is an on/off toggle (aria-pressed), while the alliance and
- * fees pills are one-of-many choices within their group (aria-current).
+ * nonstop pill is on/off, while the alliance and fees pills are one-of-many
+ * choices within their group. Kept as a wrapper rather than calling `Pill`
+ * at each of the eleven call sites, which all pass `active` already.
  */
 function FilterPill({
   active,
@@ -488,19 +484,9 @@ function FilterPill({
   children: React.ReactNode;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={toggle ? active : undefined}
-      aria-current={!toggle && active ? "true" : undefined}
-      className={
-        active
-          ? "bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-          : "bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
-      }
-    >
+    <Pill selected={active} semantics={toggle ? "toggle" : "choice"} onClick={onClick}>
       {children}
-    </button>
+    </Pill>
   );
 }
 

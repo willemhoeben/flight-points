@@ -384,7 +384,7 @@ export default async function NetworkPage({ searchParams }: { searchParams: Prom
                   <li key={leg.airport.code}>
                     <Link
                       href={`/search?origin=${hub}&destination=${leg.airport.code}&date=${date}&cabin=business`}
-                      className="flex items-baseline justify-between gap-3 border-b border-border py-2 text-[13.5px] transition-colors hover:text-brand-text"
+                      className="flex min-h-11 items-baseline justify-between gap-3 border-b border-border py-2 text-[13.5px] transition-colors hover:text-brand-text sm:min-h-0"
                     >
                       <span className="min-w-0 truncate">
                         <span className="font-medium text-foreground">{cityName(leg.airport, locale)}</span>{" "}

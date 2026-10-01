@@ -14,7 +14,10 @@ export function Breadcrumbs({ items, ariaLabel }: { items: BreadcrumbItem[]; ari
               </span>
             )}
             {item.href ? (
-              <Link href={item.href} className="font-medium text-brand-text hover:underline">
+              <Link
+                href={item.href}
+                className="inline-flex min-h-11 items-center font-medium text-brand-text hover:underline sm:min-h-0"
+              >
                 {item.label}
               </Link>
             ) : (

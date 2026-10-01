@@ -21,8 +21,8 @@ export function SaveSearchButton({
       suppressHydrationWarning
       className={
         saved
-          ? "inline-flex items-center gap-1.5 bg-brand px-3 py-1.5 text-xs font-semibold text-brand-foreground print:hidden"
-          : "inline-flex items-center gap-1.5 border border-border px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-brand hover:text-brand-text print:hidden"
+          ? "inline-flex min-h-11 items-center gap-1.5 bg-brand px-3 py-1.5 text-xs font-semibold text-brand-foreground print:hidden sm:min-h-0"
+          : "inline-flex min-h-11 items-center gap-1.5 border border-border px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:border-brand hover:text-brand-text print:hidden sm:min-h-0"
       }
     >
       <span aria-hidden="true" suppressHydrationWarning>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { PointCurrency } from "@/data/valuations";
-import { Badge } from "@/components/ui";
+import { Badge, Pill } from "@/components/ui";
 import { useCurrency } from "@/lib/currency-context";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
 import { formatMiles } from "@/lib/format";
@@ -94,19 +94,14 @@ export function CompareTool({ valuations }: { valuations: PointCurrency[] }) {
                 .map((v) => {
                   const active = selectedIds.includes(v.id);
                   return (
-                    <button
+                    <Pill
                       key={v.id}
-                      type="button"
+                      selected={active}
+                      semantics="toggle"
                       onClick={() => toggleCurrency(v.id)}
-                      aria-pressed={active}
-                      className={
-                        active
-                          ? "bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-                          : "bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
-                      }
                     >
                       {v.name}
-                    </button>
+                    </Pill>
                   );
                 })}
             </div>

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
 import { LOCALES, LOCALE_COOKIE, LOCALE_LABELS, type Locale } from "@/lib/i18n/locales";
+import { BARE_SELECT } from "@/components/ui";
 
 export function LanguageSwitcher() {
   const locale = useLocale();
@@ -26,7 +27,7 @@ export function LanguageSwitcher() {
       <select
         value={locale}
         onChange={(e) => handleChange(e.target.value as Locale)}
-        className="cursor-pointer border-0 bg-transparent py-1 pl-0 pr-1 text-xs font-medium text-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+        className={BARE_SELECT}
       >
         {LOCALES.map((code) => (
           <option key={code} value={code}>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PILL_SHELL } from "@/components/ui";
 import { useBalances } from "@/lib/balances-context";
 import { formatMiles } from "@/lib/format";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
@@ -48,7 +49,7 @@ export function UseMyBalance({ inputId }: { inputId: string }) {
       <button
         type="button"
         onClick={apply}
-        className="border border-border-strong px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
+        className={`${PILL_SHELL} border border-border-strong font-medium text-muted transition-colors hover:text-foreground`}
       >
         {dict.explore.useMyBalance}
       </button>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SectionHeading } from "@/components/ui";
+import { PILL_SHELL, SectionHeading } from "@/components/ui";
 import { AIRPORTS, findAirport } from "@/data/airports";
 import { CABINS, type Cabin } from "@/data/availability";
 import { exploreDestinations, isExploreSort, sortDestinations, type ExploreSort } from "@/lib/explore";
@@ -179,11 +179,11 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
               key={key}
               href={sortHref(key)}
               aria-current={sort === key ? "true" : undefined}
-              className={
+              className={`${PILL_SHELL} ${
                 sort === key
-                  ? "bg-brand px-3.5 py-1.5 text-xs font-semibold text-brand-foreground"
-                  : "bg-surface-muted px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-foreground"
-              }
+                  ? "bg-brand font-semibold text-brand-foreground"
+                  : "bg-surface-muted font-medium text-muted transition-colors hover:text-foreground"
+              }`}
             >
               {key === "cheapest" ? dict.explore.sortCheapest : dict.explore.sortValue}
             </Link>
@@ -265,7 +265,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
                       origin,
                       destination: airport.code,
                     })}
-                    className="mt-3 self-start text-[13px] font-medium text-brand-text hover:underline"
+                    className="mt-1 inline-flex min-h-11 items-center self-start text-[13px] font-medium text-brand-text hover:underline sm:mt-3 sm:min-h-0"
                   >
                     {dict.explore.viewRoute} →
                   </Link>

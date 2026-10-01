@@ -129,7 +129,14 @@ export function SearchForm({
               </div>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3 lg:grid-cols-4">
                 {group.programs.map((p) => (
-                  <label key={p.id} className="flex items-center gap-2 text-sm text-muted">
+                  <label
+                    key={p.id}
+                    /* The label is the tap target, not the 16px box.
+                       Forty of these in a two-column grid at 20px a row
+                       is a mis-tap every time; 44px on a phone fixes it
+                       without changing the desktop grid. */
+                    className="flex min-h-11 items-center gap-2 text-sm text-muted sm:min-h-0"
+                  >
                     <input
                       type="checkbox"
                       name="programs"

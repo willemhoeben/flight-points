@@ -67,7 +67,10 @@ export default async function Home() {
             <Card key={feature.href} className="flex flex-col py-5">
               <h2 className="text-lg text-foreground">{feature.title}</h2>
               <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-muted">{feature.description}</p>
-              <Link href={feature.href} className="mt-4 text-sm font-medium text-brand-text hover:underline">
+              <Link
+                href={feature.href}
+                className="mt-1 inline-flex min-h-11 items-center text-sm font-medium text-brand-text hover:underline sm:mt-4 sm:min-h-0"
+              >
                 {feature.cta} ›
               </Link>
             </Card>
@@ -91,8 +94,11 @@ export default async function Home() {
             </Card>
           ))}
         </div>
-        <div className="mt-6">
-          <Link href="/valuations" className="text-sm font-medium text-brand-text hover:underline">
+        <div className="mt-3 sm:mt-6">
+          <Link
+            href="/valuations"
+            className="inline-flex min-h-11 items-center text-sm font-medium text-brand-text hover:underline sm:min-h-0"
+          >
             {dict.home.valuationsSeeAll}
           </Link>
         </div>
@@ -116,8 +122,11 @@ export default async function Home() {
             </Link>
           ))}
         </div>
-        <div className="mt-6">
-          <Link href="/deals" className="text-sm font-medium text-brand-text hover:underline">
+        <div className="mt-3 sm:mt-6">
+          <Link
+            href="/deals"
+            className="inline-flex min-h-11 items-center text-sm font-medium text-brand-text hover:underline sm:min-h-0"
+          >
             {dict.home.dealsSeeAll}
           </Link>
         </div>

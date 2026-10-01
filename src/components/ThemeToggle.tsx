@@ -1,6 +1,7 @@
 "use client";
 
 import { useDictionary } from "@/lib/i18n/i18n-context";
+import { BARE_SELECT } from "@/components/ui";
 import { useTheme } from "@/lib/theme-context";
 import { THEMES, type Theme } from "@/lib/theme";
 
@@ -20,7 +21,7 @@ export function ThemeToggle() {
       <select
         value={theme}
         onChange={(e) => setTheme(e.target.value as Theme)}
-        className="cursor-pointer border-0 bg-transparent py-1 pl-0 pr-1 text-xs font-medium text-muted hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+        className={BARE_SELECT}
       >
         {THEMES.map((t) => (
           <option key={t} value={t}>
