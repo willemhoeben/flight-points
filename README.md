@@ -160,6 +160,14 @@ airline or loyalty program.
   destinations is server-rendered and shareable as a URL
   (`?origin=AMS&cabin=first&budget=200000&sort=value`).
 
+  It knows how many of you are going, like the search does. The scan keeps
+  the cheapest award with enough seats rather than the cheapest award, which
+  moves the best day as well as the price: Amsterdam to London is cheapest on
+  1 November for one traveller and on the 10th for three. The card's
+  affordability verdict costs the party, and the link it opens carries the
+  party through, so following it never widens the result back out to seats
+  the card never promised.
+
   There is deliberately no graded value badge on these cards. Rated against
   the best destination on screen it painted every short-haul red; rated
   against each currency's own baseline it painted nineteen of twenty-four
@@ -254,7 +262,12 @@ airline or loyalty program.
   Balances live in localStorage and nowhere else, which the page says
   directly above the inputs. Only 1:1 transfer partners are listed
   (`src/data/transfers.ts`); a 3:1 partner is a different kind of decision
-  and showing it at the same weight would flatter it.
+  and showing it at the same weight would flatter it. Twenty-seven of the
+  forty programs are reachable from one bank currency or another. The
+  thirteen that are not — Miles & More, AAdvantage, SAS, Copa, JAL, Korean,
+  China Airlines, LATAM, Ethiopian, Aegean, Royal Air Maroc, Saudia,
+  Icelandair — stay unreachable, because they are. A chart that invented a
+  transfer would send someone looking for a button that does not exist.
 
   Once a balance exists, it reaches the rest of the site. Every row on
   `/search` carries a verdict — you can cover this, reachable via a named
