@@ -21,8 +21,26 @@ function block(startMarker: string, endMarker: string): string {
   return CSS.slice(start, end);
 }
 
-const light = tokensIn(block(":root {", "@theme inline {"));
-const dark = tokensIn(block(":root.dark {", "\n* {\n  border-color"));
+/**
+ * The body of one rule, found by matching braces rather than by looking for
+ * whatever text happens to come next. The dark palette used to end at the
+ * literal `* {\n  border-color` of the rule below it, so moving that rule
+ * into a layer — a change with nothing to do with palettes — failed this
+ * file instead of the one it belonged to.
+ */
+function ruleBody(selector: string): string {
+  const start = CSS.indexOf(selector);
+  expect(start, `${selector} is gone from globals.css`).toBeGreaterThan(-1);
+  let depth = 0;
+  for (let i = CSS.indexOf("{", start); i < CSS.length; i++) {
+    if (CSS[i] === "{") depth++;
+    else if (CSS[i] === "}" && --depth === 0) return CSS.slice(start, i);
+  }
+  throw new Error(`${selector} is never closed`);
+}
+
+const light = tokensIn(ruleBody(":root {"));
+const dark = tokensIn(ruleBody(":root.dark {"));
 const print = tokensIn(block("@media print {", "Printers can't scroll"));
 
 /**

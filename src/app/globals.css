@@ -132,35 +132,56 @@
   --tint-cyan: #0d2831;     --ink-cyan: #5ad1e6;
 }
 
-* {
-  border-color: var(--border);
+/* Inside @layer base on purpose. Unlayered CSS beats everything Tailwind
+   puts in its layers, so as a bare rule this quietly overrode every single
+   border-colour utility in the app: border-border-strong rendered as plain
+   --border (so every section rule on the site was the wrong weight),
+   hover:border-brand did nothing, focus:border-focus did nothing, and
+   border-transparent was not transparent. Nothing errored and nothing
+   looked obviously broken, which is why it survived. In the base layer the
+   default still applies to anything that sets a border width without a
+   colour, and a utility now wins. `test/border-cascade.test.ts` fails if
+   the rule ever escapes the layer again. */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
 }
 
-html,
-body {
-  /* Some locale/content combinations push a scrollable table's intrinsic
-     min-width past its own overflow-x:auto wrapper into the page's grid
-     ancestor sizing (a Chromium quirk, not a real content need for extra
-     width) — this keeps the whole page pinned to the viewport while
-     leaving each table's own internal horizontal scroll untouched.
-     `clip` rather than `hidden`: hidden turns this element into a scroll
-     container, and then every `position: sticky` descendant measures
-     against it instead of the viewport and never sticks. That silently
-     unstuck the navbar on every page. `clip` cuts the overflow off
-     without creating a scroll container. */
-  overflow-x: clip;
-}
+/* In @layer base, not bare. Unlayered CSS outranks every Tailwind layer, so
+   as top-level rules these overrode the utilities on the elements they
+   match: `h1, h2, h3` forced -0.015em onto every heading, which meant the
+   uppercase mono section labels asking for tracking-[0.1em] rendered at
+   -0.165px — negative tracking on the one place the design wants it widest
+   — and the homepage h1 lost tracking-tight. In the base layer the defaults
+   still apply to headings that ask for nothing, and a utility now wins. */
+@layer base {
+  html,
+  body {
+    /* Some locale/content combinations push a scrollable table's intrinsic
+       min-width past its own overflow-x:auto wrapper into the page's grid
+       ancestor sizing (a Chromium quirk, not a real content need for extra
+       width) — this keeps the whole page pinned to the viewport while
+       leaving each table's own internal horizontal scroll untouched.
+       `clip` rather than `hidden`: hidden turns this element into a scroll
+       container, and then every `position: sticky` descendant measures
+       against it instead of the viewport and never sticks. That silently
+       unstuck the navbar on every page. `clip` cuts the overflow off
+       without creating a scroll container. */
+    overflow-x: clip;
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-}
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
 
-h1, h2, h3 {
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  text-wrap: balance;
+  h1, h2, h3 {
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
 }
 
 ::selection {
