@@ -10,7 +10,11 @@ export function LanguageSwitcher() {
   const router = useRouter();
 
   function handleChange(next: Locale) {
-    document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=31536000; samesite=lax`;
+    // Secure on https and omitted on plain http, so the cookie still sets
+    // during local development; browsers treat localhost as secure either
+    // way, so this only ever drops the flag on a genuinely insecure origin.
+    const secure = window.location.protocol === "https:" ? "; secure" : "";
+    document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=31536000; samesite=lax${secure}`;
     // Server Components (this page, the layout, every dict-reading page)
     // re-render with the new cookie value; client state elsewhere survives.
     router.refresh();
