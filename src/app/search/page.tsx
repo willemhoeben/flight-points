@@ -19,6 +19,8 @@ import { parsePassengers } from "@/lib/passengers";
 import { cheapestRoundTrip, nightsAway, parseLeg, resolveTripDates } from "@/lib/trip";
 import { LegSwitch } from "@/components/LegSwitch";
 import { RoundTripSummary } from "@/components/RoundTripSummary";
+import { NearbyAirports, type NearbyOption } from "@/components/NearbyAirports";
+import { nearbyRoutes } from "@/lib/nearby";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -145,6 +147,47 @@ export default async function SearchPage({
     calendarParams.set("ret", trip.returnDate);
   }
 
+  // Award space is released per airport, so the gateway next door often has
+  // what this one does not. Priced on the same day as the leg on screen, so
+  // the comparison is like for like.
+  const cheapestHere = results.length > 0 ? results[0].milesCost : null;
+  const nearbyOptions: NearbyOption[] = nearbyRoutes(shownOrigin, shownDestination)
+    .map((route) => {
+      const rows = searchAvailability({
+        origin: route.origin,
+        destination: route.destination,
+        date: shownDate,
+        cabin,
+        programIds,
+      }).filter(seats);
+      const milesCost = rows.length > 0 ? rows[0].milesCost : null;
+
+      // The pair above is in the terms of the leg on screen, so on the
+      // return leg it has to go back into the trip's own origin and
+      // destination the other way round.
+      const params = new URLSearchParams(baseParams);
+      params.set("origin", showingReturn ? route.destination : route.origin);
+      params.set("destination", showingReturn ? route.origin : route.destination);
+      params.set("date", date);
+      if (trip.returnDate) params.set("ret", trip.returnDate);
+      if (showingReturn) params.set("leg", "return");
+
+      return {
+        origin: route.origin,
+        destination: route.destination,
+        km: route.km,
+        milesCost,
+        savedMiles: milesCost !== null && cheapestHere !== null ? Math.max(0, cheapestHere - milesCost) : 0,
+        swappedCode: route.swapped === "origin" ? route.origin : route.destination,
+        replacesCode: route.swapped === "origin" ? shownOrigin : shownDestination,
+        href: `/search?${params.toString()}`,
+      };
+    })
+    // Cheapest first, and the ones with nothing released last: a gateway
+    // that came back empty is still worth reporting, just not worth leading
+    // with.
+    .sort((a, b) => (a.milesCost ?? Infinity) - (b.milesCost ?? Infinity));
+
   const originAirport = findAirport(shownOrigin);
   const destinationAirport = findAirport(shownDestination);
   const cabinLabel = dict.cabins[cabin];
@@ -264,6 +307,8 @@ export default async function SearchPage({
           </Suspense>
         </div>
       </div>
+
+      <NearbyAirports options={nearbyOptions} dict={dict.search} locale={locale} />
     </div>
   );
 }
