@@ -244,9 +244,9 @@ airline or loyalty program.
 
 - **`/wallet`** — the valuations page answers "what is one point worth";
   this one answers "what can the pile I am sitting on actually do". Type in
-  what you hold across the thirty-eight currencies and you get three
+  what you hold across the forty-eight currencies and you get three
   figures: the cash value of the lot, how many currencies you hold, and how
-  many of the thirty airline programs you can genuinely put miles behind.
+  many of the forty airline programs you can genuinely put miles behind.
   Beside the form, one block per balance: the programs it spends on
   directly, and the programs it transfers into 1:1.
 
@@ -301,7 +301,7 @@ airline or loyalty program.
   than reinstating the two, which is what keying off the URL alone would
   have done, since the URL drops the parameter when nothing is selected.
 
-- **`/deals`** — 8 sample transfer-bonus and award-chart sweet-spot writeups, filterable
+- **`/deals`** — 12 sample transfer-bonus and award-chart sweet-spot writeups, filterable
   by category (`?category=transfer-bonus|sweet-spot|sale`) and sortable by
   newest or soonest-expiring (`?sort=newest|expiring`) — the two compose,
   e.g. `?category=transfer-bonus&sort=expiring`. Save any deal for later from
