@@ -10,13 +10,36 @@ import { programsReached, reachGroups, strandedBalances, walletValueUsd } from "
 
 const TYPES: CurrencyType[] = ["bank", "airline", "hotel"];
 
+/**
+ * What the page shows before anyone has typed anything.
+ *
+ * It used to open as a form of forty zeroes under three sentences saying
+ * there was nothing to show yet — a tool that does nothing until you work
+ * out what to feed it, on the one page where the whole question is "what
+ * would this tell me?". These three balances run through the same
+ * functions as a real wallet, so the summary and the reach list are
+ * genuinely computed, not mocked up.
+ *
+ * Nothing here is ever written to storage and the inputs stay empty, so
+ * the first digit a visitor types replaces the example outright. It is
+ * labelled on both panels; a worked example presented as someone's own
+ * balance would be worse than the empty form it replaces.
+ */
+const EXAMPLE_BALANCES: Record<string, number> = {
+  "chase-ur": 120000,
+  "amex-mr": 65000,
+  "alaska-mp": 30000,
+};
+
 export function WalletPanel() {
   const dict = useDictionary();
   const locale = useLocale();
   const { balances, setBalance, clearAll } = useBalances();
 
   const held = Object.keys(balances).length;
-  const groups = reachGroups(balances);
+  const preview = held === 0;
+  const shown = preview ? EXAMPLE_BALANCES : balances;
+  const groups = reachGroups(shown);
   const stranded = strandedBalances(balances);
   const typeLabel: Record<CurrencyType, string> = {
     bank: dict.valuationsTable.typeBank,
@@ -29,18 +52,19 @@ export function WalletPanel() {
       {/* The three figures sit above the fold whatever you have entered, so
           the page never opens as an empty form with no idea what it does. */}
       <div className="mt-8 border-y border-border-strong py-5">
-        {held === 0 ? (
-          <p className="max-w-[62ch] text-sm text-muted">{dict.wallet.empty}</p>
-        ) : (
-          <div className="flex flex-wrap gap-x-10 gap-y-5">
-            <Stat
-              label={dict.wallet.totalValue}
-              value={<CurrencyAmount usd={walletValueUsd(balances)} rounded />}
-            />
-            <Stat label={dict.wallet.currenciesHeld} value={held} />
-            <Stat label={dict.wallet.programsReached} value={programsReached(balances).length} />
-          </div>
+        {preview && (
+          <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.1em] text-muted">
+            {dict.wallet.exampleTag}
+          </p>
         )}
+        <div className={preview ? "flex flex-wrap gap-x-10 gap-y-5 opacity-70" : "flex flex-wrap gap-x-10 gap-y-5"}>
+          <Stat
+            label={dict.wallet.totalValue}
+            value={<CurrencyAmount usd={walletValueUsd(shown)} rounded />}
+          />
+          <Stat label={dict.wallet.currenciesHeld} value={Object.keys(shown).length} />
+          <Stat label={dict.wallet.programsReached} value={programsReached(shown).length} />
+        </div>
       </div>
 
       <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-x-12">
@@ -87,10 +111,15 @@ export function WalletPanel() {
           <h2 className="text-[15px] font-semibold text-foreground">{dict.wallet.reachHeading}</h2>
           <p className="mt-1 max-w-[62ch] text-xs text-muted">{dict.wallet.ratioNote}</p>
 
+          {preview && (
+            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.1em] text-muted">
+              {dict.wallet.exampleTag}
+            </p>
+          )}
           {groups.length === 0 ? (
             <p className="mt-6 max-w-[62ch] text-sm text-muted">{dict.wallet.reachEmpty}</p>
           ) : (
-            <div className="mt-4">
+            <div className={preview ? "mt-4 opacity-70" : "mt-4"}>
               {groups.map((g) => (
                 <div key={g.source.id} className="border-b border-border py-3.5">
                   <div className="flex items-baseline justify-between gap-4">
