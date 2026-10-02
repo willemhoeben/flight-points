@@ -200,19 +200,6 @@ export default async function SearchPage({
     (key) => sp[key] !== undefined,
   );
 
-  // Codes rather than city names: this labels a control, and the results
-  // heading right below it says New York and London in words.
-  const searchSummary = [
-    `${origin} → ${destination}`,
-    trip.returnDate
-      ? `${formatDateLabel(date, locale)} – ${formatDateLabel(trip.returnDate, locale)}`
-      : formatDateLabel(date, locale),
-    dict.cabins[cabin],
-    passengers > 1 ? interpolate(dict.searchForm.paxOther, { count: passengers }) : null,
-  ]
-    .filter(Boolean)
-    .join(" · ");
-
   const calendarSection = (
     <div className="mt-10">
       <h2 className="text-sm font-semibold text-foreground">{dict.search.cheapestDayHeading}</h2>
@@ -241,17 +228,55 @@ export default async function SearchPage({
       <Suspense fallback={null}>
         <SearchMemory />
       </Suspense>
-      <SectionHeading eyebrow={dict.search.eyebrow} title={dict.search.title} description={interpolate(dict.search.description, { count: PROGRAMS.length })} />
+      {/* Once a search has run, the heading of the page IS the search.
+          "Find award availability" over somebody's JFK → LHR results is a
+          generic sentence set in the largest type on the page while the
+          route it produced sat at 14px below it, and the lede under it —
+          what this page does, why its sample results are stable — is worth
+          reading once on the way in, not over every answer.
+
+          So the route takes the h1 and the sub-line carries the terms of the
+          search and how many came back. One statement, in the right size,
+          where a screen reader and a search engine both look for it. */}
+      {hasSearched ? (
+        <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+          <div className="min-w-0">
+            <div className="text-sm font-semibold text-brand-text">{dict.search.eyebrow}</div>
+            <h1 className="mt-2 text-3xl text-foreground sm:text-4xl">
+              {originAirport ? cityName(originAirport, locale) : shownOrigin} ({shownOrigin}) →{" "}
+              {destinationAirport ? cityName(destinationAirport, locale) : shownDestination} ({shownDestination})
+            </h1>
+            <p className="mt-2 text-sm text-muted">
+              {cabinLabel} · {formatDateLabel(shownDate, locale)} ·{" "}
+              {pluralize(results.length, dict.search.resultsCountOne, dict.search.resultsCountOther)}
+              {passengers > 1 ? ` · ${interpolate(dict.searchForm.paxOther, { count: passengers })}` : ""}
+            </p>
+            {passengers > 1 && <p className="mt-1 text-xs text-muted">{dict.search.perPerson}</p>}
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <SaveSearchButton search={{ origin, destination, date, returnDate: trip.returnDate, cabin, programs: programIds }} />
+            <CopyLinkButton />
+          </div>
+        </div>
+      ) : (
+        <SectionHeading
+          eyebrow={dict.search.eyebrow}
+          title={dict.search.title}
+          description={interpolate(dict.search.description, { count: PROGRAMS.length })}
+        />
+      )}
       <SavedSearchesList />
 
-      <div className="mt-8">
+      {/* Tight to the heading when it is one button, so Edit search reads as
+          part of the same control cluster as Save and Copy rather than as a
+          section of its own. */}
+      <div className={hasSearched ? "mt-4" : "mt-8"}>
         <SearchForm
           values={{ origin, destination, date, returnDate: trip.returnDate ?? "", cabin, passengers, programs: programIds }}
           dict={dict.searchForm}
           cabins={dict.cabins}
           locale={locale}
           collapsed={hasSearched}
-          summary={searchSummary}
         />
       </div>
 
@@ -314,24 +339,28 @@ export default async function SearchPage({
           do better on another day", which is the question AFTER you have
           seen what this day costs, not before. It is below the table now. */}
 
-      <div className="mt-10">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <h2 className="text-sm font-semibold text-foreground">
-              {originAirport ? cityName(originAirport, locale) : shownOrigin} ({shownOrigin}) → {destinationAirport ? cityName(destinationAirport, locale) : shownDestination} ({shownDestination})
-            </h2>
-            <p className="mt-1 text-sm text-muted">
-              {cabinLabel} · {formatDateLabel(shownDate, locale)} ·{" "}
-              {pluralize(results.length, dict.search.resultsCountOne, dict.search.resultsCountOther)}
-            </p>
-            {passengers > 1 && <p className="mt-1 text-xs text-muted">{dict.search.perPerson}</p>}
+      {/* The route, the terms and the result count used to be restated here,
+          under the generic page heading. They are the heading now, and the
+          save and share buttons went up with them. */}
+      <div className="mt-8">
+        {!hasSearched && (
+          <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h2 className="text-sm font-semibold text-foreground">
+                {originAirport ? cityName(originAirport, locale) : shownOrigin} ({shownOrigin}) → {destinationAirport ? cityName(destinationAirport, locale) : shownDestination} ({shownDestination})
+              </h2>
+              <p className="mt-1 text-sm text-muted">
+                {cabinLabel} · {formatDateLabel(shownDate, locale)} ·{" "}
+                {pluralize(results.length, dict.search.resultsCountOne, dict.search.resultsCountOther)}
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <SaveSearchButton search={{ origin, destination, date, returnDate: trip.returnDate, cabin, programs: programIds }} />
+              <CopyLinkButton />
+            </div>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <SaveSearchButton search={{ origin, destination, date, returnDate: trip.returnDate, cabin, programs: programIds }} />
-            <CopyLinkButton />
-          </div>
-        </div>
-        <div className="mt-4">
+        )}
+        <div>
           <Suspense fallback={null}>
             <ResultsTable results={results} passengers={passengers} />
           </Suspense>

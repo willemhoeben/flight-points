@@ -29,7 +29,6 @@ export function SearchForm({
   cabins,
   locale,
   collapsed = false,
-  summary,
 }: {
   values: SearchFormValues;
   dict: Dictionary["searchForm"];
@@ -37,8 +36,6 @@ export function SearchForm({
   locale: Locale;
   /** True once the URL carries a search: the form has done its job. */
   collapsed?: boolean;
-  /** The search as one line, shown in place of the fields when collapsed. */
-  summary?: string;
 }) {
   // No ?programs= at all means "search everything", which is also what every
   // box being ticked means — so both read as "all" in the summary.
@@ -191,10 +188,17 @@ export function SearchForm({
     );
   }
 
+  /**
+   * A verb, not a restatement. The heading above already says the route, the
+   * cabin, the date and how many results came back, in the largest type on
+   * the page; repeating it here in a summary line would be the third copy of
+   * the same sentence in 150px. So the control only has to offer to change
+   * it, which makes it a button rather than a bar.
+   */
   return (
     <form method="get" action="/search">
-      <details className="group bg-surface-muted">
-        <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 px-4 py-2.5 text-sm text-foreground [&::-webkit-details-marker]:hidden sm:min-h-0 sm:py-3">
+      <details className="group">
+        <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 bg-surface-muted px-4 text-sm font-medium text-foreground [&::-webkit-details-marker]:hidden">
           <svg
             aria-hidden="true"
             viewBox="0 0 20 20"
@@ -203,12 +207,9 @@ export function SearchForm({
           >
             <path d="M7.5 4.5 13 10l-5.5 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          {/* The search reads as a measurement, like every other code and
-              figure on this site, so it is set in the data face. */}
-          <span className="min-w-0 flex-1 truncate font-mono text-[13px] text-foreground">{summary}</span>
-          <span className="shrink-0 text-[13px] font-medium text-brand-text group-open:hidden">{dict.editSearch}</span>
+          {dict.editSearch}
         </summary>
-        <div className="space-y-4 px-4 pb-4">{fields}</div>
+        <div className="mt-3 space-y-4 bg-surface-muted p-4">{fields}</div>
       </details>
     </form>
   );
