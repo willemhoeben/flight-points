@@ -84,6 +84,9 @@ export function ResultsTable({
 
   const hasAdvancedFilter = allianceFilter !== null || maxFeesFilter !== null || withinReachOnly;
 
+  const activeFilterCount =
+    (nonstopOnly ? 1 : 0) + (allianceFilter !== null ? 1 : 0) + (maxFeesFilter !== null ? 1 : 0) + (withinReachOnly ? 1 : 0);
+
   // filtered preserves results' original order (a .filter() never
   // reorders), and results itself arrives pre-sorted ascending by miles
   // cost — so filtered[0] is always the cheapest option currently on
@@ -236,10 +239,54 @@ export function ResultsTable({
     </div>
   );
 
+  /**
+   * The same controls, folded on anything narrower than the table layout.
+   *
+   * Four filter groups wrap on a phone: the alliance row and the fees row
+   * take two lines of pills each, and with the nonstop toggle and the wallet
+   * hint the block runs 292px. It sat directly above the results, so the
+   * first one was still 226px below the fold after the search form had been
+   * folded away — a screenful of controls before a single answer.
+   *
+   * Closed it is 44px. Open whenever a filter is on, so nothing you chose
+   * can hide behind a summary: that is the rule the programs picker on
+   * /search follows, for the same reason. The count beside the label is what
+   * makes it safe to read at a glance.
+   *
+   * Two renderings rather than one wrapper that changes behaviour by width.
+   * A closed <details> cannot be forced open with CSS in any way that holds
+   * across browsers, and the sort control in this file is already built this
+   * way — pills below lg, sortable table headers above it.
+   */
+  const foldableFilters = (
+    <>
+      <details className="group mb-3 bg-surface-muted print:hidden lg:hidden" open={activeFilterCount > 0}>
+        <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 px-4 text-sm font-medium text-foreground [&::-webkit-details-marker]:hidden">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 20 20"
+            fill="none"
+            className="h-3.5 w-3.5 shrink-0 text-muted transition-transform group-open:rotate-90"
+          >
+            <path d="M7.5 4.5 13 10l-5.5 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          {dict.resultsTable.filterLabel}
+          {activeFilterCount > 0 && (
+            <span className="font-normal text-brand-text">
+              {interpolate(dict.resultsTable.filtersActive, { count: activeFilterCount })}
+            </span>
+          )}
+        </summary>
+        <div className="px-4 pb-1 pt-1">{filterControls}</div>
+      </details>
+      <div className="hidden lg:block">{filterControls}</div>
+    </>
+  );
+
   if (filtered.length === 0) {
     return (
       <div>
-        {filterControls}
+        {foldableFilters}
         <div className="bg-surface-muted p-10 text-center text-sm text-muted">
           {hasAdvancedFilter ? dict.resultsTable.noFilteredResults : dict.resultsTable.noNonstopResults}
         </div>
@@ -250,7 +297,7 @@ export function ResultsTable({
   return (
     <div>
       <PointsOrCash results={filtered} />
-      {filterControls}
+      {foldableFilters}
       <span aria-live="polite" className="sr-only">
         {sortAnnouncement}
       </span>
