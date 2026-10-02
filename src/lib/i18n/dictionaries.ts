@@ -52,27 +52,21 @@ const en = {
     featureSearchTitle: "Award search",
     featureSearchDescription:
       "Search award availability across {count} airline programs by route, date, and cabin, with a two-week calendar view to spot the cheapest day to fly.",
-    featureSearchCta: "Search awards",
     featureValuationsTitle: "Points valuations",
     featureValuationsDescription:
       "See an estimated cents-per-point value for every major bank, airline, and hotel currency, plus a calculator to convert a balance into cash-equivalent value.",
-    featureValuationsCta: "See valuations",
     featureDealsTitle: "Deals & sweet spots",
     featureDealsDescription:
       "Curated writeups on transfer bonuses and award chart sweet spots — the kind of redemptions that are easy to miss if you're not watching closely.",
-    featureDealsCta: "Browse deals",
     featureExploreTitle: "Where can I go?",
     featureExploreDescription:
       "Pick a departure airport and a points budget, and see every destination you can reach, cheapest first, with the best day in the next two weeks.",
-    featureExploreCta: "Explore destinations",
     featureNetworkTitle: "Airline networks",
     featureNetworkDescription:
       "Every destination one airline reaches from one of its hubs, plotted at true bearing and distance so a straight line out of the middle is the route it flies.",
-    featureNetworkCta: "See a network",
     featureWalletTitle: "Your wallet",
     featureWalletDescription:
       "Enter what you hold and find out what it is worth, which programs you can put miles behind, and which awards you can actually book.",
-    featureWalletCta: "Add your balances",
     valuationsHeading: "What your points are worth",
     valuationsSub: "Estimated redemption value, updated by category.",
     valuationsSeeAll: "See full table ›",
@@ -383,27 +377,21 @@ const nl: Dictionary = {
     featureSearchTitle: "Award-zoeken",
     featureSearchDescription:
       "Doorzoek award-beschikbaarheid bij {count} luchtvaartprogramma's op route, datum en cabine, met een tweewekelijkse kalenderweergave om de goedkoopste dag te vinden.",
-    featureSearchCta: "Zoek awards",
     featureValuationsTitle: "Puntenwaarde",
     featureValuationsDescription:
       "Bekijk een geschatte waarde per punt voor elke grote bank-, luchtvaart- en hotelvaluta, plus een rekenmachine om een saldo om te zetten naar contante waarde.",
-    featureValuationsCta: "Bekijk waarderingen",
     featureDealsTitle: "Deals & sweet spots",
     featureDealsDescription:
       "Uitgelichte artikelen over transferbonussen en award-chart sweet spots — het soort inwisselingen dat je makkelijk mist als je niet goed oplet.",
-    featureDealsCta: "Bekijk deals",
     featureExploreTitle: "Waar kan ik heen?",
     featureExploreDescription:
       "Kies een vertrekluchthaven en een puntenbudget, en zie elke bestemming die je kunt bereiken, goedkoopste eerst, met de beste dag in de komende twee weken.",
-    featureExploreCta: "Bestemmingen verkennen",
     featureNetworkTitle: "Netwerken per maatschappij",
     featureNetworkDescription:
       "Elke bestemming die één maatschappij vanaf een thuisbasis bedient, uitgezet op ware koers en afstand: een rechte lijn vanuit het midden is de route die het vliegtuig vliegt.",
-    featureNetworkCta: "Bekijk een netwerk",
     featureWalletTitle: "Je portefeuille",
     featureWalletDescription:
       "Vul in wat je hebt staan en zie wat het waard is, bij welke programma's je miles kunt inzetten, en welke awards je echt kunt boeken.",
-    featureWalletCta: "Saldo's invullen",
     valuationsHeading: "Wat je punten waard zijn",
     valuationsSub: "Geschatte inwisselwaarde, per categorie.",
     valuationsSeeAll: "Bekijk volledige tabel ›",
@@ -714,27 +702,21 @@ const de: Dictionary = {
     featureSearchTitle: "Award-Suche",
     featureSearchDescription:
       "Durchsuche Award-Verfügbarkeit bei {count} Airline-Programmen nach Strecke, Datum und Kabine, mit einer Zwei-Wochen-Kalenderansicht für den günstigsten Flugtag.",
-    featureSearchCta: "Awards suchen",
     featureValuationsTitle: "Punktewert",
     featureValuationsDescription:
       "Sieh den geschätzten Wert pro Punkt für jede wichtige Bank-, Airline- und Hotelwährung, plus einen Rechner, der ein Guthaben in Bargegenwert umrechnet.",
-    featureValuationsCta: "Bewertungen ansehen",
     featureDealsTitle: "Deals & Sweet Spots",
     featureDealsDescription:
       "Kuratierte Beiträge zu Transferboni und Sweet Spots in Meilentabellen — die Art von Einlösungen, die man leicht verpasst, wenn man nicht genau hinschaut.",
-    featureDealsCta: "Deals durchsuchen",
     featureExploreTitle: "Wohin kann ich fliegen?",
     featureExploreDescription:
       "Wähle einen Abflughafen und ein Punktebudget und sieh jedes erreichbare Ziel, günstigste zuerst, mit dem besten Tag der nächsten zwei Wochen.",
-    featureExploreCta: "Ziele entdecken",
     featureNetworkTitle: "Airline-Netze",
     featureNetworkDescription:
       "Jedes Ziel, das eine Airline von einem ihrer Drehkreuze erreicht, nach wahrer Peilung und Entfernung aufgetragen: eine gerade Linie aus der Mitte ist die geflogene Route.",
-    featureNetworkCta: "Netz ansehen",
     featureWalletTitle: "Dein Portfolio",
     featureWalletDescription:
       "Trag ein, was du hast, und sieh, was es wert ist, bei welchen Programmen du Meilen einsetzen kannst und welche Awards wirklich buchbar sind.",
-    featureWalletCta: "Guthaben eintragen",
     valuationsHeading: "Was deine Punkte wert sind",
     valuationsSub: "Geschätzter Einlösewert, nach Kategorie.",
     valuationsSeeAll: "Vollständige Tabelle ansehen ›",
@@ -1045,27 +1027,21 @@ const fr: Dictionary = {
     featureSearchTitle: "Recherche awards",
     featureSearchDescription:
       "Recherchez la disponibilité award sur {count} programmes aériens par itinéraire, date et cabine, avec une vue calendrier de deux semaines pour repérer le jour le moins cher.",
-    featureSearchCta: "Rechercher",
     featureValuationsTitle: "Valorisation des points",
     featureValuationsDescription:
       "Consultez une valeur estimée en centimes par point pour chaque grande devise bancaire, aérienne et hôtelière, avec un calculateur pour convertir un solde en valeur monétaire.",
-    featureValuationsCta: "Voir les valorisations",
     featureDealsTitle: "Offres & bons plans",
     featureDealsDescription:
       "Des articles sélectionnés sur les bonus de transfert et les bons plans des grilles award — le genre de bonnes affaires facile à manquer si on ne surveille pas de près.",
-    featureDealsCta: "Voir les offres",
     featureExploreTitle: "Où puis-je aller ?",
     featureExploreDescription:
       "Choisissez un aéroport de départ et un budget en points, et voyez chaque destination atteignable, la moins chère en tête, avec le meilleur jour des deux prochaines semaines.",
-    featureExploreCta: "Explorer les destinations",
     featureNetworkTitle: "Réseaux des compagnies",
     featureNetworkDescription:
       "Chaque destination qu'une compagnie dessert depuis un de ses hubs, tracée au cap et à la distance réels : une ligne droite depuis le centre est la route réellement volée.",
-    featureNetworkCta: "Voir un réseau",
     featureWalletTitle: "Votre portefeuille",
     featureWalletDescription:
       "Indiquez ce que vous détenez et découvrez sa valeur, les programmes où vous pouvez engager des miles, et les billets award réellement réservables.",
-    featureWalletCta: "Saisir vos soldes",
     valuationsHeading: "Ce que valent vos points",
     valuationsSub: "Valeur d'échange estimée, par catégorie.",
     valuationsSeeAll: "Voir le tableau complet ›",
@@ -1376,27 +1352,21 @@ const es: Dictionary = {
     featureSearchTitle: "Buscar awards",
     featureSearchDescription:
       "Busca disponibilidad de awards en {count} programas de aerolíneas por ruta, fecha y cabina, con una vista de calendario de dos semanas para encontrar el día más barato.",
-    featureSearchCta: "Buscar awards",
     featureValuationsTitle: "Valoración de puntos",
     featureValuationsDescription:
       "Consulta un valor estimado en centavos por punto para cada divisa bancaria, aérea y hotelera principal, además de una calculadora para convertir un saldo en valor en efectivo.",
-    featureValuationsCta: "Ver valoraciones",
     featureDealsTitle: "Ofertas y chollos",
     featureDealsDescription:
       "Artículos seleccionados sobre bonos de transferencia y chollos en las tablas de premios: el tipo de canje fácil de pasar por alto si no prestas atención.",
-    featureDealsCta: "Ver ofertas",
     featureExploreTitle: "¿A dónde puedo ir?",
     featureExploreDescription:
       "Elige un aeropuerto de salida y un presupuesto de puntos, y verás todos los destinos a tu alcance, del más barato al más caro, con el mejor día de las próximas dos semanas.",
-    featureExploreCta: "Explorar destinos",
     featureNetworkTitle: "Redes de aerolínea",
     featureNetworkDescription:
       "Cada destino que una aerolínea alcanza desde uno de sus hubs, trazado con el rumbo y la distancia reales: una línea recta desde el centro es la ruta que se vuela.",
-    featureNetworkCta: "Ver una red",
     featureWalletTitle: "Tu cartera",
     featureWalletDescription:
       "Introduce lo que tienes y descubre cuánto vale, en qué programas puedes usar millas y qué awards puedes reservar de verdad.",
-    featureWalletCta: "Introducir saldos",
     valuationsHeading: "Cuánto valen tus puntos",
     valuationsSub: "Valor de canje estimado, por categoría.",
     valuationsSeeAll: "Ver tabla completa ›",
@@ -1707,27 +1677,21 @@ const it: Dictionary = {
     featureSearchTitle: "Ricerca award",
     featureSearchDescription:
       "Cerca la disponibilità di award in {count} programmi aerei per tratta, data e cabina, con una vista calendario di due settimane per individuare il giorno più economico per volare.",
-    featureSearchCta: "Cerca award",
     featureValuationsTitle: "Valutazione punti",
     featureValuationsDescription:
       "Scopri il valore stimato in centesimi per punto per ogni principale valuta bancaria, aerea e alberghiera, più un calcolatore per convertire un saldo nel suo equivalente in contanti.",
-    featureValuationsCta: "Vedi le valutazioni",
     featureDealsTitle: "Offerte e occasioni",
     featureDealsDescription:
       "Approfondimenti selezionati su bonus di trasferimento e occasioni nelle tabelle premi: il tipo di riscatto facile da perdere se non si presta attenzione.",
-    featureDealsCta: "Sfoglia le offerte",
     featureExploreTitle: "Dove posso andare?",
     featureExploreDescription:
       "Scegli un aeroporto di partenza e un budget in punti, e vedi ogni destinazione raggiungibile, dalla più economica, con il giorno migliore delle prossime due settimane.",
-    featureExploreCta: "Esplora le destinazioni",
     featureNetworkTitle: "Reti delle compagnie",
     featureNetworkDescription:
       "Ogni destinazione che una compagnia raggiunge da un suo hub, tracciata con rotta e distanza reali: una linea retta dal centro è la rotta che l'aereo percorre davvero.",
-    featureNetworkCta: "Guarda una rete",
     featureWalletTitle: "Il tuo portafoglio",
     featureWalletDescription:
       "Inserisci quello che hai e scopri quanto vale, su quali programmi puoi spendere miglia e quali award puoi davvero prenotare.",
-    featureWalletCta: "Inserisci i saldi",
     valuationsHeading: "Quanto valgono i tuoi punti",
     valuationsSub: "Valore di riscatto stimato, aggiornato per categoria.",
     valuationsSeeAll: "Vedi tabella completa ›",
@@ -2038,27 +2002,21 @@ const ja: Dictionary = {
     featureSearchTitle: "特典航空券検索",
     featureSearchDescription:
       "{count}の航空会社プログラムの特典航空券空席状況を、路線・日付・クラスで検索。2週間分のカレンダー表示で最も安く飛べる日がひと目でわかります。",
-    featureSearchCta: "特典航空券を検索",
     featureValuationsTitle: "ポイント価値評価",
     featureValuationsDescription:
       "主要な銀行・航空会社・ホテルの各ポイント通貨について、1ポイントあたりの推定価値（セント）を確認。保有残高を現金換算価値に変換する計算機能つき。",
-    featureValuationsCta: "価値評価を見る",
     featureDealsTitle: "お得情報 & 掘り出し物",
     featureDealsDescription:
       "移行ボーナスやアワードチャートの掘り出し物を厳選して紹介。注意していないと見逃してしまうようなお得な交換先を取り上げています。",
-    featureDealsCta: "お得情報を見る",
     featureExploreTitle: "どこへ行ける?",
     featureExploreDescription:
       "出発空港とポイント予算を選ぶと、届く行き先が安い順に並び、今後2週間で最も安い日がわかります。",
-    featureExploreCta: "行き先を探す",
     featureNetworkTitle: "航空会社の路線網",
     featureNetworkDescription:
       "1社がハブから結ぶすべての行き先を、実際の方位と距離で作図します。中心から伸びる直線が、その機体が飛ぶ経路そのものです。",
-    featureNetworkCta: "路線網を見る",
     featureWalletTitle: "ウォレット",
     featureWalletDescription:
       "保有ポイントを入力すると、その価値、マイルを使えるプログラム、そして実際に発券できる特典がわかります。",
-    featureWalletCta: "残高を入力",
     valuationsHeading: "あなたのポイントの価値",
     valuationsSub: "カテゴリー別の推定交換価値。",
     valuationsSeeAll: "全一覧を見る ›",

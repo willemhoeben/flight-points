@@ -30,12 +30,12 @@ export default async function Home() {
   // things here, and a landing page that leaves them out of the map is a
   // landing page that hides them.
   const features = [
-    { title: dict.home.featureSearchTitle, description: interpolate(dict.home.featureSearchDescription, { count: PROGRAMS.length }), href: "/search", cta: dict.home.featureSearchCta },
-    { title: dict.home.featureExploreTitle, description: dict.home.featureExploreDescription, href: "/explore", cta: dict.home.featureExploreCta },
-    { title: dict.home.featureNetworkTitle, description: dict.home.featureNetworkDescription, href: "/network", cta: dict.home.featureNetworkCta },
-    { title: dict.home.featureValuationsTitle, description: dict.home.featureValuationsDescription, href: "/valuations", cta: dict.home.featureValuationsCta },
-    { title: dict.home.featureWalletTitle, description: dict.home.featureWalletDescription, href: "/wallet", cta: dict.home.featureWalletCta },
-    { title: dict.home.featureDealsTitle, description: dict.home.featureDealsDescription, href: "/deals", cta: dict.home.featureDealsCta },
+    { title: dict.home.featureSearchTitle, description: interpolate(dict.home.featureSearchDescription, { count: PROGRAMS.length }), href: "/search" },
+    { title: dict.home.featureExploreTitle, description: dict.home.featureExploreDescription, href: "/explore" },
+    { title: dict.home.featureNetworkTitle, description: dict.home.featureNetworkDescription, href: "/network" },
+    { title: dict.home.featureValuationsTitle, description: dict.home.featureValuationsDescription, href: "/valuations" },
+    { title: dict.home.featureWalletTitle, description: dict.home.featureWalletDescription, href: "/wallet" },
+    { title: dict.home.featureDealsTitle, description: dict.home.featureDealsDescription, href: "/deals" },
   ];
 
   return (
@@ -110,17 +110,24 @@ export default async function Home() {
 
       <section className="mx-auto w-full max-w-6xl px-4 py-9 sm:px-6">
         <div className="grid gap-x-9 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+          {/* The whole block is the link. Six amber "Search awards ›" lines
+              under six paragraphs made the destinations shout over the
+              descriptions that say what they are — the same clutter the
+              explore list carried, at smaller scale. The heading takes the
+              hover and keeps the chevron, which is a persistent mark rather
+              than a hover state, since a phone has no hover. */}
           {features.map((feature) => (
-            <Card key={feature.href} className="flex flex-col py-5">
-              <h2 className="text-lg text-foreground">{feature.title}</h2>
-              <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-muted">{feature.description}</p>
-              <Link
-                href={feature.href}
-                className="mt-1 inline-flex min-h-11 items-center text-sm font-medium text-brand-text hover:underline sm:mt-4 sm:min-h-0"
-              >
-                {feature.cta} ›
-              </Link>
-            </Card>
+            <Link key={feature.href} href={feature.href} className="group block">
+              <Card className="flex h-full flex-col py-5">
+                <h2 className="text-lg text-foreground group-hover:text-brand-text">
+                  {feature.title}
+                  <span aria-hidden="true" className="ml-1.5 font-mono text-[15px] text-muted">
+                    ›
+                  </span>
+                </h2>
+                <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-muted">{feature.description}</p>
+              </Card>
+            </Link>
           ))}
         </div>
       </section>
