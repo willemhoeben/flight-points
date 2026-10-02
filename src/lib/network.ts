@@ -68,3 +68,34 @@ export function byRegion(legs: NetworkLeg[]): { region: Region; legs: NetworkLeg
     legs: groups.get(region) as NetworkLeg[],
   }));
 }
+
+/**
+ * The programme and hub whose plot fills the circle best, used for the
+ * drawing on the landing page.
+ *
+ * Picked from the data rather than written down, so adding airports or a
+ * programme re-picks it instead of leaving the front door showing a network
+ * that used to be the widest one. Destination count decides it, with the
+ * longest route breaking ties: both of those are what make the plot look
+ * like something, since a carrier with few routes or a short reach draws a
+ * sparse little star.
+ *
+ * Computed once per process, not per request. It reads the whole airport
+ * list for every programme and hub, which is a few hundred thousand
+ * distance calculations — nothing at boot, wasteful on every page view.
+ */
+export function widestNetwork(): { programId: string; hub: string; count: number } {
+  let best = { programId: "", hub: "", count: -1, reach: -1 };
+  for (const [programId, net] of Object.entries(NETWORKS)) {
+    for (const hub of net.hubs) {
+      const legs = networkFrom(programId, hub);
+      const reach = legs.length ? legs[legs.length - 1].km : 0;
+      if (legs.length > best.count || (legs.length === best.count && reach > best.reach)) {
+        best = { programId, hub, count: legs.length, reach };
+      }
+    }
+  }
+  return { programId: best.programId, hub: best.hub, count: best.count };
+}
+
+export const WIDEST_NETWORK = widestNetwork();
