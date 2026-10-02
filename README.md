@@ -532,6 +532,46 @@ dark mode prints the full daylight palette on paper white, and
 single token the night palette overrides — a half-reverted palette puts
 near-black badge tints on a white sheet.
 
+### The front door shows what the site is
+
+Every page here except the landing page showed it: a plot of routes at true
+bearing and distance, a fourteen-day price calendar, a table of cents per
+point. The landing page was a centred headline over six paragraphs of text
+and could have been any product.
+
+The hero is left-ranged now, with the plot beside it — real data, not an
+illustration: the widest network in the set, drawn from its hub. Which one
+that is comes out of the data (`widestNetwork()` in `src/lib/network.ts`)
+rather than being written down, so adding airports or a programme re-picks
+it instead of leaving the front door on a network that used to be the
+widest. Today that is United from Denver, 104 destinations, computed once
+per process rather than per request.
+
+The compact mode drops the destination codes, the ring distances and the
+compass letters. None of them is legible at 440px, and a circle of
+unreadable three-letter codes reads as noise rather than as a drawing; the
+shape is the argument there and `/network` carries the detail. The plot
+itself is `src/components/NetworkPlot.tsx` now rather than 220 lines inside
+the network page, which is what made it reusable at all.
+
+Ranging the type left also gives the page a spine — a centred column has
+nothing for the sections under it to hang off, which was part of why the
+rest of the page read as a stack of unrelated slabs. Two more things that
+were wrong there: the four headline figures were set in the text face,
+while every other measurement on the site and the valuations figures six
+inches below them were monospaced, so the same kind of number looked like
+two different kinds of thing on one page; and every seam carried 48px of
+padding on both sides, putting ~96px of nothing between each section and
+the next. Figures are in the data face now, and the page is 94px shorter.
+
+The ring labels on the plot also stopped colliding. They were spaced by a
+ratio — drop any ring closer than 97% of the outer edge — but the rings are
+round numbers and the edge is wherever the longest route happens to end, so
+on United from Newark the 15,000 km ring lands ten kilometres inside a
+15,474 km edge and both labels printed on top of each other. They are placed
+outward-in now and measured against each other, the same way the destination
+codes already were. Zero overlaps across eight hubs.
+
 ### Every control is big enough to hit
 
 The phone header got the 44px treatment when it was built. Nothing else had.
