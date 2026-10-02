@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { PointCurrency } from "@/data/valuations";
 import { Badge, Pill } from "@/components/ui";
+import { interpolate } from "@/lib/i18n/format";
 import { useCurrency } from "@/lib/currency-context";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
 import { formatMiles } from "@/lib/format";
@@ -84,29 +85,68 @@ export function CompareTool({ valuations }: { valuations: PointCurrency[] }) {
 
   return (
     <div>
+      {/* Banks stay out; airlines and hotels fold away.
+          Thirty-one airline pills over six rows filled the top half of the
+          viewport and pushed the comparison — the answer this page exists
+          for — below the fold, so the control shouted and the result
+          whispered. Banks are one row and where most people start, so they
+          stay. The rest sit behind the same native <details> the search
+          form's forty-programme picker already uses, and it opens itself
+          when a selection is in there so the current choice is never
+          hidden. */}
       <div role="group" aria-label={dict.compareTool.selectLabel}>
-        {TYPES.map((type) => (
-          <div key={type} className="mb-4">
-            <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">{TYPE_LABEL[type]}</div>
+        {TYPES.map((type) => {
+          const inType = valuations.filter((v) => v.type === type);
+          const pills = (
             <div className="flex flex-wrap gap-2">
-              {valuations
-                .filter((v) => v.type === type)
-                .map((v) => {
-                  const active = selectedIds.includes(v.id);
-                  return (
-                    <Pill
-                      key={v.id}
-                      selected={active}
-                      semantics="toggle"
-                      onClick={() => toggleCurrency(v.id)}
-                    >
-                      {v.name}
-                    </Pill>
-                  );
-                })}
+              {inType.map((v) => (
+                <Pill
+                  key={v.id}
+                  selected={selectedIds.includes(v.id)}
+                  semantics="toggle"
+                  onClick={() => toggleCurrency(v.id)}
+                >
+                  {v.name}
+                </Pill>
+              ))}
             </div>
-          </div>
-        ))}
+          );
+          const label = (
+            <span className="text-xs font-semibold uppercase tracking-wide text-muted">{TYPE_LABEL[type]}</span>
+          );
+
+          if (type === "bank") {
+            return (
+              <div key={type} className="mb-4">
+                <div className="mb-2">{label}</div>
+                {pills}
+              </div>
+            );
+          }
+
+          const chosen = inType.filter((v) => selectedIds.includes(v.id)).length;
+          return (
+            <details key={type} className="group mb-2 bg-surface-muted" open={chosen > 0}>
+              <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 px-3 py-2.5 sm:min-h-0 [&::-webkit-details-marker]:hidden">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  className="h-3.5 w-3.5 text-muted transition-transform group-open:rotate-90"
+                >
+                  <path d="M7.5 4.5 13 10l-5.5 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                {label}
+                <span className="text-xs text-muted">
+                  {chosen > 0
+                    ? interpolate(dict.compareTool.pickedCount, { chosen, total: inType.length })
+                    : interpolate(dict.compareTool.availableCount, { total: inType.length })}
+                </span>
+              </summary>
+              <div className="px-3 pb-3">{pills}</div>
+            </details>
+          );
+        })}
       </div>
 
       <label className="mt-2 block max-w-xs">
