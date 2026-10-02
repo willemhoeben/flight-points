@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { PointCurrency } from "@/data/valuations";
 import { Badge, Pill } from "@/components/ui";
+import { ValueBar } from "@/components/ValueBar";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
 import { valuationNote } from "@/lib/i18n/valuation-notes";
@@ -156,6 +157,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
                     </span>
                   </div>
                   <div className="text-[11px] text-muted">{dict.valuationsTable.value}</div>
+                  <ValueBar centsPerPoint={v.centsPerPoint} />
                 </div>
               </div>
               <p className="mt-3 border-t border-border pt-3 text-[13px] text-muted">{valuationNote(v.id, locale, v.notes)}</p>
@@ -214,14 +216,15 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
                   <td className="px-4 py-3">
                     <Badge accent={TYPE_ACCENT[v.type]}>{TYPE_LABEL[v.type]}</Badge>
                   </td>
-                  <td className="px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground">
+                  <td className="w-[100px] px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground">
                     {v.centsPerPoint.toFixed(2)}¢
+                    <ValueBar centsPerPoint={v.centsPerPoint} />
                   </td>
                   <td className={`px-4 py-3 font-medium ${TREND_CLASS[v.trend]}`}>
                     <span aria-hidden="true">{TREND_ICON[v.trend]}</span>
                     <span className="sr-only">{TREND_LABEL[v.trend]}</span>
                   </td>
-                  <td className="px-4 py-3 max-w-xs text-muted">{valuationNote(v.id, locale, v.notes)}</td>
+                  <td className="max-w-[250px] px-4 py-3 text-muted">{valuationNote(v.id, locale, v.notes)}</td>
                 </tr>
               ))}
             </tbody>

@@ -250,6 +250,22 @@
   }
 }
 
+/* The bar is a background, and browsers drop backgrounds when printing and
+   replace them with the system palette in forced-colors mode. Both would
+   leave an empty track beside a figure that says the bar should be there.
+   Class selectors, so the no-bare-element rule in border-cascade.test.ts
+   still holds. */
+@media (forced-colors: active) {
+  .value-bar { border: 1px solid CanvasText; }
+  .value-bar-fill { background: Highlight; forced-color-adjust: none; }
+}
+
+.value-bar,
+.value-bar-fill {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
 @media print {
   /* Printing a page picked up in dark mode shouldn't waste ink on a black
      background, so the daylight palette is forced regardless of the .dark
