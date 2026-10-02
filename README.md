@@ -643,6 +643,55 @@ They are inside `@layer base` now, so the defaults still apply to anything
 that asks for nothing and a utility wins. `test/border-cascade.test.ts`
 fails if a bare universal or element rule is ever added outside a layer.
 
+### /valuations shows the spread, not just the ranking
+
+Forty-eight currencies, from Chase Ultimate Rewards at 2.05¢ a point down to
+0.50¢, set as a column of plain numbers. Sorted, so the top row was findable.
+But the page never showed that the best currency is worth four times the
+worst, or where the cliff between bank points and airline miles falls, and
+that is the shape of the answer people come here for.
+
+Each row now carries a length under its figure.
+
+The scale is the **whole dataset**, never the filtered view. That is the only
+part of this with a wrong answer available: scaled to what the filters left
+on screen, choosing Hotel would run World of Hyatt to full width and claim it
+is the best thing here when it is mid-table overall. Scaled to the set, Hyatt
+reads 82.9% under the Hotel filter, the same length it has with no filter at
+all. A bar has to mean the same thing under every filter or it is decoration
+that moves. All 48 lengths were checked against cents ÷ 2.05 and against
+their own rendered geometry; both agree to within a pixel.
+
+Zero-based, because cents per point is a ratio quantity — half the bar has to
+be half the value. Square ends, because this design zeroes Tailwind's radius
+scale on purpose and a lone rounded tip reads as a mistake rather than as
+polish. `aria-hidden`, because the figure it encodes sits beside it in words.
+The track is a background, so print and forced-colors mode both get an
+explicit fallback rather than an empty gap where a bar should be.
+
+The column widths are the part worth writing down, because the first attempt
+optimised the wrong number. Pinning the value column wide enough for a longer
+bar meant capping the notes column to pay for it, which was justified by
+counting currency names that wrapped onto a second line. That metric is
+worthless here: every row on this page is as tall as its note, and notes run
+four to six lines, so a wrapped name costs nothing. Measured properly — rows
+that got taller because of a wrapped name — the answer is 0, in every locale,
+under every geometry tried.
+
+What the widths did cost was height:
+
+| Geometry | Table height, Dutch | Table height, French |
+|---|---|---|
+| No bar at all | 3619px | 3911px |
+| Bar, columns left alone | 3619px | 3911px |
+| Bar, value column 100px + notes capped at 250px | 3911px | 4415px |
+
+The bar is free if the columns are left alone and costs half a screen of
+scrolling if they are not. A figure whose whole argument is "read the spread
+at a glance" should not lengthen the page it is explaining, so the columns
+are untouched and the bar is 58px instead of 68px. Ample for 48 values
+spanning four to one.
+
 ## Languages and currencies
 
 The navbar has two independent selectors:
