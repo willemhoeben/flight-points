@@ -28,11 +28,17 @@ export function SearchForm({
   dict,
   cabins,
   locale,
+  collapsed = false,
+  summary,
 }: {
   values: SearchFormValues;
   dict: Dictionary["searchForm"];
   cabins: Dictionary["cabins"];
   locale: Locale;
+  /** True once the URL carries a search: the form has done its job. */
+  collapsed?: boolean;
+  /** The search as one line, shown in place of the fields when collapsed. */
+  summary?: string;
 }) {
   // No ?programs= at all means "search everything", which is also what every
   // box being ticked means — so both read as "all" in the summary.
@@ -44,8 +50,8 @@ export function SearchForm({
     ? interpolate(dict.programsAll, { count: total })
     : interpolate(dict.programsSome, { selected: selectedCount, total });
 
-  return (
-    <form method="get" action="/search" className="space-y-4">
+  const fields = (
+    <>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Field label={dict.from}>
           <select name="origin" defaultValue={values.origin} className="form-select">
@@ -159,6 +165,51 @@ export function SearchForm({
       >
         {dict.submit}
       </button>
+    </>
+  );
+
+  /**
+   * Once the URL carries a search, the form has already done its job and the
+   * answer is what the page is for. Left expanded it was 292px of controls
+   * between the top of the page and the first result, which put that result
+   * 288px below the fold on a 1280×800 laptop: you searched, and what came
+   * back was the form you had just filled in.
+   *
+   * Collapsed it is a line that states the search and opens on click. A
+   * native <details> keeps this free of JavaScript, and fields inside a
+   * closed one still submit — the same mechanism the programs picker has
+   * used since it was built.
+   *
+   * A bare /search with no parameters still opens expanded. Nobody has
+   * searched yet there, so the form IS the page.
+   */
+  if (!collapsed) {
+    return (
+      <form method="get" action="/search" className="space-y-4">
+        {fields}
+      </form>
+    );
+  }
+
+  return (
+    <form method="get" action="/search">
+      <details className="group bg-surface-muted">
+        <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 px-4 py-2.5 text-sm text-foreground [&::-webkit-details-marker]:hidden sm:min-h-0 sm:py-3">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 20 20"
+            fill="none"
+            className="h-3.5 w-3.5 shrink-0 text-muted transition-transform group-open:rotate-90"
+          >
+            <path d="M7.5 4.5 13 10l-5.5 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          {/* The search reads as a measurement, like every other code and
+              figure on this site, so it is set in the data face. */}
+          <span className="min-w-0 flex-1 truncate font-mono text-[13px] text-foreground">{summary}</span>
+          <span className="shrink-0 text-[13px] font-medium text-brand-text group-open:hidden">{dict.editSearch}</span>
+        </summary>
+        <div className="space-y-4 px-4 pb-4">{fields}</div>
+      </details>
     </form>
   );
 }

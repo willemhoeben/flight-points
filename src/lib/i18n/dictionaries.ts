@@ -88,6 +88,9 @@ const en = {
     programsAll: "All {count} programs",
     programsSome: "{selected} of {total} programs",
     submit: "Search award flights",
+    editSearch: "Edit search",
+    paxOne: "{count} passenger",
+    paxOther: "{count} passengers",
   },
   cabins: {
     economy: "Economy",
@@ -413,6 +416,9 @@ const nl: Dictionary = {
     programsAll: "Alle {count} programma's",
     programsSome: "{selected} van {total} programma's",
     submit: "Zoek award-vluchten",
+    editSearch: "Zoekopdracht aanpassen",
+    paxOne: "{count} passagier",
+    paxOther: "{count} passagiers",
   },
   cabins: {
     economy: "Economy",
@@ -738,6 +744,9 @@ const de: Dictionary = {
     programsAll: "Alle {count} Programme",
     programsSome: "{selected} von {total} Programmen",
     submit: "Award-Flüge suchen",
+    editSearch: "Suche ändern",
+    paxOne: "{count} Passagier",
+    paxOther: "{count} Passagiere",
   },
   cabins: {
     economy: "Economy",
@@ -1063,6 +1072,9 @@ const fr: Dictionary = {
     programsAll: "Les {count} programmes",
     programsSome: "{selected} programmes sur {total}",
     submit: "Rechercher des vols award",
+    editSearch: "Modifier la recherche",
+    paxOne: "{count} passager",
+    paxOther: "{count} passagers",
   },
   cabins: {
     economy: "Économique",
@@ -1388,6 +1400,9 @@ const es: Dictionary = {
     programsAll: "Los {count} programas",
     programsSome: "{selected} de {total} programas",
     submit: "Buscar vuelos award",
+    editSearch: "Editar búsqueda",
+    paxOne: "{count} pasajero",
+    paxOther: "{count} pasajeros",
   },
   cabins: {
     economy: "Económica",
@@ -1713,6 +1728,9 @@ const it: Dictionary = {
     programsAll: "Tutti i {count} programmi",
     programsSome: "{selected} di {total} programmi",
     submit: "Cerca voli award",
+    editSearch: "Modifica ricerca",
+    paxOne: "{count} passeggero",
+    paxOther: "{count} passeggeri",
   },
   cabins: {
     economy: "Economica",
@@ -2038,6 +2056,9 @@ const ja: Dictionary = {
     programsAll: "全{count}プログラム",
     programsSome: "{total}件中{selected}件のプログラム",
     submit: "特典航空券を検索",
+    editSearch: "検索条件を変更",
+    paxOne: "{count}名",
+    paxOther: "{count}名",
   },
   cabins: {
     economy: "エコノミー",
