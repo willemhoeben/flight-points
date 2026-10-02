@@ -192,6 +192,50 @@ export default async function SearchPage({
   const destinationAirport = findAirport(shownDestination);
   const cabinLabel = dict.cabins[cabin];
 
+  // Every parameter the form owns. Any one of them present means a search has
+  // been run — from the form, a shared link, a saved search or a calendar
+  // cell — and the form can fold away. A bare /search has nobody's search to
+  // state, so it opens with the fields.
+  const hasSearched = ["origin", "destination", "date", "ret", "cabin", "pax", "programs", "leg"].some(
+    (key) => sp[key] !== undefined,
+  );
+
+  // Codes rather than city names: this labels a control, and the results
+  // heading right below it says New York and London in words.
+  const searchSummary = [
+    `${origin} → ${destination}`,
+    trip.returnDate
+      ? `${formatDateLabel(date, locale)} – ${formatDateLabel(trip.returnDate, locale)}`
+      : formatDateLabel(date, locale),
+    dict.cabins[cabin],
+    passengers > 1 ? interpolate(dict.searchForm.paxOther, { count: passengers }) : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+
+  const calendarSection = (
+    <div className="mt-10">
+      <h2 className="text-sm font-semibold text-foreground">{dict.search.cheapestDayHeading}</h2>
+      <p className="mt-1 text-sm text-muted">
+        {interpolate(dict.search.cheapestDaySub, {
+          origin: originAirport ? cityName(originAirport, locale) : origin,
+          destination: destinationAirport ? cityName(destinationAirport, locale) : destination,
+        })}
+      </p>
+      <div className="mt-4">
+        <CalendarHeatmap
+          days={calendarDays}
+          selectedDate={shownDate}
+          baseParams={calendarParams}
+          dateParam={showingReturn ? "ret" : "date"}
+          noAwardSpaceLabel={dict.search.noAwardSpaceAria}
+          milesLabel={dict.resultsTable.miles}
+          locale={locale}
+        />
+      </div>
+    </div>
+  );
+
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-9 sm:px-6">
       <Suspense fallback={null}>
@@ -206,6 +250,8 @@ export default async function SearchPage({
           dict={dict.searchForm}
           cabins={dict.cabins}
           locale={locale}
+          collapsed={hasSearched}
+          summary={searchSummary}
         />
       </div>
 
@@ -263,26 +309,10 @@ export default async function SearchPage({
         </div>
       )}
 
-      <div className="mt-10">
-        <h2 className="text-sm font-semibold text-foreground">{dict.search.cheapestDayHeading}</h2>
-        <p className="mt-1 text-sm text-muted">
-          {interpolate(dict.search.cheapestDaySub, {
-            origin: originAirport ? cityName(originAirport, locale) : origin,
-            destination: destinationAirport ? cityName(destinationAirport, locale) : destination,
-          })}
-        </p>
-        <div className="mt-4">
-          <CalendarHeatmap
-            days={calendarDays}
-            selectedDate={shownDate}
-            baseParams={calendarParams}
-            dateParam={showingReturn ? "ret" : "date"}
-            noAwardSpaceLabel={dict.search.noAwardSpaceAria}
-            milesLabel={dict.resultsTable.miles}
-            locale={locale}
-          />
-        </div>
-      </div>
+      {/* The calendar used to sit here, between the search and the answer:
+          236px of instrument that nobody asked for yet. It answers "could I
+          do better on another day", which is the question AFTER you have
+          seen what this day costs, not before. It is below the table now. */}
 
       <div className="mt-10">
         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -307,6 +337,8 @@ export default async function SearchPage({
           </Suspense>
         </div>
       </div>
+
+      {calendarSection}
 
       <NearbyAirports options={nearbyOptions} dict={dict.search} locale={locale} />
     </div>
