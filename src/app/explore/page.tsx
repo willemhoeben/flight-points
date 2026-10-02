@@ -115,7 +115,10 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
       {/* Plain GET form, like the search form: every result is server-rendered
           and the URL is the whole state, so a set of destinations is shareable. */}
       <form method="get" action="/explore" className="mt-8 space-y-4">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* The submit sits in the row as its own auto column from lg, the way
+            the network form does, instead of alone underneath with a
+            thousand pixels of nothing beside it. */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[repeat(4,minmax(0,1fr))_auto] lg:items-end">
           <label className="block">
             <span className="mb-1 block text-sm font-medium text-foreground">{dict.searchForm.from}</span>
             <select name="origin" defaultValue={origin} className="form-select">
@@ -158,17 +161,17 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
               className="form-select"
             />
           </label>
+          <button
+            type="submit"
+            className="w-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90 lg:w-auto print:hidden"
+          >
+            {dict.explore.submit}
+          </button>
         </div>
         <input type="hidden" name="sort" value={sort} />
         {/* Client-side: the balances live in this browser, so the button
             only exists once there is something to offer. */}
         <UseMyBalance inputId="explore-budget" />
-        <button
-          type="submit"
-          className="w-full bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground transition-opacity hover:opacity-90 sm:w-auto print:hidden"
-        >
-          {dict.explore.submit}
-        </button>
       </form>
 
       <div className="mt-10">
@@ -212,10 +215,32 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
               // out to seats the card never promised.
               if (passengers > 1) routeParams.set("pax", String(passengers));
               return (
-                <li key={airport.code} className="flex flex-col border-t border-border-strong py-4">
+                // The whole card is the link. It used to carry a separate
+                // "View this route" line, which meant a hundred-odd identical
+                // amber links down the page — the only repeated colour on it,
+                // shouting over the city names and prices you actually read.
+                // Same pattern the deals teaser already uses: wrap the card,
+                // let the heading carry the hover.
+                <li key={airport.code} className="border-t border-border-strong">
+                  <Link
+                    href={`/search?${routeParams.toString()}`}
+                    aria-label={interpolate(dict.explore.viewRouteAria, {
+                      origin,
+                      destination: airport.code,
+                    })}
+                    className="group flex flex-col py-4 transition-colors hover:bg-surface"
+                  >
                   <div className="flex items-baseline justify-between gap-3">
                     <div className="min-w-0">
-                      <div className="text-[17px] font-semibold leading-tight text-foreground">{cityName(airport, locale)}</div>
+                      <div className="text-[17px] font-semibold leading-tight text-foreground group-hover:text-brand-text">
+                        {cityName(airport, locale)}
+                        {/* A persistent mark, not a hover state: on a phone
+                            there is no hover, so without it nothing says the
+                            card goes anywhere. */}
+                        <span aria-hidden="true" className="ml-1.5 font-mono text-[13px] text-muted">
+                          →
+                        </span>
+                      </div>
                       <div className="mt-0.5 text-xs text-muted">
                         {countryName(airport, locale)} · {airport.code}
                       </div>
@@ -258,16 +283,6 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
                         the number against a balance in their head. */}
                     <AffordBadge programId={best.programId} milesCost={best.milesCost * passengers} />
                   </div>
-
-                  <Link
-                    href={`/search?${routeParams.toString()}`}
-                    aria-label={interpolate(dict.explore.viewRouteAria, {
-                      origin,
-                      destination: airport.code,
-                    })}
-                    className="mt-1 inline-flex min-h-11 items-center self-start text-[13px] font-medium text-brand-text hover:underline sm:mt-3 sm:min-h-0"
-                  >
-                    {dict.explore.viewRoute} →
                   </Link>
                 </li>
               );
