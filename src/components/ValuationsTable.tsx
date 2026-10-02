@@ -216,7 +216,16 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
                   <td className="px-4 py-3">
                     <Badge accent={TYPE_ACCENT[v.type]}>{TYPE_LABEL[v.type]}</Badge>
                   </td>
-                  <td className="w-[100px] px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground">
+                  {/* No width on this column, which was the first thing
+                      tried. Pinning it at 100px gave a 68px bar instead of
+                      58px and took the width out of the notes column, which
+                      then wrapped: the table grew 292px in Dutch and 504px
+                      in French for 10px of extra bar. Left to size itself
+                      the column stays at 90px and the table is exactly the
+                      height it was before the bar existed — 3619px in
+                      Dutch, 3911px in French, measured both ways. A bar
+                      that makes the page longer is not worth having. */}
+                  <td className="px-4 py-3 text-right font-mono text-[13px] font-semibold tabular-nums text-foreground">
                     {v.centsPerPoint.toFixed(2)}¢
                     <ValueBar centsPerPoint={v.centsPerPoint} />
                   </td>
@@ -224,7 +233,7 @@ export function ValuationsTable({ valuations }: { valuations: PointCurrency[] })
                     <span aria-hidden="true">{TREND_ICON[v.trend]}</span>
                     <span className="sr-only">{TREND_LABEL[v.trend]}</span>
                   </td>
-                  <td className="max-w-[250px] px-4 py-3 text-muted">{valuationNote(v.id, locale, v.notes)}</td>
+                  <td className="max-w-xs px-4 py-3 text-muted">{valuationNote(v.id, locale, v.notes)}</td>
                 </tr>
               ))}
             </tbody>
