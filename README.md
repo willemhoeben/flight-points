@@ -692,6 +692,50 @@ at a glance" should not lengthen the page it is explaining, so the columns
 are untouched and the bar is 58px instead of 68px. Ample for 48 values
 spanning four to one.
 
+### /search puts the answer first
+
+You searched, and what came back was the form you had just filled in. On a
+1280×800 laptop the first result sat 288px below the fold; on a phone it was
+546px down. Four things stood between the question and the answer, and none
+of them was the answer:
+
+| Above the first result | Was | Is |
+|---|---|---|
+| Page heading and lede | 148px, "Find award availability" | the route itself |
+| The search form | 292px of selects and date pickers | a 44px **Edit search** button |
+| The 14-day cheapest-day calendar | 236px, before the results | below them |
+| The result filters (phone) | 292px of wrapping pills | a 44px fold |
+| **First result** | **y=1088 laptop, y=1390 phone** | **y=488, y=718** |
+
+Each of those is the same judgement applied four times. **The form has done
+its job the moment a search exists**, so it folds; and because any arrival at
+a result counts — the form, a shared link, a saved search, a calendar cell —
+the test is whether the URL carries a search, not whether you used the form.
+A bare `/search` still opens with the fields, because nobody has searched
+there and the form is the page.
+
+**The heading of a results page is the search.** A generic sentence set at
+44px over somebody's JFK → LHR results, while the route it produced sat at
+14px below it, meant the biggest type on the page said the least. The route
+takes the `h1` now, with the terms and the result count under it and the save
+and share buttons beside it — one statement, where a screen reader and a
+search engine both look for it. That also settles what the folded form should
+say: with the heading stating the search in full, a summary line under it
+would be the third copy of one sentence, so the control is a verb.
+
+**The calendar answers a different question.** "Could I do better on another
+day" is what you ask after seeing what this day costs. It sits below the
+table now, next to the nearby-airport gateways, which answer the same kind of
+follow-up.
+
+Both folds are native `<details>`, so the page needs no JavaScript to operate
+them, and fields inside a closed one still submit. The filter fold opens by
+itself whenever a filter is on and carries the count — "Filter results · 2
+on" — so nothing you chose can hide behind a summary. Above `lg` the pills
+render inline as before; that is two renderings rather than one wrapper that
+changes behaviour by width, because a closed `<details>` cannot be forced
+open with CSS in any way that holds across browsers.
+
 ## Languages and currencies
 
 The navbar has two independent selectors:
