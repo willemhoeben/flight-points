@@ -52,7 +52,7 @@ export default async function Home() {
         <div className="grid items-center gap-x-12 gap-y-10 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
             <Badge accent="sky">{dict.home.badge}</Badge>
-            <h1 className="mt-4 max-w-[15ch] text-[44px] leading-[1.03] tracking-tight text-foreground sm:text-[56px]">
+            <h1 className="display mt-4 max-w-[16ch] text-[52px] text-foreground sm:text-[68px]">
               {dict.home.title}
             </h1>
             <p className="mt-5 max-w-[46ch] text-lg text-muted">
@@ -134,7 +134,7 @@ export default async function Home() {
 
       <section className="mx-auto w-full max-w-6xl px-4 py-9 sm:px-6">
         <div className="max-w-2xl">
-          <h2 className="text-3xl text-foreground">{dict.home.valuationsHeading}</h2>
+          <h2 className="display text-[34px] text-foreground">{dict.home.valuationsHeading}</h2>
           <p className="mt-2 text-base text-muted">{dict.home.valuationsSub}</p>
         </div>
         <div className="mt-8 grid gap-x-9 sm:grid-cols-4">
@@ -160,7 +160,7 @@ export default async function Home() {
 
       <section className="mx-auto w-full max-w-6xl px-4 py-9 sm:px-6">
         <div className="max-w-2xl">
-          <h2 className="text-3xl text-foreground">{dict.home.dealsHeading}</h2>
+          <h2 className="display text-[34px] text-foreground">{dict.home.dealsHeading}</h2>
           <p className="mt-2 text-base text-muted">{dict.home.dealsSub}</p>
         </div>
         <div className="mt-8 grid gap-x-9 sm:grid-cols-3">

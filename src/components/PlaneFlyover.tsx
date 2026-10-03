@@ -14,9 +14,14 @@ export function PlaneFlyover() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-30 flex items-center overflow-hidden print:hidden"
+      /* It crosses the sky, not the sentence. At items-center it flew
+         straight through the lede at 70% opacity: against a flat navy that
+         read as a motif, against a star field it was a grey cutout sitting
+         on the paragraph. Up in the top fifth it is a plane going over,
+         which is the whole idea, and faint enough to be a distant one. */
+      className="pointer-events-none fixed inset-0 z-30 flex items-start overflow-hidden pt-[14vh] print:hidden"
     >
-      <svg className="plane-flyover w-[180px] text-foreground/70 sm:w-[255px]" viewBox="0 0 320 120" fill="none">
+      <svg className="plane-flyover w-[150px] text-foreground/30 sm:w-[210px]" viewBox="0 0 320 120" fill="none">
         <defs>
           <linearGradient id="fp-contrail" gradientUnits="userSpaceOnUse" x1="265" y1="0" x2="8" y2="0">
             <stop offset="0" stopColor="currentColor" stopOpacity="0.2" />

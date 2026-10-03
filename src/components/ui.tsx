@@ -115,7 +115,7 @@ export function SectionHeading({
   return (
     <div className="max-w-2xl">
       {eyebrow && <div className="text-sm font-semibold text-brand-text">{eyebrow}</div>}
-      <h1 className="mt-2 text-3xl text-foreground sm:text-4xl">{title}</h1>
+      <h1 className="display mt-2 text-[34px] text-foreground sm:text-[42px]">{title}</h1>
       {/* Capped by characters, not by the heading block: max-w-2xl runs an
           intro out past eighty characters a line. */}
       {description && <p className="mt-3 max-w-[62ch] text-base text-muted">{description}</p>}

@@ -2,8 +2,9 @@ import { headers } from "next/headers";
 import { jsonLdHtml } from "@/lib/json-ld";
 import { NONCE_HEADER } from "@/lib/csp";
 import type { Metadata } from "next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import { Archivo, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
+import { NightSky } from "@/components/NightSky";
 import { Footer } from "@/components/Footer";
 import { RouteFocusManager } from "@/components/RouteFocusManager";
 import { BalancesProvider } from "@/lib/balances-context";
@@ -30,6 +31,32 @@ const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin"],
   axes: ["wdth"],
+});
+
+/**
+ * The display voice, and the reason the site stopped looking like a dark
+ * dashboard with a good palette.
+ *
+ * Archivo and Plex Mono are both right for what they do — language and
+ * measurement — but with nothing above them every heading on the site was
+ * set in the same grotesque as the labels, which is why the whole thing
+ * read as flat and generic however carefully the colours were chosen.
+ *
+ * A high-contrast serif over monospaced figures on a night ground is how a
+ * star atlas or a flight almanac is set, and it is the one typographic
+ * move that makes this page look like it was made by someone. Instrument
+ * Serif is a single weight with real modulation: thin enough to feel drawn
+ * rather than extruded, and at 44px and up on near-black it has presence
+ * no grotesque at the same size does.
+ *
+ * Display only: headings and the figures in the hero. Nothing below 24px
+ * is set in it, where its contrast would cost legibility.
+ */
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
 const plexMono = IBM_Plex_Mono({
@@ -95,7 +122,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   };
 
   return (
-    <html lang={locale} className={`${archivo.variable} ${plexMono.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang={locale} className={`${archivo.variable} ${instrumentSerif.variable} ${plexMono.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
         {/* Matches the mobile browser chrome (address/status bar) to the
             current page background, same idea as the manifest's separate
@@ -124,6 +151,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         >
           {dict.nav.skipToContent}
         </a>
+        {/* Behind everything, fixed, dark mode only. The page background is
+            translucent over it; every panel and table stays opaque, so the
+            sky is the ground and never something to read through. */}
+        <NightSky />
         <I18nProvider locale={locale} dict={dict}>
           <ThemeProvider>
             <CurrencyProvider>

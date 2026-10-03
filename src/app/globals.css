@@ -81,6 +81,7 @@
   --color-tint-emerald: var(--tint-emerald);  --color-ink-emerald: var(--ink-emerald);
   --color-tint-cyan: var(--tint-cyan);        --color-ink-cyan: var(--ink-cyan);
   --font-sans: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-instrument), "Iowan Old Style", Georgia, serif;
   --font-mono: var(--font-plex-mono);
   /* Squared off, everywhere. A chart has right angles; a rounded card is
      the house style of every other points site. Tailwind's whole radius
@@ -175,6 +176,38 @@
     background: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
+  }
+
+  /* The sky is painted on the root canvas, so in the dark the page itself
+     has to stop being an opaque sheet over it. html keeps the background
+     colour, which is what the browser paints behind everything and what
+     stops a flash of white before the SVG lands. */
+  html {
+    background: var(--background);
+  }
+
+  /* Daylight has weather too. A flat pale sheet is what made the light
+     theme read as a wireframe: this is the view from altitude, a cooler
+     band overhead warming towards the horizon, at a strength you only
+     notice when it is taken away. Fixed, so it does not slide under a
+     scrolling page. */
+  :root:not(.dark) body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 60% at 50% 0%, #dde6f6 0%, rgba(221, 230, 246, 0) 70%),
+      radial-gradient(80% 40% at 85% 8%, #f7efe2 0%, rgba(247, 239, 226, 0) 60%);
+  }
+
+  @media print {
+    :root:not(.dark) body::before { display: none; }
+  }
+
+  :root.dark body {
+    background: transparent;
   }
 
   h1, h2, h3 {
@@ -317,4 +350,56 @@
   .overflow-x-auto {
     overflow-x: visible;
   }
+}
+
+
+/* ---- the sky ----------------------------------------------------------
+   Fixed, behind the page, dark mode only. z-index: -1 puts it above the
+   root background and below every in-flow element, which is exactly the
+   layer a sky belongs in: the ground you read the instrument against, not
+   something any panel is translucent over.
+
+   Not printed. Ink on paper is the daylight chart. */
+.night-sky {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* The last hour before dawn: the sky is not uniform, it lifts towards
+     the horizon. One light source for the whole site, which is what gives
+     the flat panels something to sit against. */
+  background:
+    radial-gradient(120% 70% at 50% 0%, #121c33 0%, rgba(18, 28, 51, 0) 60%),
+    radial-gradient(90% 50% at 15% 100%, #0d1526 0%, rgba(13, 21, 38, 0) 70%);
+  /* The sky is overhead. It is at full strength behind the hero and gone
+     by the bottom of the viewport, so a table or a form further down the
+     page is read against calm ground rather than through stars. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 38%, transparent 88%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 38%, transparent 88%);
+}
+
+:root.dark .night-sky {
+  display: block;
+}
+
+@media print {
+  .night-sky { display: none !important; }
+}
+
+
+/* ---- display type -----------------------------------------------------
+   The one face that carries a voice, used only where it is large enough to
+   show it. Below about 24px a high-contrast serif gives up legibility for
+   nothing, so every label, every table and every figure stays in the
+   grotesque and the mono.
+
+   Optical sizing by hand: the serif runs wider than Archivo at the same
+   nominal size and needs less letter-spacing, so the headline tracking
+   that was tuned for a grotesque is relaxed here. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  line-height: 1.02;
 }

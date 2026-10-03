@@ -280,7 +280,7 @@ export default async function SearchPage({
         <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
           <div className="min-w-0">
             <div className="text-sm font-semibold text-brand-text">{dict.search.eyebrow}</div>
-            <h1 className="mt-2 text-3xl text-foreground sm:text-4xl">
+            <h1 className="display mt-2 text-[34px] text-foreground sm:text-[42px]">
               {originAirport ? cityName(originAirport, locale) : shownOrigin} ({shownOrigin}) →{" "}
               {destinationAirport ? cityName(destinationAirport, locale) : shownDestination} ({shownDestination})
             </h1>
