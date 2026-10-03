@@ -794,6 +794,31 @@ because a value from one scheme handed to the other matches nothing and
 empties a page instead of erroring. The same file fails if any airport's
 country is unmapped, so adding an airport forces the decision.
 
+### /wallet finds a programme instead of scrolling to it
+
+Forty-eight number fields down a 2,539px column, and a person holds three or
+four of them. Entering Virgin Atlantic Flying Club meant scrolling to y=1404,
+past twenty-five programmes you do not have: two screens of reading to reach
+one input.
+
+Typing "virgin" is the whole interaction now, and the field lands at y=608.
+Name and issuer both match, so "amex" finds Membership Rewards and "hyatt"
+finds World of Hyatt; accents and case are stripped first, so a German reader
+typing "lufthansa" does not have to match our capitalisation. Group headings
+disappear with their groups rather than standing over nothing.
+
+A row also survives the filter if it already holds a balance, marked
+**Already entered**. A filter that hides your own figures is a filter that
+loses your work in front of you: type "virgin" after entering Chase and the
+Chase figure is still there, still editable.
+
+A query matching nothing used to leave the column blank, with no headings and
+no message, which read as broken rather than as empty. It says so now, in one
+element that is both the visible message and the live region. The count behind
+that is what is on screen — matches plus anything held — so filtering to
+nothing while holding a balance never claims there is nothing to show above a
+row that is right there.
+
 ## Languages and currencies
 
 The navbar has two independent selectors:
