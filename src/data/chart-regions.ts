@@ -12,8 +12,20 @@ import { AIRPORTS, type Airport } from "@/data/airports";
  * The order is the one charts are printed in: your own hemisphere first, then
  * east around the world. It is fixed, so a region never moves because the
  * data changed.
+ *
+ * Deliberately NOT `Region` from `@/data/networks`, which is a coarser
+ * seven-bucket scheme answering a different question: which continents an
+ * airline's own metal reaches, so a programme's `regions` list can be
+ * matched against it. Reach and pricing really are two models — Singapore
+ * Airlines serves "Asia" as one place and prices Tokyo and Delhi as two —
+ * so each keeps its own name rather than one being bent to cover both.
+ *
+ * The two vocabularies are textually disjoint on purpose (slugs here,
+ * labels there) and a test fails if that ever stops being true. A value
+ * from one scheme handed to the other matches nothing and silently empties
+ * the page rather than erroring, which is the worst kind of bug to own.
  */
-export const REGIONS = [
+export const CHART_REGIONS = [
   "north-america",
   "latin-america",
   "europe",
@@ -25,10 +37,10 @@ export const REGIONS = [
   "oceania",
 ] as const;
 
-export type Region = (typeof REGIONS)[number];
+export type ChartRegion = (typeof CHART_REGIONS)[number];
 
-export function isRegion(value: string | null | undefined): value is Region {
-  return !!value && (REGIONS as readonly string[]).includes(value);
+export function isChartRegion(value: string | null | undefined): value is ChartRegion {
+  return !!value && (CHART_REGIONS as readonly string[]).includes(value);
 }
 
 /**
@@ -46,7 +58,7 @@ export function isRegion(value: string | null | undefined): value is Region {
  * any airport's country is missing here, so adding an airport forces the
  * decision rather than quietly dropping it out of every region view.
  */
-const REGION_BY_COUNTRY: Record<string, Region> = {
+const CHART_REGION_BY_COUNTRY: Record<string, ChartRegion> = {
   "United States": "north-america",
   Canada: "north-america",
   Mexico: "north-america",
@@ -122,11 +134,11 @@ const REGION_BY_COUNTRY: Record<string, Region> = {
 };
 
 /** The region an airport is priced in, or null if its country is unmapped. */
-export function regionOf(airport: Airport): Region | null {
-  return REGION_BY_COUNTRY[airport.country] ?? null;
+export function chartRegionOf(airport: Airport): ChartRegion | null {
+  return CHART_REGION_BY_COUNTRY[airport.country] ?? null;
 }
 
 /** Countries with no region, for the test that keeps this file honest. */
 export function unmappedCountries(): string[] {
-  return [...new Set(AIRPORTS.map((a) => a.country))].filter((c) => !(c in REGION_BY_COUNTRY)).sort();
+  return [...new Set(AIRPORTS.map((a) => a.country))].filter((c) => !(c in CHART_REGION_BY_COUNTRY)).sort();
 }

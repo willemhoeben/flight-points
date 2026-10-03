@@ -11,7 +11,7 @@ import {
   summariseByRegion,
   type ExploreSort,
 } from "@/lib/explore";
-import { isRegion, type Region } from "@/data/regions";
+import { isChartRegion, type ChartRegion } from "@/data/chart-regions";
 import { PASSENGER_OPTIONS, parsePassengers } from "@/lib/passengers";
 import { addDays, formatCentsPerPoint, formatDateLabel, formatMiles, todayIso } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -72,7 +72,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
   const sort: ExploreSort = isExploreSort(firstValue(sp.sort)) ? (firstValue(sp.sort) as ExploreSort) : "cheapest";
   const passengers = parsePassengers(firstValue(sp.pax));
 
-  const region = isRegion(firstValue(sp.region)) ? (firstValue(sp.region) as Region) : null;
+  const region = isChartRegion(firstValue(sp.region)) ? (firstValue(sp.region) as ChartRegion) : null;
 
   const startDate = addDays(todayIso(), 30);
   // Award space is per seat, so a party of four is shown only the
@@ -108,7 +108,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
         origin: originAirport ? cityName(originAirport, locale) : origin,
       });
 
-  const hrefWith = (overrides: { sort?: ExploreSort; region?: Region | null }) => {
+  const hrefWith = (overrides: { sort?: ExploreSort; region?: ChartRegion | null }) => {
     const params = new URLSearchParams();
     params.set("origin", origin);
     params.set("cabin", cabin);

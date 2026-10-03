@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { AIRPORTS } from "../src/data/airports";
-import { REGIONS, regionOf } from "../src/data/regions";
+import { CHART_REGIONS, chartRegionOf } from "../src/data/chart-regions";
 import { exploreDestinations, filterByRegion, summariseByRegion } from "../src/lib/explore";
 import { addDays, todayIso } from "../src/lib/format";
 
@@ -18,13 +18,13 @@ describe("explore region summary", () => {
 
   test("regions come back in chart order, and empty ones are left out", () => {
     const got = summariseByRegion(ROWS).map((s) => s.region);
-    expect(got).toEqual(REGIONS.filter((r) => got.includes(r)));
+    expect(got).toEqual(CHART_REGIONS.filter((r) => got.includes(r)));
     for (const s of summariseByRegion(ROWS)) expect(s.count).toBeGreaterThan(0);
   });
 
   test("fromMiles and bestCentsPerPoint are the real extremes of each region", () => {
     for (const s of summariseByRegion(ROWS)) {
-      const inRegion = ROWS.filter((r) => regionOf(r.airport) === s.region);
+      const inRegion = ROWS.filter((r) => chartRegionOf(r.airport) === s.region);
       expect(s.fromMiles).toBe(Math.min(...inRegion.map((r) => r.best.milesCost)));
       expect(s.bestCentsPerPoint).toBe(Math.max(...inRegion.map((r) => r.best.centsPerPoint)));
       // The cheapest award in a region is never cheaper than the cheapest
@@ -41,7 +41,7 @@ describe("explore region summary", () => {
    */
   test("filtering to one region does not change what the summary would say", () => {
     const before = summariseByRegion(ROWS);
-    for (const region of REGIONS) {
+    for (const region of CHART_REGIONS) {
       const filtered = filterByRegion(ROWS, region);
       const row = before.find((s) => s.region === region);
       if (!row) {
@@ -59,7 +59,7 @@ describe("explore region summary", () => {
 
   test("every destination found is inside exactly one summarised region", () => {
     for (const row of ROWS) {
-      const region = regionOf(row.airport);
+      const region = chartRegionOf(row.airport);
       expect(region, `${row.airport.code}`).not.toBeNull();
       expect(filterByRegion(ROWS, region!)).toContain(row);
     }

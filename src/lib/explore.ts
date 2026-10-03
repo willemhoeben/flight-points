@@ -1,6 +1,6 @@
 import { AIRPORTS, type Airport } from "@/data/airports";
 import { searchAvailability, type AwardResult, type Cabin } from "@/data/availability";
-import { REGIONS, regionOf, type Region } from "@/data/regions";
+import { CHART_REGIONS, chartRegionOf, type ChartRegion } from "@/data/chart-regions";
 import { addDays } from "@/lib/format";
 
 /** How many days forward the calendar strip and the explore scan both look. */
@@ -59,7 +59,7 @@ export function exploreDestinations(params: {
 }
 
 export type RegionSummary = {
-  region: Region;
+  region: ChartRegion;
   /** How many destinations in this region the current search found. */
   count: number;
   /** The cheapest award in the region, in miles. */
@@ -84,8 +84,8 @@ export type RegionSummary = {
  */
 export function summariseByRegion(rows: ExploreDestination[]): RegionSummary[] {
   const summaries: RegionSummary[] = [];
-  for (const region of REGIONS) {
-    const inRegion = rows.filter((r) => regionOf(r.airport) === region);
+  for (const region of CHART_REGIONS) {
+    const inRegion = rows.filter((r) => chartRegionOf(r.airport) === region);
     if (inRegion.length === 0) continue;
     summaries.push({
       region,
@@ -97,9 +97,9 @@ export function summariseByRegion(rows: ExploreDestination[]): RegionSummary[] {
   return summaries;
 }
 
-export function filterByRegion(rows: ExploreDestination[], region: Region | null): ExploreDestination[] {
+export function filterByRegion(rows: ExploreDestination[], region: ChartRegion | null): ExploreDestination[] {
   if (!region) return rows;
-  return rows.filter((r) => regionOf(r.airport) === region);
+  return rows.filter((r) => chartRegionOf(r.airport) === region);
 }
 
 export type ExploreSort = "cheapest" | "value";
