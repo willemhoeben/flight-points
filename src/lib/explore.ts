@@ -1,5 +1,6 @@
 import { AIRPORTS, type Airport } from "@/data/airports";
 import { searchAvailability, type AwardResult, type Cabin } from "@/data/availability";
+import { REGIONS, regionOf, type Region } from "@/data/regions";
 import { addDays } from "@/lib/format";
 
 /** How many days forward the calendar strip and the explore scan both look. */
@@ -55,6 +56,50 @@ export function exploreDestinations(params: {
   }
 
   return out.sort((a, b) => a.best.milesCost - b.best.milesCost);
+}
+
+export type RegionSummary = {
+  region: Region;
+  /** How many destinations in this region the current search found. */
+  count: number;
+  /** The cheapest award in the region, in miles. */
+  fromMiles: number;
+  /** The best cents-per-point in the region. */
+  bestCentsPerPoint: number;
+};
+
+/**
+ * "Where can I go with my points" is a question about regions.
+ *
+ * The honest answer to it is not 104 cities sorted by price. Scrolling that
+ * list tells you Boston is cheap and, nineteen thousand pixels later, that
+ * Auckland is not; it never tells you that Europe opens at 55,000 and Asia
+ * does not start until 85,000, which is the shape of the answer and the
+ * thing that decides a trip. Award charts are printed by region for exactly
+ * this reason.
+ *
+ * Empty regions are left out rather than shown as zero. A region with
+ * nothing in it is not an answer, and nine rows where two say "0" reads as
+ * a broken table rather than as a finding.
+ */
+export function summariseByRegion(rows: ExploreDestination[]): RegionSummary[] {
+  const summaries: RegionSummary[] = [];
+  for (const region of REGIONS) {
+    const inRegion = rows.filter((r) => regionOf(r.airport) === region);
+    if (inRegion.length === 0) continue;
+    summaries.push({
+      region,
+      count: inRegion.length,
+      fromMiles: Math.min(...inRegion.map((r) => r.best.milesCost)),
+      bestCentsPerPoint: Math.max(...inRegion.map((r) => r.best.centsPerPoint)),
+    });
+  }
+  return summaries;
+}
+
+export function filterByRegion(rows: ExploreDestination[], region: Region | null): ExploreDestination[] {
+  if (!region) return rows;
+  return rows.filter((r) => regionOf(r.airport) === region);
 }
 
 export type ExploreSort = "cheapest" | "value";

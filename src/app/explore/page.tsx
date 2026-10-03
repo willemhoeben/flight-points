@@ -3,7 +3,15 @@ import Link from "next/link";
 import { PILL_SHELL, SectionHeading } from "@/components/ui";
 import { AIRPORTS, findAirport } from "@/data/airports";
 import { CABINS, type Cabin } from "@/data/availability";
-import { exploreDestinations, isExploreSort, sortDestinations, type ExploreSort } from "@/lib/explore";
+import {
+  exploreDestinations,
+  filterByRegion,
+  isExploreSort,
+  sortDestinations,
+  summariseByRegion,
+  type ExploreSort,
+} from "@/lib/explore";
+import { isRegion, type Region } from "@/data/regions";
 import { PASSENGER_OPTIONS, parsePassengers } from "@/lib/passengers";
 import { addDays, formatCentsPerPoint, formatDateLabel, formatMiles, todayIso } from "@/lib/format";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -64,12 +72,18 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
   const sort: ExploreSort = isExploreSort(firstValue(sp.sort)) ? (firstValue(sp.sort) as ExploreSort) : "cheapest";
   const passengers = parsePassengers(firstValue(sp.pax));
 
+  const region = isRegion(firstValue(sp.region)) ? (firstValue(sp.region) as Region) : null;
+
   const startDate = addDays(todayIso(), 30);
   // Award space is per seat, so a party of four is shown only the
   // destinations the search would also show them.
   const all = exploreDestinations({ origin, cabin, startDate, minSeats: passengers });
   const withinBudget = budget ? all.filter((r) => r.best.milesCost <= budget) : all;
-  const rows = sortDestinations(withinBudget, sort);
+  // Summarised before the region filter is applied, so choosing a region
+  // never repaints the other rows of the summary. A table whose numbers
+  // change when you click one of them cannot be compared against itself.
+  const regionSummaries = summariseByRegion(withinBudget);
+  const rows = sortDestinations(filterByRegion(withinBudget, region), sort);
   // One marker rather than a graded badge. Every card here prices a different
   // seat, so any scale is either mostly red or mostly green and says nothing;
   // naming the single best-value destination cannot be miscalibrated.
@@ -94,15 +108,18 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
         origin: originAirport ? cityName(originAirport, locale) : origin,
       });
 
-  const sortHref = (next: ExploreSort) => {
+  const hrefWith = (overrides: { sort?: ExploreSort; region?: Region | null }) => {
     const params = new URLSearchParams();
     params.set("origin", origin);
     params.set("cabin", cabin);
     if (budgetRaw) params.set("budget", budgetRaw);
     if (passengers > 1) params.set("pax", String(passengers));
-    params.set("sort", next);
+    params.set("sort", overrides.sort ?? sort);
+    const nextRegion = "region" in overrides ? overrides.region : region;
+    if (nextRegion) params.set("region", nextRegion);
     return `/explore?${params.toString()}`;
   };
+  const sortHref = (next: ExploreSort) => hrefWith({ sort: next });
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-9 sm:px-6">
@@ -173,6 +190,54 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
             only exists once there is something to offer. */}
         <UseMyBalance inputId="explore-budget" />
       </form>
+
+      {/* The answer to the question in the heading, before the list that
+          enumerates it.
+
+          A hundred and four cities sorted by price is not an answer to
+          "where can I go with my points": you learn that Boston is cheap,
+          and nineteen thousand pixels later that Auckland is not, and never
+          that Europe opens at 55,000 while Asia does not start until 85,000.
+          That second fact is the one that decides a trip, and award charts
+          are printed by region precisely because it is.
+
+          Each row is also the filter. One element doing both jobs: you read
+          "Europe, 24 destinations, from 55,000", and the same row is what
+          you press to see those twenty-four. A separate pill row saying the
+          same region names twice would be the clutter this page already had
+          once. */}
+      {regionSummaries.length > 0 && (
+        <section className="mt-10">
+          <h2 className="text-sm font-semibold text-foreground">{dict.explore.regionsHeading}</h2>
+          <ul className="mt-3 grid gap-x-9 sm:grid-cols-2 lg:grid-cols-3">
+            <RegionRow
+              href={hrefWith({ region: null })}
+              name={dict.explore.regionsAll}
+              count={withinBudget.length}
+              fromMiles={withinBudget.length ? Math.min(...withinBudget.map((r) => r.best.milesCost)) : 0}
+              bestCentsPerPoint={withinBudget.length ? Math.max(...withinBudget.map((r) => r.best.centsPerPoint)) : 0}
+              selected={region === null}
+              sort={sort}
+              dict={dict}
+              locale={locale}
+            />
+            {regionSummaries.map((s) => (
+              <RegionRow
+                key={s.region}
+                href={hrefWith({ region: s.region })}
+                name={dict.regions[s.region]}
+                count={s.count}
+                fromMiles={s.fromMiles}
+                bestCentsPerPoint={s.bestCentsPerPoint}
+                selected={region === s.region}
+                sort={sort}
+                dict={dict}
+                locale={locale}
+              />
+            ))}
+          </ul>
+        </section>
+      )}
 
       <div className="mt-10">
         <div className="flex flex-wrap items-center gap-2 print:hidden" role="group" aria-label={dict.common.sortBy}>
@@ -291,5 +356,81 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
         )}
       </div>
     </div>
+  );
+}
+
+/**
+ * One region, read as a line: the name, how many destinations it holds, the
+ * cheapest way in, and the best your points are worth there.
+ *
+ * The figures are set in the data face and the names in the text face,
+ * because that is what they are. The selected row takes the left rule that
+ * marks the current item everywhere else on this site rather than a fill,
+ * since a filled row in a list of nine reads as a different kind of thing
+ * rather than as the one you chose.
+ */
+function RegionRow({
+  href,
+  name,
+  count,
+  fromMiles,
+  bestCentsPerPoint,
+  selected,
+  sort,
+  dict,
+  locale,
+}: {
+  href: string;
+  name: string;
+  count: number;
+  fromMiles: number;
+  bestCentsPerPoint: number;
+  selected: boolean;
+  sort: ExploreSort;
+  dict: Awaited<ReturnType<typeof getDictionary>>["dict"];
+  locale: Awaited<ReturnType<typeof getDictionary>>["locale"];
+}) {
+  return (
+    <li className="border-t border-border-strong">
+      <Link
+        href={href}
+        aria-current={selected ? "true" : undefined}
+        className={`group flex min-h-11 items-baseline justify-between gap-3 py-3 pl-3 transition-colors hover:bg-surface ${
+          selected ? "border-l-2 border-brand bg-surface" : "border-l-2 border-transparent"
+        }`}
+      >
+        <div className="min-w-0">
+          <div
+            className={`text-[15px] font-semibold leading-tight group-hover:text-brand-text ${
+              selected ? "text-brand-text" : "text-foreground"
+            }`}
+          >
+            {name}
+          </div>
+          <div className="mt-0.5 text-xs text-muted" suppressHydrationWarning>
+            {interpolate(count === 1 ? dict.explore.regionDestinationsOne : dict.explore.regionDestinations, {
+              count,
+            })}
+          </div>
+        </div>
+        {/* One figure, the one that answers the question you asked.
+            Printing both the cheapest way in and the best value in the
+            region put two unlabelled numbers side by side in a row that has
+            no column headings to tell them apart: a reader saw "22,000" and
+            "4.3 ¢" and had to guess what the second one was. The sort
+            control above already says which of the two you are after, so
+            the row says that one. */}
+        <div
+          className="shrink-0 font-mono text-[13px] tabular-nums text-foreground"
+          suppressHydrationWarning
+        >
+          {sort === "cheapest"
+            ? interpolate(dict.explore.regionFrom, { miles: formatMiles(fromMiles, locale) })
+            : interpolate(dict.explore.regionUpTo, {
+                cents: formatCentsPerPoint(bestCentsPerPoint, locale),
+              })}
+        </div>
+      </Link>
+    </li>
   );
 }
