@@ -736,6 +736,64 @@ render inline as before; that is two renderings rather than one wrapper that
 changes behaviour by width, because a closed `<details>` cannot be forced
 open with CSS in any way that holds across browsers.
 
+### /explore answers its own question before listing 104 cities
+
+"Where can I go with my points?" was answered with every destination in the
+dataset sorted by price: 104 rows, 19,731px on a phone, 23 screens. You learn
+that Boston is cheap and, nineteen thousand pixels later, that Auckland is
+not. You never learn that Europe opens at 42,000 while Asia does not start
+until 67,500, and that is the fact that decides a trip.
+
+There is a region table above the list now, and reading it takes one screen:
+
+| | Destinations | From |
+|---|---|---|
+| Everywhere | 104 | 22,000 |
+| North America | 24 | 22,000 |
+| Latin America | 8 | 39,000 |
+| Europe | 27 | 42,000 |
+| Africa | 8 | 48,500 |
+| Middle East | 8 | 57,000 |
+| Oceania | 7 | 65,000 |
+| North Asia | 10 | 67,500 |
+| South Asia | 4 | 71,000 |
+| Southeast Asia | 8 | 75,500 |
+
+Each row is also the filter, so the thing you read is the thing you press. A
+separate pill row repeating the same ten names would be clutter this page
+already shed once. Choosing Europe takes the phone page from 20,421px to
+6,849px; Oceania takes it to 3,324px.
+
+A row carries one figure, the one matching the sort you chose: "from 22,000"
+under Cheapest, "up to 4.3 ¢" under Best value. Printing both put two
+unlabelled numbers side by side in a row with no column headings, and a
+reader had to guess which was which.
+
+The summary is computed **before** the region filter runs, so choosing a
+region never repaints the other rows. A table whose numbers move when you
+press one of them cannot be compared against itself.
+
+#### Two kinds of region, deliberately kept apart
+
+Award charts price by region, which is why these nine exist. They are not the
+same as the seven in `src/data/networks.ts`, which describe which continents
+an airline's own metal reaches. Singapore Airlines serves "Asia" as one place
+and prices Tokyo and Delhi as two: reach and pricing are separate models.
+
+Both were called `Region`, with a `regionOf()` each. In the single-file build
+there is no module boundary to hide behind, and the new definitions quietly
+replaced the old ones — every route then failed its region test and the
+explore tab answered "0 destinations from New York" with nothing thrown
+anywhere. It was caught by measuring against the published build, not by an
+error.
+
+So the chart scheme is `ChartRegion` in `src/data/chart-regions.ts`, and the
+two vocabularies are textually disjoint on purpose — slugs here, labels
+there. `test/chart-regions.test.ts` fails if that ever stops being true,
+because a value from one scheme handed to the other matches nothing and
+empties a page instead of erroring. The same file fails if any airport's
+country is unmapped, so adding an airport forces the decision.
+
 ## Languages and currencies
 
 The navbar has two independent selectors:
