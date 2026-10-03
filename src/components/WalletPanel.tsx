@@ -1,6 +1,7 @@
 "use client";
 
-import { VALUATIONS, type CurrencyType } from "@/data/valuations";
+import { useState } from "react";
+import { VALUATIONS, type CurrencyType, type PointCurrency } from "@/data/valuations";
 import { CurrencyAmount } from "@/components/CurrencyAmount";
 import { useBalances } from "@/lib/balances-context";
 import { formatMiles } from "@/lib/format";
@@ -35,6 +36,37 @@ export function WalletPanel() {
   const dict = useDictionary();
   const locale = useLocale();
   const { balances, setBalance, clearAll } = useBalances();
+  const [query, setQuery] = useState("");
+
+  /**
+   * Name and issuer both, so "amex" finds Membership Rewards and "hyatt"
+   * finds World of Hyatt. Accent- and case-insensitive, because a German
+   * reader typing "lufthansa" should not have to match our capitalisation.
+   */
+  const normalise = (s: string) =>
+    s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+  const needle = normalise(query.trim());
+  const matches = (v: PointCurrency) =>
+    needle === "" || normalise(v.name).includes(needle) || normalise(v.issuer).includes(needle);
+
+
+  /**
+   * A row survives the filter if it matches, or if it holds a balance. The
+   * second half is what keeps the filter from losing your work: type
+   * "virgin" after entering Chase and the Chase figure is still on screen,
+   * still editable, rather than hidden behind an empty box.
+   */
+  const visibleByType = Object.fromEntries(
+    TYPES.map((type) => [
+      type,
+      VALUATIONS.filter((v) => v.type === type && (matches(v) || balances[v.id] !== undefined)),
+    ]),
+  ) as Record<CurrencyType, PointCurrency[]>;
+
+  // What is actually on screen, which is the matches plus anything held —
+  // not the match count, or filtering to nothing while holding a balance
+  // would claim there is nothing to show above a row that is right there.
+  const visibleCount = TYPES.reduce((n, type) => n + visibleByType[type].length, 0);
 
   const held = Object.keys(balances).length;
   const preview = held === 0;
@@ -72,15 +104,60 @@ export function WalletPanel() {
           <h2 className="text-[15px] font-semibold text-foreground">{dict.wallet.balancesHeading}</h2>
           <p className="mt-1 max-w-[62ch] text-xs text-muted">{dict.wallet.privacy}</p>
 
-          {TYPES.map((type) => (
+          {/* Forty-eight fields down a 2,539px column, and a person holds
+              three or four of them. Entering Virgin Atlantic Flying Club
+              meant scrolling to y=1404 past twenty-five programmes you do
+              not have — two screens of reading to reach one input.
+
+              Typing "virgin" is the whole interaction now. The programmes
+              you have already entered stay visible whatever is in the box,
+              because a filter that hides your own figures is a filter that
+              loses your work in front of you. */}
+          <label className="mt-5 block">
+            <span className="mb-1 block text-xs font-medium text-muted">{dict.wallet.findLabel}</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={dict.wallet.findPlaceholder}
+              className="form-select"
+            />
+          </label>
+
+          {/* Visible, not only announced. A query that matches nothing left
+              the column blank with no group headings and no message — the
+              page looked broken rather than empty. aria-live carries the
+              same sentence, so it is one element doing both jobs. */}
+          <p
+            aria-live="polite"
+            className={
+              query.trim() && visibleCount === 0
+                ? "mt-5 bg-surface-muted p-6 text-center text-sm text-muted"
+                : "sr-only"
+            }
+          >
+            {query.trim() && visibleCount === 0
+              ? interpolate(dict.wallet.findNone, { query: query.trim() })
+              : ""}
+          </p>
+
+          {TYPES.map((type) => visibleByType[type].length > 0 && (
             <div key={type} className="mt-6">
               <h3 className="border-b border-border pb-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">
                 {typeLabel[type]}
               </h3>
-              {VALUATIONS.filter((v) => v.type === type).map((v) => (
+              {visibleByType[type].map((v) => (
                 <div key={v.id} className="grid grid-cols-[1fr_120px] items-center gap-3 py-1">
                   <label htmlFor={`bal-${v.id}`} className="text-sm text-foreground">
                     {v.name}
+                    {/* Marked, not just left in: with a query typed, a row
+                        you did not search for is there because you hold it,
+                        and nothing else on the row would say so. */}
+                    {query.trim() && !matches(v) && (
+                      <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.1em] text-muted">
+                        {dict.wallet.findHeld}
+                      </span>
+                    )}
                   </label>
                   <input
                     id={`bal-${v.id}`}
