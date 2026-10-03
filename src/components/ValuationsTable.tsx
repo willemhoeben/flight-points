@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { PointCurrency } from "@/data/valuations";
 import { Badge, Pill } from "@/components/ui";
 import { ValueBar } from "@/components/ValueBar";
@@ -11,15 +11,7 @@ import { valuationNote } from "@/lib/i18n/valuation-notes";
 import { interpolate } from "@/lib/i18n/format";
 import { nextSort, sortBy, type SortDir } from "@/lib/sort";
 import type { Accent } from "@/lib/accent";
-import {
-  buildValuationsUrl,
-  isSortDir,
-  isValuationsSortKey,
-  isValuationType,
-  DEFAULT_VALUATIONS_SORT_DIR,
-  DEFAULT_VALUATIONS_SORT_KEY,
-  type ValuationsSortKey,
-} from "@/lib/valuations-url";
+import { buildValuationsUrl, type ValuationsSortKey } from "@/lib/valuations-url";
 
 const TYPE_ACCENT: Record<PointCurrency["type"], Accent> = {
   bank: "sky",
@@ -41,19 +33,30 @@ const TREND_CLASS: Record<PointCurrency["trend"], string> = {
 
 const TYPES: PointCurrency["type"][] = ["bank", "airline", "hotel"];
 
-export function ValuationsTable({ valuations }: { valuations: PointCurrency[] }) {
+/**
+ * The filter and sort arrive as props, read from the URL by the page.
+ *
+ * Reading them here with useSearchParams would opt this component's
+ * Suspense boundary out of server rendering, and fallback={null} is what
+ * would then ship in the HTML: forty-eight currencies present only in the
+ * hydration payload, invisible to anything that does not run JavaScript.
+ * The page already parses the URL, so it hands the answer down.
+ */
+export function ValuationsTable({
+  valuations,
+  typeFilter,
+  sortKey,
+  sortDir,
+}: {
+  valuations: PointCurrency[];
+  typeFilter: PointCurrency["type"] | null;
+  sortKey: ValuationsSortKey;
+  sortDir: SortDir;
+}) {
   const dict = useDictionary();
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const typeParam = searchParams.get("type");
-  const sortParam = searchParams.get("sort");
-  const dirParam = searchParams.get("dir");
-  const typeFilter = isValuationType(typeParam) ? typeParam : null;
-  const sortKey: ValuationsSortKey = isValuationsSortKey(sortParam) ? sortParam : DEFAULT_VALUATIONS_SORT_KEY;
-  const sortDir: SortDir = isSortDir(dirParam) ? dirParam : DEFAULT_VALUATIONS_SORT_DIR;
 
   const TYPE_LABEL: Record<PointCurrency["type"], string> = {
     bank: dict.valuationsTable.typeBank,

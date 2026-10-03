@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { AwardResult } from "@/data/availability";
 import { PROGRAMS, type Alliance } from "@/data/programs";
 import { Badge, Pill } from "@/components/ui";
@@ -14,44 +14,49 @@ import { useCurrency } from "@/lib/currency-context";
 import { formatCentsPerPoint, formatDuration, formatMiles } from "@/lib/format";
 import { useDictionary, useLocale } from "@/lib/i18n/i18n-context";
 import { interpolate } from "@/lib/i18n/format";
-import { isSortDir, nextSort, sortBy, type SortDir } from "@/lib/sort";
+import { nextSort, sortBy, type SortDir } from "@/lib/sort";
 import { peakCentsPerPoint, valueTier } from "@/lib/value";
 import { affordability } from "@/lib/wallet";
-import {
-  allianceFromSlug,
-  buildResultsSortUrl,
-  isNonstopOnlyParam,
-  isWithinReachParam,
-  isResultsSortKey,
-  maxFeesFromParam,
-  DEFAULT_RESULTS_SORT_DIR,
-  DEFAULT_RESULTS_SORT_KEY,
-  MAX_FEES_OPTIONS,
-  type ResultsSortKey,
-} from "@/lib/results-sort-url";
+import { buildResultsSortUrl, MAX_FEES_OPTIONS, type ResultsSortKey } from "@/lib/results-sort-url";
 
 const ALLIANCES: Alliance[] = ["Star Alliance", "Oneworld", "SkyTeam", "Unaligned"];
+
+export type ResultsView = {
+  /** The page's current query string, so a filter link keeps the search. */
+  query: string;
+  sortKey: ResultsSortKey;
+  sortDir: SortDir;
+  nonstopOnly: boolean;
+  allianceFilter: Alliance | null;
+  maxFeesFilter: number | null;
+  withinReachOnly: boolean;
+};
 
 export function ResultsTable({
   results,
   passengers = 1,
+  view,
 }: {
   results: AwardResult[];
   /** Seats needed. Prices stay per person; what the balances have to cover does not. */
   passengers?: number;
+  /**
+   * The sort and filters, read from the URL by the page rather than here.
+   *
+   * useSearchParams in a client component opts its Suspense boundary out of
+   * server rendering, and fallback={null} is what ships in the HTML. That
+   * left /search answering with a heading and no results: every row existed
+   * only in the hydration payload, invisible to anything that does not run
+   * JavaScript. The page already parses these, so it hands them down.
+   */
+  view: ResultsView;
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
-  const sortParam = searchParams.get("sort");
-  const dirParam = searchParams.get("dir");
-  const sortKey: ResultsSortKey = isResultsSortKey(sortParam) ? sortParam : DEFAULT_RESULTS_SORT_KEY;
-  const sortDir: SortDir = isSortDir(dirParam) ? dirParam : DEFAULT_RESULTS_SORT_DIR;
-  const nonstopOnly = isNonstopOnlyParam(searchParams.get("nonstop"));
-  const allianceFilter = allianceFromSlug(searchParams.get("alliance"));
-  const maxFeesFilter = maxFeesFromParam(searchParams.get("maxFees"));
-  const withinReachOnly = isWithinReachParam(searchParams.get("reach"));
+  // query keeps every other search param on the URL when a filter link is
+  // built: the route, the date, the cabin, the party size.
+  const { sortKey, sortDir, nonstopOnly, allianceFilter, maxFeesFilter, withinReachOnly, query } = view;
 
   const { balances } = useBalances();
   const { format, formatRounded } = useCurrency();
@@ -106,7 +111,7 @@ export function ResultsTable({
   function goToSort(key: ResultsSortKey) {
     const next = nextSort(sortKey, sortDir, key, () => "asc");
     router.replace(
-      buildResultsSortUrl(pathname, searchParams.toString(), {
+      buildResultsSortUrl(pathname, query, {
         sortKey: next.key,
         sortDir: next.dir,
         nonstopOnly,
@@ -120,7 +125,7 @@ export function ResultsTable({
 
   function toggleNonstopOnly() {
     router.replace(
-      buildResultsSortUrl(pathname, searchParams.toString(), {
+      buildResultsSortUrl(pathname, query, {
         sortKey,
         sortDir,
         nonstopOnly: !nonstopOnly,
@@ -134,7 +139,7 @@ export function ResultsTable({
 
   function toggleWithinReach() {
     router.replace(
-      buildResultsSortUrl(pathname, searchParams.toString(), {
+      buildResultsSortUrl(pathname, query, {
         sortKey,
         sortDir,
         nonstopOnly,
@@ -148,7 +153,7 @@ export function ResultsTable({
 
   function goToAlliance(alliance: Alliance | null) {
     router.replace(
-      buildResultsSortUrl(pathname, searchParams.toString(), {
+      buildResultsSortUrl(pathname, query, {
         sortKey,
         sortDir,
         nonstopOnly,
@@ -162,7 +167,7 @@ export function ResultsTable({
 
   function goToMaxFees(maxTaxesFees: number | null) {
     router.replace(
-      buildResultsSortUrl(pathname, searchParams.toString(), {
+      buildResultsSortUrl(pathname, query, {
         sortKey,
         sortDir,
         nonstopOnly,

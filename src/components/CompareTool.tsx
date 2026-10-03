@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { PointCurrency } from "@/data/valuations";
 import { Badge, Pill } from "@/components/ui";
 import { interpolate } from "@/lib/i18n/format";
@@ -27,10 +27,26 @@ const TREND_CLASS: Record<PointCurrency["trend"], string> = {
 
 const TYPES: PointCurrency["type"][] = ["bank", "airline", "hotel"];
 
-export function CompareTool({ valuations }: { valuations: PointCurrency[] }) {
+/**
+ * The selection and balance arrive as props, read from the URL by the page.
+ *
+ * useSearchParams here would opt this component's Suspense boundary out of
+ * server rendering, and fallback={null} is what would ship: /compare
+ * answered a reader without JavaScript with a heading and 204 characters,
+ * no picker and no comparison.
+ */
+export function CompareTool({
+  valuations,
+  requestedIds,
+  balance,
+}: {
+  valuations: PointCurrency[];
+  /** Every ?currencies= on the URL, in order, unvalidated. */
+  requestedIds: string[];
+  balance: number;
+}) {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const dict = useDictionary();
   const locale = useLocale();
   const { format } = useCurrency();
@@ -38,7 +54,6 @@ export function CompareTool({ valuations }: { valuations: PointCurrency[] }) {
   // Requested ids come straight from the URL, so an id for a currency that
   // no longer exists (a stale share link after the mock dataset changes)
   // is silently dropped rather than rendered as a broken selection.
-  const requestedIds = searchParams.getAll("currencies");
   const validIds = requestedIds.filter((id) => valuations.some((v) => v.id === id));
   // A first visit opens on a real comparison rather than an empty shell with
   // an instruction in it. The default only stands until the visitor touches
@@ -48,7 +63,6 @@ export function CompareTool({ valuations }: { valuations: PointCurrency[] }) {
   const [picked, setPicked] = useState(false);
   const selectedIds =
     requestedIds.length === 0 && !picked ? valuations.slice(0, 2).map((v) => v.id) : validIds;
-  const balance = parseBalance(searchParams.get("balance"));
 
   function updateUrl(next: { currencyIds: string[]; balance: number }) {
     router.replace(buildCompareUrl(pathname, next), { scroll: false });

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { SectionHeading } from "@/components/ui";
 import { SearchForm } from "@/components/SearchForm";
-import { ResultsTable } from "@/components/ResultsTable";
+import { ResultsTable, type ResultsView } from "@/components/ResultsTable";
 import { CalendarHeatmap } from "@/components/CalendarHeatmap";
 import { SearchMemory } from "@/components/SearchMemory";
 import { CopyLinkButton } from "@/components/CopyLinkButton";
@@ -22,6 +22,17 @@ import { RoundTripSummary } from "@/components/RoundTripSummary";
 import { NearbyAirports, type NearbyOption } from "@/components/NearbyAirports";
 import { nearbyRoutes } from "@/lib/nearby";
 import { alternateOgLocales, toOgLocale } from "@/lib/i18n/bcp47";
+import {
+  allianceFromSlug,
+  isNonstopOnlyParam,
+  isResultsSortKey,
+  isWithinReachParam,
+  maxFeesFromParam,
+  DEFAULT_RESULTS_SORT_DIR,
+  DEFAULT_RESULTS_SORT_KEY,
+  type ResultsSortKey,
+} from "@/lib/results-sort-url";
+import { isSortDir, type SortDir } from "@/lib/sort";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { locale, dict } = await getDictionary();
@@ -200,6 +211,33 @@ export default async function SearchPage({
     (key) => sp[key] !== undefined,
   );
 
+  /**
+   * The sort and filters the results table runs on, read here rather than
+   * with useSearchParams inside it: that hook opts its Suspense boundary out
+   * of server rendering, and fallback={null} is what ships in the HTML. The
+   * page answered with a heading and no rows for anything that does not run
+   * JavaScript.
+   *
+   * query is rebuilt from the same params the page was given, so a filter
+   * link keeps the route, the date, the cabin and the party size.
+   */
+  const currentQuery = new URLSearchParams();
+  for (const [key, value] of Object.entries(sp)) {
+    if (Array.isArray(value)) for (const v of value) currentQuery.append(key, v);
+    else if (value !== undefined) currentQuery.set(key, value);
+  }
+  const sortParam = firstValue(sp.sort) ?? null;
+  const dirParam = firstValue(sp.dir) ?? null;
+  const resultsView: ResultsView = {
+    query: currentQuery.toString(),
+    sortKey: (isResultsSortKey(sortParam) ? sortParam : DEFAULT_RESULTS_SORT_KEY) as ResultsSortKey,
+    sortDir: (isSortDir(dirParam) ? dirParam : DEFAULT_RESULTS_SORT_DIR) as SortDir,
+    nonstopOnly: isNonstopOnlyParam(firstValue(sp.nonstop) ?? null),
+    allianceFilter: allianceFromSlug(firstValue(sp.alliance) ?? null),
+    maxFeesFilter: maxFeesFromParam(firstValue(sp.maxFees) ?? null),
+    withinReachOnly: isWithinReachParam(firstValue(sp.reach) ?? null),
+  };
+
   const calendarSection = (
     <div className="mt-10">
       <h2 className="text-sm font-semibold text-foreground">{dict.search.cheapestDayHeading}</h2>
@@ -361,9 +399,7 @@ export default async function SearchPage({
           </div>
         )}
         <div>
-          <Suspense fallback={null}>
-            <ResultsTable results={results} passengers={passengers} />
-          </Suspense>
+          <ResultsTable results={results} passengers={passengers} view={resultsView} />
         </div>
       </div>
 
