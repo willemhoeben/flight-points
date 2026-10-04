@@ -878,6 +878,59 @@ used down at 19px on a destination name. Redefining it would have set every
 h2, h3 and city in a high-contrast serif at sizes it cannot carry. The serif
 has its own token.
 
+### Controls that hold still
+
+Held the site against the frontend-design-direction checklist from
+[ECC](https://github.com/affaan-m/ECC), an agent-harness toolkit with a
+design-direction skill. Two of its lines were true here, and both were
+measurable.
+
+**"Fixed-format controls should not shift when labels or hover states
+appear."** Selecting a filter pill swapped `font-medium` for
+`font-semibold`, and a weight change changes advance widths:
+
+| | unselected | selected |
+|---|---|---|
+| "Best value" | 84.6px | 85.6px — and it shoved "Cheapest" sideways |
+| "transfer bonus" | 105.9px | 107.8px |
+
+On short labels — All, Bank, Hotel — the difference hid under a pixel,
+which is exactly why it lasted: the valuations row measured clean while the
+explore and deals rows moved under the cursor on every click. All three now
+measure 0 width change and 0 sideways movement.
+
+Nothing is lost by dropping the weight. The fill goes from the muted
+surface to solid amber, a hue *and* a luminance change, and the state is on
+the element as `aria-current` or `aria-pressed`. The weight was a third
+signal charged to layout stability.
+
+The deeper cause was three files each holding their own copy of the same
+two class strings, which is how one drifted while the others didn't. There
+is one `PILL_SELECTED` and one `PILL_UNSELECTED` now, and
+`test/control-stability.test.ts` fails if a state carries its own weight,
+if the old contiguous string reappears, or if a two-state pill stops using
+the shared pair.
+
+**"Do not add UI cards inside other cards."** The calculator's result sat
+in a filled box inside the filled card: two surfaces, neither obviously in
+front of the other, which flattens the hierarchy it was there to create.
+It is a top rule now — which is what the artifact already did, and what
+every other "this is the result" block on the site does. A sweep for a
+filled surface inside a filled surface across /valuations, /search, /wallet
+and /compare finds none; it found one before.
+
+One of its lines did **not** hold. "Color choices should not collapse into
+a one-note palette": the dark theme measures six distinct hue families with
+a largest unused arc of 112°, and the navy dominance is in the
+low-saturation neutrals, which are the ground rather than the palette. No
+change made.
+
+Its `motion-foundations` skill assumes Framer Motion. This project does
+motion in CSS — no JavaScript dependency, no hydration risk, nothing for
+the CSP to refuse — so the library was not adopted; its principles (motion
+must guide attention or communicate state, never animate layout
+properties) already hold here.
+
 ## Languages and currencies
 
 The navbar has two independent selectors:
