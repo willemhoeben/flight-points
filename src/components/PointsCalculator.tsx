@@ -118,7 +118,15 @@ export function PointsCalculator() {
         )}
       </div>
 
-      <div className="mt-6 rounded-2xl bg-surface p-5">
+      {/* A rule, not a second fill. This was a filled box inside the
+          filled card — a card inside a card, which flattens the hierarchy
+          it was meant to create: two surfaces, neither obviously in front
+          of the other. The artifact already drew the same result block as
+          a top rule on nothing; the repo had drifted. A rule separates the
+          answer from the inputs without claiming to be another object, and
+          it is what every other "this is the result" block on the site
+          already does. */}
+      <div className="mt-6 border-t border-border-strong pt-5">
         {mode === "pointsToCash" ? (
           <>
             <div className="text-xs text-muted">{dict.calculator.estimatedValue}</div>

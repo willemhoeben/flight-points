@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PILL_SHELL, SectionHeading, Badge, Card } from "@/components/ui";
+import { PILL_SELECTED, PILL_SHELL, PILL_UNSELECTED, SectionHeading, Badge, Card } from "@/components/ui";
 import { SavedDealBadge } from "@/components/SavedDealBadge";
 import { SavedOnlyPill } from "@/components/SavedOnlyPill";
 import { DealCardVisibility } from "@/components/DealCardVisibility";
@@ -151,9 +151,7 @@ function FilterPill({ href, active, children }: { href: string; active: boolean;
       href={href}
       aria-current={active ? "true" : undefined}
       className={
-        active
-          ? `${PILL_SHELL} bg-brand font-semibold text-brand-foreground`
-          : `${PILL_SHELL} bg-surface-muted font-medium text-muted transition-colors hover:text-foreground`
+        active ? `${PILL_SHELL} ${PILL_SELECTED}` : `${PILL_SHELL} ${PILL_UNSELECTED}`
       }
     >
       {children}

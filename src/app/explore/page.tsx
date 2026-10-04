@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PILL_SHELL, SectionHeading } from "@/components/ui";
+import { PILL_SELECTED, PILL_SHELL, PILL_UNSELECTED, SectionHeading } from "@/components/ui";
 import { AIRPORTS, findAirport } from "@/data/airports";
 import { CABINS, type Cabin } from "@/data/availability";
 import {
@@ -247,11 +247,7 @@ export default async function ExplorePage({ searchParams }: { searchParams: Prom
               key={key}
               href={sortHref(key)}
               aria-current={sort === key ? "true" : undefined}
-              className={`${PILL_SHELL} ${
-                sort === key
-                  ? "bg-brand font-semibold text-brand-foreground"
-                  : "bg-surface-muted font-medium text-muted transition-colors hover:text-foreground"
-              }`}
+              className={`${PILL_SHELL} ${sort === key ? PILL_SELECTED : PILL_UNSELECTED}`}
             >
               {key === "cheapest" ? dict.explore.sortCheapest : dict.explore.sortValue}
             </Link>

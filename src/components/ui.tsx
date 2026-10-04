@@ -45,7 +45,23 @@ export function Badge({ accent = "sky", children }: { accent?: Accent; children:
  * column is "pressed", or says nothing at all about a filter being on.
  */
 export const PILL_SHELL =
-  "inline-flex min-h-11 items-center gap-1 px-3.5 text-xs sm:min-h-0 sm:py-1.5";
+  "inline-flex min-h-11 items-center gap-1 px-3.5 text-xs font-medium sm:min-h-0 sm:py-1.5";
+
+/**
+ * The two states of a pill, as classes rather than as a component, because
+ * some of them are <Link> and some are <button> and the markup differs.
+ *
+ * One weight across both. Selecting used to swap font-medium for
+ * font-semibold, and a weight change changes advance widths: "Best value"
+ * went 84.6px to 85.6px and shoved "Cheapest" sideways, "transfer bonus"
+ * 105.9 to 107.8. On short labels the difference hid under a pixel, which
+ * is why it survived — the row still moved under the cursor on every longer
+ * one. The fill already differs in hue and in luminance, and the state is
+ * on the element as aria-current or aria-pressed; the weight was a third
+ * signal that cost the row its stability.
+ */
+export const PILL_SELECTED = "bg-brand text-brand-foreground";
+export const PILL_UNSELECTED = "bg-surface-muted text-muted transition-colors hover:text-foreground";
 
 /**
  * The chromeless selects in the header and the phone panel: theme, language,
@@ -73,11 +89,7 @@ export function Pill({
       onClick={onClick}
       aria-pressed={semantics === "toggle" ? selected : undefined}
       aria-current={semantics === "choice" && selected ? "true" : undefined}
-      className={`${PILL_SHELL} ${
-        selected
-          ? "bg-brand font-semibold text-brand-foreground"
-          : "bg-surface-muted font-medium text-muted transition-colors hover:text-foreground"
-      }`}
+      className={`${PILL_SHELL} ${selected ? PILL_SELECTED : PILL_UNSELECTED}`}
     >
       {children}
     </button>
