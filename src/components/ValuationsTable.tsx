@@ -116,7 +116,7 @@ export function ValuationsTable({
       </div>
 
       {sorted.length === 0 ? (
-        <div className="bg-surface-muted p-10 text-center text-sm text-muted">{dict.valuationsTable.noResults}</div>
+        <div className="panel bg-surface-muted p-10 text-center text-sm text-muted">{dict.valuationsTable.noResults}</div>
       ) : (
         <>
         {/* Same reason as the search results: below md the table is wider
@@ -168,7 +168,7 @@ export function ValuationsTable({
           ))}
         </ul>
 
-        <div className="hidden overflow-x-auto bg-surface md:block">
+        <div className="panel hidden overflow-x-auto bg-surface md:block">
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead className="bg-surface-muted text-xs font-medium text-muted">
               <tr>

@@ -403,3 +403,82 @@
   letter-spacing: -0.005em;
   line-height: 1.02;
 }
+
+
+/* ---- one light source -------------------------------------------------
+   Every raised surface was a flat fill inside a 1px border: a shape cut
+   out of the page rather than an object sitting on it. That, more than
+   any colour, is what made the inner pages read as a dashboard.
+
+   A single hairline along the top edge is all it takes. The sky above is
+   the light, so a panel catches it on its upper edge and nowhere else,
+   and the faint drop below it tells you the panel is in front of the
+   ground rather than part of it. No radius, no soft shadow everywhere:
+   this design is right angles, and a lit right angle is a machined panel,
+   which is the register the whole thing is in.
+
+   Deliberately tiny. Measured on the night surfaces, the top edge lands
+   about 6% above the fill it sits on — enough to see, not enough to
+   notice until it is taken away. */
+.panel {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 8px 24px -16px rgba(0, 0, 0, 0.6);
+}
+
+:root:not(.dark) .panel {
+  /* On paper the light comes from the same place, but white on white is
+     nothing — so daylight gets the shadow and not the highlight. */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 2px rgba(16, 26, 48, 0.07),
+    0 10px 26px -18px rgba(16, 26, 48, 0.22);
+}
+
+@media print {
+  .panel { box-shadow: none; }
+}
+
+
+/* ---- the network draws itself -----------------------------------------
+   Nothing on the site moved, which is a large part of why it read as
+   static. This is the one piece of motion that is not decoration: the
+   routes leave the hub in the order they would be flown, so watching it
+   draw tells you the same thing the finished picture does, faster.
+
+   Once, on mount, and over in under a second. A loop would be wallpaper. */
+@keyframes route-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes route-dot-in {
+  from { opacity: 0; transform: scale(0.2); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.route-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: route-draw 420ms cubic-bezier(0.33, 0.9, 0.5, 1) both;
+}
+
+.route-dot {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: route-dot-in 260ms ease-out both;
+}
+
+/* Someone who has asked for less motion gets the finished drawing, not a
+   faster version of the drawing. */
+@media (prefers-reduced-motion: reduce) {
+  .route-draw,
+  .route-dot {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+    transform: none;
+  }
+}

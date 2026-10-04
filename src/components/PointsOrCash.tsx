@@ -33,7 +33,7 @@ export function PointsOrCash({ results }: { results: AwardResult[] }) {
   return (
     <div
       className={[
-        "mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 bg-surface-muted p-4 pl-5",
+        "panel mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 bg-surface-muted p-4 pl-5",
         "border-l-[3px]",
         verdict.pointsWin ? "border-l-emerald-500" : "border-l-amber-500",
       ].join(" ")}

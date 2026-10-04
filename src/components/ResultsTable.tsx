@@ -181,7 +181,7 @@ export function ResultsTable({
 
   if (results.length === 0) {
     return (
-      <div className="bg-surface-muted p-10 text-center text-sm text-muted">{dict.search.noAwardSpace}</div>
+      <div className="panel bg-surface-muted p-10 text-center text-sm text-muted">{dict.search.noAwardSpace}</div>
     );
   }
 
@@ -292,7 +292,7 @@ export function ResultsTable({
     return (
       <div>
         {foldableFilters}
-        <div className="bg-surface-muted p-10 text-center text-sm text-muted">
+        <div className="panel bg-surface-muted p-10 text-center text-sm text-muted">
           {hasAdvancedFilter ? dict.resultsTable.noFilteredResults : dict.resultsTable.noNonstopResults}
         </div>
       </div>
@@ -345,7 +345,7 @@ export function ResultsTable({
                   // --surface is the same white as --background in light mode, so a
                   // plain surface card would have no visible edge. bg-surface-muted
                   // is the panel treatment the rest of the site already uses.
-                  : "bg-surface-muted p-4"
+                  : "panel bg-surface-muted p-4"
               }
             >
               <div className="flex items-start justify-between gap-3">
@@ -421,7 +421,7 @@ export function ResultsTable({
         })}
       </ul>
 
-      <div className="hidden overflow-x-auto bg-surface lg:block">
+      <div className="panel hidden overflow-x-auto bg-surface lg:block">
         <table className="w-full min-w-[860px] text-left text-sm">
         <thead className="bg-surface-muted text-xs font-medium text-muted">
           <tr>

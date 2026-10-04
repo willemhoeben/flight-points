@@ -4,6 +4,9 @@ import type { Locale } from "@/lib/i18n/locales";
 
 type Rect = { x0: number; x1: number; y0: number; y1: number };
 
+/** How long the whole network takes to draw, however many legs it has. */
+const ROUTE_DRAW_MS = 900;
+
 const hits = (a: Rect, b: Rect) => a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1;
 
 /**
@@ -156,11 +159,26 @@ export function NetworkPlot({
           </text>
         );
       })}
-      {[...legs].reverse().map((leg) => {
+      {/* The routes draw outward from the hub, nearest first, as if the
+          network were being flown rather than printed. pathLength={1}
+          normalises every line to the same unit regardless of its real
+          length, so one dash rule covers all of them and a 900km hop takes
+          the same time to draw as a 12,000km one — which is what makes it
+          read as a single sweep instead of a race.
+
+          The stagger is capped: at 104 destinations a per-leg delay of 12ms
+          would run for a second and a quarter, so it compresses to fit
+          ROUTE_DRAW_MS however many legs there are. CSS only, no script,
+          and `prefers-reduced-motion` drops it to the finished state. */}
+      {[...legs].reverse().map((leg, i) => {
         const p = pt(leg.km, leg.bearing);
+        const step = legs.length > 1 ? ROUTE_DRAW_MS / legs.length : 0;
         return (
           <line
             key={`route-${leg.airport.code}`}
+            className="route-draw"
+            style={{ animationDelay: `${Math.round((legs.length - 1 - i) * step)}ms` }}
+            pathLength={1}
             x1={C}
             y1={C}
             x2={p[0].toFixed(1)}
@@ -193,11 +211,16 @@ export function NetworkPlot({
           {r.text}
         </text>
       ))}
-      {legs.map((leg) => {
+      {legs.map((leg, i) => {
         const p = pt(leg.km, leg.bearing);
+        const step = legs.length > 1 ? ROUTE_DRAW_MS / legs.length : 0;
         return (
           <circle
             key={`dot-${leg.airport.code}`}
+            className="route-dot"
+            // Arrives just after its own line does, so a destination lights
+            // up when the route reaches it.
+            style={{ animationDelay: `${Math.round(i * step + 260)}ms` }}
             cx={p[0].toFixed(1)}
             cy={p[1].toFixed(1)}
             r={2.6}

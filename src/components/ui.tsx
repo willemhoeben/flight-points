@@ -99,7 +99,9 @@ export function Card({
   className?: string;
   variant?: "ruled" | "filled";
 }) {
-  const base = variant === "filled" ? "bg-surface-muted" : "border-t border-border-strong";
+  // A filled card is an object and takes the light; a ruled one is a
+  // division of the page and takes none.
+  const base = variant === "filled" ? "panel bg-surface-muted" : "border-t border-border-strong";
   return <div className={`${base} ${className}`}>{children}</div>;
 }
 
