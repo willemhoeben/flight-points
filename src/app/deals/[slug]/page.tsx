@@ -120,7 +120,10 @@ export default async function DealPage({
         <SaveDealButton slug={deal.slug} />
       </div>
 
-      <h1 className="mt-3 text-3xl text-foreground">
+      {/* The one page type that is actually editorial prose was the one
+          page whose headline was not in the editorial face: it took the
+          grotesque while every other h1 on the site took the serif. */}
+      <h1 className="display mt-3 text-[34px] text-foreground sm:text-[40px]">
         {text.title}
       </h1>
 

@@ -372,11 +372,17 @@
   background:
     radial-gradient(120% 70% at 50% 0%, #121c33 0%, rgba(18, 28, 51, 0) 60%),
     radial-gradient(90% 50% at 15% 100%, #0d1526 0%, rgba(13, 21, 38, 0) 70%);
-  /* The sky is overhead. It is at full strength behind the hero and gone
-     by the bottom of the viewport, so a table or a form further down the
-     page is read against calm ground rather than through stars. */
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 38%, transparent 88%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 38%, transparent 88%);
+  /* The sky is overhead: full strength behind a heading, gone by the
+     middle of the viewport.
+
+     It used to fade out at 88%, which looked right on the home page and
+     was wrong on a deal article — the one page type that is running prose
+     had stars behind its paragraphs. The rule was always "gone before
+     anything you have to read"; 88% only honoured it for tables, because
+     tables start lower down. At 58% every page's heading still sits under
+     a full sky and no body copy does. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 26%, transparent 58%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 26%, transparent 58%);
 }
 
 :root.dark .night-sky {
