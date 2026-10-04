@@ -819,6 +819,65 @@ that is what is on screen — matches plus anything held — so filtering to
 nothing while holding a balance never claims there is nothing to show above a
 row that is right there.
 
+### The sky it is named after
+
+The site was called Nightsky and there was no sky. One flat navy fill under
+everything, every heading set in the same grotesque as the labels. The
+colours were measured and the contrast was right and the whole thing still
+read as a dark dashboard that could have been anything.
+
+**The ground is a real field of stars.** Not random dots — random dots look
+like a CSS demo: evenly spattered, all one size, no structure. A sky has
+three properties and needs all three.
+
+| | What a real sky does | What the field does |
+|---|---|---|
+| Magnitude | a power law: a handful bright, thousands faint | radii from `u^2.6`, brightest 1.1 units |
+| Structure | the galactic plane is a dense band | two thirds on a tilted great circle, Gaussian falloff |
+| Colour | runs by temperature, correlated with size | warm orange to blue-white, bigger skews blue |
+
+Deterministic from one seed, so the server and the client draw the same sky
+and the artifact draws it too — both deliverables are literally under the
+same stars. One inline SVG: no script, no canvas, no animation loop, and it
+works with JavaScript off. It is masked out by the bottom of the viewport,
+because the sky is overhead: full strength behind the hero, gone before any
+table.
+
+**Headings are in Instrument Serif.** A high-contrast serif over monospaced
+figures on a night ground is how a star atlas is set, and it is the single
+move that makes the page look like somebody made it. Display only; nothing
+under 24px, where its contrast costs legibility and buys nothing.
+
+**Surfaces take the light.** Every panel was a flat fill inside a 1px
+border: a shape cut out of the page rather than an object on it. One
+hairline along the top edge is all it takes, because the sky above is the
+light source. On paper the light comes from the same place, but white on
+white is nothing, so daylight gets the shadow and not the highlight.
+
+**The hero network draws itself**, outward from the hub, over 900ms, once.
+`pathLength={1}` normalises every line regardless of its real length, so a
+900km hop and a 12,000km haul take equally long and it reads as one sweep
+rather than a race; the stagger compresses to fit, so 104 destinations
+finish in the time twenty would. It is not decoration — the routes leave
+the hub in the order they would be flown. `prefers-reduced-motion` gets the
+finished drawing, not a faster version of it.
+
+Three things were found by looking rather than by reasoning:
+
+- The first star field drew radii to 1.85 with white halos. At the size the
+  viewBox scales to, those rendered as soft grey discs — lens dust, not sky.
+- The galactic band was a gradient-filled `rect`. Its ends faded; its long
+  edges did not, so a hard diagonal ran across the whole page.
+- The plane flew dead centre at 70% opacity, straight through the lede.
+  Against flat navy that was a motif; against stars it was a grey cutout on
+  a paragraph. It crosses the top fifth now.
+
+And one name collision, the same class of bug as the two region schemes: the
+artifact already had a `--font-display` meaning "Archivo at display weight",
+used down at 19px on a destination name. Redefining it would have set every
+h2, h3 and city in a high-contrast serif at sizes it cannot carry. The serif
+has its own token.
+
 ## Languages and currencies
 
 The navbar has two independent selectors:
